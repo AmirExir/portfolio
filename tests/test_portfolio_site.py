@@ -137,12 +137,21 @@ class PortfolioAddressTests(unittest.TestCase):
         self.assertNotIn('id="contingencyScene"', content)
         self.assertNotIn("assets/js/contingency-scene.js", content)
         self.assertIn('id="heroField"', content)
-        self.assertEqual(
-            re.findall(r'data-power-state="([^"]+)" aria-controls="([^"]+)"', content),
-            [(state, "heroField") for state in (
-                "auto", "base", "open", "redistributed", "substation",
-            )],
+        selectors = re.findall(
+            r'<select\b([^>]*\bdata-power-state-select\b[^>]*)>(.*?)</select>',
+            content,
+            flags=re.DOTALL,
         )
+        self.assertEqual(len(selectors), 1, "The single grid needs one native scenario selector")
+        attributes, options = selectors[0]
+        self.assertIn('aria-controls="heroField"', attributes)
+        self.assertEqual(
+            re.findall(r'<option\b[^>]*\bvalue="([^"]+)"', options),
+            ["auto", "base", "open", "redistributed", "substation"],
+        )
+        self.assertNotIn("hero-grid-tools", content)
+        self.assertNotIn("power-contact-panel", content)
+        self.assertNotIn("data-power-contact", content)
 
     def test_project_names_and_gnn_launch_are_unambiguous(self) -> None:
         """Keep the featured cards and detail sections aligned with the apps."""

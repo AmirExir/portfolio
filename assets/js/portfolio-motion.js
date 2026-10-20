@@ -19,12 +19,8 @@
   const powerPhase = document.querySelector('[data-power-phase]');
   const powerReplayLabel = document.querySelector('[data-power-replay-label]');
   const powerAnnouncement = document.querySelector('[data-power-announcement]');
-  const powerTools = document.querySelector('.hero-grid-tools');
-  const powerStateButtons = Array.from(document.querySelectorAll('[data-power-state]'));
-  const powerContacts = Array.from(document.querySelectorAll('[data-power-contact]'))
-    .map(contact => ({ contact, tip: contact.parentElement.querySelector('[data-power-contact-tip]') }));
-  const powerLineStatus = document.querySelector('[data-power-detail-status="line"]');
-  const powerSubstationStatus = document.querySelector('[data-power-detail-status="substation"]');
+  const powerControls = document.querySelector('[data-power-controls]');
+  const powerStateSelect = document.querySelector('[data-power-state-select]');
   const powerStates = ['auto', 'base', 'open', 'redistributed', 'substation'];
   const storageKey = 'portfolio-motion-paused';
   let paused = false;
@@ -79,7 +75,7 @@
     if (scene.type !== 'field' || !powerReplay) return;
     const available = Boolean(powerEventAvailable(scene));
     powerReplay.hidden = !available;
-    if (powerTools) powerTools.hidden = !available;
+    if (powerControls) powerControls.hidden = !available;
     powerReplay.closest('.hero-bottom')?.classList.toggle('has-power-event', available);
     if (!available) {
       delete scene.host.dataset.powerEvent;
@@ -94,39 +90,9 @@
     if (powerReplayLabel && powerReplayLabel.textContent !== action) powerReplayLabel.textContent = action;
     powerReplay.disabled = !still && scene.host.dataset.sceneState === 'auto' && !event.canReplay;
     powerReplay.setAttribute('aria-label', still ? `${action} in the illustration` : 'Replay contingency sequence');
-    powerStateButtons.forEach(button => {
-      const selected = String(button.dataset.powerState === (scene.host.dataset.sceneState || 'auto'));
-      if (button.getAttribute('aria-pressed') !== selected) button.setAttribute('aria-pressed', selected);
-    });
-    // These enlarged contact details use the same opening factors as the grid.
-    // The receiving-end breaker is also Substation A's HV isolation point.
-    powerContacts.forEach(({ contact, tip }) => {
-      const value = event[contact.dataset.powerContact];
-      const opening = Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : 0;
-      const encoded = opening.toFixed(3);
-      if (contact.dataset.opening === encoded) return;
-      contact.dataset.opening = encoded;
-      const endpoint = (38 - 26 * opening).toFixed(3);
-      contact.setAttribute('x2', endpoint);
-      if (tip) {
-        tip.setAttribute('x1', endpoint);
-        tip.setAttribute('x2', endpoint);
-      }
-    });
-    const lineStatus = event.sendingOpen > .98 && event.receivingOpen > .98
-      ? 'Both terminals open · circuit B in service'
-      : event.sendingOpen > 0 || event.receivingOpen > 0
-        ? 'A contacts open or moving · circuit B in service'
-        : 'Both terminals closed · circuit B in service';
-    const substationStatus = event.primaryFeederOpen > .98 && event.receivingOpen > .98
-      ? 'HV + MV isolated · substation B supplies loads'
-      : event.receivingOpen > .98
-        ? 'HV open · MV connected · B supplies loads'
-        : event.receivingOpen > 0
-          ? 'HV contact moving · substation B in service'
-          : 'HV + MV closed · substation B in service';
-    if (powerLineStatus && powerLineStatus.textContent !== lineStatus) powerLineStatus.textContent = lineStatus;
-    if (powerSubstationStatus && powerSubstationStatus.textContent !== substationStatus) powerSubstationStatus.textContent = substationStatus;
+    powerReplay.title = action;
+    const selectedState = scene.host.dataset.sceneState || 'auto';
+    if (powerStateSelect && powerStateSelect.value !== selectedState) powerStateSelect.value = selectedState;
   }
 
   function updateStory(scene, time) {
@@ -217,8 +183,7 @@
       scenes.forEach((scene) => {
         if (!scene.visible || scene.failed || !scene.host.getClientRects().length) return;
         scene.time += delta;
-        // The grid and its enlarged contact controls form one visible experience.
-        // Hidden tabs and AI modes must not accumulate an unseen event backlog.
+        // Hidden artwork, tabs, and AI modes must not accumulate an unseen event backlog.
         if (powerEventAvailable(scene) && (scene.host.dataset.sceneState || 'auto') === 'auto') scene.eventTime += delta;
         scene.pointerX += (scene.targetX - scene.pointerX) * .11;
         scene.pointerY += (scene.targetY - scene.pointerY) * .11;
@@ -243,7 +208,7 @@
 
   const intersection = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      const scene = scenes.find((item) => item.visibilityHost === entry.target);
+      const scene = scenes.find((item) => item.host === entry.target);
       if (scene) {
         scene.visible = entry.isIntersecting;
         if (scene.visible) { resize(scene); draw(scene); }
@@ -277,7 +242,6 @@
     canvas.style.cssText = 'position:absolute;inset:0;display:block;width:100%;height:100%;pointer-events:none;';
     const scene = {
       host, canvas, context, renderer, cinematic, type: host.dataset.scene, visible: !intersection,
-      visibilityHost: host.dataset.scene === 'field' ? host.closest('.hero') || host : host,
       width: 0, height: 0, time: 2.3 + index * .23, eventTime: 0,
       pointerX: 0, pointerY: 0, targetX: 0, targetY: 0, failed: false,
       story: host.closest('.project-story'),
@@ -286,7 +250,7 @@
     if (scene.story) scene.time = 0;
     scenes.push(scene);
     resize(scene);
-    if (intersection) intersection.observe(scene.visibilityHost);
+    if (intersection) intersection.observe(host);
     if (resizeObserver) resizeObserver.observe(host);
     const pointerArea = cinematic ? host.parentElement : host;
     pointerArea.addEventListener('pointermove', (event) => {
@@ -330,9 +294,9 @@
     }));
   }
 
-  powerStateButtons.forEach(button => button.addEventListener('click', () => {
+  powerStateSelect?.addEventListener('change', () => {
     if (!heroScene || !powerEventAvailable(heroScene)) return;
-    const state = button.dataset.powerState;
+    const state = powerStateSelect.value;
     if (!powerStates.includes(state)) return;
     heroScene.host.dataset.sceneState = state;
     if (state === 'auto') heroScene.eventTime = 0;
@@ -344,7 +308,7 @@
         : 'Loads remain supplied through the available paths.'}${paused || media.matches ? ' Animation remains stopped.' : ''}`;
     }
     start();
-  }));
+  });
 
   powerReplay?.addEventListener('click', () => {
     if (!heroScene || !powerEventAvailable(heroScene) || powerReplay.disabled) return;

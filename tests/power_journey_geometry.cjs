@@ -9,6 +9,14 @@ const vm = require('node:vm');
 const sandbox = vm.createContext({ window: {} });
 const source = fs.readFileSync(path.resolve(__dirname, '../assets/js/power-journey.js'), 'utf8');
 const sourceBuilders = ['nuclearPlant', 'gasPlant', 'hydroDam', 'windFarm', 'solarFarm', 'batteryStorage'];
+const sourceConnections = {
+  nuclearPlant: { id: 'nuclear', circuit: 'primary', bay: 0 },
+  hydroDam: { id: 'hydro', circuit: 'primary', bay: 1 },
+  windFarm: { id: 'wind', circuit: 'primary', bay: 2 },
+  gasPlant: { id: 'gas', circuit: 'alternate', bay: 0 },
+  solarFarm: { id: 'solar', circuit: 'alternate', bay: 1 },
+  batteryStorage: { id: 'battery', circuit: 'alternate', bay: 2 },
+};
 // White-box instrumentation is inserted only into this VM copy; tests observe
 // the actual builders used by draw() without adding production-only exports.
 const exportMarker = 'window.PowerJourney = Object.freeze(';
@@ -39,8 +47,8 @@ const instrumentation = `
     networkBuildRecords.push({ name, layout: activeTestLayout, args, terminals: result });
     return result;
   };
-  ${['distributionPole', 'serviceTransformer', 'tower', 'transformer', 'distributionCabinet', 'feederBreaker'].map(name => `${name} = recordNetworkBuild('${name}', ${name});`).join('\n  ')}
-  window.powerJourneyTestInternals = { sourceBuildRecords, networkBuildRecords, storageState, drawRoutes, routePower, zonePower, drawDetails, drawBreakers, drawLightning, models };
+  ${['distributionPole', 'serviceTransformer', 'tower', 'transformer', 'distributionCabinet', 'feederBreaker', 'sendingBus'].map(name => `${name} = recordNetworkBuild('${name}', ${name});`).join('\n  ')}
+  window.powerJourneyTestInternals = { sourceBuildRecords, networkBuildRecords, storageState, drawRoutes, routePower, zonePower, drawDetails, drawBreakers, drawBreakerCues, drawAnnotations, projection, drawLightning, models };
 `;
 vm.runInContext(source.replace(exportMarker, `${instrumentation}\n${exportMarker}`), sandbox, { filename: 'power-journey.js' });
 const renderer = sandbox.window.PowerJourney;
@@ -271,11 +279,11 @@ for (const layout of ['desktop', 'mobile', 'phone']) {
   const model = internals.models.get(layout);
   const dc = battery.routes.find(route => route.phase === 0);
   const ac = model.routes.find(route => route.storage && route.phase === 0 && !battery.routes.includes(route));
-  assert.ok(ac, `${layout}: storage needs a converter-to-collector connection`);
+  assert.ok(ac, `${layout}: storage needs its own converter-to-substation tie`);
   // Observe rendered pulses on real model segments; do not duplicate the
   // renderer's mirrored scheduling formula in the test's expected result.
-  assert.ok(firstTransferPulse(dc, 1, 3) < firstTransferPulse(ac, 1, 3), `${layout}: discharge must leave the DC storage side before entering the AC collector`);
-  assert.ok(firstTransferPulse(ac, 10, 12) < firstTransferPulse(dc, 10, 12), `${layout}: charging must enter from the AC collector before reaching DC storage`);
+  assert.ok(firstTransferPulse(dc, 1, 3) < firstTransferPulse(ac, 1, 3), `${layout}: discharge must leave the DC storage side before entering its AC tie`);
+  assert.ok(firstTransferPulse(ac, 10, 12) < firstTransferPulse(dc, 10, 12), `${layout}: charging must enter from the AC tie before reaching DC storage`);
 }
 
 assert.equal(renderer.cycleDuration, 26);
@@ -370,6 +378,8 @@ for (const layout of ['desktop', 'mobile', 'phone']) {
     }
   }
   const network = Array.from(internals.networkBuildRecords).filter(record => record.layout === layout);
+  const plants = Array.from(internals.sourceBuildRecords).filter(record => record.layout === layout);
+  const generationTerminals = plants.flatMap(record => Array.from(record.terminals));
   const transformers = network.filter(record => ['transformer', 'serviceTransformer'].includes(record.name));
   const mainTransformers = transformers.filter(record => record.name === 'transformer');
   assert.equal(mainTransformers.length, 4, `${layout}: both paths need their own sending step-up and receiving step-down transformers`);
@@ -379,6 +389,46 @@ for (const layout of ['desktop', 'mobile', 'phone']) {
   const stationB = mainTransformers.find(record => record.args[0] && record.args[1] === 'alternate');
   assert.ok(stepUp && alternateStepUp && stationA && stationB, `${layout}: transformer roles must identify both sending and both receiving stations`);
   assert.equal(new Set(mainTransformers.flatMap(record => [...record.terminals.high, ...record.terminals.low].map(terminalKey))).size, 24, `${layout}: all main transformer winding terminals must be physically distinct`);
+  const sendingBuses = network.filter(record => record.name === 'sendingBus');
+  assert.equal(sendingBuses.length, 2, `${layout}: the sending substations must have separate source buswork`);
+  for (const bus of sendingBuses) {
+    assert.equal(bus.terminals.bays.length, 3, `${layout}: each sending station needs three individual plant bays`);
+    assert.equal(new Set(bus.terminals.bays.flatMap(bay => bay.map(terminalKey))).size, 9, `${layout}: each plant bay must have three distinct phase terminals`);
+  }
+  const plantTies = [];
+  for (const plant of plants) {
+    const { id, circuit, bay } = sourceConnections[plant.name];
+    const ownStation = circuit === 'primary' ? stepUp : alternateStepUp;
+    const otherStation = circuit === 'primary' ? alternateStepUp : stepUp;
+    const bus = sendingBuses.find(record => record.args[0] === circuit);
+    assert.ok(bus, `${layout}/${plant.name}: the assigned sending bus must exist`);
+    for (const [phase, terminal] of Array.from(plant.terminals).entries()) {
+      const ties = model.routes.filter(route => terminalKey(route.points[0]) === terminalKey(terminal));
+      assert.equal(ties.length, 1, `${layout}/${plant.name}/${phase}: each plant AC phase needs its own direct tie line`);
+      assert.equal(ties[0].sourceId, id, `${layout}/${plant.name}/${phase}: source metadata must identify the connected plant`);
+      assert.equal(ties[0].circuit, circuit);
+      assert.equal(ties[0].bayIndex, bay);
+      assert.equal(ties[0].phase, phase);
+      assert.equal(terminalKey(ties[0].points.at(-1)), terminalKey(bus.terminals.bays[bay][phase]), `${layout}/${plant.name}/${phase}: the dedicated tie must end at its own phase terminal in its own bay`);
+      plantTies.push(ties[0]);
+      const connected = reachableTerminals(model, transformers, [terminal], normalEvent, false);
+      assert.ok(connected.has(terminalKey(ownStation.terminals.low[phase])), `${layout}/${plant.name}/${phase}: the tie must reach its assigned sending station on the matching phase`);
+      for (const [otherPhase, stationTerminal] of Array.from(ownStation.terminals.low).entries()) {
+        assert.equal(connected.has(terminalKey(stationTerminal)), otherPhase === phase, `${layout}/${plant.name}/${phase}: station buswork must never join different phases`);
+      }
+      for (const stationTerminal of otherStation.terminals.low) {
+        assert.equal(connected.has(terminalKey(stationTerminal)), false, `${layout}/${plant.name}/${phase}: no shared source collector or direct tie may join the two sending substations`);
+      }
+    }
+  }
+  assert.equal(model.routes.filter(route => route.sourceId).length, 18, `${layout}: all six plant connections must retain three traceable phase ties`);
+  assert.equal(new Set(plantTies.map(route => terminalKey(route.points.at(-1)))).size, 18, `${layout}: every plant phase must arrive at its own station-bay terminal`);
+  const tiePointSets = plantTies.map(route => new Set(route.points.map(terminalKey)));
+  assert.equal(
+    new Set(tiePointSets.flatMap(points => [...points])).size,
+    tiePointSets.reduce((count, points) => count + points.size, 0),
+    `${layout}: dedicated plant tie lines must not merge into a shared conductor before their station bays`,
+  );
   const primaryHV = reachableTerminals(model, transformers, stepUp.terminals.high, normalEvent, false);
   const alternateHV = reachableTerminals(model, transformers, alternateStepUp.terminals.high, normalEvent, false);
   for (const terminal of stationA.terminals.high) assert.ok(primaryHV.has(terminalKey(terminal)), `${layout}: sending A must have its own conductor path to receiving A`);
@@ -393,7 +443,7 @@ for (const layout of ['desktop', 'mobile', 'phone']) {
       const conductor = model.items.find(item => item.kind === 'line' && item.points === lead.points);
       assert.ok(conductor, `${layout}/${circuit}: the sending transformer lead must be drawn`);
       for (const event of [isolatedEvent, substationEvent]) {
-        assert.equal(internals.zonePower(conductor.circuitZone, event), 1, `${layout}/${circuit}: both sending transformers stay energized by their common generation collector`);
+        assert.equal(internals.zonePower(conductor.circuitZone, event), 1, `${layout}/${circuit}: each sending transformer stays energized by its connected plants`);
         assert.equal(internals.routePower(lead, event), circuit === 'primary' ? 0 : 1, `${layout}/${circuit}: an unloaded sending transformer must suppress transfer packets on both winding sides`);
       }
     }
@@ -440,11 +490,12 @@ for (const layout of ['desktop', 'mobile', 'phone']) {
     const unavailable = remaining === 'primary' ? 'alternate' : 'primary';
     const remainingModel = { routes: model.routes.filter(route => route.zone !== `distribution-${unavailable}`) };
     const remainingTransformers = transformers.filter(transformer => transformer !== removedStepUp);
-    const reachable = reachableTerminals(remainingModel, remainingTransformers, stepUp.terminals.low, normalEvent);
+    const remainingSources = plants.filter(record => sourceConnections[record.name].circuit === remaining).flatMap(record => Array.from(record.terminals));
+    const reachable = reachableTerminals(remainingModel, remainingTransformers, remainingSources, normalEvent);
     for (const route of loadBranches) assert.ok(reachable.has(terminalKey(route.points.at(-1))), `${layout}/${remaining}: either sending/receiving/feeder path must independently reach every load after removing the other sending winding and feeder`);
   }
   for (const [name, event] of [['line', isolatedEvent], ['substation', substationEvent]]) {
-    const energized = reachableTerminals(model, transformers, stepUp.terminals.low, event);
+    const energized = reachableTerminals(model, transformers, generationTerminals, event);
     for (const route of loadBranches) assert.ok(energized.has(terminalKey(route.points.at(-1))), `${layout}/${name}: each drawn load branch must retain an actual path through a transformer and the healthy station`);
     for (const terminal of [...stationB.terminals.high, ...stationB.terminals.low]) assert.ok(energized.has(terminalKey(terminal)), `${layout}/${name}: station B must remain connected at both voltage stages`);
     for (const terminal of [...stationA.terminals.high, ...stationA.terminals.low]) assert.equal(energized.has(terminalKey(terminal)), name === 'line', `${layout}/${name}: station A must be energized through the MV coupling only when its MV breaker remains closed`);
@@ -519,6 +570,78 @@ for (const layout of ['desktop', 'mobile', 'phone']) {
     assert.equal(gap(sendingClosedEvent) > 1, breaker.circuit === 'primary' && breaker.role === 'receiving', 'Only the primary receiving contacts should remain open during ordered restoration');
     assert.equal(gap(substationEvent) > 1, breaker.circuit === 'primary' && ['receiving', 'feeder'].includes(breaker.role), 'Station A requires visible HV and MV gaps while the primary sending and all B contacts stay closed');
   }
+  const cueView = { ...testView, mobile: layout !== 'desktop' };
+  const cueFrame = (breakers, event) => {
+    const recorder = recordingContext();
+    internals.drawBreakerCues(recorder.context, { breakers }, cueView, event);
+    recorder.assertRestored();
+    return recorder;
+  };
+  const cueCases = [
+    [normalEvent, []],
+    [isolatedEvent, ['sending', 'receiving']],
+    [substationEvent, ['receiving', 'feeder']],
+    [sendingClosedEvent, ['receiving']],
+  ];
+  for (const [event, roles] of cueCases) {
+    const frame = cueFrame(model.breakers, event);
+    const boxes = frame.operations.filter(operation => operation[0] === 'fillRect');
+    assert.equal(boxes.length, roles.length, `${layout}: magnified in-scene contacts must mark exactly the operating devices`);
+    assert.equal(frame.operations.filter(operation => operation[0] === 'strokeRect').length, roles.length);
+    for (const breaker of model.breakers) {
+      const single = cueFrame([breaker], event);
+      const expected = breaker.circuit === 'primary' && breaker.phase === 1 && roles.includes(breaker.role);
+      assert.equal(single.paints.length > 0, expected, `${layout}/${breaker.circuit}/${breaker.role}/${breaker.phase}: only one representative pole of an open breaker needs a cue`);
+      if (!expected) continue;
+      const box = single.operations.find(operation => operation[0] === 'fillRect');
+      const anchor = new Float32Array(2);
+      internals.projection(breaker.group.p(breaker.x, breaker.y, breaker.z), cueView, anchor);
+      assert.equal(box[1] + box[3] / 2, anchor[0], `${layout}: the contact cue must be centered on the physical breaker`);
+      assert.equal(box[2] + box[4] / 2, anchor[1], `${layout}: the contact cue must remain inside the grid at the real device height`);
+    }
+  }
+  for (const [role, field] of [['sending', 'sendingOpen'], ['receiving', 'receivingOpen'], ['feeder', 'primaryFeederOpen']]) {
+    const breaker = model.breakers.find(item => item.circuit === 'primary' && item.phase === 1 && item.role === role);
+    const cueGap = opening => {
+      const frame = cueFrame([breaker], { ...normalEvent, [field]: opening });
+      const moves = frame.operations.filter(operation => operation[0] === 'moveTo');
+      const lines = frame.operations.filter(operation => operation[0] === 'lineTo');
+      return Math.hypot(lines[0][1] - moves[1][1], lines[0][2] - moves[1][2]);
+    };
+    const fullGap = cueGap(1);
+    assert.ok(fullGap >= 8, `${layout}/${role}: the actual operating contact gap must remain legible on small screens`);
+    assert.ok(Math.abs(cueGap(0.5) - fullGap / 2) < 1e-9, `${layout}/${role}: enlarged contact travel must follow the same fractional opening as the physical breaker`);
+  }
+  const annotationFrame = event => {
+    const recorder = recordingContext();
+    internals.drawAnnotations(recorder.context, model, cueView, event);
+    recorder.assertRestored();
+    return recorder;
+  };
+  const baseAnnotations = annotationFrame(normalEvent);
+  const textOperations = recorder => recorder.operations.filter(operation => operation[0] === 'fillText');
+  const baseLabelPositions = textOperations(baseAnnotations).map(operation => operation.slice(2));
+  for (const [event, roles] of cueCases) {
+    const annotations = annotationFrame(event);
+    assert.deepEqual(textOperations(annotations).map(operation => operation.slice(2)), baseLabelPositions, `${layout}: operating-state labels must reuse the existing scene annotation positions`);
+    const leaders = annotations.operations.filter(operation => operation[0] === 'lineTo');
+    for (const role of roles) {
+      const breaker = model.breakers.find(item => item.circuit === 'primary' && item.phase === 1 && item.role === role);
+      const anchor = new Float32Array(2);
+      internals.projection(breaker.group.p(breaker.x, breaker.y, breaker.z), cueView, anchor);
+      assert.ok(leaders.some(operation => operation[1] === anchor[0] && operation[2] === anchor[1] - 8), `${layout}/${role}: the operating label must point to its actual opening device`);
+    }
+  }
+  const annotationLabels = event => textOperations(annotationFrame(event)).map(operation => operation[1]);
+  const sendingLabel = cueView.mobile ? 'A send' : 'Sending A';
+  assert.ok(annotationLabels(isolatedEvent).includes(`${sendingLabel} · open`));
+  assert.ok(annotationLabels(isolatedEvent).includes('A HV · open'));
+  assert.ok(annotationLabels(isolatedEvent).includes('A · line isolated'));
+  assert.ok(annotationLabels(isolatedEvent).includes(cueView.mobile ? 'B · supply' : 'B · supplying loads'));
+  assert.ok(annotationLabels(substationEvent).includes('A HV/MV · open'));
+  assert.ok(annotationLabels(renderer.getEventState({ time: 8.15, reducedMotion: true })).includes('A · fault'), 'Suppressing the bolt must preserve the readable fault state');
+  assert.ok(annotationLabels(renderer.getEventState({ time: 8.6 })).includes(`${sendingLabel} · opening`));
+  assert.ok(annotationLabels(renderer.getEventState({ time: 14 })).includes(`${sendingLabel} · closing`));
 }
 
 // Exercise the actual base-face paint loop with only emissive items retained.
@@ -552,7 +675,13 @@ assert.ok(bolt.operations.every(operation => !['fillRect', 'rect'].includes(oper
 const boltCoordinates = bolt.operations.filter(operation => ['moveTo', 'lineTo', 'arc'].includes(operation[0]));
 for (const axis of [1, 2]) assert.ok(Math.max(...boltCoordinates.map(operation => operation[axis])) - Math.min(...boltCoordinates.map(operation => operation[axis])) <= 100, 'Lightning must remain localized around the strike point');
 const eventOptions = { width: 390, height: 980, time: 2, eventTime: 8.15 };
-assert.equal(trace({ ...eventOptions, suppressFlash: true }).digest(), trace({ ...eventOptions, eventTime: 0 }).digest(), 'Suppressing flash must preserve ambient motion and otherwise-powered equipment');
+const phoneModel = internals.models.get('phone');
+try {
+  // Fault text should remain readable even when its bolt is suppressed. Remove
+  // only annotations here to compare the otherwise identical equipment frames.
+  internals.models.set('phone', { ...phoneModel, annotations: [] });
+  assert.equal(trace({ ...eventOptions, suppressFlash: true }).digest(), trace({ ...eventOptions, eventTime: 0 }).digest(), 'Suppressing flash must preserve ambient motion and otherwise-powered equipment');
+} finally { internals.models.set('phone', phoneModel); }
 assert.equal(trace({ ...eventOptions, reducedMotion: true }).digest(), trace({ ...eventOptions, time: 24, reducedMotion: true }).digest(), 'Reduced motion must freeze ambient effects as well as suppress lightning');
 
 for (const options of [{ width: 0, height: 900 }, { width: 390, height: -1 }, { width: NaN, height: 900 }, { width: 1440, height: Infinity }]) {
@@ -569,3 +698,4 @@ console.log('PASS: six genuinely distinct source/storage geometries in desktop/m
 console.log('PASS: power journey paints deterministic finite geometry at desktop/mobile widths, animates with time, handles pointer extremes, and restores canvas state even on failure.');
 console.log('PASS: manual/automatic event states; line and substation isolation use distinct HV/MV contact gaps, preserve alternate supply, and gate station energization separately from transfer packets.');
 console.log('PASS: four main transformers, separate HV paths and six distribution poles; feeders join only at the load bus; either complete path independently reaches every load; no winding bypass; distinct manual frames through 320px.');
+console.log('PASS: six dedicated three-phase plant ties connect distinct bays on separate sending buses, preserve phase separation, and supply independent paths from actual plant terminals.');
