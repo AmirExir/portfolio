@@ -3,7 +3,6 @@
 import hashlib
 import json
 from pathlib import Path
-import re
 import unittest
 
 from embedding_utils import plan_embedding_reuse
@@ -13,34 +12,43 @@ from sync_manager_content import build_chunks, serialize_content
 
 
 BASE_DIR = Path(__file__).resolve().parent
-SOURCE_PATH = BASE_DIR / "sources" / "transmission_planning_interview_2026-10-19.txt"
+SOURCE_ID = "private:transmission-planning-interview-2026-10-19"
 SOURCE_SHA256 = "4a453873e0c6b555248c4bd715738a5b789513e2e603b9efbd871305b2896068"
+REVISION_ID = "private:transmission-planning-interview-2026-10-20-draft"
+REVISION_SHA256 = "39e6a326290ce43c17d148525af85719ba85322d62031425a8ec7d5019bc61dd"
+EXPANDED_REVISION_ID = "private:transmission-planning-interview-2026-10-20-expanded-draft"
+EXPANDED_REVISION_SHA256 = "ac81de485b80bbd488a8a5bcc7bc6b795236990f3a83df0bbe735edde6391e99"
+FIRST_REVISION_NUMBERS = set(range(1, 11))
+EXPANDED_REVISION_NUMBERS = set(range(12, 21))
+REVISED_NUMBERS = FIRST_REVISION_NUMBERS | EXPANDED_REVISION_NUMBERS
 STORY_NUMBERS = {12, 13, 14, 15, 17, 18, 19}
 
 
-def source_sections(text: str) -> dict[int, dict]:
-    """Independently read the supplied numbering, answers, and source caveats."""
-    headings = list(re.finditer(r"(?m)^[\s\u2060]*(\d+)\.[\s\u2060]*([^\r\n]+)", text))
-    result = {}
-    for index, heading in enumerate(headings):
-        end = headings[index + 1].start() if index + 1 < len(headings) else len(text)
-        lines = [line.strip() for line in text[heading.end():end].splitlines() if line.strip()]
-        answer = [line for line in lines[1:] if not line.startswith(("Reference:", "Preparation note:"))]
-        result[int(heading.group(1))] = {
-            "question": heading.group(2).strip(),
-            "source_status": lines[0],
-            "answer": " ".join(answer),
-            "references": [line.removeprefix("Reference:").strip() for line in lines if line.startswith("Reference:")],
-            "preparation_note": " ".join(line.removeprefix("Preparation note:").strip() for line in lines if line.startswith("Preparation note:")),
-        }
-    return result
+def answer_digest(text: str) -> str:
+    """Fingerprint original wording without publishing another source copy."""
+    return hashlib.sha256(" ".join(text.split()).encode("utf-8")).hexdigest()
+
+
+def metadata_digest(item: dict) -> str:
+    """Compare original questions and caveats using a hash-only fixture."""
+    metadata = {
+        "question": item["question"],
+        "source_status": item["source_status"],
+        "references": item.get("references", []),
+        "preparation_note": item.get("preparation_note", ""),
+    }
+    return hashlib.sha256(
+        json.dumps(metadata, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
 
 
 class PlanningInterviewContentTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.source_bytes = SOURCE_PATH.read_bytes()
-        cls.original = source_sections(cls.source_bytes.decode("utf-8"))
+        cls.source_hashes = json.loads(
+            (BASE_DIR / "fixtures" / "planning_source_hashes.json").read_text(encoding="utf-8")
+        )
+        cls.original = {int(number): hashes for number, hashes in cls.source_hashes["questions"].items()}
         cls.content = json.loads((BASE_DIR / "manager_content.json").read_text(encoding="utf-8"))
         cls.active_chunks = json.loads((BASE_DIR / "chunks_cleaned.json").read_text(encoding="utf-8"))
         cls.target_chunks, _, _ = build_chunks(cls.active_chunks, cls.content)
@@ -50,23 +58,24 @@ class PlanningInterviewContentTests(unittest.TestCase):
         }
         cls.target_by_id = {chunk.get("source_id"): chunk for chunk in cls.target_chunks}
 
-    def test_source_is_archived_without_byte_changes(self) -> None:
-        self.assertEqual(hashlib.sha256(self.source_bytes).hexdigest(), SOURCE_SHA256)
+    def test_source_fingerprints_do_not_require_published_drafts(self) -> None:
+        self.assertEqual(self.source_hashes["source_sha256"], SOURCE_SHA256)
         self.assertEqual(set(self.original), set(range(1, 21)))
+        for path in BASE_DIR.rglob("transmission_planning_interview*.txt"):
+            self.assertEqual(path.relative_to(BASE_DIR).parts[0], ".private")
 
-    def test_all_twenty_answers_and_caveats_are_preserved(self) -> None:
+    def test_original_questions_metadata_and_unrevised_answers_are_preserved(self) -> None:
         self.assertEqual(set(self.imported), set(self.original))
         for number, original in self.original.items():
             with self.subTest(question=number):
                 item = self.imported[number]
                 self.assertEqual(item["id"], f"planning-interview-{number:02d}")
-                self.assertEqual(item["question"], original["question"])
-                self.assertEqual(" ".join(item["answer"].split()), " ".join(original["answer"].split()))
-                self.assertEqual(item["source_status"], original["source_status"])
-                self.assertEqual(item.get("references", []), original["references"])
-                self.assertEqual(item.get("preparation_note", ""), original["preparation_note"])
+                self.assertEqual(metadata_digest(item), original["metadata_sha256"])
+                if number not in REVISED_NUMBERS:
+                    self.assertEqual(answer_digest(item["answer"]), original["answer_sha256"])
+                    self.assertNotIn("answer_revision", item)
                 self.assertEqual(item["source_sha256"], SOURCE_SHA256)
-                self.assertEqual((BASE_DIR / item["source_document"]).resolve(), SOURCE_PATH)
+                self.assertEqual(item["source_document"], SOURCE_ID)
                 expected_type = "story" if number in STORY_NUMBERS else "direct"
                 self.assertEqual(item["response_type"], expected_type)
                 if expected_type == "story":
@@ -75,6 +84,30 @@ class PlanningInterviewContentTests(unittest.TestCase):
                     self.assertIn("verify", item["source_status"].lower())
                 else:
                     self.assertIn("I would", item["answer"])
+
+    def test_revised_answers_trace_editorial_changes_to_each_draft(self) -> None:
+        revised_numbers = {number for number, item in self.imported.items() if "answer_revision" in item}
+        self.assertEqual(revised_numbers, REVISED_NUMBERS)
+        for number in sorted(REVISED_NUMBERS):
+            with self.subTest(question=number):
+                item = self.imported[number]
+                revision = item["answer_revision"]
+                identifier, digest = (
+                    (REVISION_ID, REVISION_SHA256) if number in FIRST_REVISION_NUMBERS
+                    else (EXPANDED_REVISION_ID, EXPANDED_REVISION_SHA256)
+                )
+                self.assertEqual(revision["source_document"], identifier)
+                self.assertEqual(revision["source_question"], number)
+                self.assertEqual(revision["source_sha256"], digest)
+                self.assertTrue(revision["editorial_note"].strip())
+                self.assertNotEqual(answer_digest(item["answer"]), self.original[number]["answer_sha256"])
+
+    def test_story_answers_use_the_rewritten_star_narrative(self) -> None:
+        for number in sorted(STORY_NUMBERS):
+            with self.subTest(question=number):
+                item = self.imported[number]
+                narrative = "\n\n".join(item[field] for field in ("situation", "task", "action", "result"))
+                self.assertEqual(item["answer"], narrative)
 
     def test_metadata_fields_do_not_leak_into_answers_or_star_sections(self) -> None:
         for number, item in self.imported.items():
@@ -92,6 +125,16 @@ class PlanningInterviewContentTests(unittest.TestCase):
                 verification = extract_tag_value(text, "Verification").lower()
                 self.assertIn("user-provided", verification)
                 self.assertIn("not been independently verified", verification)
+                self.assertNotIn("answer revision", verification)
+                revision_text = extract_tag_value(text, "Answer Revision")
+                if "answer_revision" in item:
+                    revision = item["answer_revision"]
+                    self.assertIn(revision["source_document"], revision_text)
+                    self.assertIn(f"question {number}", revision_text)
+                    self.assertIn(revision["source_sha256"], revision_text)
+                    self.assertIn(revision["editorial_note"], revision_text)
+                else:
+                    self.assertEqual(revision_text, "")
                 if number in STORY_NUMBERS:
                     for field in ("situation", "task", "action", "result"):
                         self.assertEqual(extract_tag_value(text, field.title()), item[field].strip())
@@ -115,6 +158,10 @@ class PlanningInterviewContentTests(unittest.TestCase):
                 ranked = rank_candidates(item["question"], self.target_chunks, {}, focus=focus)
                 self.assertTrue(ranked)
                 self.assertEqual(self.target_chunks[ranked[0]["index"]].get("source_id"), item["id"])
+                self.assertEqual(extract_tag_value(ranked[0]["text"], "Answer"), item["answer"])
+                if number in STORY_NUMBERS:
+                    for field in ("situation", "task", "action", "result"):
+                        self.assertEqual(extract_tag_value(ranked[0]["text"], field.title()), item[field])
 
     def test_representative_queries_find_the_new_material(self) -> None:
         queries = {
@@ -165,12 +212,94 @@ class PlanningInterviewContentTests(unittest.TestCase):
         _, missing_after_sync = plan_embedding_reuse(synchronized, self.target_chunks)
         self.assertEqual(missing_after_sync, [])
 
+    def test_refresh_reuses_vectors_for_unchanged_published_content(self) -> None:
+        previous = self.active_chunks
+        previous_by_id = {chunk.get("source_id"): chunk for chunk in previous}
+        indices, missing = plan_embedding_reuse(previous, self.target_chunks)
+        # Source privacy identifiers change Q11 metadata as well as the 19 answers.
+        planning_ids = {f"planning-interview-{number:02d}" for number in range(1, 21)}
+        expected_changed = {
+            chunk["text"].strip() for chunk in self.target_chunks
+            if chunk.get("source_id") in planning_ids
+            and chunk["text"] != previous_by_id[chunk["source_id"]]["text"]
+        }
+        self.assertEqual(set(missing), expected_changed)
+        for chunk, index in zip(self.target_chunks, indices):
+            if chunk["text"].strip() not in expected_changed:
+                self.assertLess(index, len(previous))
+                self.assertEqual(previous[index]["text"].strip(), chunk["text"].strip())
+
     def test_invalid_source_metadata_is_rejected(self) -> None:
         item = self.imported[1]
         for field, value in (("source_question", True), ("source_question", 0), ("source_sha256", "not-a-hash"), ("references", "invented citation")):
             with self.subTest(field=field, value=value):
                 with self.assertRaises(ValueError):
                     serialize_content({**item, field: value})
+
+    def test_invalid_answer_revision_is_rejected(self) -> None:
+        item = self.imported[1]
+        revision = {
+            "source_document": REVISION_ID,
+            "source_question": 1,
+            "source_sha256": REVISION_SHA256,
+            "editorial_note": "Adapt the technical sequence while retaining applicable-criteria caveats.",
+        }
+        invalid_revisions = [
+            None, [], "draft",
+            {key: value for key, value in revision.items() if key != "editorial_note"},
+            {**revision, "unknown": "field"},
+        ]
+        invalid_revisions.extend(
+            {**revision, field: value} for field, value in (
+                ("source_document", ""), ("source_document", 1),
+                ("source_question", True), ("source_question", 0),
+                ("source_sha256", "not-a-hash"), ("editorial_note", ""),
+            )
+        )
+        for invalid in invalid_revisions:
+            with self.subTest(revision=invalid):
+                with self.assertRaises(ValueError):
+                    serialize_content({**item, "answer_revision": invalid})
+        for number in (1, 12):
+            with self.subTest(response_type=self.imported[number]["response_type"]):
+                record = self.imported[number]
+                serialized = serialize_content({**record, "answer_revision": revision})["text"]
+                for field in ("Answer", "Situation", "Task", "Action", "Result", "References", "Preparation Note"):
+                    baseline = serialize_content({key: value for key, value in record.items() if key != "answer_revision"})["text"]
+                    self.assertEqual(extract_tag_value(serialized, field), extract_tag_value(baseline, field))
+
+    def test_technical_answer_prompt_retains_detail_without_changing_star_format(self) -> None:
+        direct = self.target_by_id[self.imported[1]["id"]]
+        prompt = answer_messages(self.imported[1]["question"], build_candidate(1, 0, direct), "")[0]["content"]
+        for instruction in ("four to six", "ordered steps", "study sequence", "methods", "rationale", "decision criteria", "validation"):
+            self.assertIn(instruction, prompt)
+        self.assertIn("I would", prompt)
+        story = self.target_by_id[self.imported[12]["id"]]
+        story_prompt = answer_messages(self.imported[12]["question"], build_candidate(1, 0, story), "")[0]["content"]
+        self.assertIn("four spoken paragraphs labeled Situation, Task, Action, Result", story_prompt)
+        self.assertNotIn("four to six", story_prompt)
+        for instruction in (
+            "fuller Answer field", "technical reasoning", "stakes", "personal responsibility",
+            "most detail", "diagnosed", "engineering choices", "validated",
+            "supported outcomes", "explicitly hypothetical",
+            "never turn those proposals into completed STAR actions or results",
+            "Do not append a generic future-process framework",
+        ):
+            self.assertIn(instruction, story_prompt)
+
+    def test_preparation_notes_constrain_answers_without_becoming_spoken_instructions(self) -> None:
+        item = self.imported[12]
+        chunk = self.target_by_id[item["id"]]
+        answer_prompt = answer_messages(item["question"], build_candidate(1, 0, chunk), "")
+        instructions = answer_prompt[0]["content"]
+        self.assertIn("they are not a spoken script", instructions)
+        self.assertIn("Do not recite preparation instructions", instructions)
+        self.assertIn("Keep material uncertainty", instructions)
+        self.assertIn("potential versus realized outcomes", instructions)
+        self.assertIn(item["preparation_note"], answer_prompt[1]["content"])
+        coaching_prompt = practice_messages(item["question"], "My practice answer", chunk["text"], "")
+        self.assertIn("preparation notes", coaching_prompt[0]["content"])
+        self.assertIn(item["preparation_note"], json.loads(coaching_prompt[1]["content"])["selected_context"])
 
     def test_answer_and_practice_prompts_preserve_source_limits(self) -> None:
         item = self.imported[4]

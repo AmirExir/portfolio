@@ -11,3 +11,6 @@ chatbot_ercot_all_in_one/logs/
 chatbot_ercot_all_in_one/test_faiss_query 2.py
 # Local repository-code RAG index; contains source excerpts, never commit it.
 .rag/
+# Raw interview drafts are local-only; answer JSON is still public if committed.
+/interview_bot/.private/
+/interview_bot/sources/*.txt

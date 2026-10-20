@@ -10,6 +10,21 @@ The application addresses above are the existing portfolio links. Confirm the
 repository, branch, and main-file settings in Streamlit Cloud when updating a
 deployment; local source inspection does not establish those remote settings.
 
+## Personal InterviewBot
+
+The existing interview app address is
+`https://portfolio-rs4eamgdjpptbcpbeci6nu.streamlit.app/`; the expected entry point
+is `interview_bot/interview_bot.py`. Its public project card has been replaced
+with a browser-remembered footer shortcut. See the
+[portfolio setup instructions](portfolio.md#personal-interviewbot-shortcut).
+
+The owner must set this deployment's Sharing setting to **Only specific people
+can view this app**, retain only their own access, and verify signed-out access
+is denied. This setting is managed in Streamlit Community Cloud, not in the
+static portfolio or the Python source. It has not been changed or verified by
+the local shortcut implementation. A public source repository still exposes
+committed answers even when access to the running app is private.
+
 ## Why there were two GNN apps
 
 The former **Open Analyzer** link pointed to

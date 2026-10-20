@@ -158,11 +158,67 @@ python interview_bot/generate_embeddings.py --sync-manager-content
 The October 19, 2026 content update adds 20 transmission-planning interview
 questions to `manager_content.json` (`planning-interview-01` through
 `planning-interview-20`): 13 proposed technical/management approaches and seven
-experience-based answers. The original attachment is preserved byte-for-byte in
-`sources/transmission_planning_interview_2026-10-19.txt`; each imported entry records
-its question number and the source SHA-256. The complete supplied answer remains
-available alongside the STAR organization of experience-based entries. Existing
-stories are retained.
+experience-based answers. Each imported entry records its question number, a
+private source identifier, and the original source SHA-256. Experience-based
+entries contain editable STAR fields and a full spoken answer.
+
+Raw pasted drafts are local-only files under `.private/sources/`, excluded from
+Git by the repository's `.gitignore`. They are not needed to run, test, or deploy
+the bot. The `private:` source identifiers are provenance labels, not public
+links or paths the application reads. Tests preserve source and prior-content
+fingerprints without copying the raw drafts into fixtures.
+
+The older October 19 text file has been removed from the current source tree,
+but its earlier committed version remains in Git history; no history rewrite
+has been performed. Ignoring the drafts does not make the answer JSON private:
+`manager_content.json`, `chunks_cleaned.json`, and other committed story data are
+readable if the repository is public. Private answer content requires private
+repository/storage access, not a different file extension.
+
+The portfolio now offers a browser-remembered footer shortcut instead of a
+public interview-app card. Enable it once through `/#my-interview-bot` on your
+portfolio. The shortcut is only a display preference: the app still needs
+Streamlit Community Cloud's **Only specific people can view this app** setting,
+with only your own account allowed. See the
+[portfolio access instructions](../docs/portfolio.md#personal-interviewbot-shortcut)
+for setup and a signed-out verification check. Local edits have not changed or
+verified that hosted setting.
+
+The October 20, 2026 revision strengthens questions 1–10 with diagnostic steps,
+mitigation tradeoffs, study deliverables, and validation checks adapted from the
+first October 20 draft. Each revised entry retains its original source
+fingerprint and adds `answer_revision` with the private source identifier,
+question, SHA-256, and an
+editorial note explaining the adaptation. The serialized **Answer Revision** field
+keeps that provenance separate from the interview answer. The raw draft is not
+ingested as an additional answer.
+
+The revision deliberately excludes unsupported numerical limits, project cost
+and schedule claims, universal SCR thresholds, and assumed expedited approvals.
+The expanded October 20 draft adds answers to Q14–20. The final content blends
+the supplied technical and management
+structure with the PEC assessment, LCRA EMS upgrade, rating disagreement,
+capacitor-bank alternative, dynamic-model verification, and mentoring examples.
+All seven behavioral answers (Q12, Q13, Q14, Q15, Q17, Q18, Q19) and their four STAR
+fields are rewritten as complete spoken stories: stakes, personal responsibility,
+specific actions and engineering reasoning, then supported outcomes. Each full
+answer is exactly the four STAR paragraphs joined together, so retrieval cannot
+pair a new narrative with old STAR wording. Generic future-process appendices
+are removed. Q16 and Q20 retain their expanded proposed management approaches;
+Q11 retains its portfolio-prioritization answer. Revisions are traced through
+`answer_revision`, with the original preparation notes and material outcome
+qualifications preserved.
+
+The generation prompt allows four to six focused paragraphs or short ordered
+steps for multi-part technical questions, retaining methods, decision criteria,
+and validation. Behavioral answers devote most detail to diagnosis, choices,
+actions, and validation. Preparation instructions and editorial notes remain
+evidence/coaching context rather than spoken script; material qualifications
+such as potential fee avoidance remain in the answer.
+
+Rewriting a story's Situation changes its content-based evidence ID. Previously
+saved review notes remain associated with the previous story ID rather than
+being treated as a review of the rewritten story.
 
 Imported references, their dates, and preparation notes remain in the retrieved
 context. They are user-provided preparation material, not independently verified
@@ -185,6 +241,15 @@ calls, use:
 ```sh
 python interview_bot/generate_embeddings.py --sync-manager-content --dry-run
 ```
+
+The October 20 revision is pending in this checkout because `OPENAI_API_KEY` was
+not configured when refresh was attempted. The active corpus and matching saved
+cache remain intact. Refreshing the revisions and private provenance identifiers
+requires 20 changed vectors and reuses the other 146; Q11 changes only its source
+identifier. Run the sync command in the configured deployment
+environment, then restart/redeploy or reload the saved embeddings. Do not run the
+standalone corpus writer first: it would invalidate the active cache before the
+replacement vectors are ready.
 
 The refresh reuses vectors for unchanged text and keeps active files intact if
 embedding generation fails. Run local checks from the repository root:

@@ -66,15 +66,34 @@ def request_text(client: Any, messages: list[dict], *, structured: bool = False)
 def answer_messages(question: str, candidate: dict, job_context: str) -> list[dict]:
     """Keep the selected saved source separate from job requirements and history."""
     if candidate["response_type"] == "story":
-        format_instruction = "Use four concise paragraphs labeled Situation, Task, Action, Result."
+        format_instruction = (
+            "Use four spoken paragraphs labeled Situation, Task, Action, Result. "
+            "Establish the stakes and my personal responsibility briefly. Give most detail to "
+            "my specific actions: how I diagnosed the problem, made engineering choices, and "
+            "validated the work. Close with supported outcomes and the lesson from that experience. "
+            "Use the fuller Answer field, when present, for the technical reasoning and narrative. "
+            "For behavioral questions, focus on the completed experience; include proposed future "
+            "steps only if the question asks for them, keep them explicitly hypothetical, and "
+            "never turn those proposals into completed STAR actions or results. "
+            "Do not append a generic future-process framework."
+        )
     else:
-        format_instruction = "Use two to four concise paragraphs without forcing STAR labels."
+        format_instruction = (
+            "Use focused paragraphs without forcing STAR labels. For multi-part technical questions, "
+            "use four to six focused paragraphs or short ordered steps when needed. Preserve the "
+            "source's relevant study sequence, methods, rationale, decision criteria, and validation "
+            "checks rather than compressing them into generic claims. Keep simpler answers shorter."
+        )
     return [
         {"role": "system", "content": (
             "Answer as Amir Exir in first person. " + format_instruction +
             " Use only the single saved source in selected_context. Never borrow facts from another "
             "story or prior answer. Preserve qualifiers such as potential, estimated, and approximately. "
             "If the selected source does not establish an answer, say what evidence is missing. "
+            "Preparation notes, source status, and editorial provenance constrain the claims; "
+            "they are not a spoken script. Do not recite preparation instructions, review reminders, "
+            "source hashes, or editorial notes in the interview answer. Keep material uncertainty "
+            "and qualifications in the answer, including potential versus realized outcomes. "
             + SOURCE_GROUNDING_INSTRUCTIONS + JOB_CONTEXT_INSTRUCTIONS
         )},
         {"role": "user", "content": (

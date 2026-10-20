@@ -278,6 +278,9 @@ html:not(.js) .carousel-slide { scroll-snap-align: start; }
 .site-footer { background: #0e302b; color: #c4d3cb; padding-block: 25px; font-size: .68rem; }
 .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 15px; padding-right: 170px; }
 .site-footer a { color: #d7e1c6; }
+.footer-shortcut { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.footer-shortcut a, .footer-shortcut button { display: inline-flex; align-items: center; min-height: 44px; }
+.footer-shortcut button { padding: 0 6px; border: 0; background: transparent; text-decoration: underline; text-underline-offset: 3px; }
 .assistant-launch { position: fixed; right: 24px; bottom: 22px; z-index: 40; display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 15px; background: var(--brand); color: var(--white); border: 1px solid #719087; border-radius: 6px; font-size: .72rem; box-shadow: 0 3px 18px #0f302b1a; }
 .assistant-launch:hover { background: var(--brand-strong); text-decoration: none; }
 .assistant-launch > span:first-child { color: #d7e1c6; font-size: 1rem; }

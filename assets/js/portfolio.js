@@ -194,6 +194,45 @@
     });
   }
 
+  function initializeInterviewShortcut() {
+    const shortcut = document.getElementById('interviewShortcut');
+    const hide = shortcut?.querySelector('[data-hide-interview-shortcut]');
+    if (!shortcut || !hide) return;
+    // This browser preference controls visibility only. Hosting controls app access.
+    const preferenceKey = 'portfolio.interview-shortcut';
+    try {
+      shortcut.hidden = window.localStorage.getItem(preferenceKey) !== 'enabled';
+    } catch {
+      shortcut.hidden = true;
+    }
+
+    const enableFromHash = () => {
+      if (window.location.hash !== '#my-interview-bot') return;
+      shortcut.hidden = false;
+      try {
+        window.localStorage.setItem(preferenceKey, 'enabled');
+      } catch {
+        // Storage may be blocked; the shortcut still works for this page visit.
+      }
+      window.history.replaceState(
+        window.history.state, '', `${window.location.pathname}${window.location.search}`,
+      );
+      shortcut.querySelector('a').focus();
+    };
+
+    hide.addEventListener('click', () => {
+      shortcut.hidden = true;
+      try {
+        window.localStorage.removeItem(preferenceKey);
+      } catch {
+        // Keep the current page hidden even when storage cannot be changed.
+      }
+      document.querySelector('.site-footer a[href="#top"]')?.focus({ preventScroll: true });
+    });
+    window.addEventListener('hashchange', enableFromHash);
+    enableFromHash();
+  }
+
   const textValue = (value) => typeof value === 'string' ? value.trim() : '';
   const isRecord = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
 
@@ -290,6 +329,7 @@
   initializeCarousels();
   initializeProjectSearch();
   initializeEmailCopy();
+  initializeInterviewShortcut();
   initializeErcotFeed();
   document.documentElement.classList.add('js');
 })();

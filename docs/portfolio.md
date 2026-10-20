@@ -28,6 +28,7 @@ The public portfolio is a static site served from the repository root. It presen
 | `ERCOTAPI/latest_ercot_updates.json` | Existing document snapshot consumed by the portfolio |
 | Root images and PDFs | Existing public media and download addresses |
 | `tests/test_portfolio_site.py` | Static local address and fragment validation |
+| `tests/interview_shortcut.cjs` | Offline shortcut visibility, persistence, and blocked-storage checks |
 | `tests/test_aelab_ui_download.py` | Existing AELab PDF download/checksum regression |
 | `tests/test_aelab_gallery.py` | AELab slide preservation, screenshot integrity, and provenance regression |
 | `tests/portfolio_browser.cjs` | Optional offline browser interaction checks |
@@ -47,6 +48,48 @@ python3 -m http.server 8000 --bind 127.0.0.1
 Open `http://127.0.0.1:8000/`. Use HTTP for previewing: opening `index.html` directly from disk can prevent the document feed and Atlas from fetching their local JSON files. Stop the server with Ctrl+C.
 
 Deployment continues to use the static root and the existing `CNAME`, `robots.txt`, and `sitemap.xml`. No deployment settings or third-party application URLs were changed by the redesign. Update the home page’s `lastmod` in `sitemap.xml` when publishing a substantive content change.
+
+## Personal InterviewBot shortcut
+
+The interview assistant is no longer advertised in the public project cards.
+After publishing this change, visit
+`https://amirexirpe.com/#my-interview-bot` once in your own browser. An
+**InterviewBot** link appears in the footer and stays available on later visits
+to the ordinary portfolio URL in that browser. **Hide shortcut** removes the
+preference. Repeat the setup on each device/browser you use; clearing site data
+also clears the preference. If browser storage is unavailable, the shortcut
+works for the current page visit only.
+
+This is a visibility preference, not authentication. It does not identify the
+owner, and the destination is discoverable in the public source. Access to the
+hosted app must be restricted separately:
+
+1. Open the interview app's settings in Streamlit Community Cloud.
+2. Under **Sharing → Who can view this app**, choose **Only specific people can
+   view this app**.
+3. Keep only your own access. Remove any other invited viewers and review the
+   GitHub collaborators who have developer access.
+4. Verify that your signed-in browser can open the bot and a signed-out private
+   browser window cannot read its stories or use its controls, even with the
+   direct app URL.
+
+Streamlit's [sharing documentation](https://docs.streamlit.io/deploy/streamlit-community-cloud/share-your-app)
+describes the hosting access control and the one-private-app limit. No custom
+password, identity provider, or client-side access gate is added here. The
+portfolio remains public; the unrelated **Ask Amir AI** assistant keeps its
+existing public links. Local source changes cannot change or verify the hosted
+Sharing setting.
+
+App privacy does not protect files committed to a public GitHub repository or
+served by its static site. The raw interview drafts stay in ignored local
+storage, but committed answer JSON and old Git history remain readable. Keeping
+the answer corpus private requires a private repository/storage deployment
+separate from this public portfolio; changing `.txt` to `.json` is not access
+control. See [InterviewBot's content notes](../interview_bot/README.md).
+
+Run `node --test tests/interview_shortcut.cjs` to check the shortcut with a
+minimal DOM harness. These offline tests do not verify browser rendering,
+Streamlit sign-in, or hosted access permissions.
 
 ## Update content and addresses
 

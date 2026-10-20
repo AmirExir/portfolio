@@ -95,7 +95,7 @@ CONTENT_TAGS = (
     "Response Type", "Principle", "Category", "Question", "Aliases",
     "Situation", "Task", "Action", "Result", "Reflection", "Answer",
     "Source Document", "Source Question", "Source SHA256", "Source Status",
-    "Verification", "References", "Preparation Note",
+    "Verification", "Answer Revision", "References", "Preparation Note",
 )
 TAG_LOOK_AHEAD = "|".join(re.escape(tag) for tag in CONTENT_TAGS)
 

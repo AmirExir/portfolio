@@ -74,6 +74,26 @@ def serialize_content(item):
             "references have not been independently verified. Reference dates and statements "
             "that a document was checked are supplied by the author, not verified by this bot.",
         ])
+    if "answer_revision" in item:
+        revision = item["answer_revision"]
+        revision_fields = {"source_document", "source_question", "source_sha256", "editorial_note"}
+        if not isinstance(revision, dict) or set(revision) != revision_fields:
+            raise ValueError(
+                f"{content_id}: 'answer_revision' must contain source_document, "
+                "source_question, source_sha256, and editorial_note"
+            )
+        revision = {**revision, "id": content_id}
+        revision_question = revision["source_question"]
+        if type(revision_question) is not int or revision_question < 1:
+            raise ValueError(f"{content_id}: answer revision source_question must be a positive integer")
+        revision_hash = require_text(revision, "source_sha256")
+        if not re.fullmatch(r"[a-f0-9]{64}", revision_hash):
+            raise ValueError(f"{content_id}: answer revision source_sha256 must be a SHA-256 hex digest")
+        fields.append(
+            f"Answer Revision: Adapted from {require_text(revision, 'source_document')}; "
+            f"question {revision_question}; SHA-256 {revision_hash}. "
+            f"Editorial note: {require_text(revision, 'editorial_note')}"
+        )
     references = item.get("references", [])
     if not isinstance(references, list) or not all(
         isinstance(reference, str) and reference.strip() for reference in references
