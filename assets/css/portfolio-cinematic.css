@@ -39,8 +39,9 @@ h2 em { font-size: 1.17em; line-height: 1.04; color: var(--brand); letter-spacin
 html:not(.js) .site-header { position: relative; top: 0; height: auto; padding-top: 12px; }
 
 /* Large, bounded art. Text is DOM content; rendering is strictly decorative. */
-.hero { height: 900px; min-height: 900px; position: relative; overflow: hidden; isolation: isolate; background: #060a0c; }
-.hero::after { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1; background: linear-gradient(#060a0c20 0%, transparent 55%, #060a0c18 75%, #080c0e 100%); }
+.hero { height: auto; min-height: 900px; position: relative; overflow: hidden; isolation: isolate; background: #060a0c; }
+.hero-stage { height: 900px; position: relative; isolation: isolate; }
+.hero-stage::after { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1; background: linear-gradient(#060a0c20 0%, transparent 55%, #060a0c18 75%, #080c0e 100%); }
 .cinematic-scene { position: absolute; inset: 0; width: 100%; height: 100%; background: transparent; contain: size layout paint; }
 .cinematic-scene::before { display: none; }
 .cinematic-scene canvas { transition: opacity .8s; }
@@ -93,6 +94,25 @@ html:not(.js) .site-header { position: relative; top: 0; height: auto; padding-t
 [data-power-phase] { color: #d1d8d1; font-size: .62rem; line-height: 1.25; }
 [data-power-replay-label] { color: #a5b5b5; font-size: .53rem; line-height: 1.25; }
 .power-event-button:disabled [data-power-replay-label] { color: #859798; }
+.hero-grid-tools { position: relative; z-index: 2; width: min(calc(100% - 96px), var(--max)); margin-inline: auto; padding: 22px 0 30px; }
+.grid-tools-heading { display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: 15px 26px; margin-bottom: 18px; }
+.grid-tools-kicker { margin: 0 0 7px; color: #8fa8a9; font-size: .5rem; letter-spacing: .14em; }
+.grid-tools-heading h2 { margin: 0; color: #dedfd3; font: 400 1.15rem/1.3 var(--sans); letter-spacing: -.025em; }
+.power-state-controls { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; border: 1px solid #d7c49d2e; border-radius: 28px; background: #0f191c; }
+.power-state-controls button { min-height: 44px; padding: 8px 13px; border: 1px solid transparent; border-radius: 24px; background: transparent; color: #aabbbb; font-size: .65rem; }
+.power-state-controls button span { margin-left: 5px; }
+.power-state-controls button:hover { color: #f0dfc4; background: #ffffff08; }
+.power-state-controls button[aria-pressed='true'] { border-color: #d8b77945; background: #ceb58014; color: #eed9b7; }
+.power-state-controls button:focus-visible { outline: 2px solid #ddc293; outline-offset: 2px; }
+.power-contact-panels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.power-contact-panel { min-width: 0; padding: 15px 18px 7px; border: 1px solid #a8bdb621; border-radius: 10px; background: #10191c70; }
+.power-contact-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 5px 12px; }
+.power-contact-heading h3 { margin: 0; color: #cfdbd5; font: 500 .72rem/1.5 var(--sans); }
+.power-contact-heading p { margin: 0; color: #93aaa8; font-size: .61rem; line-height: 1.6; }
+.power-contact-panel svg { display: block; width: min(100%, 410px); height: auto; margin: 5px auto 0; overflow: visible; fill: none; stroke: #7f9d9f; stroke-width: 1.5; }
+.power-contact-panel svg circle:not(.power-transformer) { fill: #10191c; stroke: #d6bb8d; }
+.power-contact-panel svg line { stroke: #e9cd9c; stroke-width: 2.5; stroke-linecap: round; }
+.power-contact-panel svg text { fill: #9aafad; stroke: none; font: 10px var(--sans); text-anchor: middle; }
 .motion-toggle { font-size: .62rem; color: #a9b6b5; letter-spacing: 0; border-radius: 999px; }
 .motion-toggle:hover { border-color: #a2b7b649; color: #ede0c8; }
 .proof-strip { background: #0b1113; border-color: #d3d9d31a; }
@@ -296,7 +316,8 @@ html[data-motion='paused'] .hero h1, html[data-motion='paused'] .hero .eyebrow, 
   .project-window.work-image, .selected-grid:not(:has([hidden])) .work-card--featured .project-window.work-image { height: 230px; }
 }
 @media (max-width: 640px) {
-  .hero { height: 980px; min-height: 980px; }
+  .hero { min-height: 980px; }
+  .hero-stage { height: 980px; }
   .hero-field { max-height: 980px; }
   .hero-inner { padding-top: 124px; }
   .hero .eyebrow { font-size: .48rem; gap: 7px; letter-spacing: .12em; }
@@ -326,6 +347,13 @@ html[data-motion='paused'] .hero h1, html[data-motion='paused'] .hero .eyebrow, 
   .hero-bottom.has-power-event > span:not(.sr-only) { grid-column: 1 / -1; max-width: none; font-size: .43rem; line-height: 1.4; letter-spacing: .08em; }
   .hero-bottom.has-power-event .power-event-button { justify-self: start; min-width: 133px; }
   .hero-bottom.has-power-event .motion-toggle { justify-self: end; }
+  .hero-grid-tools { width: calc(100% - 40px); padding: 21px 0 25px; }
+  .grid-tools-heading { gap: 15px; }
+  .grid-tools-heading h2 { font-size: 1.05rem; }
+  .power-state-controls { width: 100%; justify-content: center; border-radius: 18px; }
+  .power-state-controls button { flex: 1 1 auto; padding-inline: 10px; font-size: .61rem; }
+  .power-contact-panels { grid-template-columns: 1fr; gap: 12px; }
+  .power-contact-panel { padding-inline: 13px; }
   .motion-toggle { font-size: .58rem; padding: 5px 8px; }
   .proof-grid { gap: 21px 10px; }
   .proof-item strong { font-size: .73rem; }
@@ -389,9 +417,10 @@ html[data-motion='paused'] .hero h1, html[data-motion='paused'] .hero .eyebrow, 
 @media print {
   :root, .light-evidence { --ink: #111; --muted: #333; --paper: #fff; --white: #fff; --brand: #222; --line: #ccc; color-scheme: light; }
   html, body, .section-band, #contact, .site-footer { background: #fff; color: #111; }
-  .site-header, .cinematic-scene, .field-console, .hero-coordinate, .hero-bottom, .proof-strip, .field-landscape, .landscape-caption, .cinematic-chapter { display: none !important; }
+  .site-header, .cinematic-scene, .field-console, .hero-coordinate, .hero-bottom, .hero-grid-tools, .proof-strip, .field-landscape, .landscape-caption, .cinematic-chapter { display: none !important; }
   .hero { height: auto; min-height: 0; background: #fff; }
-  .hero::after, .field-story::after { display: none; }
+  .hero-stage { height: auto; }
+  .hero-stage::after, .field-story::after { display: none; }
   .hero-inner { padding: 20px 0; }
   .hero h1, .hero h1 em, .hero-lede, .hero .eyebrow { color: #111; }
   .field-story { min-height: 400px; background: #fff; }

@@ -507,7 +507,7 @@
             width: view.width, height: view.height, time,
             pointerX: view.pointerX, pointerY: view.pointerY,
             eventTime: view.eventTime, reducedMotion: view.reducedMotion,
-            suppressFlash: view.suppressFlash,
+            state: view.state, suppressFlash: view.suppressFlash,
           });
           return;
         } catch (error) {
@@ -596,13 +596,14 @@
   }
 
   /** Draw a transparent frame in CSS pixels; time is expressed in seconds. */
-  function draw(ctx, { type = 'field', width, height, time = 0, pointerX = 0, pointerY = 0, mode = 'grid', eventTime = time, reducedMotion = false, suppressFlash = false }) {
+  function draw(ctx, { type = 'field', width, height, time = 0, pointerX = 0, pointerY = 0, mode = 'grid', state = 'auto', eventTime = time, reducedMotion = false, suppressFlash = false }) {
     if (!ctx || !Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) return;
     const t = Number.isFinite(time) ? time : 0;
     const px = Number.isFinite(pointerX) ? clamp(pointerX, -1, 1) : 0;
     const py = Number.isFinite(pointerY) ? clamp(pointerY, -1, 1) : 0;
     const view = viewFor(width, height, t, px, py, type);
     view.eventTime = eventTime;
+    view.state = state;
     view.reducedMotion = reducedMotion;
     view.suppressFlash = suppressFlash || mode !== 'grid';
     ctx.save();

@@ -7,7 +7,6 @@
   // Reserve the project types: a missing module must not select an unrelated
   // legacy miniature that happens to advertise the same type (e.g. forecast).
   const projectRenderers = {
-    contingency: window.ContingencyScene,
     fault: window.FaultScene,
     forecast: window.ForecastScene,
   };
@@ -20,6 +19,13 @@
   const powerPhase = document.querySelector('[data-power-phase]');
   const powerReplayLabel = document.querySelector('[data-power-replay-label]');
   const powerAnnouncement = document.querySelector('[data-power-announcement]');
+  const powerTools = document.querySelector('.hero-grid-tools');
+  const powerStateButtons = Array.from(document.querySelectorAll('[data-power-state]'));
+  const powerContacts = Array.from(document.querySelectorAll('[data-power-contact]'))
+    .map(contact => ({ contact, tip: contact.parentElement.querySelector('[data-power-contact-tip]') }));
+  const powerLineStatus = document.querySelector('[data-power-detail-status="line"]');
+  const powerSubstationStatus = document.querySelector('[data-power-detail-status="substation"]');
+  const powerStates = ['auto', 'base', 'open', 'redistributed', 'substation'];
   const storageKey = 'portfolio-motion-paused';
   let paused = false;
   try { paused = window.localStorage.getItem(storageKey) === 'true'; } catch { /* Preferences are optional. */ }
@@ -55,7 +61,7 @@
 
   function scenePowerEvent(scene, reducedMotion = false) {
     return window.PowerJourney?.getEventState?.({
-      time: scene.type === 'contingency' ? scene.time : scene.eventTime,
+      time: scene.eventTime,
       state: scene.host.dataset.sceneState || 'auto',
       reducedMotion,
     });
@@ -73,6 +79,7 @@
     if (scene.type !== 'field' || !powerReplay) return;
     const available = Boolean(powerEventAvailable(scene));
     powerReplay.hidden = !available;
+    if (powerTools) powerTools.hidden = !available;
     powerReplay.closest('.hero-bottom')?.classList.toggle('has-power-event', available);
     if (!available) {
       delete scene.host.dataset.powerEvent;
@@ -80,13 +87,46 @@
     }
     const still = paused || media.matches;
     const event = scenePowerEvent(scene, still);
-    const isolated = event.stage === 'isolated';
+    const isolated = event.stage === 'isolated' || event.stage === 'substation';
     const action = still ? (isolated ? 'Reset circuit' : 'Open circuit') : 'Replay contingency';
     scene.host.dataset.powerEvent = event.stage;
     if (powerPhase && powerPhase.textContent !== event.label) powerPhase.textContent = event.label;
     if (powerReplayLabel && powerReplayLabel.textContent !== action) powerReplayLabel.textContent = action;
-    powerReplay.disabled = !still && !event.canReplay;
+    powerReplay.disabled = !still && scene.host.dataset.sceneState === 'auto' && !event.canReplay;
     powerReplay.setAttribute('aria-label', still ? `${action} in the illustration` : 'Replay contingency sequence');
+    powerStateButtons.forEach(button => {
+      const selected = String(button.dataset.powerState === (scene.host.dataset.sceneState || 'auto'));
+      if (button.getAttribute('aria-pressed') !== selected) button.setAttribute('aria-pressed', selected);
+    });
+    // These enlarged contact details use the same opening factors as the grid.
+    // The receiving-end breaker is also Substation A's HV isolation point.
+    powerContacts.forEach(({ contact, tip }) => {
+      const value = event[contact.dataset.powerContact];
+      const opening = Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : 0;
+      const encoded = opening.toFixed(3);
+      if (contact.dataset.opening === encoded) return;
+      contact.dataset.opening = encoded;
+      const endpoint = (38 - 26 * opening).toFixed(3);
+      contact.setAttribute('x2', endpoint);
+      if (tip) {
+        tip.setAttribute('x1', endpoint);
+        tip.setAttribute('x2', endpoint);
+      }
+    });
+    const lineStatus = event.sendingOpen > .98 && event.receivingOpen > .98
+      ? 'Both terminals open · circuit B in service'
+      : event.sendingOpen > 0 || event.receivingOpen > 0
+        ? 'A contacts open or moving · circuit B in service'
+        : 'Both terminals closed · circuit B in service';
+    const substationStatus = event.primaryFeederOpen > .98 && event.receivingOpen > .98
+      ? 'HV + MV isolated · substation B supplies loads'
+      : event.receivingOpen > .98
+        ? 'HV open · MV connected · B supplies loads'
+        : event.receivingOpen > 0
+          ? 'HV contact moving · substation B in service'
+          : 'HV + MV closed · substation B in service';
+    if (powerLineStatus && powerLineStatus.textContent !== lineStatus) powerLineStatus.textContent = lineStatus;
+    if (powerSubstationStatus && powerSubstationStatus.textContent !== substationStatus) powerSubstationStatus.textContent = substationStatus;
   }
 
   function updateStory(scene, time) {
@@ -177,9 +217,9 @@
       scenes.forEach((scene) => {
         if (!scene.visible || scene.failed || !scene.host.getClientRects().length) return;
         scene.time += delta;
-        // Event time advances only with the visible power illustration. A hidden
-        // tab or AI mode must not accumulate an unseen strike/reclosing backlog.
-        if (powerEventAvailable(scene)) scene.eventTime += delta;
+        // The grid and its enlarged contact controls form one visible experience.
+        // Hidden tabs and AI modes must not accumulate an unseen event backlog.
+        if (powerEventAvailable(scene) && (scene.host.dataset.sceneState || 'auto') === 'auto') scene.eventTime += delta;
         scene.pointerX += (scene.targetX - scene.pointerX) * .11;
         scene.pointerY += (scene.targetY - scene.pointerY) * .11;
         draw(scene);
@@ -203,7 +243,7 @@
 
   const intersection = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      const scene = scenes.find((item) => item.host === entry.target);
+      const scene = scenes.find((item) => item.visibilityHost === entry.target);
       if (scene) {
         scene.visible = entry.isIntersecting;
         if (scene.visible) { resize(scene); draw(scene); }
@@ -237,6 +277,7 @@
     canvas.style.cssText = 'position:absolute;inset:0;display:block;width:100%;height:100%;pointer-events:none;';
     const scene = {
       host, canvas, context, renderer, cinematic, type: host.dataset.scene, visible: !intersection,
+      visibilityHost: host.dataset.scene === 'field' ? host.closest('.hero') || host : host,
       width: 0, height: 0, time: 2.3 + index * .23, eventTime: 0,
       pointerX: 0, pointerY: 0, targetX: 0, targetY: 0, failed: false,
       story: host.closest('.project-story'),
@@ -245,7 +286,7 @@
     if (scene.story) scene.time = 0;
     scenes.push(scene);
     resize(scene);
-    if (intersection) intersection.observe(host);
+    if (intersection) intersection.observe(scene.visibilityHost);
     if (resizeObserver) resizeObserver.observe(host);
     const pointerArea = cinematic ? host.parentElement : host;
     pointerArea.addEventListener('pointermove', (event) => {
@@ -289,19 +330,37 @@
     }));
   }
 
+  powerStateButtons.forEach(button => button.addEventListener('click', () => {
+    if (!heroScene || !powerEventAvailable(heroScene)) return;
+    const state = button.dataset.powerState;
+    if (!powerStates.includes(state)) return;
+    heroScene.host.dataset.sceneState = state;
+    if (state === 'auto') heroScene.eventTime = 0;
+    draw(heroScene);
+    if (powerAnnouncement) {
+      const event = scenePowerEvent(heroScene, !motionAllowed());
+      powerAnnouncement.textContent = `${event.label}. ${state === 'substation'
+        ? 'Substation A is isolated on both voltage sides. Substation B supplies distribution and loads.'
+        : 'Loads remain supplied through the available paths.'}${paused || media.matches ? ' Animation remains stopped.' : ''}`;
+    }
+    start();
+  }));
+
   powerReplay?.addEventListener('click', () => {
     if (!heroScene || !powerEventAvailable(heroScene) || powerReplay.disabled) return;
     const cues = window.PowerJourney.eventCues;
     if (paused || media.matches) {
-      const current = window.PowerJourney.getEventState({ time: heroScene.eventTime, reducedMotion: true });
-      heroScene.eventTime = current.stage === 'isolated' ? cues.restored : cues.isolated;
-      if (powerAnnouncement) powerAnnouncement.textContent = current.stage === 'isolated'
+      const current = scenePowerEvent(heroScene, true);
+      const isolated = current.stage === 'isolated' || current.stage === 'substation';
+      heroScene.eventTime = isolated ? cues.restored : cues.isolated;
+      if (powerAnnouncement) powerAnnouncement.textContent = isolated
         ? 'Both transmission circuits closed. Loads remain supplied. Animation remains stopped.'
         : 'Circuit A isolated. The alternate circuit supplies distribution and loads. Animation remains stopped.';
     } else {
       heroScene.eventTime = cues.replay;
       if (powerAnnouncement) powerAnnouncement.textContent = 'Contingency sequence started. The alternate transmission circuit keeps loads supplied.';
     }
+    heroScene.host.dataset.sceneState = 'auto';
     draw(heroScene);
     start();
   });
@@ -319,7 +378,7 @@
     // Clear an in-progress bolt immediately when motion is disabled, including
     // while a grid scene is offscreen. Stopping RAF alone would freeze the flash.
     scenes.forEach(scene => {
-      if (scene.type !== 'field' && scene.type !== 'contingency') return;
+      if (scene.type !== 'field') return;
       // Once interrupted, consume this bolt's remaining flash. Rapid toggling
       // of Pause/Play must not repeatedly reveal the same frozen bright frame.
       if ((paused || media.matches) && scenePowerEvent(scene)?.stage === 'strike') {

@@ -13,18 +13,21 @@
   const lerp = (a, b, t) => a + (b - a) * t;
   const point = (x, y, z) => [x, y, z];
   const smooth = (value) => { const t = clamp(value, 0, 1); return t * t * (3 - 2 * t); };
-  const labels = Object.freeze({ normal: 'Both circuits in service', strike: 'Fault on circuit A', tripping: 'Circuit A breakers opening', isolated: 'A isolated · B supplies loads', reclosing: 'Resetting circuit A', restoring: 'Returning to base case', restored: 'Both circuits in service' });
+  const labels = Object.freeze({ normal: 'Both supply paths in service', strike: 'Fault on circuit A', tripping: 'Circuit A breakers opening', isolated: 'Circuit A isolated · B supplies loads', substation: 'Substation A isolated · B supplies loads', reclosing: 'Resetting circuit A', restoring: 'Returning to base case', restored: 'Both supply paths in service' });
   const eventCues = Object.freeze({ replay: 7.6, isolated: 10, restored: 19 });
 
   /**
-   * Two parallel three-phase circuits share terminal buses. A fault on A opens
-   * its two terminal breakers; B retains a path to every downstream load.
+   * Two circuits feed separate step-down substations. Compatible transformers
+   * are assumed paralleled at a common MV bus. Line A faults open both line
+   * terminals; a station A outage opens its HV and MV breakers instead.
    * Supply continuity is an assumed illustration, not an N−1 adequacy result.
    * The reset is presentation playback, not an automatic-reclosing scheme.
    */
   function getEventState({ time = 0, reducedMotion = false, state = 'auto' } = {}) {
+    const manual = ['base', 'open', 'redistributed', 'substation'].includes(state);
     const cycleTime = (Number.isFinite(time) ? Math.max(0, time) : 0) % 26;
     let stage = 'normal', sendingOpen = 0, receivingOpen = 0, linePower = 1, downstreamPower = 1, strikeOpacity = 0;
+    let primaryFeederOpen = 0, primaryStationPower = 1;
     if (cycleTime >= 8 && cycleTime < 8.3) {
       stage = 'strike';
       strikeOpacity = reducedMotion ? 0 : Math.sin((cycleTime - 8) / 0.3 * Math.PI) * 0.85;
@@ -52,7 +55,15 @@
       strikeOpacity = 0;
       redistributionGain = state === 'redistributed' ? 1 : 0;
     }
-    return { stage, label: labels[stage], cycleTime, cycleDuration: 26, sendingOpen, receivingOpen, linePower, downstreamPower, alternatePower: 1, redistributionGain, strikeOpacity, restorationProgress: 1 - redistributionGain, canReplay: cycleTime < eventCues.replay || cycleTime >= 18.5 };
+    if (state === 'substation') {
+      stage = 'substation'; sendingOpen = 0; receivingOpen = 1;
+      primaryFeederOpen = 1; primaryStationPower = 0;
+      linePower = 1; strikeOpacity = 0; redistributionGain = 1;
+    }
+    // An energized line or backfed transformer need not carry through-transfer.
+    const lineFlow = linePower && sendingOpen === 0 && receivingOpen === 0 ? 1 : 0;
+    const primaryStationFlow = primaryFeederOpen === 0 ? lineFlow : 0;
+    return { stage, label: labels[stage], cycleTime, cycleDuration: 26, sendingOpen, receivingOpen, linePower, lineFlow, downstreamPower, alternatePower: 1, primaryFeederOpen, alternateFeederOpen: 0, primaryStationPower, alternateStationPower: 1, primaryStationFlow, alternateStationFlow: 1, redistributionGain, strikeOpacity, restorationProgress: 1 - redistributionGain, canReplay: manual || cycleTime < eventCues.replay || cycleTime >= 18.5 };
   }
   const palettes = {
     steel: ['rgba(162,182,178,.21)', 'rgba(57,75,83,.76)', 'rgba(87,103,108,.55)'],
@@ -103,7 +114,7 @@
 
     route(points, phase, start, duration, color = COLORS.gold, width = 0.65, options = {}) {
       const zone = options.zone || 'source';
-      if (options.static !== false) Object.assign(this.line(points, color, 0.48, width, 0.02), { circuitZone: zone });
+      if (options.static !== false) Object.assign(this.line(points, color, 0.48, width, 0.02), { circuitZone: options.energizedZone || zone });
       this.routes.push({ points, phase, start, duration, color, zone, ...options });
     }
 
@@ -313,7 +324,7 @@
     return { mode: 'idle', direction: 0, level: 0.85 };
   }
 
-  function transformer(g, stepDown = false) {
+  function transformer(g, stepDown = false, circuit = 'primary') {
     g.box(0, 0, 0, 1.96, 0.12, 1.8, 'dark');
     g.box(0, 0.16, -0.04, 1.27, 1.07, 1.12, 'steel');
     g.box(0, 1.23, -0.04, 1.42, 0.07, 1.24, 'warm');
@@ -336,7 +347,7 @@
       low.push(g.insulator(-0.43 + phase * 0.43, 1.31, 0.4, 0.32, 0.07));
     }
     g.box(0.73, 0.4, 0.22, 0.22, 0.48, 0.43, 'dark');
-    g.g.flux.push({ point: g.p(0, 0.88, 0.59), radius: 0.4 * g.s, phase: stepDown ? 0.73 : 0.18, zone: stepDown ? 'downstream' : 'source' });
+    g.g.flux.push({ point: g.p(0, 0.88, 0.59), radius: 0.4 * g.s, phase: stepDown ? 0.73 : 0.18, zone: stepDown ? `station-${circuit}` : 'source' });
     return { high, low };
   }
 
@@ -436,6 +447,17 @@
     return { inputs, outputs };
   }
 
+  function feederBreaker(g, circuit) {
+    const inputs = [], outputs = [];
+    for (let phase = 0; phase < 3; phase += 1) {
+      const pole = breakerPole(g, 0, -0.6 + phase * 0.6, 'feeder', phase, circuit);
+      inputs.push(pole.input); outputs.push(pole.output);
+      g.g.route([pole.input, pole.contact, pole.output], phase, 0.825, 0.015, COLORS.ice, 0.6,
+        { zone: `station-${circuit}`, breakerRole: 'feeder', circuit, static: false });
+    }
+    return { inputs, outputs };
+  }
+
   function house(g, arrival) {
     g.box(0, 0.02, 0, 0.95, 0.69, 0.87, 'warm');
     const ridge = point(0, 1.08, 0), left = point(-0.59, 0.71, 0), right = point(0.59, 0.71, 0);
@@ -488,14 +510,14 @@
     geometry.line([...corners, corners[0]], COLORS.muted, 0.4, 0.45, 0.009);
   }
 
-  function loadWindow(g, x, y, z, width, height, color, phase = 0.95, strength = 0.5) {
+  function loadWindow(g, x, y, z, width, height, color, phase = 0.95, strength = 0.5, zone = 'downstream') {
     const corners = [g.p(x, y, z), g.p(x + width, y, z), g.p(x + width, y + height, z), g.p(x, y + height, z)];
     unlitPane(g.g, corners);
-    g.g.face(corners, 'rgba(167,190,179,.13)', 1, 0.007).emission = true;
-    g.g.lights.push({ points: corners, color, phase, strength, zone: 'downstream' });
+    g.g.face(corners, 'rgba(167,190,179,.13)', 1, 0.007).emission = zone;
+    g.g.lights.push({ points: corners, color, phase, strength, zone });
   }
 
-  function distributionCabinet(g) {
+  function distributionCabinet(g, circuit = 'primary') {
     g.box(0, 0.01, 0, 1.09, 0.08, 0.89, 'dark');
     g.box(0, 0.1, 0, 0.95, 0.55, 0.71, 'steel');
     g.box(0, 0.65, 0, 1.01, 0.045, 0.75, 'warm');
@@ -508,8 +530,8 @@
       const output = g.p(x, 0.17, 0.43);
       inputs.push(input);outputs.push(output);
       // Each bay passes one phase independently; there is no common phase bar.
-      g.g.route([input, g.p(x, 0.62, -0.2), g.p(x, 0.57, 0.15), g.p(x, 0.17, 0.37), output], phase, 0.813, 0.022, COLORS.gold, 0.53, { zone: 'downstream' });
-      loadWindow(g, x - 0.04, 0.5, 0.371, 0.055, 0.03, COLORS.gold, 0.835 + phase * 0.018, 0.4);
+      g.g.route([input, g.p(x, 0.62, -0.2), g.p(x, 0.57, 0.15), g.p(x, 0.17, 0.37), output], phase, 0.813, 0.022, COLORS.gold, 0.53, { zone: `station-${circuit}` });
+      loadWindow(g, x - 0.04, 0.5, 0.371, 0.055, 0.03, COLORS.gold, 0.835 + phase * 0.018, 0.4, `station-${circuit}`);
     }
     return { inputs, outputs };
   }
@@ -605,9 +627,10 @@
       sending: [-2.37, -0.8, 0.49],
       towers: [[-1.48, -1.1, 0.63], [0.6, -1.02, 0.63], [2.66, -0.8, 0.63]],
       alternateSending: [-2.37, 1.7, 0.59], alternateTowers: [[-0.98, 1.3, 0.63], [1.48, 1.6, 0.63]],
-      alternateYard: [3.89, 3.4, 0.54],
-      yard: [3.89, 1.06, 0.54], receiving: [1.98, 1.13, 0.62], distribution: [1.13, 0.56, 0.62],
-      poles: [[0.3, 3.7, 0.72], [-2.3, 4.1, 0.72], [-4.25, 4.7, 0.72]], service: [-2.65, 5.7, 0.75],
+      alternateYard: [4.4, 4.6, 0.5],
+      yard: [4.4, 0.9, 0.5], receiving: [2.85, 0.8, 0.62], distribution: [2.1, 1.8, 0.55], feeder: [1.25, 2.1, 0.45],
+      alternateReceiving: [2.85, 4.5, 0.62], alternateDistribution: [2.1, 5.5, 0.55], alternateFeeder: [1.25, 5.8, 0.45],
+      poles: [[0.2, 4.2, 0.72], [-2.3, 4.1, 0.72], [-4.25, 4.7, 0.72]], service: [-2.65, 5.7, 0.75],
       data: [-4.9, 6.9, 0.76], crypto: [-2.5, 7.8, 0.73], industrial: [-0.6, 6.8, 0.66], commercial: [1.3, 6.3, 0.62],
       houses: [[-1.3, 8.9, 0.7], [0.0, 8.8, 0.66]],
     } : {
@@ -618,8 +641,9 @@
       towers: [[-3.15, -0.22, 1], [-0.32, -0.36, 1.08], [2.4, -0.2, 1]],
       alternateSending: [-4.14, 2.7, 0.85], alternateTowers: [[-2.5, 2.9, 0.92], [1.7, 2.9, 0.92]],
       alternateYard: [4.95, 3.0, 0.93],
-      yard: [4.95, 0.0, 0.93], receiving: [6.52, 0.1, 0.95], distribution: [7.98, 0.22, 0.92],
-      poles: [[8.9, 0.95, 0.91], [10.7, 0.95, 0.91], [12.4, 0.95, 0.91]], service: [11.3, 2.0, 0.98],
+      yard: [4.95, 0.0, 0.83], receiving: [6.52, 0.1, 0.83], distribution: [7.98, 0.22, 0.72], feeder: [8.8, 0.3, 0.6],
+      alternateReceiving: [6.52, 3.1, 0.83], alternateDistribution: [7.98, 3.22, 0.72], alternateFeeder: [8.8, 3.3, 0.6],
+      poles: [[9.5, 1.25, 0.91], [11, 1.25, 0.91], [12.4, 1.25, 0.91]], service: [11.3, 2.5, 0.98],
       data: [13.65, -1.69, 1.02], crypto: [11.7, -3.02, 0.92], industrial: [16.13, -2.58, 0.91], commercial: [15.88, -0.1, 0.83],
       houses: [[12.3, 2.49, 0.91], [13.86, 2.98, 0.88], [15.42, 2.42, 0.94]],
     };
@@ -651,6 +675,10 @@
     const alternateYard = receivingYard(make(layout.alternateYard), 'alternate');
     const receiving = transformer(make(layout.receiving), true);
     const distribution = distributionCabinet(make(layout.distribution));
+    const feeder = feederBreaker(make(layout.feeder), 'primary');
+    const alternateReceiving = transformer(make(layout.alternateReceiving), true, 'alternate');
+    const alternateDistribution = distributionCabinet(make(layout.alternateDistribution), 'alternate');
+    const alternateFeeder = feederBreaker(make(layout.alternateFeeder), 'alternate');
     const poles = layout.poles.map(position => distributionPole(make(position)));
     const services = serviceTransformer(make(layout.service));
     const campus = [
@@ -681,33 +709,44 @@
     connectThree(geometry, towers[1], towers[2], 0.40, 0.105, mobile ? 0.18 : 0.39, COLORS.gold, { zone: 'line' });
     connectThree(geometry, towers[2], yard.inputs, 0.505, 0.07, mobile ? 0.07 : 0.2, COLORS.gold, { zone: 'line' });
     connectThree(geometry, yard.outputs, receiving.high, 0.62, 0.085, 0.055, COLORS.gold,
-      { zone: 'downstream', circuit: 'primary', breakerRole: 'receiving' });
-    // Separate conductors share only matching-phase terminal buses. Circuit B
-    // has its own two terminal breakers and a spatially distinct tower route.
+      { zone: 'station-primary', circuit: 'primary', breakerRole: 'receiving' });
+    // Each circuit supplies its own transformer and switchgear. The compatible
+    // MV outputs join only matching phases, after each station's outlet breaker.
     connectThree(geometry, stepUp.high, alternateSending.inputs, 0.2, 0.026, 0.05);
     const alternateChain = [alternateSending.outputs, ...alternateTowers, alternateYard.inputs];
     alternateChain.slice(1).forEach((to, index) => connectThree(geometry, alternateChain[index], to,
       0.244 + index * 0.11, 0.11, mobile ? 0.12 : 0.3, COLORS.ice, { zone: 'alternate' }));
-    connectThree(geometry, alternateYard.outputs, receiving.high, 0.62, 0.085, 0.055, COLORS.ice, { zone: 'downstream' });
+    connectThree(geometry, alternateYard.outputs, alternateReceiving.high, 0.62, 0.085, 0.055, COLORS.ice, { zone: 'station-alternate' });
     geometry.annotations = [
       { point: towers[1][1], text: 'A · transmission', zone: 'line' },
-      { point: alternateTowers[0][1], text: 'B · alternate path', zone: 'alternate' },
+      { point: alternateTowers[0][1], text: mobile ? 'B · alternate' : 'B · alternate path', zone: 'alternate' },
+      { point: make(layout.receiving).p(0, 2.0, 0), text: 'Substation A', zone: 'station-primary' },
+      { point: make(layout.alternateReceiving).p(0, 2.0, 0), text: 'Substation B', zone: 'station-alternate' },
       { point: mobile ? poles[2][1] : poles[1][1], text: 'Distribution', zone: 'downstream', below: mobile },
     ];
     // The strike lands on one phase conductor, not on a shared three-phase
     // junction. The circuit's three poles nevertheless trip together.
     geometry.strike = sag(towers[1][2], towers[2][2], mobile ? 0.18 : 0.39)[17];
 
-    // The receiving transformer feeds distinct switchgear bays before the load
-    // branches. Neither this cabinet nor its feeders tie the phases together.
+    // Two physically separate step-down substations feed the common MV network.
+    // Compatible transformer ratios/phase shifts and adequate spare capacity
+    // are assumptions; this artwork does not solve parallel transformer loading.
     const direction = mobile ? -1 : 1;
-    connectThree(geometry, distribution.outputs, poles[0], 0.835, 0.035, 0.05, COLORS.ice, { zone: 'downstream' });
+    for (const [tx, cabinet, outlet, circuit] of [
+      [receiving, distribution, feeder, 'primary'],
+      [alternateReceiving, alternateDistribution, alternateFeeder, 'alternate'],
+    ]) {
+      const zone = `station-${circuit}`;
+      connectThree(geometry, tx.low, cabinet.inputs, 0.77, 0.043, 0.09, COLORS.gold, { zone });
+      connectThree(geometry, cabinet.outputs, outlet.inputs, 0.813, 0.012, 0.05, COLORS.ice, { zone });
+      // The bus-side stub stays energized from B after A's MV contact opens,
+      // although no through-transfer crosses A's isolated outlet.
+      connectThree(geometry, outlet.outputs, poles[0], 0.84, 0.03, 0.05, COLORS.ice, { zone, energizedZone: 'downstream' });
+    }
     connectThree(geometry, poles[0], poles[1], 0.87, 0.03, 0.12, COLORS.ice, { zone: 'downstream' });
     connectThree(geometry, poles[1], poles[2], 0.90, 0.03, 0.12, COLORS.ice, { zone: 'downstream' });
     connectThree(geometry, poles[1], services.primary, 0.91, 0.025, 0.08, COLORS.ice, { zone: 'downstream' });
     for (let phase = 0; phase < 3; phase += 1) {
-      const terminal = receiving.low[phase];
-      geometry.route(sag(terminal, distribution.inputs[phase], 0.09, 15), phase, 0.77, 0.043, COLORS.gold, 0.7, { zone: 'downstream' });
       const phaseFork = services.secondary[phase];
       campus.forEach((load) => {
         const end = point(load.terminal[0], load.terminal[1] + phase * 0.034, load.terminal[2] + phase * 0.075);
@@ -764,12 +803,22 @@
   }
 
   function routePower(route, event) {
+    if (route.zone === 'station-primary') return event.primaryStationFlow;
+    if (route.zone === 'station-alternate') return event.alternateStationFlow;
     if (route.circuit === 'alternate' || route.zone === 'alternate') return event.alternatePower;
-    if (route.breakerRole === 'sending' && event.sendingOpen > 0) return 0;
+    if (route.breakerRole === 'sending') return event.lineFlow;
     if (route.breakerRole === 'receiving' && event.receivingOpen > 0) return 0;
-    if (route.zone === 'line') return event.linePower;
+    if (route.breakerRole === 'feeder' && event.primaryFeederOpen > 0) return 0;
+    if (route.zone === 'line') return event.lineFlow;
     if (route.zone === 'downstream') return event.downstreamPower;
     return 1;
+  }
+
+  function zonePower(zone, event) {
+    if (zone === 'station-primary') return event.primaryStationPower;
+    if (zone === 'station-alternate') return event.alternateStationPower;
+    if (zone === 'line') return event.linePower;
+    return zone === 'downstream' ? event.downstreamPower : 1;
   }
 
   function drawRoutes(ctx, geometry, view, time, event = getEventState()) {
@@ -780,7 +829,7 @@
       if (power <= 0) continue;
       const direction = route.storage ? battery.direction : 1;
       if (direction === 0) continue;
-      const extraFlow = route.zone === 'alternate' ? event.redistributionGain : 0;
+      const extraFlow = route.zone === 'alternate' || route.zone === 'station-alternate' ? event.redistributionGain : 0;
       for (let train = 0; train < (extraFlow > 0 ? 6 : 3); train += 1) {
       // Mirror the entire storage interval, not only each path. Charging must
       // enter at the AC collector before continuing through converter to DC.
@@ -814,7 +863,8 @@
   function drawBreakers(ctx, geometry, view, event, showIndicators = true) {
     for (const breaker of geometry.breakers) {
       const { group: g, x, y, z, role } = breaker;
-      const open = breaker.circuit === 'alternate' ? 0 : role === 'sending' ? event.sendingOpen : event.receivingOpen;
+      const open = breaker.circuit === 'alternate' ? 0 : role === 'sending' ? event.sendingOpen
+        : role === 'feeder' ? event.primaryFeederOpen : event.receivingOpen;
       const color = open > 0.01 ? '#d9a274' : COLORS.ice;
       const segments = [
         [g.p(x - 0.3, y, z), g.p(x + 0.055 - open * 0.29, y, z)],
@@ -847,7 +897,8 @@
       for (const annotation of geometry.annotations) {
         projection(annotation.point, view, temp);
         const label = annotation.zone === 'line' && event.sendingOpen > 0.99 && event.receivingOpen > 0.99
-          ? 'A · isolated' : annotation.text;
+          ? 'A · isolated' : annotation.zone === 'station-primary' && !event.primaryStationPower
+            ? (view.mobile ? 'Substation A · out' : 'Substation A · isolated') : annotation.text;
         const w = ctx.measureText(label).width + 14;
         const offset = annotation.below ? 29 : -12;
         if (annotation.below) {
@@ -860,46 +911,6 @@
         ctx.globalAlpha = 1;
         ctx.fillText(label, temp[0], temp[1] + offset);
       }
-    } finally { ctx.restore(); }
-  }
-
-  function drawContactDetails(ctx, geometry, width, height, event) {
-    // Reproject the actual modeled contacts, rather than draw an unrelated
-    // switch symbol. A single phase is enlarged; all three poles move together.
-    const margin = width <= 640 ? 12 : 28, gap = 12;
-    const panelWidth = (width - margin * 2 - gap) / 2;
-    const top = height - 132;
-    ctx.save();
-    try {
-      ['sending', 'receiving'].forEach((role, index) => {
-        const left = margin + index * (panelWidth + gap);
-        ctx.globalAlpha = 1; ctx.fillStyle = '#101e24';
-        ctx.fillRect(left, top, panelWidth, 113);
-        ctx.strokeStyle = '#65828a66'; ctx.lineWidth = 0.8;
-        ctx.strokeRect(left, top, panelWidth, 113);
-        ctx.fillStyle = COLORS.ivory; ctx.textAlign = 'left';
-        ctx.font = '11px system-ui, sans-serif';
-        ctx.fillText(role === 'sending' ? 'Sending end' : 'Receiving end', left + 10, top + 18);
-        ['primary', 'alternate'].forEach((circuit, row) => {
-          const breaker = geometry.breakers.find(b => b.role === role && b.circuit === circuit && b.phase === 1);
-          const open = circuit === 'primary' ? (role === 'sending' ? event.sendingOpen : event.receivingOpen) : 0;
-          const y = top + 46 + row * 38;
-          ctx.fillStyle = circuit === 'primary' ? COLORS.gold : COLORS.ice;
-          ctx.font = '10px system-ui, sans-serif';
-          ctx.fillText(`${row === 0 ? 'A' : 'B'} ${open > 0.99 ? 'OPEN' : open > 0.01 ? 'MOVING' : 'CLOSED'}`, left + 10, y + 3);
-          const scale = Math.min(135, panelWidth * 0.72) / breaker.group.s;
-          const view = { cx: 0, ground: 0, scale, depthX: 0, depthY: 0, mobile: false };
-          projection(breaker.group.p(breaker.x, breaker.y, breaker.z), view, temp);
-          const center = left + panelWidth * 0.71;
-          view.cx = center - temp[0]; view.ground = y - temp[1];
-          ctx.fillStyle = '#071014';
-          ctx.fillRect(center - scale * breaker.group.s * 0.36, y - 10, scale * breaker.group.s * 0.72, 20);
-          drawBreakers(ctx, { breakers: [breaker] }, view, event, false);
-        });
-      });
-      ctx.globalAlpha = 1; ctx.fillStyle = COLORS.muted;
-      ctx.font = '10px system-ui, sans-serif'; ctx.textAlign = 'center';
-      ctx.fillText('Contact cutaways · one pole shown per breaker', width / 2, height - 4);
     } finally { ctx.restore(); }
   }
 
@@ -995,7 +1006,7 @@
       glow(ctx, temp[0], temp[1], view.mobile ? 1.5 : 2.3, COLORS.ice, 0.55 + eventPulse(time, 0.01) * 0.35);
     }
     for (const flux of geometry.flux) {
-      const power = routePower(flux, event);
+      const power = zonePower(flux.zone, event);
       if (power <= 0) continue;
       projection(flux.point, view, temp);
       const pulse = eventPulse(time, flux.phase, 0.06);
@@ -1017,7 +1028,7 @@
       if (pulse > 0.15) glow(ctx, temp[0], temp[1], view.mobile ? 1.4 : 2, COLORS.gold, pulse * 0.24 * power);
     }
     for (const light of geometry.lights) {
-      const power = routePower(light, event);
+      const power = zonePower(light.zone, event);
       if (power <= 0) continue;
       const pulse = eventPulse(time, light.phase, 0.11);
       path(ctx, light.points, view, lightBuffer);
@@ -1112,23 +1123,20 @@
   }
 
   /** Paint one transparent, resolution-independent frame of the power journey. */
-  function draw(ctx, { width, height, time = 0, eventTime = time, state = 'auto', presentation = 'hero', reducedMotion = false, suppressFlash = false, pointerX = 0, pointerY = 0 }) {
+  function draw(ctx, { width, height, time = 0, eventTime = time, state = 'auto', reducedMotion = false, suppressFlash = false, pointerX = 0, pointerY = 0 }) {
     if (!ctx || !Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) return;
     const mobile = width <= 640;
     const t = reducedMotion ? 0 : (Number.isFinite(time) ? time : 0);
     const event = getEventState({ time: eventTime, state, reducedMotion: reducedMotion || suppressFlash });
     const px = Number.isFinite(pointerX) ? clamp(pointerX, -1, 1) : 0;
     const py = Number.isFinite(pointerY) ? clamp(pointerY, -1, 1) : 0;
-    const story = presentation === 'story';
     const view = {
       mobile, cx: width * (mobile ? 0.5 : 0.465),
-      ground: story ? (height - 145) * (mobile ? 0.60 : 0.78)
-        : height * (mobile ? 0.655 : 0.72) - (mobile ? clamp((640 - width) / 16, 0, 20) : 0),
+      ground: height * (mobile ? 0.655 : 0.72) - (mobile ? clamp((640 - width) / 16, 0, 20) : 0),
       // Wider phones have larger title typography but the same fixed hero
       // height. Reserve its copy/legend bands rather than scale art by width.
-      scale: mobile ? Math.min(width / (story ? 13.6 : 15),
-        story ? (height - 145) / 11 : lerp(27, 24, clamp((width - 390) / 250, 0, 1)))
-        : Math.min(width / 35.5, (story ? height - 145 : height * 0.41) / 8),
+      scale: mobile ? Math.min(width / 15, lerp(27, 24, clamp((width - 390) / 250, 0, 1)))
+        : Math.min(width / 35.5, height * 0.41 / 8),
       depthX: 0.43 + px * 0.055,
       depthY: (mobile ? 0.36 : 0.29) + py * 0.025,
     };
@@ -1145,8 +1153,8 @@
       for (const item of geometry.items) {
         path(ctx, item.points, view, item.screen);
         ctx.globalAlpha = item.alpha;
-        if (item.emission) ctx.globalAlpha *= event.downstreamPower;
-        if (item.circuitZone) ctx.globalAlpha *= 0.16 + 0.84 * routePower({ zone: item.circuitZone }, event);
+        if (item.emission) ctx.globalAlpha *= zonePower(item.emission, event);
+        if (item.circuitZone) ctx.globalAlpha *= 0.16 + 0.84 * zonePower(item.circuitZone, event);
         if (item.kind === 'face') { ctx.closePath();ctx.fillStyle = item.color;ctx.fill(); }
         else { ctx.strokeStyle = item.color;ctx.lineWidth = item.width;ctx.stroke(); }
       }
@@ -1156,7 +1164,6 @@
       drawRoutes(ctx, geometry, view, t, event);
       drawLightning(ctx, geometry, view, event);
       drawAnnotations(ctx, geometry, view, event);
-      if (story) drawContactDetails(ctx, geometry, width, height, event);
     } finally {
       ctx.restore();
     }

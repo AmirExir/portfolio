@@ -127,6 +127,23 @@ class PortfolioAddressTests(unittest.TestCase):
         content = unescape((REPOSITORY_ROOT / "index.html").read_text(encoding="utf-8"))
         self.assertNotRegex(content, "↗(?!\ufe0e)")
 
+    def test_power_journey_and_contingencies_share_one_animation(self) -> None:
+        """Keep grid exploration in the hero instead of a duplicated project scene."""
+        content = (REPOSITORY_ROOT / "index.html").read_text(encoding="utf-8")
+        self.assertEqual(
+            re.findall(r'data-scene="(?:field|contingency)"', content),
+            ['data-scene="field"'],
+        )
+        self.assertNotIn('id="contingencyScene"', content)
+        self.assertNotIn("assets/js/contingency-scene.js", content)
+        self.assertIn('id="heroField"', content)
+        self.assertEqual(
+            re.findall(r'data-power-state="([^"]+)" aria-controls="([^"]+)"', content),
+            [(state, "heroField") for state in (
+                "auto", "base", "open", "redistributed", "substation",
+            )],
+        )
+
     def test_project_names_and_gnn_launch_are_unambiguous(self) -> None:
         """Keep the featured cards and detail sections aligned with the apps."""
         content = (REPOSITORY_ROOT / "index.html").read_text(encoding="utf-8")
