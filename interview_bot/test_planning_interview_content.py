@@ -20,6 +20,8 @@ EXPANDED_REVISION_ID = "private:transmission-planning-interview-2026-10-20-expan
 EXPANDED_REVISION_SHA256 = "ac81de485b80bbd488a8a5bcc7bc6b795236990f3a83df0bbe735edde6391e99"
 COACHING_REVISION_ID = "private:transmission-planning-interview-2026-10-20-coaching-draft"
 COACHING_REVISION_SHA256 = "f0c4325b6c752a553c777ff48f9c4c998de70ea939472d4699a15bd46a48ab1b"
+Q14_REVISION_ID = "private:q14-transmission-planning-example-2026-10-20"
+Q14_REVISION_SHA256 = "2334af04d1047f7bb88c70faa0346ddebfaa282b67948e062077d0f16bba0787"
 FIRST_REVISION_NUMBERS = set(range(1, 11))
 EXPANDED_REVISION_NUMBERS = set(range(12, 21))
 COACHING_REVISION_NUMBERS = {8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}
@@ -99,7 +101,9 @@ class PlanningInterviewContentTests(unittest.TestCase):
             with self.subTest(question=number):
                 item = self.imported[number]
                 revision = item["answer_revision"]
-                if number in COACHING_REVISION_NUMBERS:
+                if number == 14:
+                    identifier, digest = Q14_REVISION_ID, Q14_REVISION_SHA256
+                elif number in COACHING_REVISION_NUMBERS:
                     identifier, digest = COACHING_REVISION_ID, COACHING_REVISION_SHA256
                 elif number in FIRST_REVISION_NUMBERS:
                     identifier, digest = REVISION_ID, REVISION_SHA256
@@ -184,7 +188,7 @@ class PlanningInterviewContentTests(unittest.TestCase):
     def test_every_exact_question_retrieves_its_imported_answer(self) -> None:
         for number, item in self.imported.items():
             with self.subTest(question=number):
-                focus = "Project management" if number == 14 else "Transmission planning"
+                focus = "Transmission planning"
                 ranked = rank_candidates(item["question"], self.target_chunks, {}, focus=focus)
                 self.assertTrue(ranked)
                 self.assertEqual(self.target_chunks[ranked[0]["index"]].get("source_id"), item["id"])
@@ -215,14 +219,27 @@ class PlanningInterviewContentTests(unittest.TestCase):
                 ranked = rank_candidates(question, self.target_chunks, scores, focus="Transmission planning")
                 self.assertEqual(self.target_chunks[ranked[0]["index"]].get("source_id"), self.imported[15]["id"])
 
-    def test_ems_example_requires_an_appropriate_role_focus(self) -> None:
+    def test_investment_answer_uses_planning_scenario_and_phased_decision(self) -> None:
         item = self.imported[14]
         chunk = self.target_by_id[item["id"]]
-        self.assertEqual(rank_candidates(item["question"], [chunk], {0: 0.99}, focus="Transmission planning"), [])
-        for focus in ("All roles", "Project management"):
+        for focus in ("All roles", "Transmission planning", "Project management"):
             with self.subTest(focus=focus):
                 ranked = rank_candidates(item["question"], [chunk], {0: 0.99}, focus=focus)
                 self.assertEqual([candidate["index"] for candidate in ranked], [0])
+        for heading in (
+            "Root-Cause Model Reconciliation", "Multi-Scenario Sensitivity Analysis",
+            "Least-Regrets Phased Investment", "Stakeholder Alignment",
+        ):
+            self.assertIn(f"**{heading}**", item["action"])
+        for detail in (
+            "SSWG", "PSS®E", "PV/QV", "charging", "345-kV", "reactive",
+            "growth milestones", "in-service dates", "permitting lead times",
+        ):
+            self.assertIn(detail, item["answer"])
+        self.assertIn("recommendation", item["result"])
+        for unsupported in ("GE", "SCADA", "Site Acceptance", "zero formal objections", "millions"):
+            self.assertNotIn(unsupported, item["answer"])
+        self.assertNotIn("How did you evaluate upgrading versus replacing the GE EMS?", item["aliases"])
 
     def test_incremental_plan_reuses_all_unchanged_evidence(self) -> None:
         # Simulate the previous published corpus even after this batch is indexed.
@@ -298,7 +315,7 @@ class PlanningInterviewContentTests(unittest.TestCase):
                     baseline = serialize_content({key: value for key, value in record.items() if key != "answer_revision"})["text"]
                     self.assertEqual(extract_tag_value(serialized, field), extract_tag_value(baseline, field))
 
-    def test_technical_answer_prompt_retains_detail_without_changing_star_format(self) -> None:
+    def test_answer_prompt_uses_structured_star_steps_and_preserves_technical_detail(self) -> None:
         direct = self.target_by_id[self.imported[1]["id"]]
         prompt = answer_messages(self.imported[1]["question"], build_candidate(1, 0, direct), "")[0]["content"]
         for instruction in ("four to six", "ordered steps", "study sequence", "methods", "rationale", "decision criteria", "validation"):
@@ -306,7 +323,15 @@ class PlanningInterviewContentTests(unittest.TestCase):
         self.assertIn("I would", prompt)
         story = self.target_by_id[self.imported[12]["id"]]
         story_prompt = answer_messages(self.imported[12]["question"], build_candidate(1, 0, story), "")[0]["content"]
-        self.assertIn("four spoken paragraphs labeled Situation, Task, Action, Result", story_prompt)
+        for heading in ("**Situation**", "**Task**", "**Action**", "**Result**"):
+            self.assertIn(heading, story_prompt)
+        for instruction in (
+            "numbered steps", "bold descriptive labels", "Preserve numbered steps",
+            "phased recommendation", "decision triggers", "delivery constraints",
+            "without an introduction explaining STAR",
+        ):
+            self.assertIn(instruction, story_prompt)
+        self.assertNotIn("Use four spoken paragraphs", story_prompt)
         self.assertNotIn("four to six", story_prompt)
         for instruction in (
             "fuller Answer field", "technical reasoning", "stakes", "personal responsibility",

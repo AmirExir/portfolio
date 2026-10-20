@@ -236,10 +236,31 @@ explicit stakeholder choices. Q1–7 and Q9 retain their existing detailed
 technical approaches. The new raw draft remains in ignored local storage;
 revision metadata records its identifier and SHA-256 without publishing it.
 
+Q14 subsequently replaces the EMS upgrade example with the user's preferred
+transmission-planning investment scenario. It compares a major 345-kV expansion
+with staged transformer/reactive support under uncertain load and generation,
+using four numbered Action steps: model reconciliation, sensitivity analysis,
+phased investment, and stakeholder alignment. The explicit question beginning
+"Describe a situation in transmission planning" is an alias, and the original
+question remains compatible. The old GE EMS alias is removed. Q14 now qualifies
+for Transmission planning as well as All roles and Project management.
+
+The result describes the phased recommendation and decision package. It does
+not claim commissioned upgrades, quantified savings, or an ERCOT approval.
+Required planning events remain distinct from exploratory stress cases, and
+investment triggers account for routing, permitting, procurement, and
+construction lead times. The revision fingerprint identifies a private
+structured excerpt of the preferred user-message example; the accompanying
+attachment contains the earlier bot outputs and is archived privately too.
+
 The generation prompt allows four to six focused paragraphs or short ordered
 steps for multi-part technical questions, retaining methods, decision criteria,
-and validation. Behavioral answers devote most detail to diagnosis, choices,
-actions, and validation. Preparation instructions and editorial notes remain
+and validation. Behavioral answers use bold Situation, Task, Action, and Result
+headings. Multi-step technical and investment stories use three to five numbered
+Action steps with descriptive labels and the reasoning behind each decision,
+followed by a concise result paragraph or supported outcome bullets. The prompt
+preserves existing numbered steps and avoids an introductory explanation of
+STAR. Preparation instructions and editorial notes remain
 evidence/coaching context rather than spoken script; material qualifications
 such as potential fee avoidance remain in the answer. Optional uncertain dates
 or amounts should be omitted instead of generating phrases such as "my
@@ -256,9 +277,8 @@ context. They are user-provided preparation material, not independently verified
 ERCOT/NERC requirements or verified personal outcomes. Generation and coaching
 instructions retain hypothetical wording, potential versus realized savings,
 effective-date caveats, and details that require confirmation. These prompt rules
-do not guarantee model compliance. In particular, the EMS-upgrade example remains
-an operations example and is excluded from Transmission planning story searches;
-use All roles or Project management to retrieve it.
+do not guarantee model compliance. Other saved EMS examples remain operations
+stories; changing Q14 does not relabel them as transmission-planning experience.
 
 Deploy the source and runtime changes together, then restart/redeploy the app.
 Current managed answers appear in retrieval and the evidence library; a content
@@ -277,11 +297,10 @@ the intended corpus without API calls, use:
 python interview_bot/generate_embeddings.py --sync-manager-content --dry-run
 ```
 
-The latest coaching revision changes 12 managed entries. Their semantic index
-refresh is pending because `OPENAI_API_KEY` is not configured in this local
-environment; the other 154 vectors can be reused. Their latest text is available
-through the runtime source overlay and lexical/exact-question retrieval after
-deployment. Run the sync command in the configured environment, then
+The Q14 replacement differs from the saved semantic index by one managed entry;
+the other 165 vectors can be reused. The latest Q14 text is available through the
+runtime source overlay and lexical/exact-question retrieval after deployment.
+Run the sync command in the configured environment, then
 restart/redeploy or reload the saved embeddings to enable their refreshed
 semantic scores. Do not run the standalone corpus writer first: it would
 invalidate the saved cache before replacement vectors are ready.
