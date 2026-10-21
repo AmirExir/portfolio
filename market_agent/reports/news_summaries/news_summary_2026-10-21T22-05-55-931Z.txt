@@ -1,0 +1,16 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **SpaceX posted a strong quarterly report and discussed a potential Tesla tie-up** — **CNBC, 2026-10-20T22:00:13Z**: SpaceX shares rose in extended trading after reporting **161% Q3 revenue growth**, beating estimates, with strength tied to its **AI business**. CNBC also says **Tesla and SpaceX formed special committees to discuss a merger**.  
+- **SpaceX earnings showed first profit as a public company** — **ABC News, 2026-10-20T21:44:26Z**: SpaceX reported **161% revenue growth** in the September quarter as its AI business expanded.  
+- **Elon Musk said he would support a SpaceX-Tesla merger** — **Yahoo Finance/Yahoo Entertainment, 2026-10-20T22:05:07Z**: Musk said he would back a merger as SpaceX reported **$4.4 billion in net income** for the July-September period.  
+- **Super Micro issued a preliminary business update** — **Biztoc citing Business Wire, 2026-10-20T21:56:12Z**: Super Micro Computer released a **preliminary update for fiscal Q1 2027**. The JSON excerpt does not include the figures, but the headline makes it a fresh AI server/semi-adjacent corporate update.  
+- **OpenAI made a life-sciences AI acquisition** — **Decrypt, 2026-10-20T21:46:04Z**: OpenAI acquired **Orchestra Bio**, adding AI agents for drug-development workflow to its Rosalind life-sciences suite. Terms were not disclosed.  
+- **A WSJ-reported geopolitical/operational issue involving Starlink emerged** — **CNBC, 2026-10-20T21:52:51Z**: CNBC reported that Musk ordered a slowdown of a Starlink service used by Ukraine, citing the **Wall Street Journal** and unnamed officials/sources.
+
+### Interpretation
+- The clearest **fresh, market-relevant driver in this set is AI-linked corporate news centered on SpaceX**, including strong growth/profitability and the added headline risk/upside optionality from possible **SpaceX-Tesla merger discussions**. That is most relevant for **AI infrastructure/growth sentiment** and potentially **Tesla-related event risk**.
+- **Super Micro’s preliminary update** is relevant to the **AI server/hardware complex**, but the supplied article text is too thin to say whether it was positive or negative.
+- **OpenAI’s acquisition** supports the broader theme that **AI capital deployment remains active**, though this is more thematic than immediate index-moving news.
+- There is **no meaningful fresh set here on Fed, Treasury yields, inflation, energy, or major crypto price action**, so this article batch is **too thin to fully explain today’s broader tape**.
+- The **Starlink/Ukraine report** could matter for **headline risk around Musk-linked companies**, but based on the supplied articles alone, it does not establish a broader market direction.
