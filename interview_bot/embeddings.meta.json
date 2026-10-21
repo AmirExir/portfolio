@@ -1,6 +1,6 @@
 {
   "model": "text-embedding-3-large",
-  "chunk_count": 166,
+  "chunk_count": 167,
   "embedding_dimensions": 3072,
-  "chunks_sha256": "4aab843a8d3d25a4667ec58eda452caf4c61c1f3de1fbe0b1b4c2f8e18e644e2"
+  "chunks_sha256": "c824bac8ec8c9845b56d0be45591b08f2b3ef96aa147332accecf2326c8b881c"
 }
