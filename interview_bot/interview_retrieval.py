@@ -7,7 +7,7 @@ from typing import Any
 
 MAX_JOB_DESCRIPTION_CHARS = 20000
 MAX_JOB_SEARCH_CHARS = 4000
-RETRIEVAL_POLICY_VERSION = 5
+RETRIEVAL_POLICY_VERSION = 6
 
 # Shared analysis methods occur in both planning and real-time operations. A
 # planning purpose must be established before those methods can boost ranking.
@@ -96,7 +96,7 @@ CONTENT_TAGS = (
     "Situation", "Task", "Action", "Result", "Reflection", "Answer",
     "Source Document", "Source Question", "Source SHA256", "Source Status",
     "Verification", "Answer Revision", "References", "Preparation Note",
-    "Answer Set", "Question Key", "Scenario ID",
+    "Answer Set", "Question Key", "Scenario ID", "Backup For",
 )
 TAG_LOOK_AHEAD = "|".join(re.escape(tag) for tag in CONTENT_TAGS)
 
@@ -158,6 +158,8 @@ def build_candidate(score: float, idx: int, chunk: Any) -> dict[str, Any]:
         "answer_set": extract_tag_value(text, "Answer Set"),
         "question_key": extract_tag_value(text, "Question Key"),
         "scenario_id": extract_tag_value(text, "Scenario ID"),
+        "backup_for": extract_tag_value(text, "Backup For"),
+        "source_id": chunk.get("source_id", "") if isinstance(chunk, dict) else "",
     }
 
 
@@ -310,9 +312,11 @@ def assigned_candidates(query: str, chunks: list[dict]) -> list[dict[str, Any]] 
     """Resolve explicit authored questions and shortcuts without semantic guesses.
 
     ``None`` leaves an unrecognized request to ordinary retrieval. A recognized
-    assignment yields only its saved record; ambiguous authored aliases fail
-    closed. Focus preferences cannot redirect an explicit assignment. The caller
-    must still apply the existing evidence-review exclusion before serving it.
+    assignment yields its primary record first, followed only by explicitly
+    authored backups for that question. A backup's own question/aliases select
+    only that backup. Ambiguous aliases fail closed. Focus preferences cannot
+    redirect an assignment. Callers must apply evidence-review exclusions and
+    must not automatically substitute a backup for an excluded primary.
     """
     def identity(value: str) -> str:
         return re.sub(r"\W+", " ", _question_identity(value)).strip()
@@ -334,9 +338,24 @@ def assigned_candidates(query: str, chunks: list[dict]) -> list[dict[str, Any]] 
         if numbered_topic[1] != topic_numbers[numbered_topic[2]]:
             return []
     matches = []
+    by_id = {chunk.get("source_id"): chunk for chunk in chunks if chunk.get("source_id")}
+
+    def assigned_record(idx: int, chunk: dict) -> dict[str, Any]:
+        candidate = build_candidate(0, idx, chunk)
+        if candidate["backup_for"]:
+            parent = by_id.get(candidate["backup_for"], {})
+            candidate["answer_set"] = extract_tag_value(parent.get("text", ""), "Answer Set")
+            candidate["question_key"] = extract_tag_value(parent.get("text", ""), "Question Key")
+        candidate.update({
+            "assigned_match": True, "question_match": True,
+            "topic_score": 0.0, "job_description_score": 0.0,
+        })
+        return candidate
+
     for idx, chunk in enumerate(chunks):
         text = chunk["text"]
-        if not extract_tag_value(text, "Answer Set"):
+        backup_for = extract_tag_value(text, "Backup For")
+        if not extract_tag_value(text, "Answer Set") and not backup_for:
             continue
         question_key = extract_tag_value(text, "Question Key")
         number, _, topic = question_key.partition(" ")
@@ -348,15 +367,20 @@ def assigned_candidates(query: str, chunks: list[dict]) -> list[dict[str, Any]] 
         if extract_tag_value(text, "Answer Set") == "ercot-planning-20":
             authored.extend((f"Q{number}", f"Q {number}", f"Question {number}"))
         if normalized_query in {identity(value) for value in authored if value.strip()}:
-            candidate = build_candidate(0, idx, chunk)
-            candidate.update({
-                "assigned_match": True, "question_match": True,
-                "topic_score": 0.0, "job_description_score": 0.0,
-            })
-            matches.append(candidate)
+            matches.append(assigned_record(idx, chunk))
     if not matches:
         return None
-    return matches if len(matches) == 1 else []
+    if len(matches) != 1 or not matches[0]["answer_set"]:
+        return []
+    primary = matches[0]
+    if primary["backup_for"]:
+        return matches
+    backups = [
+        assigned_record(idx, chunk) for idx, chunk in enumerate(chunks)
+        if primary["source_id"]
+        and extract_tag_value(chunk["text"], "Backup For") == primary["source_id"]
+    ]
+    return [primary, *backups]
 
 
 def rank_candidates(
@@ -365,9 +389,9 @@ def rank_candidates(
 ) -> list[dict[str, Any]]:
     """Rank single-source answers, restricting focused stories to matching evidence.
 
-    Assigned questions return their sole saved record. Other exact question/alias
-    matches lead eligible candidates in every focus; remaining candidates use
-    semantic and keyword relevance, with unstructured fallback.
+    Assigned questions return their primary and authored backups. Other exact
+    question/alias matches lead eligible candidates in every focus; remaining
+    candidates use semantic and keyword relevance, with unstructured fallback.
     """
     if focus not in JOB_FOCUSES:
         raise ValueError(f"Unknown job focus: {focus}")
@@ -377,7 +401,7 @@ def rank_candidates(
         return []
     assigned = assigned_candidates(query, chunks)
     if assigned is not None:
-        return assigned
+        return assigned[:k]
     normalized_query = _question_identity(query)
     terms = [term for term in re.findall(r"[a-z0-9]+", normalized_query) if len(term) > 2]
     behavioral = any(phrase in normalized_query for phrase in (
@@ -392,6 +416,8 @@ def rank_candidates(
     ordered_indices = list(semantic_scores) + [i for i in range(len(chunks)) if i not in semantic_scores]
     for idx in ordered_indices:
         chunk = chunks[idx]
+        if extract_tag_value(chunk["text"], "Backup For"):
+            continue
         normalized_text = chunk["text"].lower()
         keyword_hits = sum(term in normalized_text for term in terms)
         exact_hit = bool(normalized_query and normalized_query in normalized_text)

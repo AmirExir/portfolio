@@ -31,6 +31,20 @@ def answer_set() -> list[dict]:
     } for number, topic in enumerate(TOPICS, 1)]
 
 
+def backup_record() -> dict:
+    """Make an explicitly linked disagreement backup with its own script."""
+    return {
+        "id": "rating-backup", "response_type": "story", "principle": "Earn Trust",
+        "question": "How did you resolve the rejected rating submission?",
+        "aliases": ["Q15 backup", "another disagreement story"],
+        "situation": "I rejected a rating based on an outdated planning model.",
+        "task": "Resolve the disagreement using the correct topology.",
+        "action": "I reconciled dates and acknowledged the outdated reference case.",
+        "result": "The correct rating was approved.", "answer": "The complete saved rating story.",
+        "backup_for": "example-15", "scenario_id": "rating-disagreement",
+    }
+
+
 class CuratedAnswerRoutingTests(unittest.TestCase):
     def setUp(self) -> None:
         self.records = answer_set()
@@ -123,6 +137,47 @@ class CuratedAnswerRoutingTests(unittest.TestCase):
         incomplete_metadata.pop("scenario_id")
         with self.assertRaisesRegex(ValueError, "scenario_id"):
             serialize_content(incomplete_metadata)
+
+    def test_backups_follow_only_their_primary_even_with_dominant_semantic_scores(self) -> None:
+        chunks, _, _ = build_chunks([], [backup_record(), *self.records])
+        results = rank_candidates("15 DISAGREEMENT", chunks, {0: 100, 2: 1000})
+        self.assertEqual([item["source_id"] for item in results], ["example-15", "rating-backup"])
+        self.assertEqual(results[1]["question_key"], "15 DISAGREEMENT")
+        self.assertEqual(results[1]["answer_set"], "ercot-planning-20")
+        self.assertTrue(all(item["assigned_match"] for item in results))
+        self.assertEqual(rank_candidates("Q15", chunks, {0: 100}, k=1), results[:1])
+        for record in self.records:
+            if record["id"] != "example-15":
+                with self.subTest(key=record["question_key"]):
+                    unrelated = rank_candidates(record["question"], chunks, {0: 1000})
+                    self.assertEqual([item["source_id"] for item in unrelated], [record["id"]])
+
+    def test_explicit_backup_request_returns_only_its_intact_saved_script(self) -> None:
+        backup = backup_record()
+        chunks, _, _ = build_chunks([], [*self.records, backup])
+        client = Mock()
+        for query in [backup["question"], *backup["aliases"]]:
+            with self.subTest(query=query):
+                results = rank_candidates(query, chunks, {14: 100})
+                self.assertEqual([item["source_id"] for item in results], [backup["id"]])
+                self.assertEqual(render_answer(client, query, results[0], ""), backup["answer"])
+        client.chat.completions.create.assert_not_called()
+        generic = rank_candidates("Tell me about your engineering work.", chunks, {20: 100, 1: 1}, k=30)
+        self.assertNotIn(backup["id"], [item["source_id"] for item in generic])
+
+    def test_backup_validation_rejects_orphans_chains_reused_scenarios_and_double_assignment(self) -> None:
+        backup = backup_record()
+        for target in ("missing-primary", backup["id"]):
+            with self.subTest(target=target), self.assertRaisesRegex(ValueError, "primary assigned answer"):
+                build_chunks([], [*self.records, {**backup, "backup_for": target}])
+        with self.assertRaisesRegex(ValueError, "backup scenario_id must be unique"):
+            build_chunks([], [*self.records, {**backup, "scenario_id": self.records[0]["scenario_id"]}])
+        with self.assertRaisesRegex(ValueError, "backup scenario_id must be unique"):
+            build_chunks([], [*self.records, backup, {**backup, "id": "second-backup"}])
+        with self.assertRaisesRegex(ValueError, "cannot also be a primary"):
+            serialize_content({**backup, "answer_set": "ercot-planning-20", "question_key": "15 DISAGREEMENT"})
+        with self.assertRaisesRegex(ValueError, "answer"):
+            serialize_content({key: value for key, value in backup.items() if key != "answer"})
 
 
 if __name__ == "__main__":

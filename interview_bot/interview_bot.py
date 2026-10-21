@@ -119,6 +119,10 @@ def search(
 
     assigned = assigned_candidates(query, chunks)
     if assigned is not None:
+        # An excluded primary must not make its backup the automatic answer.
+        # An explicitly requested backup is its own first candidate instead.
+        if assigned and not reviewed_candidates(assigned[:1]):
+            return []
         return reviewed_candidates(assigned)
     if client is None:
         raise InterviewServiceError("Story search requires OPENAI_API_KEY to be configured on the server.")
@@ -370,7 +374,8 @@ if active:
     st.markdown(f"**{'Detected Principle' if candidate['response_type'] == 'story' else 'Answer Category'}:** {display_category(candidate)}")
     st.caption(f"Saved evidence: {active['story_id']}. Claims are not independently verified.")
     if candidate.get("assigned_match"):
-        st.caption(f"{candidate['question_key']} · Saved answer for this question")
+        saved_label = "Saved backup for this question" if candidate.get("backup_for") else "Saved answer for this question"
+        st.caption(f"{candidate['question_key']} · {saved_label}")
     if st.session_state.story_reviews.get(active["story_id"], {}).get("review_status") == "Needs correction":
         st.warning("You marked this source as needing correction. Review the source before using this earlier answer.")
     if st.checkbox("Show retrieved context"):

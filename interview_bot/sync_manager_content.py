@@ -60,7 +60,19 @@ def serialize_content(item):
         raise ValueError(f"{content_id}: unsupported response_type '{response_type}'")
 
     assignment = {}
-    if any(field in item for field in ASSIGNMENT_FIELDS):
+    if "backup_for" in item:
+        if any(field in item for field in ("answer_set", "question_key")):
+            raise ValueError(f"{content_id}: a backup cannot also be a primary question assignment")
+        assignment = {
+            "backup_for": require_text(item, "backup_for"),
+            "scenario_id": require_text(item, "scenario_id"),
+        }
+        require_text(item, "answer")
+        fields.extend([
+            f"Backup For: {assignment['backup_for']}",
+            f"Scenario ID: {assignment['scenario_id']}",
+        ])
+    elif any(field in item for field in ASSIGNMENT_FIELDS):
         assignment = {field: require_text(item, field) for field in ASSIGNMENT_FIELDS}
         if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", assignment["answer_set"]):
             raise ValueError(f"{content_id}: 'answer_set' must be a lowercase slug")
@@ -141,6 +153,17 @@ def build_chunks(existing_chunks, manager_content):
 
     base_chunks = [chunk for chunk in existing_chunks if chunk.get("source") != SOURCE_NAME]
     manager_chunks = [serialize_content(item) for item in manager_content]
+    by_id = {chunk["source_id"]: chunk for chunk in manager_chunks}
+    scenario_ids = {chunk["scenario_id"] for chunk in manager_chunks if "answer_set" in chunk}
+    for chunk in manager_chunks:
+        if "backup_for" not in chunk:
+            continue
+        parent = by_id.get(chunk["backup_for"])
+        if parent is None or "answer_set" not in parent:
+            raise ValueError(f"{chunk['source_id']}: backup_for must reference a primary assigned answer")
+        if chunk["scenario_id"] in scenario_ids:
+            raise ValueError(f"{chunk['source_id']}: backup scenario_id must be unique")
+        scenario_ids.add(chunk["scenario_id"])
     assignments = {}
     for chunk in manager_chunks:
         if "answer_set" not in chunk:

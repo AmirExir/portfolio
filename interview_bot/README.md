@@ -195,13 +195,16 @@ with only your own account allowed. See the
 for setup and a signed-out verification check. Local edits have not changed or
 verified that hosted setting.
 
-The October 20 one-to-one revision gives all 20 questions an exclusive answer
+The October 20 director-level revision gives all 20 questions an exclusive answer
 in the `ercot-planning-20` set. Each record has a numbered `question_key`, a
 unique `scenario_id`, source evidence, preparation limits, and an
 `answer_revision` fingerprint linking it to the user's supplied draft. The
 original question and source fingerprint remain intact. The draft supplies
-structure and technical depth; saved personal experience supplies historical
-claims. Unsupported project costs, outcomes, numerical acceptance limits,
+structure and technical depth; saved personal experience and the user's subsequent
+clarifications supply historical claims. Nineteen answers were expanded toward
+the supplied examples; Q14 retains the previously requested exact wording.
+The revision fingerprints distinguish the full draft from the separate Q15 and
+Q20 examples. Unsupported project costs, outcomes, numerical acceptance limits,
 universal SCR thresholds, and assumed expedited approvals are excluded.
 
 | Question / shortcut | Exclusive example or proposed approach |
@@ -218,14 +221,14 @@ universal SCR thresholds, and assumed expedited approvals are excluded.
 | 10 SCENARIOS | Future-system cases, sensitivities, and investment triggers |
 | 11 PRIORITIZE INVESTMENTS | LCRA five-year growth forecast and project ranking |
 | 12 TOOLS | AELAB and contingency-generation automation |
-| 13 LEADERSHIP | Bringing the PEC annual assessment in house |
+| 13 LEADERSHIP | PEC annual assessment; HRML instability traced to South Texas GTC dispatch |
 | 14 UNCERTAINTY | Conflicting AC/EMT evidence, missing load models, and minimax-regret investment |
-| 15 DISAGREEMENT | LCRA tap-bus model and rating disagreement |
+| 15 DISAGREEMENT | Highway 29/Liberty Hill: ownership, regional need, and revised two-substation/three-line scope |
 | 16 DEADLINES | Clearing the LCRA equipment-ratings backlog |
 | 17 BAD NEWS | Reducing a capacitor proposal from seven banks to two |
-| 18 ERROR | Lost Pines dynamic-model parameter-sign error |
-| 19 MENTORING | Developing an LCRA associate engineer |
-| 20 STAKEHOLDERS | PEC operational transition; applying coordination to capital decisions |
+| 18 ERROR | Initially missed consultant PI/PLL model issue; PSS®E/PSCAD mismatch resolved after retuning |
+| 19 MENTORING | LCRA associate engineer; strengths and interests, Train/Trust/Automate/Gate |
+| 20 STAKEHOLDERS | Proposed development/customer/ERCOT alignment of capacity, cost, schedule, and reliability |
 
 No personal episode is reused within this set. Q12, Q13, Q15, Q16, Q17, Q18,
 and Q19 use complete STAR answers with numbered Action steps. Their full answer
@@ -243,20 +246,52 @@ the answer. The preceding greenfield leadership draft was not inserted into Q13
 or another question. Q17 acknowledges that the actual example concerns
 an oversized equipment proposal, not a canceled or infeasible interconnection.
 Q13 retains **potential** avoided annual external fees before internal costs.
+Its stable HRML rerun follows redispatch within the applicable South Texas GTC
+limit; that case correction does not establish that every required stress case
+passes or that no transmission investment is needed. Q15 preserves the user's
+**ERCOT 3** event description (autotransformer outage plus another outage), without
+automatically relabeling it as NERC P6. ERCOT **preferred** the revised layout
+during RPG review; this does not assert Board endorsement or construction.
+The highest-capacity alternative objection is attributed to another stakeholder.
+Q18 includes the user's initial DYRE diagnosis and confirmed resolution after
+consultant PI/PLL retuning. The reported greater-than-10% discrepancy is specific
+to that comparison, not a universal acceptance criterion. Q20 starts with the
+three parties' priorities and uses an alignment matrix, shared study basis,
+economic comparison, phased commitments, and governance; it is prospective and
+does not reuse the PEC operational-cutover story.
 Q19 distinguishes the colleague's achievements from the user's contribution,
-and proposed diagnostic/delegation methods from claimed past assignments.
+and proposed diagnostic/delegation methods from claimed past assignments. It
+includes negotiable work methods, non-negotiable engineering boundaries, and
+review gates with retained decision accountability.
 
 Entering a full authored question, an authored alias, or a shortcut such as
-`12 TOOLS`, `TOOLS`, or `Q12` selects only its assigned answer. `12. TOOLS` and
+`12 TOOLS`, `TOOLS`, or `Q12` selects its assigned primary answer. `12. TOOLS` and
 `#12 TOOLS` also work. A number/topic conflict such as `12 MENTORING` returns
 no answer. Explicit assignments override job-focus preferences and return the
 saved answer verbatim, without query embedding or answer-generation API calls.
-“Different Story” cannot substitute another episode. Existing **Needs correction**
-exclusions still apply: a flagged assigned story yields no substitute. An
+"Different Story" cannot substitute another question's episode. Existing **Needs correction**
+exclusions still apply: a flagged primary story yields no automatic substitute. An
 unrecognized paraphrase follows the existing general retrieval/generation path;
 it is not guaranteed to resolve to a dedicated assignment. Bare numbers are not
 shortcuts. Audio, transcription, and practice feedback retain their own service
 requirements.
+
+Q15 also has an explicitly linked rating-submission backup. Ask `Q15` to get
+the primary disagreement story, then click **Give me another answer or story**
+to read that backup. The next click stops; it does not select an unrelated
+episode. `Q15 backup`, `15 DISAGREEMENT backup`, or `another disagreement story`
+requests the backup directly. Both scripts return their complete saved wording
+without an API call. A backup marked **Needs correction** is excluded. A flagged
+primary never automatically promotes its backup, although the user can still
+request an unflagged backup explicitly.
+
+Backups are standalone managed records with `backup_for` pointing to the primary
+record's ID, their own unique `scenario_id`, and complete answer/provenance fields.
+They omit `answer_set` and `question_key`, preserving exactly 20 primary mappings.
+Their displayed question key comes from the parent. General semantic retrieval
+excludes these backup records; only the parent question or a backup's authored
+question/aliases can select them. Validation rejects missing parents, backup
+chains, duplicate scenario IDs, and records declared as both primary and backup.
 
 Assignment validation requires complete coverage of questions 1–20 and unique
 question keys and scenario IDs. Tests also check the actual narrative anchors
@@ -299,8 +334,8 @@ cannot continue answering from an obsolete candidate. History remains history.
 The library identifies managed evidence by its current source file rather than
 attributing revised text to the saved embedding corpus.
 
-With the current source set, synchronization produces 166 chunks (117 existing
-base chunks and 49 managed entries). An embedding refresh failure leaves the
+With the current source set, synchronization produces 167 chunks (117 existing
+base chunks and 50 managed entries, including the explicit Q15 backup). An embedding refresh failure leaves the
 saved cache intact; it does not roll the runtime answers back to old wording.
 The app does not generate a full embedding cache during startup. To validate
 the intended corpus without API calls, use:
@@ -309,8 +344,9 @@ the intended corpus without API calls, use:
 python interview_bot/generate_embeddings.py --sync-manager-content --dry-run
 ```
 
-The 20 assigned answers differ from the saved semantic index; the other 146
-vectors can be reused. Their latest text is available through the runtime source
+Nineteen revised primary records differ from the saved semantic index and the
+Q15 backup is new; the 147 unchanged vectors, including Q14, can be reused.
+Their latest text is available through the runtime source
 overlay and explicit assignment/lexical retrieval after deployment.
 Run the sync command in the configured environment, then
 restart/redeploy or reload the saved embeddings to enable their refreshed
