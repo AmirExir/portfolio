@@ -22,6 +22,7 @@ class RuntimeContentUITests(unittest.TestCase):
         item = next(record for record in content if record["id"] == "planning-interview-19")
         item["action"] = "I used the latest mentoring framework to review assumptions and engineering decisions."
         item["answer"] = "\n\n".join(item[field] for field in ("situation", "task", "action", "result"))
+        item["reflection"] = "**What would you do differently?**\nI would introduce the latest review checkpoints earlier."
         return content, item
 
     def test_numbered_mentoring_question_serves_latest_source_without_reembedding(self) -> None:
@@ -37,7 +38,10 @@ class RuntimeContentUITests(unittest.TestCase):
             self.assertEqual(selected["question"], item["question"])
             self.assertEqual(extract_tag_value(selected["text"], "Answer"), item["answer"])
             self.assertEqual(selected["text"], serialize_content(item)["text"])
-            self.assertEqual(self.app.session_state["active_answer"]["text"], item["answer"])
+            self.assertEqual(
+                self.app.session_state["active_answer"]["text"],
+                item["answer"] + "\n\n**Follow-up preparation**\n\n" + item["reflection"],
+            )
             self.assertTrue(any("search index is refreshed" in element.value for element in self.app.info))
             self.client.embeddings.create.assert_not_called()
             self.client.chat.completions.create.assert_not_called()
@@ -52,7 +56,9 @@ class RuntimeContentUITests(unittest.TestCase):
         self.assertEqual(extract_tag_value(selected["text"], "Action"), item["action"])
         self.assertEqual(extract_tag_value(selected["text"], "Answer"), item["answer"])
         answer = self.app.session_state["active_answer"]["text"]
-        self.assertEqual(answer, item["answer"])
+        script, reflection = answer.split("\n\n**Follow-up preparation**\n\n")
+        self.assertEqual(script, item["answer"])
+        self.assertEqual(reflection, item["reflection"])
         for detail in (
             "why a violation occurred", "redistributed power", "limiting facility rating",
             "reactive reserves", "PV/QV", "review points",

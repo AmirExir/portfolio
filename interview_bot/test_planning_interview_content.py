@@ -20,6 +20,7 @@ REVISED_NUMBERS = set(range(1, 21))
 Q14_REVISION_ID = "private:q14-weak-grid-investment-2026-10-20"
 Q14_REVISION_SHA256 = "c637a1441eb077a52cd26068be93790cb5ded930fe30134c735a47a86edcef94"
 SPECIAL_REVISIONS = {
+    1: ("private:q1-batch-zero-batch1-ctp-2026-10-21", "8ee0ebd796062fcf0d28fd0e74ce5aa4ab46ccd4a81516209643566faae66cd4"),
     14: (Q14_REVISION_ID, Q14_REVISION_SHA256),
     15: ("private:transmission-planning-disagreement-2026-10-20", "115e460060f804e0de940e1331ecda70a43fbf3038501d2150a9c022adff3229"),
     20: ("private:transmission-planning-stakeholders-2026-10-20", "020fc4351e1090439ab59cc239f409def2111b4fe87169ce3a69418704a51350"),
@@ -137,6 +138,75 @@ class PlanningInterviewContentTests(unittest.TestCase):
         self.assertIn("rather than a project that had to be canceled", self.imported[17]["answer"])
         self.assertIn("not a technically infeasible or canceled interconnection", self.imported[17]["preparation_note"])
         self.assertIn("Those were his achievements", self.imported[19]["result"])
+
+    def test_process_answer_covers_case_building_tracking_and_review_paths(self) -> None:
+        """The saved Q1 response must include the requested end-to-end process."""
+        answer = extract_tag_value(self.target_by_id["planning-interview-01"]["text"], "Answer")
+        for detail in (
+            "Steady State Working Group (SSWG)", "Dynamics Working Group (DWG)",
+            "Planning Working Group (PLWG)", "contingency database", "six years",
+            "20 years", "TSPs also perform their own planning studies", "thermal overloads",
+            "voltage violations", "GINR", "RIOO", "(MIS)", "(GIS)",
+            "Transmission Project and Information Tracking (TPIT)", "Model On Demand (MOD)",
+            "three times a year", "60 kV", "reporting exclusions", "lifecycle cost",
+            "Certificate of Convenience and Necessity (CCN)", "PUCT", "commissioning",
+        ):
+            with self.subTest(detail=detail):
+                self.assertIn(detail, answer)
+        for tier in range(1, 5):
+            self.assertIn(f"| **Tier {tier}** |", answer)
+        self.assertIn("$200 million", answer)
+        self.assertIn("$50 million", answer)
+        self.assertIn("TAC review and comment", answer)
+        self.assertIn("ERCOT Board endorsement", answer)
+        self.assertIn("not every Tier 4 project is neutral", answer)
+        self.assertIn("does not by itself constitute project endorsement", answer)
+
+    def test_process_answer_keeps_effective_and_developing_processes_distinct(self) -> None:
+        """Preserve dated process status and QSA's actual engineering function."""
+        item = self.imported[1]
+        answer = item["answer"]
+        for detail in (
+            "July 10, 2026", "Batch Zero", "October 21, 2026",
+            "Comprehensive Transmission Planning (CTP)", "remain under stakeholder development",
+            "Full Interconnection Study (FIS)", "Quarterly Stability Assessment (QSA)",
+            "additional stability assessment", "generator initial synchronization",
+            "large-load initial energization eligibility", "remaining commissioning",
+        ):
+            with self.subTest(detail=detail):
+                self.assertIn(detail, answer)
+        references = "\n".join(item["references"])
+        for source in ("NPRR1274", "M-B062326-04", "M-D070826-01", "§5.3.5", "§6.4"):
+            self.assertIn(source, references)
+        self.assertIn("PGRR146", item["preparation_note"])
+        self.assertIn("not treated as effective", item["preparation_note"])
+        self.assertIn("do not establish its disposition conclusively", item["preparation_note"])
+
+    def test_batch_transition_keeps_allocation_commitment_and_proposals_distinct(self) -> None:
+        """Prevent a future process or capacity allocation becoming an approval claim."""
+        item = self.imported[1]
+        answer = item["answer"]
+        for detail in (
+            "Batch Zero — the implemented transition", "conditional classification does not establish final inclusion",
+            "steady-state analysis and stability screening", "Load Commissioning Plan (LCP)",
+            "refinement of the transmission upgrades for committed loads",
+            "Batch 1+ — the recurring process being developed", "unmet load ramps",
+            "Load Integration & Ongoing Operations (LIOO)", "planned portal capabilities",
+            "standalone Batch → customer commitment → full reliability studies",
+            "full NERC TPL and ERCOT reliability criteria", "annual, overlapping cycles",
+            "Project Transparency and Alternatives (PTA)", "RPG 2.0",
+            "today's RPG tier requirements have already been replaced",
+            "entering a batch does not guarantee the requested MW or energization date",
+        ):
+            with self.subTest(detail=detail):
+                self.assertIn(detail, answer)
+        self.assertIn("These are proposed changes", answer)
+        self.assertIn("Batch 1+ and CTP remain under stakeholder development", answer)
+        self.assertNotIn("Preliminary Transmission Assessment", answer)
+        references = "\n".join(item["references"])
+        self.assertIn("20261015-ERCOT-CTP-Batch-workshop_3a_Batch_v02.pptx", references)
+        self.assertIn("ERCOT-CTP-Workshop-3b-20261020.pptx", references)
+        self.assertIn("proposed Batch 1+/CTP", item["quick_view"]["cue"])
 
     def test_assigned_episodes_are_not_reused_across_questions(self) -> None:
         """Check narrative content as well as unique assignment labels."""

@@ -313,23 +313,36 @@
     "question": "Can you walk us through the ERCOT transmission planning process, from identifying a system need to evaluating alternatives and obtaining approval for a proposed transmission project?",
     "aliases": [
       "Walk me through the ERCOT transmission planning and project approval process.",
-      "How do you develop and obtain approval for an ERCOT transmission project?"
+      "How do you develop and obtain approval for an ERCOT transmission project?",
+      "How do Batch Zero, Batch 1+, and CTP fit into ERCOT transmission planning?",
+      "What is the difference between Batch Zero, Batch 1+, and Comprehensive Transmission Planning?"
     ],
-    "answer": "I would manage the ERCOT planning process as a chain of engineering decisions: establish the need, demonstrate acceptable alternatives, obtain the applicable endorsement and approvals, and deliver the configuration the studies assumed. My LCRA project-modeling work involved assembling project data, preparing PSS®E and MAGE changes, developing one-line diagrams, and coordinating ERCOT submissions with energization dates. That experience informs how I connect a planning recommendation to its implementation.\n\n**1. Establish the System Need and Required Date**\n\nNeeds can arise from the Regional Transmission Plan, TSP assessments, load growth, resource additions or retirements, and recurring congestion. I would define the affected area, initiating contingency, monitored equipment, performance deficiency, and year the need appears. Reliability and economic drivers need separate supporting evidence. Historical congestion can identify an area to investigate, but it does not establish that the same constraint persists after committed projects are completed.\n\nMy first deliverable would be a need statement supported by an agreed study basis: case vintage, load forecast, generation dispatch, topology, ratings, project assumptions, and applicable criteria. I would distinguish committed development from sensitivities and document the consequences of delay.\n\n**2. Demonstrate the Problem with Appropriate Studies**\n\nI would reproduce the limitation in AC power-flow and contingency studies, then scope voltage-stability, dynamic, and short-circuit work according to the electrical mechanism. A converged power flow does not establish adequate voltage margin or fault recovery. Conversely, a failed run requires investigation before it becomes a system deficiency. I would coordinate assumptions with affected TSPs and retain the cases and event definitions needed to reproduce the finding.\n\n**3. Develop and Compare Credible Alternatives**\n\nThe alternatives might include terminal upgrades, reconductoring, additional circuits, transformer capacity, substation reconfiguration, or appropriate reactive support. I would establish the minimum compliant solution and compare broader alternatives that provide additional transfer or expansion value. Each option would identify resolved violations, transferred constraints, residual risks, construction outages, equipment lead times, and estimated lifecycle cost.\n\nAny operational or non-wires measure must have demonstrated availability, duration, control, and permissible planning treatment. An operating RAS cannot simply replace transmission required by the applicable planning criteria. Economic benefits require the relevant evaluation method; a reliability project does not cease to be necessary because its congestion savings alone are modest.\n\n**4. Complete RPG Review and the Applicable Endorsement**\n\nThe submission would explain the need, alternatives, selected scope, study evidence, costs, and achievable in-service date. I would verify the project tier and exceptions under the effective rules. Under the standard process, Tier 1 involves ERCOT independent review, TAC review and comment, and Board endorsement. Tier 2 generally receives endorsement through ERCOT’s independent-review recommendation; Tier 3 follows its comment-resolution and acceptance process. Regional-plan inclusion alone is not project endorsement.\n\nI would assign owners for stakeholder comments and document whether a comment changes the study basis, project scope, or preferred alternative.\n\n**5. Integrate Certification with Delivery**\n\nWhere a CCN is required, the responsible TSP pursues PUCT certification and routing approval. I would connect that work with right-of-way, engineering, procurement, outages, commissioning, and model updates, including TPIT reporting where applicable. The project schedule must expose dependencies and decision dates, not only a target energization date.\n\n**6. Maintain the Basis Through Execution**\n\nMy management package would show the demonstrated need, selected alternative, approval status, cost range, critical path, and unresolved decisions. Material changes in load, facilities, or timing would trigger an impact review. The planning conclusion remains useful only if the delivered project and operating assumptions remain consistent with the evidence that justified it.",
+    "answer": "ERCOT transmission planning connects coordinated case building, studies across several time horizons, project development, stakeholder review, and commissioning. I would manage those activities as one chain: establish a credible system need, compare solutions, obtain the applicable endorsements and approvals, and deliver the configuration the studies assumed. My LCRA project-modeling work involved assembling project data, preparing PSS®E and MAGE changes, developing one-line diagrams, and coordinating ERCOT submissions with energization dates.\n\n**1. Build a Consistent Study Foundation**\n\nERCOT and the Transmission Service Providers, or TSPs, coordinate network models, generation and load assumptions, project schedules, and contingencies. Several working groups support that foundation:\n\n- **Steady State Working Group (SSWG):** develops the coordinated power-flow cases and associated modeling practices.\n- **Dynamics Working Group (DWG):** supports dynamic models, the stability database, and stability studies.\n- **System Protection Working Group (SPWG):** supports protection and short-circuit modeling.\n- **Planning Working Group (PLWG):** addresses planning criteria, procedures, and improvements to the Planning Guide.\n\nTSPs submit their facility changes and contingency data; ERCOT assembles and validates the coordinated cases and contingency database with the participants. Seasonal, peak, off-peak, and renewable-dispatch conditions expose different limitations. I would verify case vintage, topology, normal and emergency ratings, forecast, dispatch, dynamic-model readiness, and contingency definitions before treating a result as a physical system problem.\n\n**2. Connect Near-Term Needs to Longer-Term Planning**\n\nThe established **Regional Transmission Plan (RTP)** framework is an annual, coordinated assessment of reliability and economic transmission needs across ERCOT over the next **six years**. It identifies regional needs and recommended improvements for coordination and refinement with the TSPs. The **Long-Term System Assessment (LTSA)** examines scenarios extending up to **20 years**, helping assess whether near-term investments remain useful under different futures. I would distinguish this established framework from the specific scheduling and process changes associated with the 2026 large-load transition.\n\nTSPs also perform their own planning studies, identify local and regional needs, develop projects, and submit qualifying proposals to the **Regional Planning Group (RPG)**. The RPG is the stakeholder review forum. Inclusion in the RTP does not by itself constitute project endorsement.\n\n**3. Identify the Trigger and Keep Project Assumptions Current**\n\nA project may be triggered by thermal overloads or voltage violations caused by native-load growth, a new generator or large-load interconnection, generation retirement, or changes in power transfers. Congestion can also justify an economic investigation. I would identify the initiating event, affected equipment, applicable criterion, year of need, and consequence of delay, then reproduce the problem with the appropriate steady-state, stability, or short-circuit studies.\n\nGeneration and load requests are therefore essential planning inputs. I would track generation projects through the **GINR process**, use **RIOO–Interconnection Services** for submissions and updates, consult applicable **Market Information System (MIS)** study postings, and follow ERCOT’s monthly **Generator Interconnection Status (GIS)** report. A request alone is not a commitment: I would reconcile study status, models, milestones, expected capacity, and in-service dates with the assumptions allowed in each planning case.\n\nFor transmission projects, **Transmission Project and Information Tracking (TPIT)** connects project status with the modeled system. TSPs maintain project and phase information in **Model On Demand (MOD)**; ERCOT produces TPIT spreadsheets from that information through the SSWG case-building process and publishes updates three times a year. TPIT covers applicable projects at **60 kV and above across all four tiers**, subject to reporting exclusions. It is not a register of every generation or load request. I would reconcile its dates and scope with interconnection schedules and the study cases.\n\n**4. Connect Batch Zero, Batch 1+, and Comprehensive Transmission Planning**\n\nHistorically, large loads followed the **Large Load Interconnection Study (LLIS)** process. Rapid request growth and interactions among proposed loads made repeated individual studies increasingly difficult. ERCOT ended further legacy LLIS reviews, restudies, and approvals after **July 10, 2026**. I would explain the transition in three parts:\n\n**Batch Zero — the implemented transition.** This is a systemwide process for qualifying large-load requests. I would confirm the project's classification, study eligibility, and verification status with the interconnecting TSP/DSP; a conditional classification does not establish final inclusion. ERCOT performs steady-state analysis and stability screening, identifies transmission improvements with TSP input, and determines supported annual demand through the **Load Commissioning Plan (LCP)**. Customer agreements and financial commitments then establish which loads proceed, followed by refinement of the transmission upgrades for committed loads. The resulting report follows the applicable RPG process and can serve as ERCOT's independent review. TSPs contribute feasibility, cost, schedule, and short-circuit analysis. Capacity allocation still leaves separate commissioning and energization conditions to satisfy.\n\n**Batch 1+ — the recurring process being developed for subsequent batches.** This covers Batch 1 and later cycles, including how new requests and unmet load ramps enter future studies. The October 15 proposals address requests for restudy, treatment of previously uncommitted or excluded loads, and changes to MW, ramp schedules, connection points, and load characteristics. I would check the applicable resubmission, study-fee, financial-security, and model requirements rather than assume that unused capacity or a prior tracking number guarantees future service. ERCOT is also developing **Load Integration & Ongoing Operations (LIOO)** to centralize large-load information; the planned portal capabilities and handoffs are part of the transition, not a substitute for current submission instructions.\n\n**CTP — the broader planning framework.** **Comprehensive Transmission Planning (CTP)** connects batch studies with coordinated models, regional reliability analysis, transmission alternatives, and stakeholder review. ERCOT's **October 20, 2026** workshop proposes a **standalone Batch → customer commitment → full reliability studies** sequence. The batch identifies preliminary solutions and allocates capacity; the subsequent studies assess committed loads against full NERC TPL and ERCOT reliability criteria to produce an actionable transmission plan. The proposed design uses annual, overlapping cycles, allocations across study years Y2–Y6, and coordinated model snapshots. It also proposes **Project Transparency and Alternatives (PTA)** for visibility and targeted alternatives review, alongside an evolving **RPG 2.0** process for other eligible projects. These are proposed changes to how planning fits together; they do not mean today's RPG tier requirements have already been replaced.\n\nAs of **October 21, 2026**, Batch 1+ and CTP remain under stakeholder development. My role would be to connect each customer's requested ramp, eligibility, allocation, commitment, and required upgrades to a credible delivery schedule. I would distinguish those milestones in management reporting and verify the effective rules before making a service commitment; entering a batch does not guarantee the requested MW or energization date.\n\n**5. Compare Technically Credible and Deliverable Alternatives**\n\nI would compare options such as reconductoring, terminal upgrades, additional circuits, transformer capacity, substation reconfiguration, and suitable reactive support. Each alternative must address the demonstrated need without creating unacceptable constraints elsewhere. The comparison would show performance, lifecycle cost, congestion benefits where applicable, expansion flexibility, construction outages, equipment lead times, right-of-way requirements, and achievable service dates.\n\nI would separate reliability justification from economic benefit, document uncertainties, and confirm that any proposed operating measure is permitted and dependable for its intended planning role. The recommendation should explain why the preferred alternative is technically sufficient, economically reasonable, and executable by the need date.\n\n**6. Apply the Correct RPG Tier and Review Path**\n\nThe tier depends on total estimated capital cost, scope, whether a **Certificate of Convenience and Necessity (CCN)** is required, and applicable exceptions. Under the thresholds effective in 2026, the standard paths are:\n\n| Tier | General classification | Review and disposition |\n| --- | --- | --- |\n| **Tier 1** | **$200 million or more** | ERCOT independent review, **TAC review and comment**, and **ERCOT Board endorsement**. |\n| **Tier 2** | **Below $200 million, with a CCN required** | ERCOT independent review; its written recommendation normally constitutes endorsement. |\n| **Tier 3** | **$50 million to below $200 million, no CCN**, plus specified lower-cost projects | RPG comments, resolution, and acceptance; unresolved reasonable concerns can elevate the review. |\n| **Tier 4** | Other projects outside Tiers 1–3, or qualifying **neutral projects** | No required RPG submission or review, ERCOT independent review, or endorsement; applicable modeling and reporting obligations remain. |\n\nFor projects below $50 million that do not require a CCN, the specified Tier 3 categories include more than one mile of 345-kV reconductoring, added 345/138-kV autotransformer capacity, and a new 345-kV substation. A CCN project costing at least $100 million receives Tier 1 treatment if a Market Participant requests it during the comment period. I would also check neutral-project and other special provisions; cost alone does not determine the path, and not every Tier 4 project is neutral.\n\nMy submission would document the need, reproducible studies, alternatives, preferred scope, cost estimate, and feasible in-service date. I would assign owners to stakeholder comments and record changes to assumptions or scope.\n\n**7. Carry Endorsement Through Certification and Connection Readiness**\n\nWhere required, the responsible TSP pursues PUCT certification and routing approval. ERCOT endorsement, a CCN, and permission to energize are distinct milestones. I would connect them to engineering, procurement, outages, construction, model updates, and commissioning.\n\nFor connecting resources and large loads, I would track **Full Interconnection Study (FIS)** completion where applicable, accepted models, required upgrades, checklists, and commissioning plans. The **Quarterly Stability Assessment (QSA)** performs an additional stability assessment using the relevant studies and models; it is more than a checklist review. It supports generator initial synchronization and large-load initial energization eligibility, while the remaining commissioning and authorization conditions still apply.\n\nMy management package would keep the need, chosen solution, approval status, critical path, and unresolved decisions visible. Changes in load, generation, topology, or timing would trigger an impact review so the delivered project remains supported by the planning evidence.",
     "source_document": "private:transmission-planning-interview-2026-10-19",
     "source_question": 1,
     "source_sha256": "4a453873e0c6b555248c4bd715738a5b789513e2e603b9efbd871305b2896068",
     "source_status": "Suggested answer",
     "references": [
-      "ERCOT Planning Guide, August 2026 — Sections 3.1.1–3.1.4: planning, project submissions, and alternative evaluation. Published current compilation checked 18 October 2026; boxed future-implementation text is not automatically effective.",
-      "ERCOT Nodal Protocols, combined publication August 28, 2026 (Section 3 effective August 1, 2026), §3.11.4.9(1)–(3), printed page 3-204 / PDF page 409: project tier review, acceptance, endorsement, and exceptions. Verified October 20, 2026. https://www.ercot.com/files/docs/2026/08/26/August-28-2026-Nodal-Protocols.pdf",
-      "Texas Register — adopted PUCT certification rule — 16 TAC §25.101(b)–(c): certification, routing, and exemptions. Amendment effective 19 August 2026."
+      "ERCOT Planning Guide §3.1.1.1–§3.1.1.4, printed pp. 3-1–3-3; §3.1.2–§3.1.3: LTSA, six-year RTP, project submissions and alternatives. Section 3 effective July 11, 2026; current compilation August 1, 2026. Verified October 20, 2026; boxed future-implementation text is not automatically effective. https://www.ercot.com/files/docs/2026/07/31/August-1-2026-Planning-Guide.pdf",
+      "ERCOT SSWG Procedure Manual, ROS-approved May 7, 2026, §§3.2, 3.3.4.1, 3.3.5.2 and 5.2: cases, TSP MOD project data, TPIT exports, and contingency database. https://www.ercot.com/files/docs/2025/09/24/SSWG_Procedure_Manual_ROS_Approved_05072026.docx",
+      "ERCOT working-group scopes, checked October 20, 2026: SSWG https://www.ercot.com/committees/ros/sswg ; DWG https://www.ercot.com/committees/ros/dwg ; SPWG https://www.ercot.com/committees/ros/spwg ; PLWG https://www.ercot.com/committees/ros/plwg",
+      "ERCOT Planning Guide §6.4, printed pp. 6-11–6-12, Section 6 effective August 1, 2026: Transmission Project and Information Tracking, 60-kV-and-above scope, exclusions, TSP data and three annual report updates. https://www.ercot.com/files/docs/2025/12/01/06-080126.docx",
+      "ERCOT Resource Integration and Resource Adequacy pages, checked October 20, 2026: GINR, RIOO-IS submissions, MIS study postings, readiness checklists, and monthly GIS reports. https://www.ercot.com/services/rq/integration/ ; https://www.ercot.com/gridinfo/resource/index.html",
+      "ERCOT market notice M-B062326-04: no further LLIS reviews, restudies or approvals after July 10, 2026. https://www.ercot.com/services/comm/mkt_notices/M-B062326-04 ; June 18, 2026 Batch Zero announcement: https://www.ercot.com/news/release/06182026-puct-approves-ercots",
+      "ERCOT market notice M-D070826-01 and October 15, 2026 workshop: Comprehensive Transmission Planning and subsequent batches under development, not an effective completed framework as of October 20, 2026. https://www.ercot.com/services/comm/mkt_notices/M-D070826-01 ; https://www.ercot.com/calendar/10152026-Batch_CTP-Workshop-3a_Batch-Scope ; eligibility-verification notice M-A090926-01: https://www.ercot.com/services/comm/mkt_notices/M-A090926-01",
+      "ERCOT Nodal Protocols, publication August 28, 2026; Section 3 effective August 1, 2026; §§3.11.4.1–3.11.4.9, printed pp. 3-199–3-204 / PDF pp. 404–409: tier classification, neutral and escalation provisions, TAC comments, Board endorsement and acceptance. §3.11.4.11 separately addresses customer/resource-funded projects. Verified October 20, 2026. https://www.ercot.com/files/docs/2026/08/26/August-28-2026-Nodal-Protocols.pdf",
+      "ERCOT NPRR1274, effective February 1, 2026: updated RPG capital-cost thresholds. https://www.ercot.com/mktrules/issues/NPRR1274",
+      "ERCOT Planning Guide, current compilation August 1, 2026; §5.3.5, printed pp. 5-26–5-29 (Quarterly Stability Assessment); §5.5, pp. 5-31–5-32 (resource commissioning); §9.6, p. 9-35 (large-load energization). https://www.ercot.com/files/docs/2026/07/31/August-1-2026-Planning-Guide.pdf ; PGRR146 proposes a QSA rename and cadence change but is pending as of October 20, 2026: https://www.ercot.com/mktrules/issues/PGRR146",
+      "ERCOT June 2026 Board System Operations Update, slide 5: requested a good-cause exception for the 2026 RTP. This source establishes the request, not its disposition. https://www.ercot.com/files/docs/2026/05/24/7-System-Operations-Update.pdf",
+      "ERCOT Planning Guide, August 1, 2026 compilation; Section 9 effective July 11, 2026: §§9.2–9.4, pp. 9-2–9-29, classification, LCP, screening, allocation and commitment; §§9.5–9.6, pp. 9-32–9-35, refinement, RPG report, short-circuit studies and energization. Batch Zero provisions checked October 21, 2026. https://www.ercot.com/files/docs/2026/07/31/August-1-2026-Planning-Guide.pdf ; implementation record: https://www.ercot.com/mktrules/issues/PGRR145",
+      "ERCOT Batch 1+ Workshop 3a, October 15, 2026, v02; slides 6–10 (planned LIOO), 12–16 (proposed re-entry and project-change treatment). Preliminary stakeholder proposals, not effective Batch 1+ requirements. Checked October 21, 2026. https://www.ercot.com/files/docs/2026/10/15/20261015-ERCOT-CTP-Batch-workshop_3a_Batch_v02.pptx",
+      "ERCOT CTP Workshop 3b, October 20, 2026; slides 4–6 (proposal status), 8–12 (standalone Batch, commitment, reliability and annual cycles), 16–21 (modeling), 23–27 and 32 (PTA and RPG 2.0). Proposed design, not effective requirements. Checked October 21, 2026. https://www.ercot.com/files/docs/2026/10/14/ERCOT-CTP-Workshop-3b-20261020.pptx"
     ],
     "answer_revision": {
-      "source_document": "private:transmission-planning-director-revision-2026-10-20",
+      "source_document": "private:q1-batch-zero-batch1-ctp-2026-10-21",
       "source_question": 1,
-      "source_sha256": "f0c4325b6c752a553c777ff48f9c4c998de70ea939472d4699a15bd46a48ab1b",
-      "editorial_note": "Expanded toward the user’s detailed supplied answer set with technical mechanisms, director-level decisions, and an exclusive example. Saved personal evidence and the user’s October 20 additions support historical claims; further management methods remain prospective where not established."
+      "source_sha256": "8ee0ebd796062fcf0d28fd0e74ce5aa4ab46ccd4a81516209643566faae66cd4",
+      "editorial_note": "Expanded the large-load section following the user’s October 21 request; hash uses whitespace-normalized request text. Continues private:q1-process-expansion-2026-10-20. Distinguishes effective Batch Zero from proposed Batch 1+ and CTP using the current Planning Guide and October 15/20 ERCOT workshop decks. Preserves the original question, personal anchor, other process sections, and exclusive assignment. Adds retrieval aliases, a matching recall cue, and follow-up preparation. Corrects the SSWG TPIT export reference to §3.3.4.4."
     },
     "answer_set": "ercot-planning-20",
     "question_key": "1 PROCESS",
@@ -337,7 +350,13 @@
     "evidence_sources": [
       "interview_bot/stories.json[34]"
     ],
-    "preparation_note": "Dedicated answer for question 1 (PROCESS); do not substitute another question’s example. Experience anchor: stories.json[34]. Saved personal claims are not independently verified; retain only actions and outcomes you can explain. Apply current governing requirements and study-specific criteria; the pasted draft’s unsupported numeric thresholds and project outcomes are not evidence. Expanded to match the supplied technical answer set’s detailed structure. Personal actions remain limited to the assigned episode; proposed methods, economic analyses, and regulatory decisions are prospective. Use current governing criteria and project-specific evidence for numerical limits."
+    "preparation_note": "Dedicated answer for question 1 (PROCESS); do not substitute another question’s example. Experience anchor: stories.json[34]. Saved personal claims are not independently verified; retain only actions and outcomes you can explain. Regulatory and process wording checked against current ERCOT primary sources as of October 20, 2026; rerun that check before a later interview. The six-year annual RTP is the established framework, not a claim that the ordinary 2026 cycle is proceeding unchanged; ERCOT requested a 2026 exception, and the checked primary sources do not establish its disposition conclusively. Legacy LLIS reviews ended July 10; Batch Zero is the transition and CTP remains under development. QSA still means Quarterly; PGRR146’s proposed Qualifying name and four-month cycle are not treated as effective. Tier costs reflect NPRR1274, effective February 1, 2026. Check all Protocol §3.11.4.3 neutral/escalation provisions: aged-infrastructure/storm-hardening projects at least $50 million initially receive Tier 3 comments before Tier 4 treatment; CCN-exempt entities are classified as though a regulated entity were constructing the project. Solely TSP-criteria projects do not receive ERCOT/Board endorsement, and customer/resource-funded projects have a separate §3.11.4.11 pathway. TPIT has explicit reporting exclusions. PUCT certification and commissioning permissions remain separate from ERCOT planning endorsement. The answer is a proposed management approach, not evidence of a completed project or regulatory approval. Batch-specific wording refreshed October 21, 2026. October 20’s proposed standalone Batch → commitment → full reliability sequence supersedes the earlier combined-study preference. PTA means Project Transparency and Alternatives; RPG 2.0 is a separate proposed pathway. Batch 1+ re-entry/change rules and LIOO capabilities remain proposals or planned capabilities; neither an earlier tracking number nor allocation guarantees service. Do not convert workshop cycle targets or original Batch Zero milestone dates into promised project delivery dates.",
+    "reflection": "**What is the key takeaway?**\nI would keep the demonstrated need connected to the project all the way through delivery. Case building, project endorsement, and connection readiness answer different questions; the recommendation needs a consistent set of assumptions and clear ownership of the dependencies between them.\n\n**What would you challenge first?**\nI would check whether the customer’s requested ramp is eligible, allocated, and committed, and whether the models and transmission schedule support that same ramp. I would confirm which Batch Zero rules or future Batch 1+/CTP provisions actually apply. Making those distinctions early would keep a study allocation from becoming an unsupported promise about capacity or energization.",
+    "quick_view": {
+      "title": "LCRA modeling to ERCOT project delivery",
+      "cue": "LCRA modeling → RTP/TSP needs → Batch Zero allocation and commitment → proposed Batch 1+/CTP coordination → RPG tiers → connection readiness.",
+      "basis": "Experience + approach"
+    }
   },
   {
     "id": "planning-interview-02",
@@ -369,7 +388,13 @@
     "evidence_sources": [
       "interview_bot/stories.json[54]"
     ],
-    "preparation_note": "Dedicated answer for question 2 (VIOLATION); do not substitute another question’s example. Experience anchor: stories.json[54]. Saved personal claims are not independently verified; retain only actions and outcomes you can explain. Apply current governing requirements and study-specific criteria; the pasted draft’s unsupported numeric thresholds and project outcomes are not evidence. Expanded to match the supplied technical answer set’s detailed structure. Personal actions remain limited to the assigned episode; proposed methods, economic analyses, and regulatory decisions are prospective. Use current governing criteria and project-specific evidence for numerical limits."
+    "preparation_note": "Dedicated answer for question 2 (VIOLATION); do not substitute another question’s example. Experience anchor: stories.json[54]. Saved personal claims are not independently verified; retain only actions and outcomes you can explain. Apply current governing requirements and study-specific criteria; the pasted draft’s unsupported numeric thresholds and project outcomes are not evidence. Expanded to match the supplied technical answer set’s detailed structure. Personal actions remain limited to the assigned episode; proposed methods, economic analyses, and regulatory decisions are prospective. Use current governing criteria and project-specific evidence for numerical limits.",
+    "reflection": "**What is the key takeaway?**\nI would diagnose thermal loading and voltage performance separately, then verify the combined remedy. Increasing a line rating may leave the reactive limitation unresolved, while adding reactive support may leave the real-power transfer bottleneck in place.\n\n**What would you challenge first?**\nI would challenge the assumed limiting component and the reason for the low voltage before selecting equipment. I would want the contingency flow path, reactive reserves, control limits, and applicable rating basis visible together so the team can explain why its proposed remedy addresses both findings.",
+    "quick_view": {
+      "title": "LCRA overload study and conductor upgrade",
+      "cue": "Reproduce the overload → compare line upgrade, new line, and network changes → support a conductor upgrade; separately diagnose the question’s voltage issue.",
+      "basis": "Experience + approach"
+    }
   },
   {
     "id": "planning-interview-03",
@@ -404,7 +429,13 @@
     "question_key": "3 NERC",
     "scenario_id": "requirement-to-study-evidence",
     "evidence_sources": [],
-    "preparation_note": "Dedicated answer for question 3 (NERC); do not substitute another question’s example. This is a proposed technical approach, not a claim of a completed personal project. Apply current governing requirements and study-specific criteria; the pasted draft’s unsupported numeric thresholds and project outcomes are not evidence. Expanded to match the supplied technical answer set’s detailed structure. Personal actions remain limited to the assigned episode; proposed methods, economic analyses, and regulatory decisions are prospective. Use current governing criteria and project-specific evidence for numerical limits."
+    "preparation_note": "Dedicated answer for question 3 (NERC); do not substitute another question’s example. This is a proposed technical approach, not a claim of a completed personal project. Apply current governing requirements and study-specific criteria; the pasted draft’s unsupported numeric thresholds and project outcomes are not evidence. Expanded to match the supplied technical answer set’s detailed structure. Personal actions remain limited to the assigned episode; proposed methods, economic analyses, and regulatory decisions are prospective. Use current governing criteria and project-specific evidence for numerical limits.",
+    "reflection": "**What is the key takeaway?**\nI would treat compliance as a traceable chain from an applicable requirement to the model, study, review, and corrective action. A consultant report or successful simulation would be supporting evidence; accountability for the engineering conclusion would remain with the responsible entity.\n\n**What would you challenge first?**\nI would challenge any scope that lists standards without assigning their specific requirements, effective dates, owners, and evidence. Resolving applicability before execution would reduce the risk of completing substantial analysis that still cannot demonstrate the required performance.",
+    "quick_view": {
+      "title": "TPL, FAC, and MOD evidence chain",
+      "cue": "TPL: required performance; FAC: connections and defensible ratings; MOD: model data and validation → assign owners → retain study evidence and corrective actions.",
+      "basis": "Proposed approach"
+    }
   },
   {
     "id": "planning-interview-04",
@@ -435,7 +466,13 @@
     "question_key": "4 GENERATOR",
     "scenario_id": "solar-storage-1000mw-interconnection",
     "evidence_sources": [],
-    "preparation_note": "Dedicated answer for question 4 (GENERATOR); do not substitute another question’s example. This is a proposed technical approach, not a claim of a completed personal project. Apply current governing requirements and study-specific criteria; the pasted draft’s unsupported numeric thresholds and project outcomes are not evidence. Expanded to match the supplied technical answer set’s detailed structure. Personal actions remain limited to the assigned episode; proposed methods, economic analyses, and regulatory decisions are prospective. Use current governing criteria and project-specific evidence for numerical limits."
+    "preparation_note": "Dedicated answer for question 4 (GENERATOR); do not substitute another question’s example. This is a proposed technical approach, not a claim of a completed personal project. Apply current governing requirements and study-specific criteria; the pasted draft’s unsupported numeric thresholds and project outcomes are not evidence. Expanded to match the supplied technical answer set’s detailed structure. Personal actions remain limited to the assigned episode; proposed methods, economic analyses, and regulatory decisions are prospective. Use current governing criteria and project-specific evidence for numerical limits.",
+    "reflection": "**What is the key takeaway?**\nI would define the solar-plus-storage facility by its enforceable POI operating envelope. Solar nameplate, inverter capability, battery MW, and available MWh would inform different limits, especially when the facility can both export generation and import charging power.\n\n**What would you challenge first?**\nI would challenge whether the proposed operating modes can actually occur together and whether the submitted controls enforce the assumed limits. I would then make the upgrade recommendation conditional on the verified import/export envelope, rather than assume storage automatically removes the network constraint.",
+    "quick_view": {
+      "title": "1,000 MW solar and storage interconnection",
+      "cue": "Define POI import/export and battery modes → study thermal, voltage, dynamics, protection, and EMT needs → identify supported operating limits and required upgrades.",
+      "basis": "Proposed approach"
+    }
   },
   {
     "id": "planning-interview-05",
@@ -467,7 +504,13 @@
     "question_key": "5 DATA CENTER",
     "scenario_id": "data-center-750mw-phased-service",
     "evidence_sources": [],
-    "preparation_note": "Dedicated answer for question 5 (DATA CENTER); do not substitute another question’s example. This is a proposed technical approach, not a claim of a completed personal project. Apply current governing requirements and study-specific criteria; the pasted draft’s unsupported numeric thresholds and project outcomes are not evidence. Expanded to match the supplied technical answer set’s detailed structure. Personal actions remain limited to the assigned episode; proposed methods, economic analyses, and regulatory decisions are prospective. Use current governing criteria and project-specific evidence for numerical limits."
+    "preparation_note": "Dedicated answer for question 5 (DATA CENTER); do not substitute another question’s example. This is a proposed technical approach, not a claim of a completed personal project. Apply current governing requirements and study-specific criteria; the pasted draft’s unsupported numeric thresholds and project outcomes are not evidence. Expanded to match the supplied technical answer set’s detailed structure. Personal actions remain limited to the assigned episode; proposed methods, economic analyses, and regulatory decisions are prospective. Use current governing criteria and project-specific evidence for numerical limits.",
+    "reflection": "**What is the key takeaway?**\nI would make the deliverable a supported capacity schedule, with explicit facilities and acceptance conditions for each stage. Customer continuity would need its own demonstration; two feeders on a drawing would not establish independence of their upstream supply or transfer controls.\n\n**What would you challenge first?**\nI would challenge whether the requested date is anchored to credible site models, a defined load ramp, and equipment readiness. Missing UPS, protection, or restoration behavior could change the feasible connection, so those inputs would need owners and deadlines alongside construction.",
+    "quick_view": {
+      "title": "750 MW data center staged connection",
+      "cue": "Confirm campus ramp, UPS behavior, and dependencies → establish supported MW by stage → compare permanent upgrades and interim limits → tie energization to readiness gates.",
+      "basis": "Proposed approach"
+    }
   },
   {
     "id": "planning-interview-06",
@@ -498,7 +541,13 @@
     "question_key": "6 IBR",
     "scenario_id": "weak-network-converter-interactions",
     "evidence_sources": [],
-    "preparation_note": "Dedicated answer for question 6 (IBR); do not substitute another question’s example. This is a proposed technical approach, not a claim of a completed personal project. Apply current governing requirements and study-specific criteria; the pasted draft’s unsupported numeric thresholds and project outcomes are not evidence. Expanded to match the supplied technical answer set’s detailed structure. Personal actions remain limited to the assigned episode; proposed methods, economic analyses, and regulatory decisions are prospective. Use current governing criteria and project-specific evidence for numerical limits."
+    "preparation_note": "Dedicated answer for question 6 (IBR); do not substitute another question’s example. This is a proposed technical approach, not a claim of a completed personal project. Apply current governing requirements and study-specific criteria; the pasted draft’s unsupported numeric thresholds and project outcomes are not evidence. Expanded to match the supplied technical answer set’s detailed structure. Personal actions remain limited to the assigned episode; proposed methods, economic analyses, and regulatory decisions are prospective. Use current governing criteria and project-specific evidence for numerical limits.",
+    "reflection": "**What is the key takeaway?**\nI would match each stability concern to the physical mechanism and to a model capable of representing it. Low inertia, weak-network control interaction, and poor voltage recovery would lead to different investigations and could require different solutions.\n\n**What would you challenge first?**\nI would challenge whether an apparent instability persists with a valid initial condition, suitable network boundary, and intended firmware and settings. That would help distinguish a control or network limitation from a modeling problem before recommending a STATCOM, synchronous support, or a control change.",
+    "quick_view": {
+      "title": "IBR stability from mechanism to mitigation",
+      "cue": "Separate inertia, system strength, recovery, and control interactions → screen with RMS models → investigate EMT needs → verify targeted controls or network reinforcement.",
+      "basis": "Proposed approach"
+    }
   },
   {
     "id": "planning-interview-07",
@@ -528,7 +577,13 @@
     "question_key": "7 ECONOMICS",
     "scenario_id": "incremental-lifecycle-alternative-comparison",
     "evidence_sources": [],
-    "preparation_note": "Dedicated answer for question 7 (ECONOMICS); do not substitute another question’s example. This is a proposed technical approach, not a claim of a completed personal project. Apply current governing requirements and study-specific criteria; the pasted draft’s unsupported numeric thresholds and project outcomes are not evidence. Expanded to match the supplied technical answer set’s detailed structure. Personal actions remain limited to the assigned episode; proposed methods, economic analyses, and regulatory decisions are prospective. Use current governing criteria and project-specific evidence for numerical limits."
+    "preparation_note": "Dedicated answer for question 7 (ECONOMICS); do not substitute another question’s example. This is a proposed technical approach, not a claim of a completed personal project. Apply current governing requirements and study-specific criteria; the pasted draft’s unsupported numeric thresholds and project outcomes are not evidence. Expanded to match the supplied technical answer set’s detailed structure. Personal actions remain limited to the assigned episode; proposed methods, economic analyses, and regulatory decisions are prospective. Use current governing criteria and project-specific evidence for numerical limits.",
+    "reflection": "**What is the key takeaway?**\nI would ask whether the higher-capital alternative earns its additional cost under consistent, credible assumptions. The decision would depend on incremental lifecycle value and delivery risk, with overlapping benefit measures kept separate so the business case remains explainable.\n\n**What would you challenge first?**\nI would challenge the assumption that contributes most to the preferred alternative’s advantage: growth, fuel prices, a neighboring project, or the in-service date. I would show leadership the crossover condition where the recommendation changes, rather than present one forecast payback as certain.",
+    "quick_view": {
+      "title": "Expansion premium versus lifecycle economic value",
+      "cue": "Same reliability baseline → chronological operating costs → incremental lifecycle value → sensitivities and break-even conditions → justify or reject the higher-capital option.",
+      "basis": "Proposed approach"
+    }
   },
   {
     "id": "planning-interview-08",
@@ -558,7 +613,13 @@
     "answer_set": "ercot-planning-20",
     "question_key": "8 DISCREPANCY",
     "scenario_id": "consultant-ercot-result-reconciliation",
-    "evidence_sources": []
+    "evidence_sources": [],
+    "reflection": "**What is the key takeaway?**\nI would reconcile the decision basis before trying to reconcile the numerical result. A different forecast, topology, or allowed control action could explain a legitimate difference; changing inputs merely to match ERCOT’s reported outcome would conceal that distinction.\n\n**What would you challenge first?**\nI would challenge whether both studies represent the same question and event. I would select a material discrepancy, reproduce it, and change one supported assumption at a time, recording whether the finding changes project scope, timing, or only the reported number.",
+    "quick_view": {
+      "title": "Consultant versus ERCOT study reconciliation",
+      "cue": "Reproduce both study bases → compare cases, contingencies, controls, and methods → isolate differences one at a time → reconcile conclusions and decision impacts.",
+      "basis": "Proposed approach"
+    }
   },
   {
     "id": "planning-interview-09",
@@ -590,7 +651,13 @@
     "question_key": "9 STUDY TYPES",
     "scenario_id": "transmission-project-study-scoping",
     "evidence_sources": [],
-    "preparation_note": "Dedicated answer for question 9 (STUDY TYPES); do not substitute another question’s example. This is a proposed technical approach, not a claim of a completed personal project. Apply current governing requirements and study-specific criteria; the pasted draft’s unsupported numeric thresholds and project outcomes are not evidence. Expanded to match the supplied technical answer set’s detailed structure. Personal actions remain limited to the assigned episode; proposed methods, economic analyses, and regulatory decisions are prospective. Use current governing criteria and project-specific evidence for numerical limits."
+    "preparation_note": "Dedicated answer for question 9 (STUDY TYPES); do not substitute another question’s example. This is a proposed technical approach, not a claim of a completed personal project. Apply current governing requirements and study-specific criteria; the pasted draft’s unsupported numeric thresholds and project outcomes are not evidence. Expanded to match the supplied technical answer set’s detailed structure. Personal actions remain limited to the assigned episode; proposed methods, economic analyses, and regulatory decisions are prospective. Use current governing criteria and project-specific evidence for numerical limits.",
+    "reflection": "**What is the key takeaway?**\nI would scope each analysis around the failure it needs to reveal. Acceptable loading would not establish disturbance recovery, sufficient voltage margin, or appropriate fault duty; those conclusions would need their own suitable models and evidence.\n\n**What would you challenge first?**\nI would challenge any scope chosen only because it is the team’s usual software workflow. I would start with what the proposed project changes electrically, then identify the operating conditions, disturbances, controls, and protection questions that determine which analyses are necessary.",
+    "quick_view": {
+      "title": "Four studies, four distinct engineering questions",
+      "cue": "Steady state: loading; transient: disturbance recovery; voltage stability: margin; short circuit: fault duty and protection → scope each study to the project’s electrical effects.",
+      "basis": "Proposed approach"
+    }
   },
   {
     "id": "planning-interview-10",
@@ -620,7 +687,13 @@
     "answer_set": "ercot-planning-20",
     "question_key": "10 SCENARIOS",
     "scenario_id": "future-system-scenario-matrix",
-    "evidence_sources": []
+    "evidence_sources": [],
+    "reflection": "**What is the key takeaway?**\nI would use scenarios to identify which investment decisions remain sound and which depend on observable changes. The useful output would be a need date and an action trigger, with required planning cases retained even when other scenarios look favorable.\n\n**What would you challenge first?**\nI would challenge both the credibility of the combined assumptions and the timing of the investment trigger. A trigger tied only to realized load could be too late for procurement and construction, so I would work backward from the supported need date.",
+    "quick_view": {
+      "title": "Future scenarios and investment decision triggers",
+      "cue": "Vary load growth, renewables, retirements, storage, and outages → build reproducible cases → compare robust alternatives → define expansion triggers and latest decision dates.",
+      "basis": "Proposed approach"
+    }
   },
   {
     "id": "planning-interview-11",
@@ -652,7 +725,13 @@
     "scenario_id": "lcra-five-year-growth-investment-ranking",
     "evidence_sources": [
       "interview_bot/stories.json[58]"
-    ]
+    ],
+    "reflection": "**What is the key takeaway?**\nI would distinguish a mandatory reliability deadline from the incremental economic value of broader scope. Portfolio ranking would help sequence investment, but an attractive congestion benefit elsewhere would not resolve an unmet required performance condition.\n\n**What would you challenge first?**\nI would challenge whether the projects’ benefits have been counted independently even though their network effects overlap. I would evaluate credible combinations and delivery dependencies before recommending an order, so leadership can see which project changes the value or urgency of the next.",
+    "quick_view": {
+      "title": "LCRA load forecasts to investment priorities",
+      "cue": "Five-year data-center and crypto load forecasts + contingency results + Python visuals → rank line, substation, and capacity needs; extend to economic value and portfolio dependencies.",
+      "basis": "Experience + approach"
+    }
   },
   {
     "id": "planning-interview-12",
@@ -689,7 +768,13 @@
       "Private full interview coaching draft, 2026-10-20 — Q12 technical-comparison structure; no supplied universal MQT tolerances imported"
     ],
     "answer_set": "ercot-planning-20",
-    "question_key": "12 TOOLS"
+    "question_key": "12 TOOLS",
+    "reflection": "**What did you learn?**\nAELAB reinforced that useful automation makes study coverage and failures easier to inspect. Finding contingencies missed by manual selection mattered because engineers could connect those results to the intended study scope, not simply because the tool ran more cases.\n\n**What would you do differently?**\nIf I could go back, I would establish a small, independently checked reference set earlier, including expected failures and sequential-outage cases. I would use it to demonstrate each workflow change before broader adoption and make the limits of the tested coverage explicit to users.",
+    "quick_view": {
+      "title": "AELAB automation and missed contingency coverage",
+      "cue": "PSS®E + Python → automate case preparation and P3/P6 combinations → compare against manual studies → identify missed contingencies and violations with traceable outputs.",
+      "basis": "Experience"
+    }
   },
   {
     "id": "planning-interview-13",
@@ -726,7 +811,13 @@
       "Private full interview coaching draft, 2026-10-20 — Q13 coordination and review framework, without invented greenfield project scope or approvals"
     ],
     "answer_set": "ercot-planning-20",
-    "question_key": "13 LEADERSHIP"
+    "question_key": "13 LEADERSHIP",
+    "reflection": "**What did you learn?**\nThe HRML investigation reinforced the need to verify the starting operating condition before interpreting instability as an infrastructure need. Redispatch within the South Texas GTC limit produced a stable rerun, but that result still had to remain separate from evaluating all required stressed conditions.\n\n**What would you do differently?**\nIf I could go back, I would make the initial GTC and dispatch review an earlier team checkpoint. I would preserve the original failure and corrected comparison, then assign the remaining required scenarios explicitly so the case correction could not be mistaken for a complete reliability conclusion.",
+    "quick_view": {
+      "title": "PEC internal assessment and HRML diagnosis",
+      "cue": "Lead three engineers → build internal assessment capability → trace HRML instability to excessive South Texas GTC flows → redispatch → stable rerun separates case setup from infrastructure need.",
+      "basis": "Experience"
+    }
   },
   {
     "id": "planning-interview-14",
@@ -768,7 +859,13 @@
     ],
     "category": "Uncertainty and Investment Decisions",
     "answer_set": "ercot-planning-20",
-    "question_key": "14 UNCERTAINTY"
+    "question_key": "14 UNCERTAINTY",
+    "reflection": "**What is the key takeaway?**\nI would resolve what the models actually establish before applying a decision framework to the remaining uncertainty. Minimax regret would help compare supported investment choices across scenarios; it would not establish the physical cause of a conflicting simulation.\n\n**What would you challenge first?**\nI would challenge the model assumptions and missing customer behavior first, then identify which conclusions remain defensible across credible sensitivities. I would preserve options and defer irreversible commitments that depend on unresolved evidence, while reporting the conditions that could change the preferred investment.",
+    "quick_view": {
+      "title": "Conflicting studies and incomplete customer data",
+      "cue": "Illustrative weak-grid decision: conflicting AC/EMT studies + missing load data → minimax regret → compare reconductoring and dynamic reactive support; validate the proposed controls.",
+      "basis": "Illustrative scenario"
+    }
   },
   {
     "id": "planning-interview-15",
@@ -810,7 +907,13 @@
       "User clarification, 2026-10-20: ERCOT 3 is the contingency type; autotransformer trip plus another trip; ERCOT preferred revised plan in RPG"
     ],
     "answer_set": "ercot-planning-20",
-    "question_key": "15 DISAGREEMENT"
+    "question_key": "15 DISAGREEMENT",
+    "reflection": "**What did you learn?**\nThe Highway 29/Liberty Hill disagreement showed me that revising the physical arrangement can address ownership interests while preserving the transmission need. ERCOT’s preference during RPG review supported the revised direction; it was distinct from final project approval.\n\n**What would you do differently?**\nIf I could go back, I would put ownership boundaries, the ERCOT 3 autotransformer-plus-another-outage condition, and the alternative-screening criteria side by side earlier. That would make it easier to separate a governing performance concern from a design preference and identify where a revised layout could satisfy both parties.",
+    "quick_view": {
+      "title": "Highway 29 ownership and Liberty Hill growth",
+      "cue": "Ownership dispute + native-load growth + ERCOT 3 need → revise one substation/two lines to two substations/three lines → increase proposed ownership; ERCOT preferred the revised RPG plan.",
+      "basis": "Experience"
+    }
   },
   {
     "id": "planning-interview-16",
@@ -847,7 +950,13 @@
     "result": "I cleared the rating backlog and completed Operational and For Construction approvals on time. The structured process improved coordination without treating urgency as permission to accept incomplete evidence. The leadership lesson is to manage the flow of decisions and dependencies, not simply count completed tasks. That lets a team move several projects forward while preserving responsibility for the quality of each engineering recommendation.",
     "principle": "Deliver Results / Ownership / Prioritization",
     "answer_set": "ercot-planning-20",
-    "question_key": "16 DEADLINES"
+    "question_key": "16 DEADLINES",
+    "reflection": "**What did you learn?**\nThe ratings backlog taught me to prioritize the decision a deliverable enables, not just its arrival date. Operational exposure and approaching energization needed attention while incomplete Planned requests could move forward through targeted data collection.\n\n**What would you do differently?**\nIf I could go back, I would establish the intake and readiness view earlier, with the next dependency, input owner, and reviewer identified for each request. I would make missing information and review capacity visible before promising a completion date, while continuing ready work in parallel.",
+    "quick_view": {
+      "title": "LCRA ratings backlog and competing deadlines",
+      "cue": "Operational first → For Construction next → collect missing Planned-rating inputs in parallel → track owners and dependencies → clear backlog with urgent approvals on time.",
+      "basis": "Experience + approach"
+    }
   },
   {
     "id": "planning-interview-17",
@@ -882,7 +991,13 @@
       "Private full interview coaching draft, 2026-10-20 — Q17 evidence-led bad-news communication, business implications and viable alternative"
     ],
     "answer_set": "ercot-planning-20",
-    "question_key": "17 BAD NEWS"
+    "question_key": "17 BAD NEWS",
+    "reflection": "**What did you learn?**\nThe capacitor-bank study reinforced that unfavorable findings are easier to act on when accompanied by a supported alternative. Reducing the proposed scope from seven banks to two preserved the studied objective and turned a challenge to the original recommendation into a concrete equipment decision.\n\n**What would you do differently?**\nIf I could go back, I would agree the limiting scenarios and comparison criteria with the proposing engineer earlier. I would present the smaller configuration against that common basis, keeping avoided installations separate from any financial savings that still require an estimate.",
+    "quick_view": {
+      "title": "Seven capacitor banks reduced to two",
+      "cue": "Challenge an oversized load-interconnection proposal → test contingencies and load sensitivities in PSS®E → demonstrate two banks meet studied objectives → eliminate five proposed installations.",
+      "basis": "Experience"
+    }
   },
   {
     "id": "planning-interview-18",
@@ -923,7 +1038,13 @@
       "User clarification, 2026-10-20: retuning resolved the discrepancy on rerun"
     ],
     "answer_set": "ercot-planning-20",
-    "question_key": "18 ERROR"
+    "question_key": "18 ERROR",
+    "reflection": "**What did you learn?**\nI learned to guard against anchoring on my own first diagnosis. I initially focused on the DYRE setup; the investigation identified PI/PLL control-model tuning, and retuning resolved the comparison on rerun. That established resolution within the tested scope, not universal validity of either model.\n\n**What would you do differently?**\nIf I could go back, I would start a joint comparison of both model packages, their settings, initial conditions, and the measured response before assigning the cause. I would define comparable signals and the test basis before interpreting the percentage mismatch.",
+    "quick_view": {
+      "title": "DYRE assumption corrected through PI/PLL retuning",
+      "cue": "Own the initial DYRE diagnosis → investigate the greater-than-10% RMS/EMT mismatch → identify consultant PI/PLL tuning issue → retune and rerun → discrepancy resolved.",
+      "basis": "Experience"
+    }
   },
   {
     "id": "planning-interview-19",
@@ -959,7 +1080,13 @@
       "Private full interview coaching draft, 2026-10-20 — Q19 progression from tools to diagnosis to decision ownership, without universal tolerances or zero-defect guarantees"
     ],
     "answer_set": "ercot-planning-20",
-    "question_key": "19 MENTORING"
+    "question_key": "19 MENTORING",
+    "reflection": "**What did you learn?**\nMentoring the associate engineer reinforced that technical confidence grows through practical explanation and meaningful ownership. His P.E. license and promotion were his achievements; my role was to support his development while remaining clear about the engineering decisions that required review.\n\n**What would you do differently?**\nIf I could go back, I would discuss strengths, interests, and passions earlier and connect them to the next delegated assignment. I would make Train, Trust, Automate, and Gate explicit, including which methods are negotiable and which study assumptions, criteria, and release decisions require agreement.",
+    "quick_view": {
+      "title": "Associate development: Train, Trust, Automate, Gate",
+      "cue": "LCRA coaching supported an associate who earned his P.E. and promotion → delegate by strengths and interests → train, trust, automate, and gate within explicit engineering boundaries.",
+      "basis": "Experience + approach"
+    }
   },
   {
     "id": "planning-interview-20",
@@ -990,7 +1117,13 @@
       "User request, 2026-10-20: explicit development, major-customer, and ERCOT priorities and how to align them"
     ],
     "answer_set": "ercot-planning-20",
-    "question_key": "20 STAKEHOLDERS"
+    "question_key": "20 STAKEHOLDERS",
+    "reflection": "**What is the key takeaway?**\nI would align development, the customer, and ERCOT around a specific service commitment rather than a shared statement of urgency. That commitment would identify capacity, timing, operating conditions, and cost, while distinguishing customer continuity from transmission planning performance.\n\n**What would you challenge first?**\nI would challenge the assumed trade-off between lowest CapEx and earliest energization. I would compare the cost of delay and supported staged options, then ask each party to accept named dependencies and decision dates. Technical boundaries would remain explicit while scope and sequencing are negotiated.",
+    "quick_view": {
+      "title": "Align development, customer, ERCOT, and TSP",
+      "cue": "Development: cost/date; customer: capacity/continuity; ERCOT/TSP: system performance → agree one study basis → quantify trade-offs → negotiate supported stages with named owners.",
+      "basis": "Illustrative scenario"
+    }
   },
   {
     "id": "planning-backup-15-ratings",
@@ -1024,6 +1157,7 @@
     "evidence_sources": [
       "Previously saved manager_content.json: planning-interview-15 rating-submission narrative"
     ],
-    "backup_for": "planning-interview-15"
+    "backup_for": "planning-interview-15",
+    "reflection": "**What did you learn?**\nI learned that a model mismatch does not establish that the submitting engineer is wrong. The removed tap bus and inconsistent in-service dates showed why equipment identity must be reconciled with the configuration effective on the study date; changing my decision from that evidence was necessary.\n\n**What would you do differently?**\nIf I could go back, I would reconstruct the configuration timeline with the submitting engineer before rejecting the rating. I would frame the discrepancy as something to investigate jointly and check project status before treating the planning case as the authoritative reference."
   }
 ]

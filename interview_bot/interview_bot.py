@@ -13,7 +13,9 @@ from interview_evidence import answer_markdown, build_story_library, story_id
 from interview_services import InterviewServiceError, render_answer, service_error, transcribe
 from interview_sessions import restore_session
 from interview_runtime_content import activate_runtime_content, load_runtime_corpus
-from interview_workspace_ui import render_evidence, render_practice, render_session_controls
+from interview_workspace_ui import (
+    render_evidence, render_planning_quick_view, render_practice, render_session_controls,
+)
 from interview_retrieval import (
     JOB_FOCUSES,
     MAX_JOB_DESCRIPTION_CHARS,
@@ -244,6 +246,7 @@ if mode == "Practice":
     render_session_controls()
     st.stop()
 
+quick_view_question = render_planning_quick_view(chunks)
 browse_stories = st.button("Show stories for this role")
 for message in st.session_state.messages:
     st.chat_message(message["role"]).markdown(message["content"])
@@ -253,7 +256,7 @@ audio = mic_recorder(
     start_prompt=" Start Recording (Tap Once)", stop_prompt=" Stop Recording",
     use_container_width=True, just_once=True, key="question_mic", format="wav",
 )
-user_query = None
+user_query = quick_view_question
 stories_only = False
 if browse_stories:
     role_label = "the pasted job description" if job_description else "my experience"

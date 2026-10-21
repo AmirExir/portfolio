@@ -15,6 +15,25 @@ REVIEW_STATUSES = ("Not reviewed", "Reviewed by me", "Needs correction")
 RESULT_STATUSES = ("Not confirmed", "Reported actual outcome", "Estimate", "Potential benefit", "Mixed outcomes")
 
 
+def planning_quick_view(chunks: list[dict]) -> list[dict[str, str]]:
+    """Return authored primary-answer cues from the validated current corpus.
+
+    Summaries are navigation aids, separate from evidence and answer text.
+    Backups stay outside the twenty primary question assignments.
+    """
+    rows = [
+        {
+            "source_id": chunk["source_id"],
+            "question_key": chunk["question_key"],
+            **chunk["quick_view"],
+        }
+        for chunk in chunks
+        if chunk.get("answer_set") == "ercot-planning-20"
+        and not chunk.get("backup_for") and chunk.get("quick_view")
+    ]
+    return sorted(rows, key=lambda row: int(row["question_key"].split()[0]))
+
+
 def story_id(text: str) -> str:
     """Return a stable ID for the same normalized story situation across aliases."""
     identity = content_identity(text, "story")

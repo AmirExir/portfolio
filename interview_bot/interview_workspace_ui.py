@@ -6,13 +6,62 @@ import json
 import streamlit as st
 from streamlit_mic_recorder import mic_recorder
 
-from interview_evidence import RESULT_STATUSES, REVIEW_STATUSES, coverage_map, review_for_story
+from interview_evidence import (
+    RESULT_STATUSES, REVIEW_STATUSES, coverage_map, planning_quick_view, review_for_story, story_id,
+)
 from interview_retrieval import clear_candidate_pool, topic_score
 from interview_services import (
     InterviewServiceError, parse_feedback, practice_messages, practice_timing,
     request_text, transcribe,
 )
 from interview_sessions import load_session, session_bytes
+
+
+def render_planning_quick_view(chunks: list[dict]) -> str | None:
+    """Show the planning keyword map and return an explicitly chosen shortcut."""
+    rows = planning_quick_view(chunks)
+    if not rows:
+        return None
+    flagged_ids = {
+        chunk.get("source_id") for chunk in chunks
+        if chunk.get("response_type") == "story"
+        and st.session_state.story_reviews.get(story_id(chunk["text"]), {}).get("review_status")
+        == "Needs correction"
+    }
+    with st.expander("Planning interview cheat sheet"):
+        st.caption(
+            "One keyword, one assigned story or approach. Use the recall cue to rehearse, "
+            "then open the full answer and its follow-up preparation. "
+            "Proposed approaches and illustrative scenarios use ‘I would.’"
+        )
+        st.dataframe(
+            [{
+                "Shortcut": row["question_key"],
+                "Story / approach": ("Needs correction · " if row["source_id"] in flagged_ids else "") + row["title"],
+                "Recall cue": "Review this story before rehearsing." if row["source_id"] in flagged_ids else row["cue"],
+                "Basis": row["basis"],
+            } for row in rows],
+            hide_index=True, use_container_width=True, height=440,
+        )
+        by_key = {row["question_key"]: row for row in rows}
+        if st.session_state.get("planning_quick_view_question") not in by_key:
+            st.session_state.pop("planning_quick_view_question", None)
+        selected_key = st.selectbox(
+            "Choose a keyword", list(by_key), key="planning_quick_view_question",
+            format_func=lambda key: f"{key} · {by_key[key]['title']}",
+        )
+        selected = by_key[selected_key]
+        st.markdown(f"**{selected['title']}** · {selected['basis']}")
+        if selected["source_id"] in flagged_ids:
+            st.warning(
+                "You marked this story as needing correction. "
+                "Review it in Story evidence and job coverage before rehearsing."
+            )
+        else:
+            st.write(selected["cue"])
+        if st.button("Show mapped answer"):
+            return selected_key
+    return None
 
 
 def render_session_controls() -> None:

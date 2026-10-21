@@ -86,7 +86,12 @@ class Q14PlanningUITests(unittest.TestCase):
                 ):
                     self.assertIn(detail.casefold(), answer.casefold())
                 self.assertNotRegex(answer, r"(?i)\b(?:GE|EMS|SCADA)\b|energy management system")
-                self.assertEqual(self.app.session_state["active_answer"]["text"], source["answer"])
+                displayed = self.app.session_state["active_answer"]["text"]
+                heading = "\n\n**Follow-up preparation**\n\n"
+                self.assertEqual(displayed.count(heading), 1)
+                script, reflection = displayed.split(heading)
+                self.assertEqual(script, source["answer"])
+                self.assertEqual(reflection, source["reflection"])
                 self.assertEqual(len(self.app.session_state["candidate_stories"]), 1)
         self.client.embeddings.create.assert_not_called()
         self.client.chat.completions.create.assert_not_called()

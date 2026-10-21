@@ -59,6 +59,9 @@ def serialize_content(item):
     else:
         raise ValueError(f"{content_id}: unsupported response_type '{response_type}'")
 
+    if "reflection" in item:
+        fields.append(f"Reflection: {require_text(item, 'reflection')}")
+
     assignment = {}
     if "backup_for" in item:
         if any(field in item for field in ("answer_set", "question_key")):
@@ -131,12 +134,29 @@ def serialize_content(item):
     if "preparation_note" in item:
         fields.append(f"Preparation Note: {require_text(item, 'preparation_note')}")
 
+    display_fields = {}
+    if "quick_view" in item:
+        summary = item["quick_view"]
+        if assignment.get("answer_set") != "ercot-planning-20":
+            raise ValueError(f"{content_id}: quick_view requires a primary planning question")
+        if not isinstance(summary, dict) or set(summary) != {"title", "cue", "basis"}:
+            raise ValueError(f"{content_id}: quick_view must contain title, cue, and basis")
+        summary = {field: require_text({**summary, "id": content_id}, field)
+                   for field in ("title", "cue", "basis")}
+        if summary["basis"] not in {
+            "Experience", "Experience + approach", "Proposed approach", "Illustrative scenario",
+        }:
+            raise ValueError(f"{content_id}: unsupported quick_view basis")
+        # Navigation cues are not answer evidence or embedding inputs.
+        display_fields["quick_view"] = summary
+
     return {
         "text": " | ".join(fields),
         "source": SOURCE_NAME,
         "source_id": content_id,
         "response_type": response_type,
         **assignment,
+        **display_fields,
     }
 
 

@@ -58,6 +58,24 @@ policy clears old suggestions and active answer actions once; job settings and
 conversation history remain. No story/embedding regeneration is needed for this
 ranking change. Restart/redeploy the app and ask the question again to use it.
 
+## Planning interview cheat sheet
+
+In **Answer assistant**, open **Planning interview cheat sheet** for the 20 numbered
+keywords, their assigned stories or approaches, and a short recall cue. The **Basis**
+column distinguishes experience, experience plus a proposed approach, proposed
+approaches, and illustrative scenarios. Choose a keyword and click **Show mapped
+answer** to open its full saved answer and follow-up preparation. Selecting a keyword
+alone does not submit a question. You can also type a shortcut such as `15 DISAGREEMENT`
+into the question box.
+
+Each summary lives in its primary record's optional `quick_view` field in
+`manager_content.json`. The quick view follows the current runtime content and
+preserves the existing one-to-one assignments and review controls. Q15's ratings
+disagreement remains an explicitly requested backup, outside the 20-row primary
+map. Stories marked **Needs correction** show that status and hide their recall
+cues until the review status changes. Summaries are navigation metadata, excluded from answer text and embedding
+inputs; changing a cue does not require an embedding refresh or an AI request.
+
 ## Answer actions and practice
 
 The selected answer, its exact saved context, and generated audio survive normal
@@ -66,6 +84,13 @@ download operate on that selection without repeating search or answer generation
 Audio is held in memory; use **Download answer audio** to save it on your device.
 No new audio files are written to the server. Retrying an answer keeps the same
 question and source. A failed request does not append an empty assistant message.
+
+Answers now end with **Follow-up preparation**: two brief, story-specific answers
+to **What did you learn?** and **What would you do differently?** For hypothetical
+questions, the prompts are **What is the key takeaway?** and **What would you
+challenge first?** Hindsight is conditional preparation, not a claim that an
+additional improvement was already implemented. This section is included in the
+answer download, optional session history, and answer audio.
 
 Choose **Practice** to select a saved story and interview question, then type your
 own answer or record it. Recording alone does not send practice audio to the AI
@@ -203,13 +228,13 @@ original question and source fingerprint remain intact. The draft supplies
 structure and technical depth; saved personal experience and the user's subsequent
 clarifications supply historical claims. Nineteen answers were expanded toward
 the supplied examples; Q14 retains the previously requested exact wording.
-The revision fingerprints distinguish the full draft from the separate Q15 and
-Q20 examples. Unsupported project costs, outcomes, numerical acceptance limits,
+The revision fingerprints distinguish the full draft from the separate Q1 process
+expansion and Q15 and Q20 examples. Unsupported project costs, outcomes, numerical acceptance limits,
 universal SCR thresholds, and assumed expedited approvals are excluded.
 
 | Question / shortcut | Exclusive example or proposed approach |
 | --- | --- |
-| 1 PROCESS | LCRA project modeling and development; ERCOT planning workflow |
+| 1 PROCESS | LCRA modeling; case building, study horizons, project tracking, large-load transition, four RPG tiers, and commissioning |
 | 2 VIOLATION | LCRA conductor alternatives; thermal and voltage diagnosis |
 | 3 NERC | Requirement-to-study evidence matrix for TPL, FAC, and MOD |
 | 4 GENERATOR | Proposed 1,000 MW solar-plus-storage interconnection |
@@ -229,6 +254,29 @@ universal SCR thresholds, and assumed expedited approvals are excluded.
 | 18 ERROR | Initially missed consultant PI/PLL model issue; PSS®E/PSCAD mismatch resolved after retuning |
 | 19 MENTORING | LCRA associate engineer; strengths and interests, Train/Trust/Automate/Gate |
 | 20 STAKEHOLDERS | Proposed development/customer/ERCOT alignment of capacity, cost, schedule, and reliability |
+
+Q1's October 20 process expansion retains its original question and LCRA anchor.
+It covers working groups, coordinated cases and contingencies, six-year RTP and
+longer-term scenarios, TSP-originated needs, GINR/MIS tracking, MOD-derived TPIT,
+alternatives, all four RPG tiers, certification, and QSA/commissioning readiness.
+Dated primary references accompany the saved answer. The wording distinguishes
+the July 2026 LLIS cutoff and Batch Zero transition from CTP still under development,
+uses the tier thresholds effective February 1, 2026, and explains that QSA performs
+a stability assessment. Preparation notes preserve special tier provisions,
+reporting exclusions, and the unresolved disposition of the requested 2026 RTP
+exception. These are process facts checked as of October 20, 2026, not automatically
+updated regulatory guidance. Q1 remains available through the existing runtime
+content overlay without rewriting the saved embedding cache.
+
+The October 21 Q1 addition explains Batch Zero's classification, screening,
+allocation, commitment, and transmission-refinement steps, then distinguishes
+the proposed recurring Batch 1+ process from the broader CTP framework. It uses
+the October 15/20 ERCOT workshops for future-process details, including the latest
+standalone Batch → commitment → full reliability sequence, planned LIOO portal,
+and separate proposed PTA and RPG 2.0 pathways. Workshop proposals are not presented
+as effective requirements or promised connection dates. The Q1 recall cue,
+follow-up preparation, and aliases for questions comparing these processes are
+updated together; the other 19 primary assignments remain unchanged.
 
 No personal episode is reused within this set. Q12, Q13, Q15, Q16, Q17, Q18,
 and Q19 use complete STAR answers with numbered Action steps. Their full answer
@@ -300,6 +348,23 @@ correction gating, and all 20 shortcuts through the UI. Source edits are loaded
 by the runtime overlay; an embedding refresh is not required for these explicit
 matches. The general generation prompt below applies to other questions.
 
+All 20 primary answers and the Q15 backup have an authored `reflection` field,
+serialized separately as `Reflection`. Explicit assignments append this text
+under **Follow-up preparation** without an API call. The main `answer`, STAR
+fields, and their source fingerprints remain unchanged, including Q14's exact
+body. The optional field must contain nonempty text when supplied; older records
+without it retain their existing saved-script behavior. A reflection-only change
+preserves the story's identity but changes its source hash, invalidating stale
+review conclusions, semantic scores, and current answer/audio state through the
+existing source-version checks. Correction flags remain in force.
+
+Other questions request the same concise follow-up format in their existing
+answer-generation call, using only the selected source. This includes adapting
+older prose `Reflection` fields. The prompt keeps lessons grounded in the saved
+experience, proposed improvements conditional, and hypothetical scenarios
+prospective. The application does not append a second saved section to generated
+answers. As with other generated wording, prompt compliance requires review.
+
 The generation prompt allows four to six focused paragraphs or short ordered
 steps for multi-part technical questions, retaining methods, decision criteria,
 and validation. Behavioral answers use bold Situation, Task, Action, and Result
@@ -344,8 +409,8 @@ the intended corpus without API calls, use:
 python interview_bot/generate_embeddings.py --sync-manager-content --dry-run
 ```
 
-Nineteen revised primary records differ from the saved semantic index and the
-Q15 backup is new; the 147 unchanged vectors, including Q14, can be reused.
+All 20 primary records now have added reflection text, and the Q15 backup is
+new relative to the saved semantic index; the 146 unchanged vectors can be reused.
 Their latest text is available through the runtime source
 overlay and explicit assignment/lexical retrieval after deployment.
 Run the sync command in the configured environment, then
