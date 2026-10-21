@@ -102,11 +102,13 @@ html:not(.js) .site-header { position: relative; top: 0; height: auto; padding-t
 .proof-item div > span { font-size: .66rem; color: #93a19f; }
 .proof-number { font-size: 1rem; color: #bc9a67; }
 
-/* Reserve a clean band for the transmission towers beneath the hero actions. */
+/* Bound desktop typography so the CTA row clears the tallest transmission
+   label even when the canvas reaches its maximum scale on wide screens. */
 @media (min-width: 821px) {
-  .hero-inner { padding-top: 114px; }
+  .hero-inner { padding-top: 104px; }
   .hero .eyebrow { margin-bottom: 20px; }
-  .hero h1 { font-size: clamp(4.5rem, 5.8vw, 6rem); margin-bottom: 16px; }
+  .hero h1 { font-size: clamp(4.5rem, 5.2vw, 5rem); margin-bottom: 10px; }
+  .hero h1 em { font-size: 1.45em; }
   .hero-lede { margin-bottom: 15px; }
   .hero-downloads { flex-basis: auto; margin: 0 0 0 6px; }
   .hero-downloads summary { min-height: 46px; display: flex; align-items: center; }

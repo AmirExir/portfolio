@@ -618,6 +618,34 @@
     return g.p(-0.67, 0.21, -0.16);
   }
 
+  function highRise(g, floors, color) {
+    const height = 0.32 + floors * 0.27;
+    g.box(0, 0.02, 0, 1.24, height, 1.02, 'dark');
+    g.box(0, height + 0.02, 0, 1.32, 0.055, 1.1, 'steel');
+    // A recessed mechanical crown and fine floor bands keep the skyline in
+    // the same architectural wireframe style as the smaller commercial loads.
+    g.box(0.06, height + 0.075, -0.08, 0.79, 0.22, 0.7, 'steel');
+    g.box(0.06, height + 0.295, -0.08, 0.87, 0.035, 0.77, 'steel');
+    for (let row = 0; row < floors; row += 1) {
+      const y = 0.26 + row * 0.27;
+      for (let column = 0; column < 4; column += 1) {
+        loadWindow(g, -0.52 + column * 0.28, y, 0.518, 0.18, 0.17,
+          (row + column) % 4 === 0 ? COLORS.gold : color,
+          0.95 + row * 0.002 + column * 0.003, 0.25);
+      }
+      g.line([point(-0.62, y - 0.055, 0.525), point(0.62, y - 0.055, 0.525), point(0.62, y - 0.055, -0.51)], COLORS.ice, 0.4, 0.5);
+      for (let bay = 0; bay < 3; bay += 1) {
+        const z = -0.4 + bay * 0.3;
+        const corners = [g.p(0.627, y, z), g.p(0.627, y, z + 0.19), g.p(0.627, y + 0.17, z + 0.19), g.p(0.627, y + 0.17, z)];
+        unlitPane(g.g, corners);
+        g.g.lights.push({ points: corners, color, phase: 0.96 + row * 0.002, strength: 0.2, zone: 'downstream' });
+      }
+    }
+    for (const x of [-0.6, -0.01, 0.6]) g.line([point(x, 0.12, 0.53), point(x, height, 0.53)], COLORS.ivory, 0.46, 0.6);
+    g.box(0, 0.2, 0.63, 0.66, 0.045, 0.28, 'steel');
+    return g.p(-0.64, 0.2, -0.16);
+  }
+
   function connectThree(geometry, from, to, start, duration, amount = 0.13, color = COLORS.gold, options = {}) {
     for (let phase = 0; phase < 3; phase += 1) geometry.route(sag(from[phase], to[phase], amount), phase, start, duration, color, 0.65, options);
   }
@@ -660,6 +688,7 @@
       poles: [[0.2, 3.1, 0.72], [-2.3, 3.1, 0.72], [-4.25, 3.1, 0.72]],
       alternatePoles: [[0.2, 6.1, 0.72], [-2.3, 6.1, 0.72], [-4.25, 6.1, 0.72]], service: [-2.65, 5.7, 0.75],
       data: [-4.9, 6.9, 0.76], crypto: [-2.5, 7.8, 0.73], industrial: [-0.6, 6.8, 0.66], commercial: [1.3, 6.3, 0.62],
+      highRises: [[0.65, 9.3, 0.53], [2.1, 8.4, 0.51]],
       houses: [[-1.3, 8.9, 0.7], [0.0, 8.8, 0.66]],
     } : {
       nuclear: [-11.28, -5.9, 0.9], wind: [-7.85, -4.5, 0.98], hydro: [-12.7, 0.2, 0.9],
@@ -675,6 +704,7 @@
       poles: [[9.5, 0.1, 0.91], [11, 0.1, 0.91], [12.4, 0.1, 0.91]],
       alternatePoles: [[9.5, 3.5, 0.91], [11, 3.5, 0.91], [12.4, 3.5, 0.91]], service: [11.3, 2.5, 0.98],
       data: [13.65, -1.69, 1.02], crypto: [11.7, -3.02, 0.92], industrial: [16.13, -2.58, 0.91], commercial: [15.88, -0.1, 0.83],
+      highRises: [[15.9, -4.8, 0.9], [18.0, -4.6, 0.84]],
       houses: [[12.3, 2.49, 0.91], [13.86, 2.98, 0.88], [15.42, 2.42, 0.94]],
     };
     // Narrow phones have additional space above the source district. Recede
@@ -721,6 +751,9 @@
       { terminal: cryptoContainer(make(layout.crypto)), color: COLORS.ice },
       { terminal: industrialWorkshop(make(layout.industrial)), color: COLORS.gold },
       { terminal: commercialBuilding(make(layout.commercial)), color: COLORS.ivory },
+      ...layout.highRises.map((position, index) => ({
+        terminal: highRise(make(position), index === 0 ? 11 : 8, COLORS.ice), color: COLORS.ice,
+      })),
     ];
     const homes = layout.houses.map((position, index) => house(make(position), 0.94 + index * 0.038));
 

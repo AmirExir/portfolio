@@ -71,6 +71,27 @@ async function assertBoundedScenes(page, label) {
   }
 }
 
+async function assertHeroLabelsClearActions(page, label) {
+  const result = await page.locator('#heroField canvas').evaluate(canvas => {
+    const drawing = canvas.getBoundingClientRect();
+    const actions = document.querySelector('.hero-actions').getBoundingClientRect();
+    const labels = (canvas.portfolioTestLabels || []).map(annotation => ({
+      text: annotation.text,
+      left: drawing.left + annotation.left * drawing.width / canvas.width,
+      right: drawing.left + annotation.right * drawing.width / canvas.width,
+      top: drawing.top + annotation.top * drawing.height / canvas.height,
+      bottom: drawing.top + annotation.bottom * drawing.height / canvas.height,
+    }));
+    return {
+      count: labels.length,
+      overlapping: labels.filter(box => box.left < actions.right && box.right > actions.left
+        && box.top < actions.bottom && box.bottom > actions.top).map(box => box.text),
+    };
+  });
+  assert.ok(result.count >= 8, `${label}: inspect the actual painted grid annotations`);
+  assert.deepEqual(result.overlapping, [], `${label}: grid labels must not overlap the hero actions`);
+}
+
 async function serveLocalFiles(context, { omitMotionStyles = false, omitPowerJourney = false, omitModules = [] } = {}) {
   await context.route('**/*', (route) => {
     const url = new URL(route.request().url());
@@ -105,6 +126,27 @@ async function assertProjectFallback(page, label, projects = projectStories) {
     args: ['--disable-gpu', '--no-first-run'],
   });
   const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+  // Observe real text drawing in bitmap coordinates, including canvas density,
+  // so the layout regression compares annotations with the actual DOM actions.
+  await context.addInitScript(() => {
+    const clearRect = CanvasRenderingContext2D.prototype.clearRect;
+    const fillText = CanvasRenderingContext2D.prototype.fillText;
+    CanvasRenderingContext2D.prototype.clearRect = function (...args) {
+      if (this.canvas.closest('#heroField')) this.canvas.portfolioTestLabels = [];
+      return clearRect.apply(this, args);
+    };
+    CanvasRenderingContext2D.prototype.fillText = function (text, x, y, ...args) {
+      if (this.canvas.closest('#heroField')) {
+        const metrics = this.measureText(text);
+        const transform = this.getTransform();
+        // Include a small margin around the ink for its dark label backing.
+        const a = transform.transformPoint(new DOMPoint(x - metrics.actualBoundingBoxLeft - 7, y - metrics.actualBoundingBoxAscent - 5));
+        const b = transform.transformPoint(new DOMPoint(x + metrics.actualBoundingBoxRight + 7, y + metrics.actualBoundingBoxDescent + 5));
+        (this.canvas.portfolioTestLabels ||= []).push({ text, left: a.x, top: a.y, right: b.x, bottom: b.y });
+      }
+      return fillText.call(this, text, x, y, ...args);
+    };
+  });
   let feed = realFeed;
   let feedStatus = 200;
   await context.route('**/*', (route) => {
@@ -495,6 +537,7 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   let reducedPowerJourneyFrame;
   const layoutViewports = [
+    { width: 1920, height: 1080 }, { width: 1624, height: 900 },
     { width: 1440, height: 900 }, { width: 1440, height: 800 },
     ...[1024, 820, 768, 700, 641, 640, 481, 480, 390, 320].map(width => ({ width, height: 900 })),
   ];
@@ -558,6 +601,12 @@ async function assertProjectFallback(page, label, projects = projectStories) {
       }
     }
     await assertBoundedScenes(page, `${viewportLabel} 1x`);
+    await waitForPaint(heroScene);
+    for (const state of powerStates.slice(1)) {
+      await powerStateSelect.selectOption(state);
+      await assertHeroLabelsClearActions(page, `${viewportLabel}/${state}`);
+    }
+    await powerStateSelect.selectOption('auto');
     const educationBounds = await educationCards.evaluateAll(cards => cards.map(card => {
       const { left, right, height } = card.getBoundingClientRect();
       return { left, right, height };
@@ -991,7 +1040,7 @@ async function assertProjectFallback(page, label, projects = projectStories) {
   await noJsContext.close();
   assert.equal(errors.length, 0, errors.join('\n'));
   console.log('PASS: project search/category/reset/no-scroll; carousel controls, keyboard, inert slides and no autoplay; navigation; clipboard fallback; feed date/status/shape/error/URL safety.');
-  console.log('PASS: responsive layouts 320–1440px; featured/filtered grids; 44px gallery targets; mobile navigation/search; keyboard focus; reduced motion; no-JavaScript fallback.');
+  console.log('PASS: responsive layouts 320–1920px; grid annotations clear hero actions in all manual states; featured/filtered grids; 44px gallery targets; mobile navigation/search; keyboard focus; reduced motion; no-JavaScript fallback.');
   console.log('PASS: eight distinct scene types; exactly one power-grid animation; keyboard hero and project-stage controls; global pause/resume and reduced motion across all renderers; offscreen/visibility pause; bounded 1x/2x canvas layout, including missing component CSS; context failure and screenshot fallbacks.');
   console.log('PASS: combined power-grid, fault and forecast manual states redraw while paused; Auto and phase labels; 44px responsive project controls; missing renderers/shared dependencies preserve content without legacy forecast substitution.');
   console.log('PASS: restored education content, degree status, native anchors and responsive/no-JavaScript access; power-stage legend, six source types and five load labels; missing/late-failing optional renderer fallback with AI modes preserved and one failure warning.');
