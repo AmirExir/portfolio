@@ -1,0 +1,18 @@
+Fresh market-moving headlines are limited in this article set, and several items are either low-quality, derivative, or not directly useful for explaining today’s tape.
+
+**Facts**
+- **Business Insider | 2026-10-20T08:49:11Z** — South Korea’s AI-stock weakness deepened, with AI cloud-infrastructure company **Elice falling 32% in its market debut**; the article also says the **Kospi closed 4% lower** and flags pressure on Korean chipmakers ahead of tech earnings.
+- **Crypto Briefing | 2026-10-20T09:02:08Z** — A Goldman Sachs note warned that **power infrastructure delays could hinder AI data-center growth**, highlighting a potential constraint on AI buildout.
+- **Reuters headline relayed via Slashdot/Investing.com | 2026-10-20T08:52:48Z** — The aggregated headline says **Asia stocks slumped as AI jitters hit Korean chipmakers ahead of tech earnings**, while **oil rose** and investors awaited AI-sector results.  
+- **Crypto Briefing | 2026-10-20T09:05:18Z** — The article says the **UK 10-year gilt yield rose to 5.418%** from 5.383%, citing **higher oil prices and higher US Treasury yields**.
+- **The Punch | 2026-10-20T08:37:25Z** — UK labor-market data showed the **unemployment rate unexpectedly fell to 4.7%** in the three months to August.
+- **Crypto Briefing | 2026-10-20T08:47:46Z** — A **Saudi-led coalition intercepted a Houthi missile targeting Riyadh**, underscoring ongoing Middle East geopolitical risk.
+- **Cointelegraph | 2026-10-20T08:54:27Z** — **JPMorgan Asset Management** added **Bitcoin** to its long-term capital market outlook for the first time, projecting it could **outperform US stocks and gold over the next decade**, while warning about volatility.
+- **Biztoc citing CoinDesk | 2026-10-20T08:25:13Z** — The article says **US spot Bitcoin ETFs recorded their biggest day of inflows in a month**, with inflows led by **BlackRock**.
+
+**Interpretation**
+- The clearest fresh macro signals here are:
+  1. **AI/semi risk sentiment is under pressure in Asia**, especially around Korean tech and chip-linked names.
+  2. **Rates/oil/geopolitics are linked in the background**, with higher oil and Middle East tensions cited alongside firmer UK yields.
+  3. **Bitcoin-related sentiment has a constructive headline backdrop** from ETF inflows and JPMorgan’s long-term outlook.
+- There is **not enough high-quality fresh coverage in this set** to confidently explain the full US market tape today, especially for Fed, US inflation, or major US earnings.
