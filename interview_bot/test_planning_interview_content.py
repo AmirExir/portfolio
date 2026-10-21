@@ -20,7 +20,7 @@ REVISED_NUMBERS = set(range(1, 21))
 Q14_REVISION_ID = "private:q14-weak-grid-investment-2026-10-20"
 Q14_REVISION_SHA256 = "c637a1441eb077a52cd26068be93790cb5ded930fe30134c735a47a86edcef94"
 SPECIAL_REVISIONS = {
-    1: ("private:q1-batch-zero-batch1-ctp-2026-10-21", "8ee0ebd796062fcf0d28fd0e74ce5aa4ab46ccd4a81516209643566faae66cd4"),
+    1: ("private:q1-large-load-revisions-2026-10-21", "1938d85145d735ad361ccf1e8090192f6011260db783290862627116d0d3e6da"),
     14: (Q14_REVISION_ID, Q14_REVISION_SHA256),
     15: ("private:transmission-planning-disagreement-2026-10-20", "115e460060f804e0de940e1331ecda70a43fbf3038501d2150a9c022adff3229"),
     20: ("private:transmission-planning-stakeholders-2026-10-20", "020fc4351e1090439ab59cc239f409def2111b4fe87169ce3a69418704a51350"),
@@ -207,6 +207,35 @@ class PlanningInterviewContentTests(unittest.TestCase):
         self.assertIn("20261015-ERCOT-CTP-Batch-workshop_3a_Batch_v02.pptx", references)
         self.assertIn("ERCOT-CTP-Workshop-3b-20261020.pptx", references)
         self.assertIn("proposed Batch 1+/CTP", item["quick_view"]["cue"])
+
+    def test_large_load_register_preserves_status_and_governing_document_distinctions(self) -> None:
+        """Keep proposal scope and status distinct from effective requirements."""
+        item = self.imported[1]
+        register = item["answer"].split("**Keep a Dated Register", 1)[1].split("**5.", 1)[0]
+        entries = register.split("\n- **")
+        expectations = {
+            "PGRR145 and NPRR1325": ("July 11, 2026", "deferred", "combined cost", "§3.11.4.3(5)"),
+            "PGRR144": ("pending PUCT consideration", "would strengthen", "non-LCL"),
+            "NPRR1308 and companion NOGRR282": ("August 1, 2026", "defines", "§2.6.4", "§2.15", "exemptions", "phased"),
+            "PGRR147": ("Category P6, N-1-1", "pending ROS consideration", "§§4.1.1.2 and 4.1.1.8", "ERCOT3", "not a blanket change", "separately developing Batch 1+/CTP"),
+            "PUCT Project 59142": ("oversight proceeding", "August 20", "not final inclusion or permission to energize"),
+            "PUCT Project 58481": ("16 TAC §25.194", "effective October 8, 2026", "§25.194(h)", "not a blanket exemption"),
+        }
+        for identifier, qualifiers in expectations.items():
+            with self.subTest(identifier=identifier):
+                matches = [entry for entry in entries if entry.startswith(identifier)]
+                self.assertEqual(len(matches), 1)
+                for qualifier in qualifiers:
+                    self.assertIn(qualifier, matches[0])
+                self.assertIn("https://", matches[0])
+        self.assertIn("For a rule change", item["reflection"])
+        self.assertIn("PGRR147’s proposed P6 criteria", item["reflection"])
+        self.assertNotIn("PGRR148", item["answer"])
+        self.assertNotIn("PGRR148", item["quick_view"]["cue"])
+        for number in (1, 5):
+            references = "\n".join(self.imported[number]["references"])
+            self.assertIn("282NOGRR-45-PUCT-Report-070926.docx", references)
+            self.assertNotIn("Sections 2.6.4 and 2.14", references)
 
     def test_assigned_episodes_are_not_reused_across_questions(self) -> None:
         """Check narrative content as well as unique assignment labels."""

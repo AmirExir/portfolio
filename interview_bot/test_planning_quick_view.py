@@ -132,7 +132,7 @@ class PlanningQuickViewUITests(unittest.TestCase):
         self.client.chat.completions.create.assert_not_called()
 
     def test_selected_keywords_open_exact_saved_answers_with_followups(self) -> None:
-        for key in ("15 DISAGREEMENT", "18 ERROR"):
+        for key in ("1 PROCESS", "15 DISAGREEMENT", "18 ERROR"):
             with self.subTest(keyword=key):
                 self.choose(key)
                 self.click_button("Show mapped answer")

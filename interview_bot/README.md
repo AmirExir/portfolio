@@ -278,6 +278,22 @@ as effective requirements or promised connection dates. The Q1 recall cue,
 follow-up preparation, and aliases for questions comparing these processes are
 updated together; the other 19 primary assignments remain unchanged.
 
+Q1 also includes a dated large-load regulatory register for PGRR145/NPRR1325,
+pending PGRR144, effective NPRR1308 and its NOGRR282 performance requirements,
+pending PGRR147's P6 load-loss criteria, and PUCT projects 59142 and 58481.
+The register distinguishes deferred Batch Zero
+provisions, Commission oversight, and the October 8, 2026 effectiveness of
+16 TAC §25.194, including its Batch Zero transition provisions. Following the
+user's correction to PGRR147, the criteria proposal is distinguished from the
+permanent large-load study process developing through Batch 1+/CTP. Pending
+proposals must not become effective requirements through retrieval or rehearsal.
+Links and specific sections accompany
+the answer; the quick-view cue and follow-up prompt carry the same status
+distinctions. Q5's NOGRR282 reference also uses the final voltage section §2.15,
+correcting stale issue-page numbering; its narrative and scenario are unchanged.
+These additions use the existing runtime overlay and preserve the saved vector
+cache; refreshed semantic scores require the documented incremental index update.
+
 No personal episode is reused within this set. Q12, Q13, Q15, Q16, Q17, Q18,
 and Q19 use complete STAR answers with numbered Action steps. Their full answer
 is assembled from the same four STAR fields with bold headings. Other answers
