@@ -28,19 +28,54 @@ def explicit_planning_question(source: dict) -> str:
 
 
 class Q14PlanningPromptTests(unittest.TestCase):
-    def test_planning_source_preserves_user_scenario_and_prospective_wording(self) -> None:
+    def test_case_comparison_keeps_hrml_summer_peak_and_steady_state_outcomes_distinct(self) -> None:
+        source = planning_recommendation_source()
+        serialized = serialize_content(source)["text"]
+        for text in (source["situation"], extract_tag_value(serialized, "Answer")):
+            with self.subTest(text=text):
+                self.assertIn("(DWG) dynamic HRML cases showed persistent voltage oscillations", text)
+                self.assertIn("dynamic summer-peak cases showed no oscillations", text)
+                self.assertIn("steady-state cases showed no significant violations", text)
+                self.assertNotIn("no thermal overloads", text)
+        cue = source["quick_view"]["cue"]
+        for comparison in (
+            "Dynamic HRML: oscillations", "dynamic summer peak: no oscillations",
+            "steady state: no significant violations",
+        ):
+            self.assertIn(comparison, cue)
+
+    def test_planning_source_uses_the_completed_dynamic_study_in_star_format(self) -> None:
         source = planning_recommendation_source()
         question = explicit_planning_question(source)
         self.assertIn(question, source["aliases"])
         chunk = serialize_content(source)
         self.assertTrue(planning_evidence(chunk["text"]))
-        self.assertEqual(source["response_type"], "direct")
-        self.assertIn("minimax regret", source["answer"].casefold())
+        self.assertEqual(source["response_type"], "story")
+        self.assertEqual(source["story_basis"], "user_reported_personal_experience")
+        self.assertIn("williamson-burnet", source["answer"].casefold())
+        self.assertNotIn("minimax regret", source["answer"].casefold())
         messages = answer_messages(question, build_candidate(1, 0, chunk), "")
         instructions = messages[0]["content"]
-        self.assertIn("without forcing STAR", instructions)
+        for heading in ("**Situation**", "**Task**", "**Action**", "**Result**"):
+            self.assertIn(heading, instructions)
         self.assertIn("proposed approaches ('I would')", instructions)
         self.assertIn(chunk["text"], messages[1]["content"])
+
+    def test_prompt_omits_editorial_prefaces_without_inventing_completed_experience(self) -> None:
+        content = json.loads((BASE_DIR / "manager_content.json").read_text(encoding="utf-8"))
+        records = [item for item in content if item["id"] in {
+            "planning-interview-14", "planning-backup-14-investment",
+        }]
+        self.assertEqual(len(records), 2)
+        for source in records:
+            with self.subTest(source=source["id"]):
+                candidate = build_candidate(1, 0, serialize_content(source))
+                instructions = answer_messages(source["question"], candidate, "")[0]["content"]
+                self.assertIn("begin directly with the STAR story", instructions)
+                self.assertIn("do not preface it with", instructions)
+                self.assertIn("use prospective wording", instructions)
+                self.assertIn("Never turn a proposed approach into a claimed personal accomplishment", instructions)
+                self.assertIn("Keep material uncertainty", instructions)
 
 
 @unittest.skipIf(ui_fixtures.AppTest is None, "Streamlit and NumPy are required for UI tests")
@@ -81,18 +116,26 @@ class Q14PlanningUITests(unittest.TestCase):
                 self.assertTrue(planning_evidence(selected["text"]))
                 answer = extract_tag_value(selected["text"], "Answer")
                 for detail in (
-                    "minimax regret", "PSCAD", "PLEXOS", "750 MW", "STATCOM", "HTLS",
-                    "**1. Isolating", "**2. Engineering", "**3. Quantifying", "**4. The Final",
+                    "Williamson-Burnet", "GTC", "Dynamics Working Group", "redispatch", "N-1",
+                    "dynamic HRML cases showed persistent voltage oscillations",
+                    "dynamic summer-peak cases showed no oscillations",
+                    "steady-state cases showed no significant violations",
+                    "**Situation**", "**Task**", "**Action**", "**Result**",
                 ):
                     self.assertIn(detail.casefold(), answer.casefold())
                 self.assertNotRegex(answer, r"(?i)\b(?:GE|EMS|SCADA)\b|energy management system")
+                for old_detail in ("minimax regret", "STATCOM", "750 MW"):
+                    self.assertNotIn(old_detail.casefold(), answer.casefold())
                 displayed = self.app.session_state["active_answer"]["text"]
                 heading = "\n\n**Follow-up preparation**\n\n"
                 self.assertEqual(displayed.count(heading), 1)
                 script, reflection = displayed.split(heading)
                 self.assertEqual(script, source["answer"])
                 self.assertEqual(reflection, source["reflection"])
-                self.assertEqual(len(self.app.session_state["candidate_stories"]), 1)
+                self.assertEqual(
+                    [candidate["source_id"] for candidate in self.app.session_state["candidate_stories"]],
+                    ["planning-interview-14", "planning-backup-14-investment"],
+                )
         self.client.embeddings.create.assert_not_called()
         self.client.chat.completions.create.assert_not_called()
 

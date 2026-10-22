@@ -226,10 +226,10 @@ unique `scenario_id`, source evidence, preparation limits, and an
 `answer_revision` fingerprint linking it to the user's supplied draft. The
 original question and source fingerprint remain intact. The draft supplies
 structure and technical depth; saved personal experience and the user's subsequent
-clarifications supply historical claims. Nineteen answers were expanded toward
-the supplied examples; Q14 retains the previously requested exact wording.
-The revision fingerprints distinguish the full draft from the separate Q1 process
-expansion and Q15 and Q20 examples. Unsupported project costs, outcomes, numerical acceptance limits,
+clarifications supply historical claims. Later revisions include the Q1 process
+expansion, Q20 approach, and October 21 replacement STAR stories for Q14, Q15,
+and Q18. Their individual revision fingerprints identify the applicable source.
+Unsupported project costs, outcomes, numerical acceptance limits,
 universal SCR thresholds, and assumed expedited approvals are excluded.
 
 | Question / shortcut | Exclusive example or proposed approach |
@@ -247,11 +247,11 @@ universal SCR thresholds, and assumed expedited approvals are excluded.
 | 11 PRIORITIZE INVESTMENTS | LCRA five-year growth forecast and project ranking |
 | 12 TOOLS | AELAB and contingency-generation automation |
 | 13 LEADERSHIP | PEC annual assessment; HRML instability traced to South Texas GTC dispatch |
-| 14 UNCERTAINTY | Conflicting AC/EMT evidence, missing load models, and minimax-regret investment |
+| 14 UNCERTAINTY | Williamson-Burnet GTC: dynamic oscillations traced to dispatch above the transfer limit |
 | 15 DISAGREEMENT | Highway 29/Liberty Hill: ownership, regional need, and revised two-substation/three-line scope |
 | 16 DEADLINES | Clearing the LCRA equipment-ratings backlog |
 | 17 BAD NEWS | Reducing a capacitor proposal from seven banks to two |
-| 18 ERROR | Initially missed consultant PI/PLL model issue; PSS®E/PSCAD mismatch resolved after retuning |
+| 18 ERROR | Marshall Ford MQT: swapped transient reactances corrected and retested |
 | 19 MENTORING | LCRA associate engineer; strengths and interests, Train/Trust/Automate/Gate |
 | 20 STAKEHOLDERS | Proposed development/customer/ERCOT alignment of capacity, cost, schedule, and reliability |
 
@@ -294,32 +294,46 @@ correcting stale issue-page numbering; its narrative and scenario are unchanged.
 These additions use the existing runtime overlay and preserve the saved vector
 cache; refreshed semantic scores require the documented incremental index update.
 
-No personal episode is reused within this set. Q12, Q13, Q15, Q16, Q17, Q18,
+No personal episode is reused within this set. Q12, Q13, Q14, Q15, Q16, Q17, Q18,
 and Q19 use complete STAR answers with numbered Action steps. Their full answer
 is assembled from the same four STAR fields with bold headings. Other answers
-use detailed proposed steps, with personal anchors where supported. Q14 uses the
-user's latest four-part hypothetical verbatim, including Markdown links and
-formatting. It replaces Waterloo. A source-fingerprint regression verifies the
-exact authored text without duplicating it in fixtures. The 750 MW load and SCR
-1.2 are illustrative inputs. Source status and preparation notes identify known
-technical and regulatory overstatements; preserved wording is not verified study
-guidance. The separate coaching notes address model validation, proxy limitations,
-IEEE 519 scope, conditional economics, STATCOM performance, CCN applicability,
-and RAS responsibilities. Supporting references and revision provenance accompany
-the answer. The preceding greenfield leadership draft was not inserted into Q13
-or another question. Q17 acknowledges that the actual example concerns
+use detailed proposed steps, with personal anchors where supported.
+
+The October 21 STAR replacement attachment supplies the primary scripts for
+Q14, Q15, and Q18. These are concise first-person narratives with three numbered
+Action steps, separate follow-up preparation, and no coaching or verification
+preamble. Revision metadata records the attachment's SHA-256; the original
+question provenance is retained. The new scripts describe:
+
+- **Q14:** the Williamson-Burnet GTC dispatch finding and dynamic contingency
+  reruns during a five-year assessment. DWG dynamic HRML cases showed oscillations;
+  dynamic summer-peak cases showed none, and steady-state cases showed no
+  significant violations. The reported HRML damping result applies to
+  the studied cases; it is not a guarantee of security for every operating case.
+- **Q15:** PEC Liberty Hill project 26RPG018, a two-substation/three-line scope,
+  reduced-load and Muscovy interaction studies, and the user's latest report of
+  RPG endorsement. Preserve the ERCOT 3 autotransformer-plus-another-outage
+  description without equating every ERCOT 3 event to NERC P6. The supported
+  ownership scope does not establish construction, Board or PUCT approval.
+- **Q18:** Marshall Ford MQT, swapped Xd′/Xq′ data fields, a corrected submission
+  within 48 hours, and successful repeated initialization and step tests.
+  These observations do not establish a universal model-validity guarantee or
+  the earlier draft's claimed magnetic-physics mechanism.
+
+The earlier Q14 investment approach remains a separate, explicitly prospective
+STAR backup. Its unsupported deterministic physics, exact economic forecasts,
+and unconditional regulatory claims have been removed. The earlier Q18 RMS/EMT
+PI/PLL comparison is a separate personal-experience backup. Its greater-than-10%
+figure remains specific to that comparison, not a universal acceptance threshold.
+The existing Q15 tap-bus rating backup remains available; the old Liberty Hill
+wording is replaced rather than presented as another event.
+
+Q17 acknowledges that the actual example concerns
 an oversized equipment proposal, not a canceled or infeasible interconnection.
 Q13 retains **potential** avoided annual external fees before internal costs.
 Its stable HRML rerun follows redispatch within the applicable South Texas GTC
 limit; that case correction does not establish that every required stress case
-passes or that no transmission investment is needed. Q15 preserves the user's
-**ERCOT 3** event description (autotransformer outage plus another outage), without
-automatically relabeling it as NERC P6. ERCOT **preferred** the revised layout
-during RPG review; this does not assert Board endorsement or construction.
-The highest-capacity alternative objection is attributed to another stakeholder.
-Q18 includes the user's initial DYRE diagnosis and confirmed resolution after
-consultant PI/PLL retuning. The reported greater-than-10% discrepancy is specific
-to that comparison, not a universal acceptance criterion. Q20 starts with the
+passes or that no transmission investment is needed. Q20 starts with the
 three parties' priorities and uses an alignment matrix, shared study basis,
 economic comparison, phased commitments, and governance; it is prospective and
 does not reuse the PEC operational-cutover story.
@@ -340,11 +354,12 @@ it is not guaranteed to resolve to a dedicated assignment. Bare numbers are not
 shortcuts. Audio, transcription, and practice feedback retain their own service
 requirements.
 
-Q15 also has an explicitly linked rating-submission backup. Ask `Q15` to get
-the primary disagreement story, then click **Give me another answer or story**
-to read that backup. The next click stops; it does not select an unrelated
-episode. `Q15 backup`, `15 DISAGREEMENT backup`, or `another disagreement story`
-requests the backup directly. Both scripts return their complete saved wording
+Q14, Q15, and Q18 each have one explicitly linked backup. Ask the numbered question
+to get its primary story, then click **Give me another answer or story** to read
+its backup. The next click stops; it does not select an unrelated episode.
+`Q14 backup`, `Q15 backup`, or `Q18 backup` requests that backup directly.
+Specific aliases for the old minimax and RMS/EMT examples select only their
+respective backups. All six scripts return their complete saved wording
 without an API call. A backup marked **Needs correction** is excluded. A flagged
 primary never automatically promotes its backup, although the user can still
 request an unflagged backup explicitly.
@@ -364,11 +379,10 @@ correction gating, and all 20 shortcuts through the UI. Source edits are loaded
 by the runtime overlay; an embedding refresh is not required for these explicit
 matches. The general generation prompt below applies to other questions.
 
-All 20 primary answers and the Q15 backup have an authored `reflection` field,
+All 20 primary answers and the three backups have an authored `reflection` field,
 serialized separately as `Reflection`. Explicit assignments append this text
-under **Follow-up preparation** without an API call. The main `answer`, STAR
-fields, and their source fingerprints remain unchanged, including Q14's exact
-body. The optional field must contain nonempty text when supplied; older records
+under **Follow-up preparation** without an API call. Reflection is separate from
+the main `answer` and STAR fields. The optional field must contain nonempty text when supplied; older records
 without it retain their existing saved-script behavior. A reflection-only change
 preserves the story's identity but changes its source hash, invalidating stale
 review conclusions, semantic scores, and current answer/audio state through the
@@ -415,8 +429,8 @@ cannot continue answering from an obsolete candidate. History remains history.
 The library identifies managed evidence by its current source file rather than
 attributing revised text to the saved embedding corpus.
 
-With the current source set, synchronization produces 167 chunks (117 existing
-base chunks and 50 managed entries, including the explicit Q15 backup). An embedding refresh failure leaves the
+With the current source set, synchronization produces 169 chunks (117 existing
+base chunks and 52 managed entries, including three explicit backups). An embedding refresh failure leaves the
 saved cache intact; it does not roll the runtime answers back to old wording.
 The app does not generate a full embedding cache during startup. To validate
 the intended corpus without API calls, use:
@@ -425,11 +439,9 @@ the intended corpus without API calls, use:
 python interview_bot/generate_embeddings.py --sync-manager-content --dry-run
 ```
 
-All 20 primary records now have added reflection text, and the Q15 backup is
-new relative to the saved semantic index; the 146 unchanged vectors can be reused.
-Their latest text is available through the runtime source
+The three revised primary scripts and two added backups are available through the runtime source
 overlay and explicit assignment/lexical retrieval after deployment.
-Run the sync command in the configured environment, then
+The dry run reports the current changed and reusable vector counts. Run the sync command in the configured environment, then
 restart/redeploy or reload the saved embeddings to enable their refreshed
 semantic scores. Do not run the standalone corpus writer first: it would
 invalidate the saved cache before replacement vectors are ready.

@@ -91,8 +91,8 @@ class AnswerReflectionTests(unittest.TestCase):
     def test_every_assigned_record_has_distinct_followups_with_the_right_experience_basis(self) -> None:
         records = json.loads(Path(__file__).with_name("manager_content.json").read_text())
         records = [item for item in records if item.get("answer_set") or item.get("backup_for")]
-        self.assertEqual(len(records), 21)
-        self.assertEqual(len({item["reflection"] for item in records}), 21)
+        self.assertEqual(len(records), 23)
+        self.assertEqual(len({item["reflection"] for item in records}), 23)
         for record in records:
             with self.subTest(source=record["id"]):
                 reflection = record["reflection"]

@@ -1,11 +1,14 @@
 """Keep each curated planning answer attached to its own explicit question."""
 
 from copy import deepcopy
+import json
+from pathlib import Path
 import unittest
 from unittest.mock import Mock
 
 from interview_evidence import answer_markdown
 from interview_retrieval import assigned_candidates, build_candidate, rank_candidates
+from interview_runtime_content import build_runtime_corpus
 from interview_services import InterviewServiceError, render_answer
 from sync_manager_content import build_chunks, serialize_content
 
@@ -178,6 +181,89 @@ class CuratedAnswerRoutingTests(unittest.TestCase):
             serialize_content({**backup, "answer_set": "ercot-planning-20", "question_key": "15 DISAGREEMENT"})
         with self.assertRaisesRegex(ValueError, "answer"):
             serialize_content({key: value for key, value in backup.items() if key != "answer"})
+
+
+class UpdatedExperienceRoutingTests(unittest.TestCase):
+    """Keep the October 21 experiences first while retaining distinct alternatives."""
+
+    CASES = {
+        14: {
+            "scenario": "williamson-burnet-gtc-dynamic-study-conflict",
+            "backup": "planning-backup-14-investment",
+            "heading": "Question 14 (Uncertainty / Conflicting Study Results)",
+            "natural_question": "Describe a time you made an investment recommendation with incomplete information.",
+        },
+        15: {
+            "scenario": "highway29-liberty-hill-regional-disagreement",
+            "backup": "planning-backup-15-ratings",
+            "heading": "Question 15 (Disagreement with Stakeholders / Commercial Strategy)",
+            "natural_question": "Tell me about a time you resolved a technical planning disagreement.",
+        },
+        18: {
+            "scenario": "marshall-ford-mqt-swapped-reactances",
+            "backup": "planning-backup-18-controls",
+            "heading": "Question 18 (Identifying a Technical Error / Model Auditing)",
+            "natural_question": "Tell me about a time you found a significant dynamic-model error.",
+        },
+    }
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        directory = Path(__file__).resolve().parent
+        cls.content = json.loads((directory / "manager_content.json").read_text(encoding="utf-8"))
+        cls.by_id = {item["id"]: item for item in cls.content}
+        saved = json.loads((directory / "chunks_cleaned.json").read_text(encoding="utf-8"))
+        cls.runtime = build_runtime_corpus(saved, cls.content)
+
+    def test_numbered_headings_questions_and_natural_aliases_choose_new_primary(self) -> None:
+        # Use current source against the independently saved index: a pending
+        # embedding refresh must never restore an older assigned script.
+        chunks = self.runtime.chunks
+        scores = self.runtime.remap_scores(dict.fromkeys(range(len(chunks)), 1000.0))
+        for number, case in self.CASES.items():
+            primary = self.by_id[f"planning-interview-{number}"]
+            queries = (
+                f"Q{number}", f"Question {number}", primary["question_key"],
+                primary["question"], case["heading"], case["natural_question"],
+                f"{number}. {primary['question']}\n{number + 1}.",
+                *primary.get("aliases", []),
+            )
+            for query in queries:
+                with self.subTest(number=number, question=query):
+                    selected = rank_candidates(query, chunks, scores, focus="Transmission planning")
+                    self.assertEqual([item["source_id"] for item in selected], [primary["id"], case["backup"]])
+                    self.assertEqual(selected[0]["scenario_id"], case["scenario"])
+                    self.assertTrue(all(item["assigned_match"] for item in selected))
+
+    def test_primary_scripts_render_as_saved_star_without_model_preface(self) -> None:
+        client = Mock()
+        for number, case in self.CASES.items():
+            with self.subTest(number=number):
+                primary = self.by_id[f"planning-interview-{number}"]
+                candidate = assigned_candidates(case["natural_question"], self.runtime.chunks)[0]
+                displayed = render_answer(client, case["natural_question"], candidate, "Emphasize leadership.")
+                self.assertTrue(displayed.startswith("**Situation**"))
+                self.assertEqual(displayed.split("\n\n**Follow-up preparation**\n\n")[0], primary["answer"])
+                for heading in ("**Situation**", "**Task**", "**Action**", "**Result**"):
+                    self.assertIn(heading, primary["answer"])
+                self.assertNotRegex(primary["answer"], r"(?i)i (?:do not|don't|don’t) have a verified|hypothetical")
+        client.chat.completions.create.assert_not_called()
+
+    def test_prior_specific_scenarios_remain_exclusive_backup_requests(self) -> None:
+        chunks = self.runtime.chunks
+        for number, case in self.CASES.items():
+            backup = self.by_id[case["backup"]]
+            self.assertEqual(backup["backup_for"], f"planning-interview-{number}")
+            self.assertNotEqual(backup["scenario_id"], case["scenario"])
+            for query in (backup["question"], *backup.get("aliases", [])):
+                with self.subTest(number=number, backup_question=query):
+                    selected = assigned_candidates(query, chunks)
+                    self.assertIsNotNone(selected)
+                    self.assertEqual([item["source_id"] for item in selected], [backup["id"]])
+        for number in (8, 13, 16, 17, 19):
+            with self.subTest(unrelated_question=number):
+                selected = assigned_candidates(f"Q{number}", chunks)
+                self.assertEqual([item["source_id"] for item in selected], [f"planning-interview-{number:02d}"])
 
 
 if __name__ == "__main__":

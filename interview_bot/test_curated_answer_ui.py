@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
 
 from interview_evidence import answer_markdown, story_id
 from interview_sessions import load_session, session_bytes
@@ -122,6 +123,34 @@ class CuratedAnswerUITests(unittest.TestCase):
         self.assert_saved_answer_and_reflection(self.app.session_state["active_answer"]["text"], record)
         self.assertEqual(self.client.audio.speech.create.call_count, 1)
         self.assertEqual(self.app.session_state["messages"], restored["messages"])
+        self.client.embeddings.create.assert_not_called()
+        self.client.chat.completions.create.assert_not_called()
+
+    def test_revised_experiences_answer_natural_questions_before_backups_without_api_key(self) -> None:
+        cases = {
+            14: ("Describe a time you made an investment recommendation with incomplete information.", "williamson-burnet-gtc-dynamic-study-conflict"),
+            15: ("Tell me about a time you resolved a technical planning disagreement.", "highway29-liberty-hill-regional-disagreement"),
+            18: ("Tell me about a time you found a significant dynamic-model error.", "marshall-ford-mqt-swapped-reactances"),
+        }
+        by_id = {item["id"]: item for item in self.records()}
+        with patch.dict("os.environ", {"OPENAI_API_KEY": ""}):
+            for number, (question, scenario) in cases.items():
+                with self.subTest(question=number):
+                    primary = by_id[f"planning-interview-{number}"]
+                    self.app.chat_input[0].set_value(question).run()
+                    self.assertFalse(self.app.exception)
+                    active = self.app.session_state["active_answer"]
+                    self.assertEqual(active["candidate"]["scenario_id"], scenario)
+                    self.assertTrue(active["text"].startswith("**Situation**"))
+                    self.assert_saved_answer_and_reflection(active["text"], primary)
+                    backup = self.backups(primary["id"])[0]
+                    self.click_button("Give me another answer or story")
+                    self.assertEqual(self.app.session_state["active_answer"]["candidate"]["source_id"], backup["id"])
+                    self.assert_saved_answer_and_reflection(self.app.session_state["active_answer"]["text"], backup)
+                    self.app.chat_input[0].set_value(f"Q{number}").run()
+                    self.assertFalse(self.app.exception)
+                    self.assert_saved_answer_and_reflection(self.app.session_state["active_answer"]["text"], primary)
+                    self.assertEqual(self.app.session_state["candidate_story_pos"], 0)
         self.client.embeddings.create.assert_not_called()
         self.client.chat.completions.create.assert_not_called()
 

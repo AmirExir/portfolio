@@ -49,16 +49,16 @@ class PlanningQuickViewTests(unittest.TestCase):
                 for field in ("title", "cue", "basis"):
                     self.assertEqual(row[field], source["quick_view"][field])
                     self.assertTrue(row[field].strip())
-        self.assertNotIn("planning-backup-15-ratings", [row["source_id"] for row in rows])
+        self.assertTrue(all(not row["source_id"].startswith("planning-backup-") for row in rows))
 
     def test_illustrative_examples_are_labeled_separately_from_personal_experience(self) -> None:
         rows = {row["question_key"]: row for row in planning_quick_view(
             [serialize_content(item) for item in self.primary]
         )}
-        for key in ("14 UNCERTAINTY", "20 STAKEHOLDERS"):
+        for key in ("20 STAKEHOLDERS",):
             with self.subTest(keyword=key):
                 self.assertEqual(rows[key]["basis"], "Illustrative scenario")
-        for key in ("15 DISAGREEMENT", "18 ERROR"):
+        for key in ("14 UNCERTAINTY", "15 DISAGREEMENT", "18 ERROR"):
             with self.subTest(keyword=key):
                 self.assertEqual(rows[key]["basis"], "Experience")
 
@@ -126,7 +126,7 @@ class PlanningQuickViewUITests(unittest.TestCase):
         table = next(frame.value for frame in self.app.dataframe if "Recall cue" in frame.value.columns)
         self.assertEqual(list(table.columns), ["Shortcut", "Story / approach", "Recall cue", "Basis"])
         self.assertEqual(table["Shortcut"].tolist(), QUESTION_KEYS)
-        self.assertEqual(table.set_index("Shortcut").loc["14 UNCERTAINTY", "Basis"], "Illustrative scenario")
+        self.assertEqual(table.set_index("Shortcut").loc["14 UNCERTAINTY", "Basis"], "Experience")
         self.assertEqual(table.set_index("Shortcut").loc["20 STAKEHOLDERS", "Basis"], "Illustrative scenario")
         self.client.embeddings.create.assert_not_called()
         self.client.chat.completions.create.assert_not_called()
