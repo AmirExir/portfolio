@@ -294,6 +294,15 @@ correcting stale issue-page numbering; its narrative and scenario are unchanged.
 These additions use the existing runtime overlay and preserve the saved vector
 cache; refreshed semantic scores require the documented incremental index update.
 
+Q1's October 22 addition covers NERC Project 2026-02: proposed CLO-001-1
+interconnection studies, modeling data and verification, and CLO-003-1 protection
+coordination and disturbance monitoring. It uses the October final drafts and
+NERC's October 15 announcement of final-ballot success, distinguishing that stage
+from Board adoption, FERC approval, and effective compliance obligations. Draft
+requirement numbers, pages, dated status, and source links accompany the answer;
+matching aliases, recall cue, and follow-up preparation carry the same distinction.
+The existing ERCOT/PUCT entries retain their separate October 21 status check.
+
 No personal episode is reused within this set. Q12, Q13, Q14, Q15, Q16, Q17, Q18,
 and Q19 use complete STAR answers with numbered Action steps. Their full answer
 is assembled from the same four STAR fields with bold headings. Other answers

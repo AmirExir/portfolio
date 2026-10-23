@@ -222,6 +222,12 @@ class PlanningInterviewContentTests(unittest.TestCase):
             "PGRR147": ("Category P6, N-1-1", "pending ROS consideration", "§§4.1.1.2 and 4.1.1.8", "ERCOT3", "not a blanket change", "separately developing Batch 1+/CTP"),
             "PUCT Project 59142": ("oversight proceeding", "August 20", "not final inclusion or permission to energize"),
             "PUCT Project 58481": ("16 TAC §25.194", "effective October 8, 2026", "§25.194(h)", "not a blanket exemption"),
+            "NERC CLO-001-1 and CLO-003-1": (
+                "Project 2026-02", "modeling data", "verification", "installed equipment",
+                "protection-setting coordination", "dynamic disturbance recording",
+                "final industry ballot", "proposed, pending NERC Board adoption and FERC approval",
+                "applicability", "implementation dates",
+            ),
         }
         for identifier, qualifiers in expectations.items():
             with self.subTest(identifier=identifier):
@@ -238,6 +244,29 @@ class PlanningInterviewContentTests(unittest.TestCase):
             references = "\n".join(self.imported[number]["references"])
             self.assertIn("282NOGRR-45-PUCT-Report-070926.docx", references)
             self.assertNotIn("Sections 2.6.4 and 2.14", references)
+
+    def test_nerc_clo_addition_keeps_dated_draft_sources_and_q1_routing(self) -> None:
+        """Ballot success must not become an effective requirement in the saved script."""
+        item = self.imported[1]
+        text = self.target_by_id[item["id"]]["text"]
+        self.assertIn("NERC CLO status as of **October 22, 2026**", extract_tag_value(text, "Answer"))
+        references = extract_tag_value(text, "References")
+        for identifier, requirements, pages in (
+            ("CLO-001-1", "R8–R11", "pp. 6–9"),
+            ("CLO-003-1", "R9–R10", "p. 8"),
+        ):
+            reference = next(line for line in references.splitlines() if f", {identifier} final draft" in line)
+            self.assertIn(requirements, reference)
+            self.assertIn(pages, reference)
+            self.assertIn("not an effective standard", reference)
+            self.assertIn("nerc.com/globalassets/standards/projects/2026-02/final-ballots/", reference)
+        self.assertIn("proposed modeling/protection", item["quick_view"]["cue"])
+        self.assertIn("distinguishing final-ballot success", item["reflection"])
+        for query in item["aliases"][-2:]:
+            with self.subTest(query=query):
+                ranked = rank_candidates(query, self.target_chunks, {}, focus="Transmission planning")
+                self.assertEqual([candidate["source_id"] for candidate in ranked], [item["id"]])
+                self.assertTrue(ranked[0]["assigned_match"])
 
     def test_assigned_episodes_are_not_reused_across_questions(self) -> None:
         """Check narrative content as well as unique assignment labels."""
