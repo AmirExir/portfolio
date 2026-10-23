@@ -357,9 +357,17 @@ Entering a full authored question, an authored alias, or a shortcut such as
 no answer. Explicit assignments override job-focus preferences and return the
 saved answer verbatim, without query embedding or answer-generation API calls.
 "Different Story" cannot substitute another question's episode. Existing **Needs correction**
-exclusions still apply: a flagged primary story yields no automatic substitute. An
-unrecognized paraphrase follows the existing general retrieval/generation path;
-it is not guaranteed to resolve to a dedicated assignment. Bare numbers are not
+exclusions still apply: a flagged primary story yields no automatic substitute. A
+recognized paraphrase also selects its saved answer through bounded topic rules,
+before semantic retrieval. For example, "walk me through planning process" selects
+Q1, and an IBR question about weak grids and voltage recovery selects Q6 even
+when it introduces the topic through NERC contingency analysis. Matching uses
+question intent, not overlapping words throughout long answer bodies. Competing
+intents return no automatic assignment; broad questions retain general retrieval.
+An unrecognized paraphrase uses general retrieval and is not guaranteed to select
+the right question. If that search selects a curated answer, its complete saved
+script and reflection still return unchanged, with the original saved question
+shown for comparison. Other sources use generation. Bare numbers are not
 shortcuts. Audio, transcription, and practice feedback retain their own service
 requirements.
 
@@ -386,7 +394,18 @@ question keys and scenario IDs. Tests also check the actual narrative anchors
 for episode reuse, all authored question/alias routes, exact saved wording,
 correction gating, and all 20 shortcuts through the UI. Source edits are loaded
 by the runtime overlay; an embedding refresh is not required for these explicit
-matches. The general generation prompt below applies to other questions.
+matches. Deploying the updated retrieval policy clears previously selected answers
+and pending requests once; earlier chat messages remain history. No embedding
+refresh is needed for the new topic rules or saved-script playback.
+
+For other questions, the generation prompt requests natural spoken first-person
+answers, concrete actions, and short sentences. It avoids verification preambles,
+apologies about missing examples, and repeated "I would" openings. This changes
+delivery, not the evidence: actual stories remain STAR, proposed actions remain
+conditional, and missing project results or experience are never invented. Material
+qualifications stay beside the claims they limit. Generated wording remains subject
+to model variation; tests check the prompt contract with mocked API calls, while
+saved-script playback is deterministic.
 
 All 20 primary answers and the three backups have an authored `reflection` field,
 serialized separately as `Reflection`. Explicit assignments append this text

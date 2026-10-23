@@ -27,6 +27,7 @@ from interview_retrieval import (
     display_category,
     rank_candidates,
     assigned_candidates,
+    uses_saved_script,
 )
 
 api_key = os.getenv("OPENAI_API_KEY", "").strip()
@@ -106,7 +107,7 @@ else:
     index = st.session_state["index"]
 
 if client is None:
-    st.warning("OPENAI_API_KEY is not set. You can review stories and saved sessions; AI requests require server configuration.")
+    st.warning("OPENAI_API_KEY is not set. Mapped saved answers, story review, and saved sessions are available; AI requests require server configuration.")
 
 def search(
     query: str, index, chunks: list[dict], embeddings, k: int = 5,
@@ -238,7 +239,7 @@ job_description = st.session_state.job_description
 job_context = build_job_context(job_focus, job_background, job_description)
 st.caption(f"Current job focus: {job_focus}")
 if job_description:
-    st.caption("Job description applied. Story selection and answers will be tailored to this posting.")
+    st.caption("Job description applied. It guides search and generated answers; saved scripts keep their original wording.")
 render_evidence(library, job_description)
 mode = st.radio("Mode", ("Answer assistant", "Practice"), horizontal=True)
 if mode == "Practice":
@@ -353,7 +354,7 @@ if request_answer and st.session_state.get("pending_answer"):
     try:
         with st.spinner("Answering..."):
             text = render_answer(client, pending["question"], pending["candidate"], pending["job_context"])
-        if pending["candidate"]["response_type"] == "story" and not pending["candidate"].get("assigned_match"):
+        if pending["candidate"]["response_type"] == "story" and not uses_saved_script(pending["candidate"]):
             text = enforce_single_star_story(text)
         st.session_state.active_answer = {
             **pending, "text": text,
@@ -376,13 +377,17 @@ if active:
     st.caption(f"Selected answer for: {active['question']}")
     st.markdown(f"**{'Detected Principle' if candidate['response_type'] == 'story' else 'Answer Category'}:** {display_category(candidate)}")
     st.caption(f"Saved evidence: {active['story_id']}. Claims are not independently verified.")
-    if candidate.get("assigned_match"):
-        saved_label = "Saved backup for this question" if candidate.get("backup_for") else "Saved answer for this question"
-        st.caption(f"{candidate['question_key']} · {saved_label}")
+    if uses_saved_script(candidate):
+        if candidate.get("assigned_match"):
+            saved_label = "Saved backup for this question" if candidate.get("backup_for") else "Saved answer for this question"
+        else:
+            saved_label = "Related saved answer · original wording"
+        st.caption(f"{candidate.get('question_key', '')} · {saved_label}")
+        st.markdown(f"**Saved question:** {candidate['question']}")
     if st.session_state.story_reviews.get(active["story_id"], {}).get("review_status") == "Needs correction":
         st.warning("You marked this source as needing correction. Review the source before using this earlier answer.")
     if st.checkbox("Show retrieved context"):
-        st.markdown("**Saved answer source**" if candidate.get("assigned_match") else "**Selected context sent to GPT**")
+        st.markdown("**Saved answer source**" if uses_saved_script(candidate) else "**Selected context sent to GPT**")
         st.code(candidate["text"], language="text")
         st.text(active["job_context"] or "No job background was applied to this answer.")
     st.download_button("Download this answer", answer_markdown(active), "interview-answer.md", "text/markdown")

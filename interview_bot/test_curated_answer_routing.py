@@ -107,12 +107,20 @@ class CuratedAnswerRoutingTests(unittest.TestCase):
         self.assertNotIn("Generated wording", exported)
         self.assertIn(self.records[11]["answer"], exported)
 
-    def test_ordinary_selection_of_managed_record_still_uses_normal_generation(self) -> None:
+    def test_ordinary_selection_of_curated_record_preserves_saved_script(self) -> None:
+        client = Mock()
+        candidate = build_candidate(1, 0, self.chunks[0])
+        self.assertEqual(render_answer(client, "A related question", candidate, ""), self.records[0]["answer"])
+        client.chat.completions.create.assert_not_called()
+
+    def test_ordinary_selection_of_noncurated_managed_record_uses_generation(self) -> None:
         client = Mock()
         client.chat.completions.create.return_value = {
             "choices": [{"finish_reason": "stop", "message": {"content": "Tailored response"}}],
         }
-        candidate = build_candidate(1, 0, self.chunks[0])
+        record = {key: value for key, value in self.records[0].items()
+                  if key not in {"answer_set", "question_key", "scenario_id"}}
+        candidate = build_candidate(1, 0, serialize_content(record))
         self.assertEqual(render_answer(client, "A related question", candidate, ""), "Tailored response")
         client.chat.completions.create.assert_called_once()
 
@@ -264,6 +272,79 @@ class UpdatedExperienceRoutingTests(unittest.TestCase):
             with self.subTest(unrelated_question=number):
                 selected = assigned_candidates(f"Q{number}", chunks)
                 self.assertEqual([item["source_id"] for item in selected], [f"planning-interview-{number:02d}"])
+
+
+    def test_reported_paraphrases_select_current_saved_scripts_without_generation(self) -> None:
+        cases = {
+            "walk me through planning process": 1,
+            '"How do you approach contingency analysis under NERC TPL-001 standards and ERCOT '
+            'Planning Guides? Specifically, how do you evaluate dynamic stability, weak grid, and '
+            'voltage recovery challenges associated with high Inverter-Based Resource (IBR) '
+            'penetration in regions like West or South Texas?"': 6,
+        }
+        client = Mock()
+        for question, number in cases.items():
+            with self.subTest(question=question):
+                selected = rank_candidates(question, self.runtime.chunks, {0: 1000}, focus="AI engineering")
+                self.assertEqual([item["source_id"] for item in selected], [f"planning-interview-{number:02d}"])
+                record = self.by_id[selected[0]["source_id"]]
+                self.assertTrue(selected[0]["assigned_match"])
+                rendered = render_answer(client, question, selected[0], "Emphasize uncertainty.")
+                self.assertEqual(rendered.split("\n\n**Follow-up preparation**\n\n")[0], record["answer"])
+        client.chat.completions.create.assert_not_called()
+
+    def test_distinct_natural_intents_keep_primaries_and_only_linked_backups(self) -> None:
+        cases = {
+            "Could you outline the ERCOT transmission planning workflow from start to finish?": 1,
+            "Please describe your planning process.": 1,
+            "1. walk me through planning process": 1,
+            "Q1: walk me through planning process": 1,
+            "How should I organize NERC TPL-001 compliance for contingency analysis?": 3,
+            "Explain weak-grid and voltage recovery issues with inverter-based resources.": 6,
+            "What would you check when a consultant's results differ from ERCOT study findings?": 8,
+            "Describe how you led a complex transmission planning project across teams.": 13,
+            "Walk me through the Williamson-Burnet GTC study oscillations.": 14,
+            "Explain the stakeholder objections on the Liberty Hill project.": 15,
+            "How do you manage multiple transmission study deadlines with limited staffing?": 16,
+            "Describe your Marshall Ford generator MQT investigation.": 18,
+            "How do you coach and mentor transmission planning engineers?": 19,
+        }
+        for question, number in cases.items():
+            with self.subTest(question=question):
+                selected = assigned_candidates(question, self.runtime.chunks)
+                primary_id = f"planning-interview-{number:02d}"
+                backups = [record["id"] for record in self.content if record.get("backup_for") == primary_id]
+                self.assertIsNotNone(selected)
+                self.assertEqual([item["source_id"] for item in selected], [primary_id, *backups])
+
+    def test_generic_and_unrelated_questions_do_not_force_curated_assignment(self) -> None:
+        for question in (
+            "How do you approach planning?", "Tell me about your work.",
+            "Walk me through retirement planning process.",
+            "Explain model validation.", "What is your experience with PSCAD?",
+            "How do you examine resource behavior during disturbances?",
+            "Tell me about a conflict.", "How do you coach software developers?",
+            "What are the differences between steady-state and dynamic studies?",
+            "How do you comply with NERC CIP cybersecurity standards?",
+            "How do FAC-003 vegetation standards affect transmission planning?",
+            "How do multiple inverter-based resources affect transmission planning?",
+        ):
+            with self.subTest(question=question):
+                self.assertIsNone(assigned_candidates(question, self.runtime.chunks))
+
+    def test_competing_intents_and_mismatched_backup_requests_fail_closed(self) -> None:
+        for question in (
+            "Explain NERC TPL compliance and IBR dynamic stability.",
+            "How do NERC standards affect the ERCOT transmission planning process?",
+            "Describe how you led a transmission planning project while managing multiple deadlines.",
+            "Explain the consultant's conflicting ERCOT steady-state and dynamic study results.",
+            "Q3 and Q6", "Q3 and 6", "Please answer questions 13 and 19",
+            "Q18: walk me through planning process",
+            "Q18 backup about the Marshall Ford model error",
+            "Tell me about the Liberty Hill project and the Marshall Ford model.",
+        ):
+            with self.subTest(question=question):
+                self.assertEqual(assigned_candidates(question, self.runtime.chunks), [])
 
 
 if __name__ == "__main__":

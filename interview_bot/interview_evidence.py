@@ -9,6 +9,7 @@ from interview_retrieval import (
     build_candidate,
     content_identity,
     extract_tag_value,
+    uses_saved_script,
 )
 
 REVIEW_STATUSES = ("Not reviewed", "Reviewed by me", "Needs correction")
@@ -136,9 +137,13 @@ def coverage_map(description: str, library: list[dict]) -> list[dict[str, Any]]:
 
 def answer_markdown(answer: dict) -> str:
     """Export saved or generated wording with its question and evidence ID."""
-    wording = "Saved answer wording" if answer.get("candidate", {}).get("assigned_match") else "Generated wording"
+    candidate = answer.get("candidate", {})
+    saved = uses_saved_script(candidate)
+    wording = "Saved answer wording" if saved else "Generated wording"
+    saved_question = f"Saved question: {candidate['question']}\n\n" if saved and candidate.get("question") else ""
     return (
         f"# Interview practice answer\n\nQuestion: {answer['question']}\n\n"
+        f"{saved_question}"
         f"{answer['text']}\n\nSaved evidence ID: {answer.get('story_id', 'Direct answer')}\n"
         f"\n{wording}; verify claims against the saved evidence before use.\n"
     )

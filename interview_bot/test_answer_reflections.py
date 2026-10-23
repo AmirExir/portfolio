@@ -88,6 +88,30 @@ class AnswerReflectionTests(unittest.TestCase):
         ):
             self.assertIn(constraint, instructions)
 
+    def test_new_question_prompt_requests_spoken_answers_without_verification_preambles(self) -> None:
+        for response_type in ("story", "direct"):
+            with self.subTest(response_type=response_type):
+                record = {**story_record(), "response_type": response_type, "category": "Model comparison"}
+                candidate = build_candidate(1, 0, serialize_content(record))
+                client = Mock()
+                client.chat.completions.create.return_value = {
+                    "choices": [{"finish_reason": "stop", "message": {"content": "A supported spoken answer."}}],
+                }
+                render_answer(client, "How would you handle a different case?", candidate, "Desired tool experience")
+                messages = client.chat.completions.create.call_args.kwargs["messages"]
+                instructions = messages[0]["content"]
+                for constraint in (
+                    "Sound like a person speaking to an interviewer", "Start with the answer",
+                    "without apologizing for not having an example", "avoid starting every sentence with 'I would'",
+                    "Never invent a project, location, tool experience", "Keep material engineering limits",
+                    "Never turn a proposed approach into a claimed personal accomplishment",
+                ):
+                    self.assertIn(constraint, instructions)
+                self.assertNotIn("say: The available documents do not establish this conclusively", instructions)
+                self.assertIn(candidate["text"], messages[1]["content"])
+                self.assertIn("<job_background>\nDesired tool experience", messages[1]["content"])
+                client.chat.completions.create.assert_called_once()
+
     def test_every_assigned_record_has_distinct_followups_with_the_right_experience_basis(self) -> None:
         records = json.loads(Path(__file__).with_name("manager_content.json").read_text())
         records = [item for item in records if item.get("answer_set") or item.get("backup_for")]
@@ -106,6 +130,10 @@ class AnswerReflectionTests(unittest.TestCase):
                     self.assertIn("**What would you challenge first?**", reflection)
                     self.assertNotIn("I learned", reflection)
                 self.assertNotIn("**Follow-up preparation**", record["answer"])
+                self.assertNotRegex(
+                    record["answer"],
+                    r"(?i)(?:do not|don't|don’t) have a verified|useful hypothetical|can describe my proposed",
+                )
 
     def test_reflection_revision_invalidates_cache_and_actions_but_preserves_story_identity(self) -> None:
         record = story_record()

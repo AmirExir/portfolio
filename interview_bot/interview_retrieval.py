@@ -7,7 +7,7 @@ from typing import Any
 
 MAX_JOB_DESCRIPTION_CHARS = 20000
 MAX_JOB_SEARCH_CHARS = 4000
-RETRIEVAL_POLICY_VERSION = 6
+RETRIEVAL_POLICY_VERSION = 7
 
 # Shared analysis methods occur in both planning and real-time operations. A
 # planning purpose must be established before those methods can boost ranking.
@@ -168,6 +168,15 @@ def coerce_candidate(candidate: Any) -> dict[str, Any]:
     return candidate if isinstance(candidate, dict) else build_candidate(0, -1, candidate)
 
 
+def uses_saved_script(candidate: dict) -> bool:
+    """Identify authored answer scripts even when general retrieval selects them."""
+    return bool(
+        candidate.get("assigned_match")
+        or (candidate.get("answer_set") and candidate.get("question_key"))
+        or candidate.get("backup_for")
+    )
+
+
 def display_category(candidate: dict[str, Any] | None) -> str:
     """Return the existing principle or direct-answer category for the UI."""
     if not candidate:
@@ -308,8 +317,84 @@ def topic_score(text: str, focus: str) -> float:
     return min(max(hits, int(focus == "Transmission planning")), 5) * 0.2
 
 
+def _planning_question_intents(query: str) -> set[str]:
+    """Recognize bounded planning paraphrases from the question alone.
+
+    These signatures deliberately cover a few distinctive intents, not every
+    mention of a planning tool or shared engineering term. Unrecognized wording
+    keeps ordinary retrieval; competing intents cannot silently select a story.
+    """
+    normalized = re.sub(r"\W+", " ", _normalize(_question_identity(query))).strip()
+    normalized = re.sub(r"^(?:q|question)\s*\d{1,2}\s+", "", normalized)
+
+    def has(pattern: str, value: str = normalized) -> bool:
+        return bool(re.search(rf"\b(?:{pattern})\b", value))
+
+    def intents(value: str) -> set[str]:
+        found = set()
+        domain = has(r"ercot|transmission|power system", value)
+        process = has(r"planning (?:process|workflow)|transmission project approval process", value)
+        short_process = re.fullmatch(
+            r"(?:please )?(?:(?:can|could) you )?"
+            r"(?:walk (?:me|us) through|explain|describe|outline|summarize|give (?:me|us) an overview of) "
+            r"(?:the |your )?(?:ercot )?(?:transmission )?planning (?:process|workflow)"
+            r"(?: end to end| from start to finish)?", value,
+        )
+        if short_process or (domain and process):
+            found.add("1")
+        planning_standard = has(r"tpl(?: 001)?|fac 00[128]|mod 0(?:26|27|32)", value)
+        generic_planning_standard = (
+            has(r"nerc", value) and has(r"planning|stud(?:y|ies)|contingency analysis", value)
+            and not has(r"cip|prc|bal|iro|eop|top|clo|fac|mod", value)
+        )
+        if ((planning_standard or generic_planning_standard)
+                and not has(r"cip|prc|bal|iro|eop|top|clo|fac 003", value)
+                and has(r"standards?|compliance|contingency analysis|planning criteria", value)):
+            found.add("3")
+        if (has(r"ibrs?|inverter based resources?", value)
+                and has(r"(?:dynamic|transient|voltage) stability|stability challenges?|weak grids?|"
+                        r"grid strength|voltage recovery|control interactions?", value)):
+            found.add("6")
+        if (has(r"consultants?", value) and has(r"ercot", value)
+                and has(r"discrepanc\w*|differ\w*|conflicting|inconsistent", value)
+                and has(r"stud(?:y|ies)|results|findings", value)):
+            found.add("8")
+        if (has(r"(?:led|lead|leading) (?:a |the )?(?:complex )?transmission planning project", value)):
+            found.add("13")
+        if ((has(r"williamson burnet", value) and has(r"gtc|stability|oscillations?|stud(?:y|ies)", value))
+                or (has(r"conflicting|discrepancies|discrepancy|inconsistent|contradictory", value)
+                    and has(r"steady state", value) and has(r"dynamic", value)
+                    and has(r"stud(?:y|ies)|results", value))):
+            found.add("14")
+        if (has(r"liberty hill|highway 29", value)
+                and has(r"disagreements?|objections?|stakeholders?|project|alternatives?", value)):
+            found.add("15")
+        if (domain and has(r"competing|concurrent|multiple|several", value)
+                and has(r"deadlines?|staffing|schedules|resource allocation", value)):
+            found.add("16")
+        if ((has(r"marshall ford", value) and has(r"model|mqt|reactances?|generator", value))
+                or (has(r"dynamic model|generator model", value)
+                    and has(r"(?:found|find|identified|identify|caught|detect\w*) (?:a |an |the )?"
+                            r"(?:significant |technical )?(?:error|inconsistency)|model (?:error|inconsistency)", value))):
+            found.add("18")
+        if (has(r"mentor\w*|coach\w*|developing engineers", value)
+                and has(r"transmission planning engineers?|transmission planners?", value)):
+            found.add("19")
+        return found
+
+    found = intents(normalized)
+    # A specific stability follow-up can narrow a broad compliance lead-in.
+    # This does not authorize blending Q3 and Q6 or choosing either when the
+    # request gives them equal weight or contains another competing intent.
+    parts = re.split(r"\bspecifically\b", normalized, maxsplit=1)
+    if found == {"3", "6"} and len(parts) == 2:
+        if intents(parts[0].strip()) == {"3"} and intents(parts[1].strip()) == {"6"}:
+            return {"6"}
+    return found
+
+
 def assigned_candidates(query: str, chunks: list[dict]) -> list[dict[str, Any]] | None:
-    """Resolve explicit authored questions and shortcuts without semantic guesses.
+    """Resolve authored questions first, then bounded planning paraphrases.
 
     ``None`` leaves an unrecognized request to ordinary retrieval. A recognized
     assignment yields its primary record first, followed only by explicitly
@@ -369,7 +454,36 @@ def assigned_candidates(query: str, chunks: list[dict]) -> list[dict[str, Any]] 
         if normalized_query in {identity(value) for value in authored if value.strip()}:
             matches.append(assigned_record(idx, chunk))
     if not matches:
-        return None
+        primary_chunks = [
+            (idx, chunk) for idx, chunk in enumerate(chunks)
+            if extract_tag_value(chunk["text"], "Answer Set") == "ercot-planning-20"
+        ]
+        if not primary_chunks:
+            return None
+        # Backup selection remains an explicit authored request. Do not infer
+        # the primary from words inside an unrecognized backup request.
+        if re.search(r"\bbackup\b", normalized_query):
+            return []
+        if re.search(r"\b(?:q|questions?)\s*\d{1,2}\s*(?:,|and|&)\s*"
+                     r"(?:(?:q|questions?)\s*)?\d{1,2}\b", query.casefold()):
+            return []
+        requested = set(re.findall(r"\b(?:q|questions?)\s*(\d{1,2})\b", query.casefold()))
+        prefix = re.match(r"^\s*#?(\d{1,2})[.)]?\s+", query)
+        if prefix:
+            requested.add(prefix[1])
+        numbers = _planning_question_intents(query)
+        if len(requested) > 1 or (numbers and requested and numbers != requested):
+            return []
+        if not numbers:
+            return None
+        if len(numbers) != 1:
+            return []
+        matches = [
+            assigned_record(idx, chunk) for idx, chunk in primary_chunks
+            if extract_tag_value(chunk["text"], "Question Key").partition(" ")[0] in numbers
+        ]
+        if not matches:
+            return None
     if len(matches) != 1 or not matches[0]["answer_set"]:
         return []
     primary = matches[0]

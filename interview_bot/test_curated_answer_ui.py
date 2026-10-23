@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from types import SimpleNamespace
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from interview_evidence import answer_markdown, story_id
 from interview_sessions import load_session, session_bytes
@@ -34,6 +34,121 @@ class CuratedAnswerUITests(unittest.TestCase):
         """Return only explicitly authored backups for one primary answer."""
         content = json.loads(Path(__file__).with_name("manager_content.json").read_text())
         return [item for item in content if item.get("backup_for") == source_id]
+
+    def select_semantic_neighbor(self, source_id: str) -> dict:
+        """Choose a saved vector row while preserving runtime mapping and ranking."""
+        chunks = json.loads(Path(__file__).with_name("chunks_cleaned.json").read_text())
+        index, chunk = next(
+            (index, chunk) for index, chunk in enumerate(chunks)
+            if chunk.get("source_id") == source_id
+        )
+        self.app.session_state["index"].search = Mock(return_value=(
+            ui_fixtures.np.array([[0.99]]), ui_fixtures.np.array([[index]]),
+        ))
+        return chunk
+
+    def test_reported_paraphrases_return_saved_q1_and_q6_without_api_requests(self) -> None:
+        questions = (
+            ("planning-interview-01", "walk me through planning process"),
+            ("planning-interview-06", (
+                '"How do you approach contingency analysis under NERC TPL-001 standards and ERCOT '
+                "Planning Guides? Specifically, how do you evaluate dynamic stability, weak grid, "
+                "and voltage recovery challenges associated with high Inverter-Based Resource "
+                '(IBR) penetration in regions like West or South Texas?"'
+            )),
+        )
+        records = {record["id"]: record for record in self.records()}
+        with patch.dict("os.environ", {"OPENAI_API_KEY": ""}):
+            for source_id, question in questions:
+                with self.subTest(source_id=source_id):
+                    record = records[source_id]
+                    self.app.chat_input[0].set_value(question).run()
+                    self.assertFalse(self.app.exception)
+                    active = self.app.session_state["active_answer"]
+                    self.assertEqual(active["question"], question)
+                    self.assertEqual(active["candidate"]["source_id"], source_id)
+                    self.assertTrue(active["candidate"]["assigned_match"])
+                    self.assertEqual(active["candidate"]["text"], serialize_content(record)["text"])
+                    self.assert_saved_answer_and_reflection(active["text"], record)
+                    self.assertTrue(any(
+                        f"{record['question_key']} · Saved answer for this question" == caption.value
+                        for caption in self.app.caption
+                    ))
+                    self.assertTrue(any(
+                        f"**Saved question:** {record['question']}" == element.value
+                        for element in self.app.markdown
+                    ))
+        self.client.embeddings.create.assert_not_called()
+        self.client.chat.completions.create.assert_not_called()
+
+    def test_semantic_curated_matches_preserve_scripts_reflections_and_saved_export(self) -> None:
+        records = {record["id"]: record for record in self.records()}
+        cases = (
+            ("planning-interview-06", "How do you examine resource behavior during disturbances?"),
+            ("planning-interview-18", "Tell me about your work."),
+        )
+        for source_id, question in cases:
+            with self.subTest(source_id=source_id):
+                record = records[source_id]
+                self.select_semantic_neighbor(source_id)
+                self.client.embeddings.create.reset_mock()
+                self.app.chat_input[0].set_value(question).run()
+                self.assertFalse(self.app.exception)
+                active = self.app.session_state["active_answer"]
+                candidate = active["candidate"]
+                self.assertEqual(candidate["source_id"], source_id)
+                self.assertFalse(candidate.get("assigned_match"))
+                self.assertEqual(candidate["text"], serialize_content(record)["text"])
+                self.assert_saved_answer_and_reflection(active["text"], record)
+                self.assertTrue(any(
+                    f"{record['question_key']} · Related saved answer · original wording" == caption.value
+                    for caption in self.app.caption
+                ))
+                self.assertTrue(any(
+                    f"**Saved question:** {record['question']}" == element.value
+                    for element in self.app.markdown
+                ))
+                exported = answer_markdown(active)
+                self.assertIn(f"Question: {question}\n", exported)
+                self.assertIn(f"Saved question: {record['question']}\n", exported)
+                self.assertIn(active["text"], exported)
+                self.assertEqual(exported.count("**Follow-up preparation**"), 1)
+                self.assertIn("Saved answer wording", exported)
+                self.assertNotIn("Generated wording", exported)
+                next(
+                    checkbox for checkbox in self.app.checkbox
+                    if checkbox.label == "Show retrieved context"
+                ).set_value(True).run()
+                self.assertFalse(self.app.exception)
+                self.assertTrue(any(element.value == "**Saved answer source**" for element in self.app.markdown))
+                self.assertTrue(any(element.value == candidate["text"] for element in self.app.code))
+                self.assert_saved_answer_and_reflection(self.app.session_state["active_answer"]["text"], record)
+                self.client.embeddings.create.assert_called_once()
+                self.app.session_state["index"].search.assert_called_once()
+        self.client.chat.completions.create.assert_not_called()
+
+    def test_noncurated_semantic_match_still_generates_from_selected_evidence(self) -> None:
+        source_id = "story-pec-annual-transmission-assessment"
+        self.select_semantic_neighbor(source_id)
+        question = "Tell me about your work."
+        self.app.chat_input[0].set_value(question).run()
+        self.assertFalse(self.app.exception)
+        active = self.app.session_state["active_answer"]
+        candidate = active["candidate"]
+        self.assertEqual(candidate["source_id"], source_id)
+        self.assertFalse(candidate.get("assigned_match"))
+        self.assertFalse(candidate["answer_set"])
+        self.assertEqual(active["text"], "Situation: Test.\nTask: Test.\nAction: Test.\nResult: Test.")
+        self.client.embeddings.create.assert_called_once()
+        self.client.chat.completions.create.assert_called_once()
+        messages = self.client.chat.completions.create.call_args.kwargs["messages"]
+        self.assertIn(f"Question: {question}", messages[1]["content"])
+        self.assertIn(candidate["text"], messages[1]["content"])
+        self.assertFalse(any("Related saved answer" in caption.value for caption in self.app.caption))
+        exported = answer_markdown(active)
+        self.assertIn("Generated wording", exported)
+        self.assertNotIn("Saved answer wording", exported)
+        self.assertNotIn("Saved question:", exported)
 
     def test_all_twenty_shortcuts_return_full_unique_scripts_without_generation(self) -> None:
         records = self.records()
