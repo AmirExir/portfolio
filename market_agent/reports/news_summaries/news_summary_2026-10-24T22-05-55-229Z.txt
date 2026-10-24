@@ -1,0 +1,18 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+## Facts
+- **AI / semis / data center funding stress:** **CNBC** (published **2026-10-23T21:49:08Z**) reported “turmoil” in the AI infrastructure buildout, saying neoclouds are under pressure, credit risks are rising, and **Solidigm pulled its IPO**, framing this as a key setup issue ahead of hyperscaler earnings.
+- **Core AI infrastructure sentiment:** **CNBC**’s item above specifically highlights **mounting credit stress** around AI-linked infrastructure names, which is relevant to high-beta AI and semiconductor-adjacent trades.
+- **Instacart M&A speculation:** **The Information** (published **2026-10-23T21:34:30Z**) reported **Instacart is in talks to sell itself**, and said the stock **jumped 10% in late regular trading** after the report.
+- **Index membership change:** **PRNewswire / S&P Dow Jones announcement** (published **2026-10-23T21:45:00Z**) said **Howard Hughes Holdings (HHH)** will **join the S&P SmallCap 600** effective before trading on **2026-10-28**, replacing **Arcosa (ACA)** after CRH’s acquisition of Arcosa.
+- **Crypto / tokenized assets:** **Cointelegraph** (published **2026-10-23T21:32:16Z**) reported that **Wells Fargo, Arm Holdings, and Intuit** were among additional companies objecting to **OKX-ICE tokenized stock listings**.
+- **Crypto / tokenized money funds:** **newsBTC** (published **2026-10-23T22:00:00Z**) reported **J.P. Morgan Asset Management** expanded access to tokenized money market funds **MONY** and **JLTXX** onto **Solana** for qualified U.S. investors via Morgan Money.
+- **Energy / geopolitics:** **Salon** (published **2026-10-23T21:30:55Z**) said Middle East fighting continues and noted **oil prices climbed**, tied to comments that the Iran war could last another year.
+- **AI hardware technology headline:** **TechRadar** (published **2026-10-23T21:35:00Z**) reported **Marvell** unveiled a **photonic fabric memory module** concept aimed at linking up to 16 GPUs with large pooled memory, though sampling does not begin until 2027.
+
+## Interpretation
+- The freshest actionable set is **thin** and leans heavily toward **AI infrastructure stress** rather than broad macro drivers like Fed, rates, or inflation.
+- The most clearly market-relevant fresh development is **CNBC’s AI buildout stress report**, because it speaks directly to **funding, credit, and IPO appetite** around AI ecosystem names ahead of major earnings.
+- **Instacart sale-talks** is a notable single-name catalyst, but it is **idiosyncratic**, not a broad tape explainer.
+- **Oil/geopolitical** headlines may matter for risk sentiment and energy, but the provided source set does **not** give enough hard detail to explain broader index action with confidence.
+- There are **no strong fresh articles here on Fed policy, Treasury yields, inflation data, or major index-level macro catalysts**, so if you are trying to explain today’s broader market tape, this article set does **not fully do it**.
