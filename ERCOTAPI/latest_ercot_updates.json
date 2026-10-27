@@ -2,6 +2,186 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "756b2c3da99a4210322b5a7bf261642913dd13be6a866ffcc462e0f35b2d189e",
+      "title": "1340NPRR-22 WMS Comments 100826",
+      "document_number": "NPRR1340",
+      "source": "NPRR",
+      "published_date": "Oct 8, 2026",
+      "downloaded_at": "2026-10-24T11:00:49Z",
+      "observed_at": "2026-10-24T11:00:49Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/10/08/1340NPRR-22-WMS-Comments-100826.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1340",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
+      "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "a6422594251ef99a0c5bb4d4f65ab0215d2aa73fda98b1968c7e93e580f281d1",
+      "title": "1346NPRR-06 PRS Report 101426",
+      "document_number": "NPRR1346",
+      "source": "NPRR",
+      "published_date": "Oct 16, 2026",
+      "downloaded_at": "2026-10-24T11:00:48Z",
+      "observed_at": "2026-10-24T11:00:48Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/10/16/1346NPRR-06-PRS-Report-101426.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1346",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the transportation-cost allowance incorporated into the Fuel Oil Price (FOP) by increasing the adder from $0.05 per gallon to $0.10 per gallon. The NPRR updates the FOP definition in Section 2.1, Definitions. The revision maintains the existing fuel oil index methodology and conversion factor while updating a transportation-cost assumption that has remained substantially unchanged since implementation of the Nodal market more than 15 years ago. The proposed change improves the accuracy of fuel oil pricing assumptions used for reliability services and cost recovery calculations by better reflecting current transportation costs associated with the delivery and replenishment of fuel oil inventories.",
+      "issue_title": "Updates to the Fuel Oil Price (FOP)",
+      "affected_sections": "2.1",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "400d6f82e8ae4d8f84c9bf22a30e54ae04cd4e85a012b19cae194b711b99a0c2",
+      "title": "1340NPRR-17 ERCOT Comments 092426",
+      "document_number": "NPRR1340",
+      "source": "NPRR",
+      "published_date": "Sep 24, 2026",
+      "downloaded_at": "2026-10-24T11:00:48Z",
+      "observed_at": "2026-10-24T11:00:48Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/09/24/1340NPRR-17-ERCOT-Comments-092426.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1340",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
+      "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "0393dddb3493c03771b3bea51bd876baa588e738f9cbb4ddc0a8a7d6b5d6ea0d",
+      "title": "1342NPRR-11 Board Report 091526",
+      "document_number": "NPRR1342",
+      "source": "NPRR",
+      "published_date": "Sep 17, 2026",
+      "downloaded_at": "2026-10-24T11:00:47Z",
+      "observed_at": "2026-10-24T11:00:47Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/09/17/1342NPRR-11-Board-Report-091526.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1342",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) creates a new process for determining the Mitigated Offer Cap (MOC) for Contract for Capacity (C4C) Resources procured through Section 6.5.1.1, ERCOT Control Area Authority. This NPRR proposes using market design principles to allow the C4C Resource to be Dispatched but still be above other Resources that solve the same constraint. This NPRR uses the “last-in-line” principle from NPRR826, Mitigated Offer Caps for RMR Resources, to set the MOC for C4C Resources and minimize their effect on market competition. This NPRR sets clear requirements for using this method. If those requirements aren't fulfilled, mitigation of the C4C Resource is determined by cost. The C4C MOC methodology in this NPRR will only be applied to an active constraint when all of the following three conditions are true: 1) The C4C Resource has an unloading Shift Factor more than 2% on the Transmission Facility; 2) The C4C Resource has a greater than 5% unloading impact* on the Transmission Facility; and 3) At least one other non-C4C Resource has a 5% or more unloading Shift Factor on the Transmission Facility. Unloading impact is reduction of flow on the Transmission Facility and is used in ERCOT’s evaluation of whether the unit would be an effective C4C Resource. The MOC methodology in this NPRR is similar to the NPRR826 approach and works as follows to create the line: 1) Identify all non-Reliability Must-Run (RMR) and non-C4C Resources that have a greater than 5%* unloading Shift Factor on the Transmission Facility; 2) Collect the highest energy offer point (mitigated if applicable) for each Resource in step 1 and convert to a Shadow Price equivalent; 3) Select the highest value from step 2 and ensure it is less than the Shadow Price cap for the constraint by $1; 4) Add $0.01 to the value from step 3, multiply by the Shift Factor of the C4C Resource to convert back to an energy offer equivalent, and set as the C4C MOC; and 5) If there are multiple constraints, use the lowest value from step 4. Finally, if possible, ERCOT should implement this NPRR with NPRR826, stop manual MOC calculations for RMR and C4C, and remove related Protocol language.",
+      "issue_title": "Mitigated Offer Caps for Contract for Capacity Resources",
+      "affected_sections": "2.1, 2.2, 4.4.9.4.3",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "ee72d7767b2c49d3035856bc806722781df93161c34626678d338537c127b3bb",
+      "title": "1341NPRR-11 Board Report 091526",
+      "document_number": "NPRR1341",
+      "source": "NPRR",
+      "published_date": "Sep 17, 2026",
+      "downloaded_at": "2026-10-24T11:00:47Z",
+      "observed_at": "2026-10-24T11:00:47Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/09/17/1341NPRR-11-Board-Report-091526.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1341",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) relocates select terms from Load Profiling Guide Section 19.1, Definitions, to Protocol Section 2.1, Definitions, removes the term ‘Time of Use Schedule (TOUS)’, and updates section references related to the Profile Decision Tree.",
+      "issue_title": "Related to LPGRR077, Profile Decision Tree Excel-to-Word Conversion",
+      "affected_sections": "2.1, 2.2, 11.4.2, 11.4.4.2, 11.4.4.3, 18.4.2",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "38adb05c4dcfdb95a95028e40f1328ded48baf032656d5d37e3a6c28c52c143e",
+      "title": "1346NPRR-03 PRS Report 091626",
+      "document_number": "NPRR1346",
+      "source": "NPRR",
+      "published_date": "Sep 21, 2026",
+      "downloaded_at": "2026-10-24T11:00:44Z",
+      "observed_at": "2026-10-24T11:00:44Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/09/21/1346NPRR-03-PRS-Report-091626.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1346",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the transportation-cost allowance incorporated into the Fuel Oil Price (FOP) by increasing the adder from $0.05 per gallon to $0.10 per gallon. The NPRR updates the FOP definition in Section 2.1, Definitions. The revision maintains the existing fuel oil index methodology and conversion factor while updating a transportation-cost assumption that has remained substantially unchanged since implementation of the Nodal market more than 15 years ago. The proposed change improves the accuracy of fuel oil pricing assumptions used for reliability services and cost recovery calculations by better reflecting current transportation costs associated with the delivery and replenishment of fuel oil inventories.",
+      "issue_title": "Updates to the Fuel Oil Price (FOP)",
+      "affected_sections": "2.1",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "1d52de3bf3dd5ec8af281489a03c42fe7c2eda17fd138882a6ca9bddbd355d94",
+      "title": "NPRR1343",
+      "document_number": "NPRR1343",
+      "source": "NPRR",
+      "published_date": "Jun 30, 2026",
+      "downloaded_at": "2026-10-24T11:00:43Z",
+      "observed_at": "2026-10-24T11:00:43Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1343",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1343",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) proposes the introduction of a bid fee for each inefficient hourly Point-to-Point (PTP) Obligation bid in the Day-Ahead Market (DAM). The fee will be assessed per inefficient PTP hourly bid and will be modifiable. Changes to the fee will be recommended by WMS, approved by TAC, and communicated to Market Participants in advance of the DAM run in which the change will take effect.",
+      "issue_title": "Introduction of PTP Obligation Bid Fee in DAM",
+      "affected_sections": "4.6.3., 7.9.3.1, 9.2.3, and 16.11.4.3.1",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "9f3ad5c95234568d5c41ab268fa2396809d0e095e5f13b8ee492180fc19e9b6d",
+      "title": "NPRR1340",
+      "document_number": "NPRR1340",
+      "source": "NPRR",
+      "published_date": "May 29, 2026",
+      "downloaded_at": "2026-10-24T11:00:43Z",
+      "observed_at": "2026-10-24T11:00:43Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1340",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1340",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
+      "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "71391738dfc63c2eddc8165293cb0595615ba0db08689325de3a6970a4467b25",
+      "title": "NPRR1345",
+      "document_number": "NPRR1345",
+      "source": "NPRR",
+      "published_date": "Aug 10, 2026",
+      "downloaded_at": "2026-10-24T11:00:42Z",
+      "observed_at": "2026-10-24T11:00:42Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1345",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1345",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) extends the sunset date established by NPRR1279, Reinstate Enhancements to the Exceptional Fuel Cost Process, from April 1, 2027 to April 1, 2030. The extension preserves the existing review and validation framework for Exceptional Fuel Cost submissions, including supporting documentation and fuel supply contracts submitted under the Exceptional Fuel Cost process, and provides additional time for ERCOT and stakeholders to evaluate long-term enhancements to the treatment of contractual fuel costs while maintaining an existing and operational process that has been actively used since implementation of NPRR1279.",
+      "issue_title": "Extend NPRR1279 Sunset Date for Exceptional Fuel Cost Process",
+      "affected_sections": "2.1 and 4.4.9.4.1",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
       "content_sha256": "4a492d1427b3715f54a0d8f1795ef1a6785652a2eccbf394eafbd1fc28880865",
       "title": "1351NPRR-04 PRS Report 101426",
       "document_number": "NPRR1351",
@@ -215,7 +395,7 @@
       "revision_family": "NPRR",
       "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
       "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -255,7 +435,7 @@
       "revision_family": "NPRR",
       "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
       "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -288,46 +468,6 @@
       "observed_at": "2026-10-16T20:02:07Z",
       "status": "Pending",
       "url": "https://www.ercot.com/files/docs/2026/10/02/1343NPRR-09-IMM-Comments-100226.docx",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1343",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) proposes the introduction of a bid fee for each inefficient hourly Point-to-Point (PTP) Obligation bid in the Day-Ahead Market (DAM). The fee will be assessed per inefficient PTP hourly bid and will be modifiable. Changes to the fee will be recommended by WMS, approved by TAC, and communicated to Market Participants in advance of the DAM run in which the change will take effect.",
-      "issue_title": "Introduction of PTP Obligation Bid Fee in DAM",
-      "affected_sections": "4.6.3., 7.9.3.1, 9.2.3, and 16.11.4.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "5b9258eb7c1dc2d88d2119b757ad065f16af1fcb6b67e6cb9c51709407ca78c8",
-      "title": "NPRR1340",
-      "document_number": "NPRR1340",
-      "source": "NPRR",
-      "published_date": "May 29, 2026",
-      "downloaded_at": "2026-10-16T20:02:05Z",
-      "observed_at": "2026-10-16T20:02:05Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1340",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1340",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
-      "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "e7f70d3bbea617b98ff2dd22087ae99cd80d27741ef92cc41ef212ac04356184",
-      "title": "NPRR1343",
-      "document_number": "NPRR1343",
-      "source": "NPRR",
-      "published_date": "Jun 30, 2026",
-      "downloaded_at": "2026-10-16T20:02:04Z",
-      "observed_at": "2026-10-16T20:02:04Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1343",
       "sources": [
         "NPRR"
       ],
@@ -1339,26 +1479,6 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
-      "content_sha256": "471c722a06f1d0329abf1f74ea9fcf13cfc54e8fff90cf932755db797e76ac4e",
-      "title": "NPRR1345",
-      "document_number": "NPRR1345",
-      "source": "NPRR",
-      "published_date": "Aug 10, 2026",
-      "downloaded_at": "2026-10-09T20:00:45Z",
-      "observed_at": "2026-10-09T20:00:45Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1345",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1345",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) extends the sunset date established by NPRR1279, Reinstate Enhancements to the Exceptional Fuel Cost Process, from April 1, 2027 to April 1, 2030. The extension preserves the existing review and validation framework for Exceptional Fuel Cost submissions, including supporting documentation and fuel supply contracts submitted under the Exceptional Fuel Cost process, and provides additional time for ERCOT and stakeholders to evaluate long-term enhancements to the treatment of contractual fuel costs while maintaining an existing and operational process that has been actively used since implementation of NPRR1279.",
-      "issue_title": "Extend NPRR1279 Sunset Date for Exceptional Fuel Cost Process",
-      "affected_sections": "2.1 and 4.4.9.4.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
       "content_sha256": "d247c78510793e820f6c4af0ef29183247a8f0d92973b2f24f42fc9443ea4c51",
       "title": "1348NPRR-05 Cipher Digital Comments 100826",
       "document_number": "NPRR1348",
@@ -2256,26 +2376,6 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
-      "content_sha256": "6edc49a34dd321b04f2780461d067789d1a947b1536f2c2d1fb373b0d7ecaa2a",
-      "title": "1346NPRR-03 PRS Report 091626",
-      "document_number": "NPRR1346",
-      "source": "NPRR",
-      "published_date": "Sep 21, 2026",
-      "downloaded_at": "2026-09-21T20:00:45Z",
-      "observed_at": "2026-09-21T20:00:45Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/files/docs/2026/09/21/1346NPRR-03-PRS-Report-091626.docx",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1346",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the transportation-cost allowance incorporated into the Fuel Oil Price (FOP) by increasing the adder from $0.05 per gallon to $0.10 per gallon. The NPRR updates the FOP definition in Section 2.1, Definitions. The revision maintains the existing fuel oil index methodology and conversion factor while updating a transportation-cost assumption that has remained substantially unchanged since implementation of the Nodal market more than 15 years ago. The proposed change improves the accuracy of fuel oil pricing assumptions used for reliability services and cost recovery calculations by better reflecting current transportation costs associated with the delivery and replenishment of fuel oil inventories.",
-      "issue_title": "Updates to the Fuel Oil Price (FOP)",
-      "affected_sections": "2.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
       "content_sha256": "b72f2c936490e459ea5e6c29ea518941b44edeab7a30ac85671e38ca34027da9",
       "title": "1346NPRR-02 PRS Ballot 091626",
       "document_number": "NPRR1346",
@@ -2649,7 +2749,7 @@
       "revision_family": "NPRR",
       "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
       "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -6454,7 +6554,7 @@
       "revision_family": "NPRR",
       "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
       "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -6474,7 +6574,7 @@
       "revision_family": "NPRR",
       "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
       "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -6494,7 +6594,7 @@
       "revision_family": "NPRR",
       "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
       "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -6554,7 +6654,7 @@
       "revision_family": "NPRR",
       "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
       "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -7568,7 +7668,7 @@
       "revision_family": "NPRR",
       "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
       "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -10875,7 +10975,7 @@
       "revision_family": "NPRR",
       "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
       "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -12075,7 +12175,7 @@
       "revision_family": "NPRR",
       "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
       "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -13844,7 +13944,7 @@
       "revision_family": "NPRR",
       "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
       "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -14217,7 +14317,7 @@
       "revision_family": "NPRR",
       "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
       "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -14257,7 +14357,7 @@
       "revision_family": "NPRR",
       "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
       "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -14434,7 +14534,7 @@
       "revision_family": "NPRR",
       "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
       "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -14474,7 +14574,7 @@
       "revision_family": "NPRR",
       "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
       "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -14861,7 +14961,7 @@
       "revision_family": "NPRR",
       "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
       "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -14901,7 +15001,7 @@
       "revision_family": "NPRR",
       "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
       "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -15738,8 +15838,8 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     }
   ],
-  "count": 803,
-  "generated_at": "2026-10-20T11:01:41.987847+00:00",
+  "count": 808,
+  "generated_at": "2026-10-24T11:01:51.598171+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",
@@ -17667,22 +17767,22 @@
       "date_posted": "May 29, 2026",
       "sponsor": "ERCOT",
       "urgent": "No",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 5.7.4.1.1, 6.5.7.3, and 6.5.7.5",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "reason": "Regulatory requirements",
       "issue_url": "https://www.ercot.com/mktrules/issues/NPRR1340",
       "effective_state": "pending_proposal",
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
       "next_group": "PRS",
-      "next_step": "PRS for consideration",
+      "next_step": "PRS for Impact Analysis consideration",
       "latest_action": {
-        "date": "07/15/2026",
+        "date": "10/14/2026",
         "governing_body": "PRS",
-        "action": "Deferred/Tabled",
-        "next_step": "PRS for consideration"
+        "action": "Recommended for Approval",
+        "next_step": "PRS for Impact Analysis consideration"
       },
-      "source_downloaded_at": "2026-10-16T20:02:05Z",
-      "source_observed_at": "2026-10-16T20:02:05Z"
+      "source_downloaded_at": "2026-10-24T11:00:43Z",
+      "source_observed_at": "2026-10-24T11:00:43Z"
     },
     "NPRR1341": {
       "revision_id": "NPRR1341",
@@ -17707,8 +17807,8 @@
         "action": "Recommended for Approval",
         "next_step": "Revision Request Consideration"
       },
-      "source_downloaded_at": "2026-10-09T20:00:48Z",
-      "source_observed_at": "2026-10-09T20:00:48Z"
+      "source_downloaded_at": "2026-10-24T11:00:43Z",
+      "source_observed_at": "2026-10-24T11:00:43Z"
     },
     "NPRR1342": {
       "revision_id": "NPRR1342",
@@ -17733,8 +17833,8 @@
         "action": "Recommended for Approval",
         "next_step": "Revision Request Consideration"
       },
-      "source_downloaded_at": "2026-10-09T20:00:48Z",
-      "source_observed_at": "2026-10-09T20:00:48Z"
+      "source_downloaded_at": "2026-10-24T11:00:43Z",
+      "source_observed_at": "2026-10-24T11:00:43Z"
     },
     "NPRR1343": {
       "revision_id": "NPRR1343",
@@ -17752,15 +17852,15 @@
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
       "next_group": "PRS",
-      "next_step": "Language Consideration",
+      "next_step": "Impact Analysis Consideration",
       "latest_action": {
-        "date": "07/15/2026",
+        "date": "10/14/2026",
         "governing_body": "PRS",
-        "action": "Deferred/Tabled",
-        "next_step": "Language Consideration"
+        "action": "Recommended for Approval",
+        "next_step": "Impact Analysis Consideration"
       },
-      "source_downloaded_at": "2026-10-16T20:02:04Z",
-      "source_observed_at": "2026-10-16T20:02:04Z"
+      "source_downloaded_at": "2026-10-24T11:00:43Z",
+      "source_observed_at": "2026-10-24T11:00:43Z"
     },
     "NPRR1344": {
       "revision_id": "NPRR1344",
@@ -17803,16 +17903,16 @@
       "effective_state": "pending_proposal",
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "PRS",
-      "next_step": "Impact Analysis Consideration",
+      "next_group": "TAC",
+      "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "09/16/2026",
+        "date": "10/14/2026",
         "governing_body": "PRS",
         "action": "Recommended for Approval",
-        "next_step": "Impact Analysis Consideration"
+        "next_step": "Revision Request Consideration"
       },
-      "source_downloaded_at": "2026-10-09T20:00:45Z",
-      "source_observed_at": "2026-10-09T20:00:45Z"
+      "source_downloaded_at": "2026-10-24T11:00:42Z",
+      "source_observed_at": "2026-10-24T11:00:42Z"
     },
     "NPRR1346": {
       "revision_id": "NPRR1346",
@@ -17837,8 +17937,8 @@
         "action": "Recommended for Approval",
         "next_step": "Revision Request Consideration"
       },
-      "source_downloaded_at": "2026-10-16T20:02:03Z",
-      "source_observed_at": "2026-10-16T20:02:03Z"
+      "source_downloaded_at": "2026-10-24T11:00:42Z",
+      "source_observed_at": "2026-10-24T11:00:42Z"
     },
     "NPRR1347": {
       "revision_id": "NPRR1347",
