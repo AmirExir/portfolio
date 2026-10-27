@@ -1,0 +1,17 @@
+Fresh article set is thin and skewed toward niche/secondary sources, so it does not fully explain today’s broader tape.
+
+**Facts**
+- **Crypto Briefing (2026-10-25T08:33:28Z):** Reported that **CoreWeave shares fell and its bonds also came under pressure**, with the move tied to **debt concerns around AI infrastructure spending**.
+- **Crypto Briefing (2026-10-25T07:33:05Z):** Reported **more than $815 million in crypto liquidations** over 24 hours as **Bitcoin and Ether prices fell**, signaling a sharp deleveraging event in major crypto.
+- **Fox News (2026-10-25T08:00:09Z):** Reported that **Iran’s seaborne crude revenue is under pressure** from a tightening **U.S. naval blockade**, with implications for oil supply risk and regional energy tensions.
+- **Crypto Briefing (2026-10-25T08:22:00Z):** Reported that **Riyadh airport reopened to international flights** after a two-week closure tied to **Houthi attacks**, indicating ongoing Middle East security risk remains relevant for energy/risk sentiment.
+- **The Times of India (2026-10-25T07:25:56Z):** Said the coming week for Indian markets is centered on the **U.S. Fed decision, crude oil, and earnings**, reflecting that **rates and energy remain key global macro inputs**.
+- **The Times of India (2026-10-25T09:03:56Z):** Reported **foreign investors withdrew Rs 48,056 crore from Indian equities in October**, citing **high crude prices and inflation concerns**.
+
+**Interpretation**
+- The clearest fresh market-moving themes in this feed are:
+  1. **AI/semi financing risk** via the CoreWeave debt story.
+  2. **Crypto risk reduction** via the large liquidation wave in BTC/ETH-linked positions.
+  3. **Energy/geopolitical risk** via Iran supply pressure and Saudi/Houthi-related disruption headlines.
+- There is **no strong fresh article here on U.S. inflation, Treasury yields, or a new Fed headline** that would by itself explain moves in major U.S. equity indexes or rates today.
+- If markets are moving sharply, this article set suggests the best-supported drivers are **AI leverage concerns, crypto deleveraging, and Middle East oil-risk headlines**—but the evidence here is still incomplete.

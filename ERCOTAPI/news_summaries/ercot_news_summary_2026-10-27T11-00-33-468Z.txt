@@ -1,0 +1,4 @@
+1. power-fm-foresight added to PyPI
+Pypi.org • 2026-10-26
+Probabilistic power-system forecasts with a frozen GENCO model
+https://pypi.org/project/power-fm-foresight/

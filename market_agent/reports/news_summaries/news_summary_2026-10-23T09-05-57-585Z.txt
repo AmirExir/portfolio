@@ -1,0 +1,22 @@
+**Fresh market-moving headlines are somewhat thin and mixed. The clearest fresh drivers in this set are around rates/inflation, earnings/AI, oil/geopolitics, and bitcoin. There is not enough here by itself to fully explain today’s tape.**
+
+## Facts
+- **CNBC (2026-10-22T08:36:47Z):** *Meta and Tesla topped estimates after the bell*, according to CNBC’s Daily Open. The same article also said Washington has **no plans to renew strikes on Iran before the Nov. 3 midterms**, while warning escalation may not wait long after.  
+- **CoinDesk (2026-10-22T08:49:08Z):** Reported that **Brent crude climbed above $112/barrel** and that **Chinese equities entered a bear market**, with technology shares leading regional losses. It also said **bitcoin retreated** alongside broader risk pressure in Asia.  
+- **CryptoSlate (2026-10-22T08:40:20Z):** Said **bitcoin is holding around the $80,000 area**, which Glassnode estimates as the average acquisition cost for U.S. spot bitcoin ETFs and public-company treasuries. It also reported **ETF inflows slowed sharply**, with Friday inflation data seen as a near-term test.  
+- **The Times of India / Economic Times (2026-10-22T09:04:13Z):** Reported **Japanese investors sold foreign bonds for a fifth straight week** through Oct. 17, though the pace slowed as **U.S. Treasury yields retreated from 24-year highs**.  
+- **Bank of Canada (2026-10-22T08:36:53Z):** Its **Canadian Survey of Consumer Expectations** showed **long-term inflation expectations rose**, with consumers citing **trade tensions and energy prices** as key inflation drivers.  
+- **Bank of Canada (2026-10-22T08:37:34Z):** Its **Business Outlook Survey** said **firm sentiment improved in Q3**, but responses were mostly collected **before Canada-U.S. trade talks broke down** and before new counter-tariffs.  
+- **Business Insider (2026-10-22T08:46:10Z):** Reported **Barclays is cutting 5,000 jobs, about 5% of its workforce, in an AI push**, based on its third-quarter earnings presentation.  
+- **Livemint (2026-10-22T09:04:57Z):** Reported a **fresh rise in plastic packaging costs** hitting consumer brands, adding to **input-cost pressure** for food, beverage, personal-care, and household-product companies.
+
+## Interpretation
+- **Earnings/mega-cap tech:** The cleanest positive company-specific headline here is that **Meta and Tesla beat estimates**, which matters for index-level sentiment given their size.  
+- **Energy/inflation:** **Oil above $112** and central-bank survey evidence tying inflation expectations to **energy prices** reinforce an inflation-sensitive backdrop.  
+- **Rates:** The Japan foreign-bond-selling item is a **global rates/liquidity watchpoint**, but it is not a same-day U.S. market-moving catalyst on its own.  
+- **Risk sentiment:** **China entering a bear market** and bitcoin softening point to a weaker international risk backdrop, though this set does not prove how U.S. cash equities are reacting right now.  
+- **Crypto:** Bitcoin’s **$80,000 area** looks like an important positioning/support zone in this coverage, with **inflation data** flagged as the next test.  
+- **Consumer/margin pressure:** Rising **packaging costs** are a potential negative for staples and consumer brands, but this is more of a sector margin story than a broad same-day tape driver.
+
+## What to discount
+- I ignored generic consumer, housing, healthcare-cost, politics/opinion, GitHub/PyPI, and aggregator items, as well as pieces that were not clearly market-moving for today’s session.

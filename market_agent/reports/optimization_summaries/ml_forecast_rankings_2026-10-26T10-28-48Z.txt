@@ -1,0 +1,50 @@
+Market Optimization
+Generated: 2026-10-26 10:22 UTC
+As of: 2026-10-23 to 2026-10-25
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+No buy or sell signals passed the checks.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+WATCHLIST - POLICY SIGNALS ONLY
+Sell/avoid watch:
+
+COMP: forecast -8.29% by 2026-11-24
+  Reliability: speculative; model-estimated chance of a rise: 35%.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted gains
+
+XOM: forecast +8.97% by 2026-12-07
+  Why rejected: up/down predictions failed accuracy checks.
+
+OXY: forecast +5.52% by 2026-12-07
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+USO: forecast +5.89% by 2026-12-07
+  Why rejected: up/down predictions failed accuracy checks; predicted move is small relative to past forecast errors.
+
+XLE: forecast +3.80% by 2026-12-07
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks.
+
+SPCX: forecast +7.68% by 2026-12-07
+  Why rejected: testing on unseen data is unverified; historical forecast error is unavailable; too few historical tests; too few non-overlapping historical tests; required historical validation data is missing or invalid.
+
+Predicted declines
+
+PEPE: forecast -20.70% by 2026-11-24
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+ORCA: forecast -16.44% by 2026-11-24
+  Why rejected: return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+TLT: forecast -4.56% by 2026-12-07
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.

@@ -1,0 +1,41 @@
+Market Optimization
+Generated: 2026-10-23 23:32 UTC
+As of: 2026-10-22 to 2026-10-23
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+No buy or sell signals passed the checks.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted gains
+
+XOM: forecast +5.36% by 2026-12-07
+  Why rejected: up/down predictions failed accuracy checks.
+
+OXY: forecast +6.12% by 2026-12-07
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+XLE: forecast +3.89% by 2026-12-07
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks.
+
+SPCX: forecast +7.67% by 2026-12-07
+  Why rejected: testing on unseen data is unverified; historical forecast error is unavailable; too few historical tests; too few non-overlapping historical tests; required historical validation data is missing or invalid.
+
+HYPE: forecast +21.71% by 2026-11-21
+  Why rejected: too few non-overlapping historical tests; up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+Predicted declines
+
+DOT: forecast -12.15% by 2026-11-21
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+TLT: forecast -5.02% by 2026-12-07
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.

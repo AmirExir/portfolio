@@ -1,0 +1,15 @@
+Fresh market-moving headlines are **thin** in this article set, and several items are crypto/altcoin niche pieces or generic business coverage that do **not** clearly explain today’s broader tape.
+
+## Facts
+- **Indian equities / risk sentiment:** **The Times of India** (published **2026-10-24 08:11 UTC**) reported foreign institutional investors were **net sellers of Indian equities for a 10th straight week**, with the article citing **rising Brent crude, weak global cues, and earnings misses** as pressures on Indian stocks.
+- **Gold / macro haven pricing:** **Livemint**, citing Reuters (published **2026-10-24 07:31 UTC**), said **gold fell to a three-month low** and was on track for its **steepest weekly decline in more than four months**.
+- **Major crypto:** **The Times of India** (published **2026-10-24 06:52 UTC**) said **Bitcoin was near $80,000 and Ethereum near $2,370**, with **macro uncertainty and weak institutional flows** weighing on crypto markets.
+- **Crypto-linked equity / AI infrastructure:** **Crypto Briefing** (published **2026-10-24 07:45 UTC**) reported **HIVE Digital Technologies** committed **more than $250 million** to build an **AI hub in Paraguay**, tying a listed bitcoin miner more directly to AI/data-center buildout.
+- **Crypto miner / AI capacity:** **newsBTC** (published **2026-10-24 08:15 UTC**) reported **Bitdeer** said it mined **1,355 Bitcoin in September** while continuing **data-center and AI-service plans**.
+- **Semis / AI sentiment:** **Biztoc** aggregating **Seeking Alpha** (published **2026-10-24 07:51 UTC**) said **Seaport Research reiterated a Sell on Nvidia**, arguing competition is “mounting.” This is a **sell-side opinion item**, not a company announcement.
+
+## Interpretation
+- The most concrete cross-asset signals in the fresh set are: **persistent foreign outflows from Indian stocks**, **pressure in gold**, and **continued softness/uncertainty in major crypto**.
+- On **AI/semi**, the set has **more sentiment and capex-adjacent items than hard market catalysts**. HIVE and Bitdeer reinforce the theme that crypto miners are pursuing **AI/data-center exposure**, but these are not major broad-market drivers by themselves.
+- There is **no strong fresh Fed, Treasury, CPI, or major U.S. earnings headline** here to cleanly explain broader U.S. index or rates moves today.
+- Bottom line: this dataset suggests a **cautious macro/risk backdrop**, but it is **not sufficient to confidently explain the full market tape**.
