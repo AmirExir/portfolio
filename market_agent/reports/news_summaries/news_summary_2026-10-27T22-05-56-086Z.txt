@@ -1,0 +1,18 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Crypto Briefing — 2026-10-26T21:47:16Z:** **Anthropic filed for a Nasdaq IPO** and said it is targeting a valuation of **up to $2 trillion**. The article says the S-1 shows strong revenue growth and a first operating profit.  
+- **Biztoc / Yahoo Finance — 2026-10-26T21:59:58Z:** A market wrap said the **Nasdaq and S&P 500 snapped a two-day decline**, with **Anthropic’s IPO filing cited as lifting mood**.  
+- **ABC News (AU) — 2026-10-26T21:29:59Z:** Reported that **Wall Street rallied, led by tech stocks**, while highlighting Anthropic’s IPO filing and “eye-popping” growth with large losses.  
+- **Crypto Briefing — 2026-10-26T21:49:28Z:** **OpenAI said its models proved the local smoothing conjecture in every dimension**, a notable AI research claim that could reinforce enthusiasm around frontier AI.  
+- **OilPrice.com — 2026-10-26T22:00:00Z:** **Executives at U.S. LNG startup Polar LNG resigned** amid controversy over alleged **Russian funding/influence**, a headline relevant to the energy/LNG space.  
+- **Cointelegraph — 2026-10-26T21:38:30Z:** The **U.S. OCC called on community banks to become payment stablecoin issuers**, signaling continued regulatory engagement with stablecoins and crypto payments.  
+- **ZyCrypto — 2026-10-26T22:05:28Z:** **Israel’s central bank rejected the idea of using crypto to bypass sanctions**, relevant to crypto policy and geopolitical compliance.  
+- **Bitcoinfoundation.org — 2026-10-26T21:54:35Z:** **Strategy paused Bitcoin purchases** and instead spent **$204.9 million on STRC buybacks**, relevant to bitcoin-linked equity/treasury-watchers.  
+
+### Interpretation
+- The clearest fresh tape-driving theme in this set is **AI risk appetite**, with **Anthropic’s IPO filing** the most directly market-relevant headline and multiple sources tying it to improved tech sentiment.  
+- There is **very little fresh macro/Fed/inflation news** in the supplied articles, so this set **does not meaningfully explain rates or broader macro positioning today**.  
+- On crypto, the headlines are **mixed and more policy/structure-oriented than price-driving**: OCC stablecoin encouragement is constructive for digital payments infrastructure, while Israel’s central bank stance underscores regulatory limits.  
+- Energy coverage is **thin**; the Polar LNG story matters for company-specific governance and geopolitical scrutiny, but it is **not enough on its own to explain broader oil/gas market action**.  
+- Overall, if you’re trying to explain today’s tape from this article set, the evidence mainly supports an **AI/IPO-driven sentiment story**, and **the fresh headline set is otherwise thin**.
