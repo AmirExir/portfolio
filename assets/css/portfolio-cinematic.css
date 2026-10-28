@@ -28,7 +28,7 @@ h2 em { font-size: 1.17em; line-height: 1.04; color: var(--brand); letter-spacin
 /* A quiet floating navigation stays usable throughout the long portfolio. */
 .site-header { position: sticky; top: 18px; height: 0; background: none; border: 0; backdrop-filter: none; }
 .nav-shell { min-height: 68px; padding: 8px 18px; width: min(calc(100% - 64px), 1240px); position: relative; border: 1px solid #eeeeeb2a; border-radius: 60px; background: #111719d9; box-shadow: inset 0 1px 0 #ffffff12, 0 8px 36px #0002; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-.brand-mark { width: 39px; height: 39px; font-size: 32px; border-color: #d6d8cb69; color: #e5e3d8; }
+.brand-mark { width: 39px; height: 39px; border-color: #d6d8cb69; }
 .brand-name { color: #edeee7; font-size: .87rem; }
 .brand-name > span { font-size: .47rem; color: #b7c0bb; letter-spacing: .12em; }
 .nav-links { gap: 27px; }

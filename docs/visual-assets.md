@@ -10,6 +10,11 @@ case, operating conditions, power-flow results, or model performance.
 - `AmirinSubstation.jpeg` and the existing `amir-substation-*.webp` files:
   unchanged original documentary photograph of Amir. Shown separately in the
   Field Notes composition; never composited into the generated landscape.
+- `assets/images/amir-header-portrait.jpg`: owner-supplied headshot from
+  `F5222B5F-25FB-4A76-99F6-870B9E03245D.png`, provided October 27, 2026.
+  Resized to 192 × 192 and encoded with macOS `sips` at JPEG quality 88 for
+  delivery. CSS frames the face within the 39 px header circle; no retouching
+  or generative edits were applied.
 - Project-window images: genuine application screenshots, not generated mockups.
 - `assets/fonts/InstrumentSerif-Regular.ttf` and
   `assets/fonts/InstrumentSerif-Italic.ttf`: self-hosted Instrument Serif from
