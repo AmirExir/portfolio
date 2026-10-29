@@ -2,6 +2,46 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "38ebdc780f0024390c36ee99f0b5a5a81a3078d50044ec3d84a82b05468d6c2f",
+      "title": "NPRR1352",
+      "document_number": "NPRR1352",
+      "source": "NPRR",
+      "published_date": "Oct 27, 2026",
+      "downloaded_at": "2026-10-28T11:00:43Z",
+      "observed_at": "2026-10-28T11:00:43Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1352",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1352",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the ERCOT Fee Schedule to permit a Resource Entity to designate a Qualified Scheduling Entity (QSE) representing one or more of its Resources to receive the Resource Entity’s weatherization inspection fee Invoice and make payment on the Resource Entity’s behalf.",
+      "issue_title": "QSE Receipt and Payment of Weatherization Inspection Fee Invoices",
+      "affected_sections": "ERCOT Fee Schedule",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "d5eebe272081a36011dce7853f0284b98f20789ed61dbd426b2262497c0dc684",
+      "title": "1352NPRR-01 QSE Receipt and Payment of Weatherization Inspection Fee Invoices 102726",
+      "document_number": "NPRR1352",
+      "source": "NPRR",
+      "published_date": "Oct 27, 2026",
+      "downloaded_at": "2026-10-28T11:00:43Z",
+      "observed_at": "2026-10-28T11:00:43Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/10/27/1352NPRR-01-QSE-Receipt-and-Payment-of-Weatherization-Inspection-Fee-Invoices-102726.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1352",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the ERCOT Fee Schedule to permit a Resource Entity to designate a Qualified Scheduling Entity (QSE) representing one or more of its Resources to receive the Resource Entity’s weatherization inspection fee Invoice and make payment on the Resource Entity’s behalf.",
+      "issue_title": "QSE Receipt and Payment of Weatherization Inspection Fee Invoices",
+      "affected_sections": "ERCOT Fee Schedule",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
       "content_sha256": "756b2c3da99a4210322b5a7bf261642913dd13be6a866ffcc462e0f35b2d189e",
       "title": "1340NPRR-22 WMS Comments 100826",
       "document_number": "NPRR1340",
@@ -15838,8 +15878,8 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     }
   ],
-  "count": 808,
-  "generated_at": "2026-10-24T11:01:51.598171+00:00",
+  "count": 810,
+  "generated_at": "2026-10-28T11:01:39.748603+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",
@@ -18064,6 +18104,29 @@
       },
       "source_downloaded_at": "2026-10-20T11:00:42Z",
       "source_observed_at": "2026-10-20T11:00:42Z"
+    },
+    "NPRR1352": {
+      "revision_id": "NPRR1352",
+      "revision_family": "NPRR",
+      "issue_title": "QSE Receipt and Payment of Weatherization Inspection Fee Invoices",
+      "official_description": "This Nodal Protocol Revision Request (NPRR) revises the ERCOT Fee Schedule to permit a Resource Entity to designate a Qualified Scheduling Entity (QSE) representing one or more of its Resources to receive the Resource Entity’s weatherization inspection fee Invoice and make payment on the Resource Entity’s behalf.",
+      "status": "Pending",
+      "date_posted": "Oct 27, 2026",
+      "sponsor": "TCPA",
+      "urgent": "No",
+      "affected_sections": "ERCOT Fee Schedule",
+      "reason": "Strategic Plan Objective 1",
+      "issue_url": "https://www.ercot.com/mktrules/issues/NPRR1352",
+      "effective_state": "pending_proposal",
+      "effectiveness_note": "Pending proposal; it is not current governing text.",
+      "explanation_source": "official_ercot_issue_page",
+      "next_group": "PRS",
+      "next_step": "PRS for language consideration",
+      "latest_action": {
+        "action": "No action posted"
+      },
+      "source_downloaded_at": "2026-10-28T11:00:43Z",
+      "source_observed_at": "2026-10-28T11:00:43Z"
     },
     "NPRR917": {
       "revision_id": "NPRR917",
