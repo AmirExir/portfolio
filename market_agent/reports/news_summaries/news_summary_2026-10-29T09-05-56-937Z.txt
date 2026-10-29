@@ -1,0 +1,17 @@
+Fresh market-moving headlines are limited in this article set, and several items are low-quality aggregations, opinion, press releases, or non-market coverage. The clearest usable drivers are Fed/rates and a few AI/telecom-related company headlines.
+
+**Facts**
+- **Fed/rates:** NPR reported the **Federal Reserve is expected to hold rates steady Wednesday**, while **investors see a year-end hike as likely** amid inflation concerns. *(NPR, 2026-10-28T08:45:31Z)*
+- **Global rates:** Investing.com, via Biztoc, said the **Bank of Thailand kept its benchmark rate at 1.00%**, citing weak growth but rising inflation risks tied to higher energy prices. *(Biztoc / Investing.com, 2026-10-28T09:00:01Z)*
+- **AI/capex:** ExchangeWire said **Meta is seeking $95 billion to finance AI expansion** and that **Anthropic’s IPO filing showed rising ad spend**. *(ExchangeWire, 2026-10-28T09:00:00Z)*
+- **Telecom/IPO sentiment:** TechCrunch, via Biztoc, reported **Jio Platforms rose 21% in its market debut** after a **$3.2 billion IPO**, described as India’s largest and most subscribed. *(Biztoc / TechCrunch, 2026-10-28T08:59:26Z)*
+- **Telecom/IPO follow-through:** The Times of India reported **about 82% of traded Jio shares were marked for delivery/holding beyond listing**, indicating strong investor appetite after debut. *(The Times of India, 2026-10-28T08:51:52Z)*
+- **Data center/AI infrastructure:** IBTimes Australia reported **NextDC shares jumped 9%** after the company said it remained in compliance with debt covenants and had **A$8.7 billion liquidity**, easing balance-sheet concerns. *(IBTimes.com.au, 2026-10-28T08:58:37Z)*
+- **IT services/enterprise tech:** IBTimes Australia reported **Data#3 forecast first-half pre-tax profit growth of up to 70%**, and its shares **rose 7.8%**. *(IBTimes.com.au, 2026-10-28T08:56:13Z)*
+- **Crypto/payments rails:** CryptoSlate reported **Robinhood agreed to connect its app user base to Ripple’s XRP Ledger ecosystem**, including planned **RLUSD app access later in 2026** and institutional settlement plans. *(CryptoSlate, 2026-10-28T08:40:08Z)*
+
+**Interpretation**
+- The most relevant macro takeaway is **Fed hold expectations paired with sticky inflation/rate-hike risk**, which is the strongest broad-market driver in the fresh set.
+- The AI-related headlines point to **continued large-scale capital spending and funding needs** rather than a clear near-term read on earnings or index direction.
+- Jio’s debut and holding demand suggest **ongoing risk appetite for large-cap tech/telecom issuance**, but that is more of a regional equity signal than a direct read-through for today’s broader tape.
+- There is **not enough high-quality fresh reporting here to fully explain today’s overall market action** across U.S. equities, Treasuries, energy, or major crypto.
