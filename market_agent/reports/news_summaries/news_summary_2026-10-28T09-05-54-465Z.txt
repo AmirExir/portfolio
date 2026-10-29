@@ -1,0 +1,16 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **AI/semi:** **CNBC** — **2026-10-27 08:40:53Z**: **Nvidia will invest $3 billion in Meta**, after **Meta announced plans to raise a total of $95 billion** to fund AI infrastructure.  
+- **AI/semi:** **The Information** — **2026-10-27 08:58:26Z**: Report says **Nvidia is investing $3 billion in Meta’s equity offering** as the companies deepen their AI partnership.  
+- **AI / IPOs:** **ExchangeWire** — **2026-10-27 09:00:00Z**: Digest says **Anthropic filed for an IPO**, with disclosure of **rapid revenue growth alongside heavy losses**.  
+- **AI/data centers:** **DigiTimes** — **2026-10-27 08:59:00Z**: Nvidia highlighted **DSX POD** and AI data-center initiatives at GTC Berlin, alongside broader AI and sovereign-AI efforts.  
+- **Rates / global bonds:** **Times of India** — **2026-10-27 08:53:34Z**: Reuters-reported story says **major Japanese life insurers are split on adding domestic government bonds** as rising yields make JGBs more attractive and foreign-bond selling increases.  
+- **Inflation:** **Military.com** — **2026-10-27 09:00:16Z**: Article cites **U.S. consumer prices up 3.7% y/y through September 2026** and **energy up 20.4%**, in the context of veterans’ 2027 COLA.  
+- **Crypto / market structure:** **NPR** — **2026-10-27 09:00:00Z**: **Polymarket** said it has investigated **“dozens” of election-related cases** and hired a former FBI official for surveillance and investigations.  
+
+### Interpretation
+- The clearest **fresh equity-market driver** in this set is the **Nvidia–Meta AI funding/partnership headline**, which is directly relevant for **megacap AI, semis, and data-center supply chains**.
+- **Anthropic’s IPO filing** is also potentially relevant for **AI sentiment and IPO appetite**, though the article set here gives limited detail.
+- On macro, the fresh headlines are **thin**. The most relevant pieces point to **sticky inflation/energy pressure** and **higher global yield sensitivity** via Japan’s bond-allocation debate, but there is **no strong fresh Fed-specific catalyst** in the supplied articles.
+- There is **not enough fresh macro news here to fully explain today’s tape** if markets are moving broadly.
