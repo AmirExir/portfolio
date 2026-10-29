@@ -7,7 +7,7 @@ from typing import Any
 
 MAX_JOB_DESCRIPTION_CHARS = 20000
 MAX_JOB_SEARCH_CHARS = 4000
-RETRIEVAL_POLICY_VERSION = 7
+RETRIEVAL_POLICY_VERSION = 8
 
 # Shared analysis methods occur in both planning and real-time operations. A
 # planning purpose must be established before those methods can boost ranking.
@@ -99,6 +99,88 @@ CONTENT_TAGS = (
     "Answer Set", "Question Key", "Scenario ID", "Backup For",
 )
 TAG_LOOK_AHEAD = "|".join(re.escape(tag) for tag in CONTENT_TAGS)
+
+# Conversation scaffolding is not evidence that an answer addresses a topic.
+# Keep technical abbreviations (AI, ML, MW, PSS/E) and substantive topic words.
+QUERY_STOPWORDS = frozenset("""
+a about actually am an and any are as at be been being by can could describe did
+do does doing during explain for from give had has have how i if in into is it
+its just like me my of on or our please provide really show should so some tell
+than that the their them then there these they this those through to us was we
+were what when where which who why will with would you your yourself
+answer answers question questions interview interviews example examples experience
+experiences work worked working time times situation situations story stories
+approach handle discuss examine check talk walk background position role
+""".split())
+
+BEHAVIORAL_PROMPTS = (
+    "tell me about a time", "give me an example", "describe a time", "walk me through a time",
+    "tell us about a time", "give us an example", "walk us through a time",
+    "describe a situation",
+)
+
+GENERIC_BEHAVIOR_TERMS = frozenset("""
+solved solve solving difficult difficulty problem problems challenge challenges
+challenging faced face took take taken something significant outside area
+responsibility responsibilities important importance outcome outcomes result results
+own ownership initiative went beyond scope job task tasks needed need successful
+success successfully failure failed mistake mistakes learned learn learning
+""".split())
+
+# These abbreviations can occur in saved facts without appearing in an authored
+# question. They still have to match the candidate's content as whole words.
+TOPIC_ABBREVIATIONS = frozenset({"ml", "nerc", "mw", "mvar", "mva", "kv", "psse"})
+
+
+def _query_terms(text: str) -> set[str]:
+    """Extract whole words, retaining Unicode letters and short domain acronyms."""
+    return {
+        word for word in re.findall(r"[^\W_]+", text.casefold())
+        if len(word) > 1 and not word.isdecimal() and word not in QUERY_STOPWORDS
+    }
+
+
+def query_validation_message(query: str, chunks: list[dict]) -> str | None:
+    """Reject empty input and clear connection checks before an embedding call.
+
+    This is deliberately not a general natural-language intent classifier. Short
+    technical prompts and authored shortcuts remain valid; the ranking evidence
+    gate decides whether saved material supports other requests. Recognized
+    assignments take priority over chatter words used as authored keywords.
+    """
+    assigned = assigned_candidates(query, chunks)
+    if assigned:
+        return None
+    words = re.findall(r"[^\W_]+", query.casefold())
+    if not words:
+        return "Enter an interview question or a saved topic such as TOOLS or Q12."
+    greetings = {"hi", "hello", "hey", "good", "morning", "afternoon", "evening", "there", "everyone"}
+    if set(words) <= greetings:
+        return "Hello. Ask an interview question or choose a saved topic to get a relevant answer."
+    check_words = {
+        "test", "testing", "mic", "microphone", "audio", "sound", "check", "checking",
+        "one", "two", "three", "1", "2", "3", "123", "this", "is", "a", "an", "just",
+        "only", "please", "hello", "hi", "can", "you", "hear", "me", "does", "it",
+        "work", "working", "the", "okay", "ok", "i", "am", "my", "connection", "recording",
+    }
+    check_markers = {"test", "testing", "mic", "microphone", "audio", "sound", "hear", "check", "checking"}
+    if set(words) <= check_words and set(words) & check_markers:
+        return "That looks like a microphone or connection check. Ask an interview question or choose a saved topic."
+    return None
+
+
+def _general_interview_prompt(query: str, terms: set[str]) -> bool:
+    """Recognize broad interview requests without treating every question as one."""
+    normalized = _question_identity(query)
+    introductions = {
+        "tell me about yourself", "please introduce yourself", "introduce yourself",
+        "tell me about your work", "tell me about your experience", "describe your background",
+        "walk me through your background", "what is your background",
+    }
+    return normalized in introductions or (
+        any(phrase in normalized for phrase in BEHAVIORAL_PROMPTS)
+        and terms <= GENERIC_BEHAVIOR_TERMS
+    )
 
 
 def extract_tag_value(text: str, tag: str) -> str:
@@ -506,6 +588,13 @@ def rank_candidates(
     Assigned questions return their primary and authored backups. Other exact
     question/alias matches lead eligible candidates in every focus; remaining
     candidates use semantic and keyword relevance, with unstructured fallback.
+    A semantic neighbor is only a suggestion until the query has whole-word
+    topic support in saved questions, aliases, or facts. The topic vocabulary
+    comes from authored questions/aliases and the existing role terms, so an
+    incidental location or narrative word cannot alone establish relevance.
+    Explicit browsing and broad interview prompts retain their wider scope.
+    This conservative gate can omit paraphrases with no shared topic wording;
+    an authored alias can make those requests reproducible without a score cutoff.
     """
     if focus not in JOB_FOCUSES:
         raise ValueError(f"Unknown job focus: {focus}")
@@ -516,13 +605,19 @@ def rank_candidates(
     assigned = assigned_candidates(query, chunks)
     if assigned is not None:
         return assigned[:k]
+    if not stories_only and query_validation_message(query, chunks):
+        return []
     normalized_query = _question_identity(query)
-    terms = [term for term in re.findall(r"[a-z0-9]+", normalized_query) if len(term) > 2]
-    behavioral = any(phrase in normalized_query for phrase in (
-        "tell me about a time", "give me an example", "describe a time", "walk me through a time",
-        "tell us about a time", "give us an example", "walk us through a time",
-        "describe a situation",
-    ))
+    terms = _query_terms(normalized_query)
+    behavioral = any(phrase in normalized_query for phrase in BEHAVIORAL_PROMPTS)
+    broad_prompt = _general_interview_prompt(query, terms)
+    topic_vocabulary = _query_terms(" ".join(
+        term for settings in JOB_FOCUSES.values() for term in settings["keywords"]
+    )) | TOPIC_ABBREVIATIONS
+    for chunk in chunks:
+        topic_vocabulary.update(_query_terms(" ".join(
+            extract_tag_value(chunk["text"], tag) for tag in ("Question", "Aliases")
+        )))
     focused = focus != "All roles"
     has_job_context = focused or bool(description)
     reranked = []
@@ -532,14 +627,25 @@ def rank_candidates(
         chunk = chunks[idx]
         if extract_tag_value(chunk["text"], "Backup For"):
             continue
-        normalized_text = chunk["text"].lower()
-        keyword_hits = sum(term in normalized_text for term in terms)
-        exact_hit = bool(normalized_query and normalized_query in normalized_text)
         candidate = build_candidate(semantic_scores.get(idx, 0), idx, chunk)
         match_score = topic_score(chunk["text"], focus) if focused else 0
         evidence = _evidence_text(chunk["text"])
         job_score = 0.15 * min(5, sum(_contains_term(evidence, term) for term in description_terms))
         response_type = candidate["response_type"]
+        query_text = " ".join(
+            extract_tag_value(chunk["text"], tag)
+            for tag in ("Question", "Aliases", *STORY_TAGS, "Answer")
+        ) if response_type != "context" else chunk["text"]
+        query_evidence = sorted(terms & _query_terms(query_text) & topic_vocabulary)
+        keyword_hits = len(query_evidence)
+        exact_hit = bool(normalized_query and _contains_term(_normalize(query_text), normalized_query))
+        saved_questions = [candidate["question"], *extract_tag_value(chunk["text"], "Aliases").split(";")]
+        question_match = bool(normalized_query) and response_type in {"direct", "story"} and any(
+            _question_identity(question) == normalized_query
+            for question in saved_questions if question.strip()
+        )
+        if not (question_match or stories_only or broad_prompt or query_evidence):
+            continue
         if (stories_only or (has_job_context and behavioral)) and response_type != "story":
             continue
         if focused and response_type != "direct" and not match_score:
@@ -550,12 +656,8 @@ def rank_candidates(
             ((behavioral or stories_only) and response_type == "story")
             or (not behavioral and not stories_only and response_type == "direct")
         ) else 0
-        saved_questions = [candidate["question"], *extract_tag_value(chunk["text"], "Aliases").split(";")]
-        question_match = bool(normalized_query) and response_type in {"direct", "story"} and any(
-            _question_identity(question) == normalized_query
-            for question in saved_questions if question.strip()
-        )
         candidate["question_match"] = question_match
+        candidate["query_evidence"] = query_evidence
         candidate["topic_score"] = match_score
         if focus == "Transmission planning":
             candidate["focus_evidence"] = planning_evidence(chunk["text"])

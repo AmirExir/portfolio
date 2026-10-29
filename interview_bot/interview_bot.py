@@ -1,7 +1,6 @@
 import streamlit as st
 import numpy as np, json, os
 from openai import OpenAI
-from streamlit_mic_recorder import mic_recorder
 import faiss
 
 from embedding_utils import (
@@ -10,11 +9,12 @@ from embedding_utils import (
     load_valid_embeddings,
 )
 from interview_evidence import answer_markdown, build_story_library, story_id
-from interview_services import InterviewServiceError, render_answer, service_error, transcribe
+from interview_services import InterviewServiceError, render_answer, service_error
 from interview_sessions import restore_session
 from interview_runtime_content import activate_runtime_content, load_runtime_corpus
 from interview_workspace_ui import (
-    render_evidence, render_planning_quick_view, render_practice, render_session_controls,
+    render_evidence, render_planning_quick_view, render_practice, render_question_recording,
+    render_session_controls,
 )
 from interview_retrieval import (
     JOB_FOCUSES,
@@ -28,6 +28,7 @@ from interview_retrieval import (
     rank_candidates,
     assigned_candidates,
     uses_saved_script,
+    query_validation_message,
 )
 
 api_key = os.getenv("OPENAI_API_KEY", "").strip()
@@ -115,6 +116,9 @@ def search(
     job_description: str = "",
 ) -> list[dict]:
     """Retrieve answers using the question and selected job background."""
+    if not stories_only and query_validation_message(query, chunks):
+        return []
+
     def reviewed_candidates(candidates: list[dict]) -> list[dict]:
         return [candidate for candidate in candidates if
                 candidate["response_type"] != "story" or
@@ -253,10 +257,7 @@ for message in st.session_state.messages:
     st.chat_message(message["role"]).markdown(message["content"])
 
 st.markdown("### Ask your question")
-audio = mic_recorder(
-    start_prompt=" Start Recording (Tap Once)", stop_prompt=" Stop Recording",
-    use_container_width=True, just_once=True, key="question_mic", format="wav",
-)
+voice_query = render_question_recording(client)
 user_query = quick_view_question
 stories_only = False
 if browse_stories:
@@ -265,22 +266,9 @@ if browse_stories:
         role_label = job_focus
     user_query = f"Show me a relevant story for {role_label}."
     stories_only = True
-if audio:
-    st.session_state.question_recording = audio["bytes"]
-    st.session_state.transcribe_question = True
-if st.session_state.get("transcription_error"):
-    st.error(st.session_state.transcription_error)
-    if st.button("Retry question transcription"):
-        st.session_state.transcribe_question = True
-if st.session_state.pop("transcribe_question", False):
-    try:
-        if client is None:
-            raise InterviewServiceError("Transcription requires server API credentials.")
-        user_query = transcribe(client, st.session_state.question_recording)
-        st.session_state.pop("transcription_error", None)
-    except InterviewServiceError as exc:
-        st.session_state.transcription_error = str(exc)
-        st.rerun()
+if voice_query is not None:
+    user_query = voice_query
+    stories_only = False
 
 prompt = st.chat_input("Or type your question here...")
 if prompt:
@@ -288,9 +276,18 @@ if prompt:
     stories_only = False
 another_story = st.button("Give me another answer or story")
 search_request = None
-if user_query:
-    if len(user_query) > 2000:
-        st.error("Please shorten the question to 2,000 characters or fewer.")
+if user_query is not None:
+    user_query = user_query.strip()
+    validation_message = (
+        "Please shorten the question to 2,000 characters or fewer." if len(user_query) > 2000
+        else None if stories_only else query_validation_message(user_query, chunks)
+    )
+    if validation_message:
+        clear_candidate_pool(st.session_state)
+        for key in ("pending_answer", "pending_search", "answer_error", "search_error",
+                    "active_answer", "answer_audio", "audio_error"):
+            st.session_state.pop(key, None)
+        st.info(validation_message)
     else:
         st.chat_message("user").markdown(user_query)
         st.session_state.messages.append({"role": "user", "content": user_query})
@@ -324,7 +321,7 @@ if search_request:
             selected_story = coerce_candidate(candidates[0])
             query_to_answer = search_request["question"]
         else:
-            st.info("No saved stories matched this question and job focus. Try a different question or All roles.")
+            st.info("No saved answer clearly matches this question and job focus. Add detail or choose a keyword from the planning cheat sheet.")
     except InterviewServiceError as exc:
         st.session_state.search_error = str(exc)
         st.rerun()

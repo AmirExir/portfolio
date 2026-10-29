@@ -225,14 +225,47 @@ def parse_feedback(text: str) -> dict[str, str]:
     return value
 
 
+def _validate_pcm_wav(audio: bytes) -> None:
+    """Reject incomplete PCM and exact digital silence without a volume threshold."""
+    try:
+        if len(audio) < 12 or int.from_bytes(audio[4:8], "little") + 8 != len(audio):
+            raise wave.Error("Incomplete WAV container")
+        with wave.open(io.BytesIO(audio), "rb") as recording:
+            width = recording.getsampwidth()
+            channels = recording.getnchannels()
+            frame_count = recording.getnframes()
+            if recording.getcomptype() != "NONE" or width not in (1, 2, 3, 4) or recording.getframerate() <= 0:
+                raise wave.Error("Unsupported PCM format")
+            # Read one extra frame to detect an incomplete final PCM sample.
+            frames = recording.readframes(frame_count + 1)
+            if len(frames) != frame_count * channels * width:
+                raise wave.Error("Incomplete PCM frames")
+    except (wave.Error, EOFError, RuntimeError) as exc:
+        # wave also raises RuntimeError when an invalid chunk seeks past RIFF.
+        raise InterviewServiceError(
+            "The recording is not a complete, supported PCM WAV file. Record again or type your text."
+        ) from exc
+    if frame_count == 0:
+        raise InterviewServiceError("The recording contains no audio. Record again or type your text.")
+    # WAV uses unsigned 8-bit samples and signed samples for wider PCM formats.
+    silence_byte = 128 if width == 1 else 0
+    if frames.count(silence_byte) == len(frames):
+        raise InterviewServiceError(
+            "The recording is silent. Check your microphone and record again, or type your text."
+        )
+
+
 def transcribe(client: Any, audio: bytes) -> str:
-    """Transcribe bounded audio in memory without storing it on the server."""
-    if not isinstance(audio, bytes) or not audio or len(audio) > 15_000_000:
-        raise InterviewServiceError("Record a shorter answer; audio must be nonempty and under 15 MB.")
+    """Transcribe validated English interview audio in memory, without storing it."""
+    if not isinstance(audio, bytes) or not audio:
+        raise InterviewServiceError("No audio was captured. Record again or type your text.")
+    if len(audio) > 15_000_000:
+        raise InterviewServiceError("Record a shorter clip; audio must be at most 15 MB.")
+    _validate_pcm_wav(audio)
     recording = io.BytesIO(audio)
     recording.name = "speech.wav"
     try:
-        result = client.audio.transcriptions.create(model="whisper-1", file=recording)
+        result = client.audio.transcriptions.create(model="whisper-1", file=recording, language="en")
     except Exception as exc:
         raise service_error("Transcription", exc) from exc
     text = getattr(result, "text", None)

@@ -1,7 +1,9 @@
 """Explicit session saving, evidence review, and practice controls."""
 
 from datetime import datetime, timezone
+import hashlib
 import json
+from typing import Any
 
 import streamlit as st
 from streamlit_mic_recorder import mic_recorder
@@ -15,6 +17,74 @@ from interview_services import (
     request_text, transcribe,
 )
 from interview_sessions import load_session, session_bytes
+
+
+def _discard_question_recording() -> None:
+    """Clear a voice draft while retaining its token to prevent replay on rerun."""
+    for key in ("question_transcript_draft", "question_transcript_editor", "question_recording", "transcription_error",
+                "transcribe_question", "question_draft_error"):
+        st.session_state.pop(key, None)
+
+
+def _save_question_draft() -> None:
+    """Retain edits even when changing modes removes the transcript widget."""
+    st.session_state.question_transcript_draft = st.session_state.question_transcript_editor
+
+
+def _submit_question_recording() -> None:
+    """Queue only the user's reviewed text, then clear the recording and draft."""
+    _save_question_draft()
+    question = st.session_state.question_transcript_draft.strip()
+    if len(question) > 2000:
+        st.session_state.question_draft_error = "Please shorten the question to 2,000 characters or fewer. Your draft is preserved."
+        return
+    st.session_state.submitted_voice_question = question
+    _discard_question_recording()
+
+
+def render_question_recording(client: Any) -> str | None:
+    """Transcribe each recording once and submit only an explicitly reviewed draft."""
+    st.caption("Record in English. Review and edit the transcript before using it as your question.")
+    audio = mic_recorder(
+        start_prompt=" Start Recording (Tap Once)", stop_prompt=" Stop Recording",
+        use_container_width=True, just_once=True, key="question_mic", format="wav",
+    )
+    if audio:
+        recording = audio.get("bytes")
+        if not isinstance(recording, bytes) or not recording or len(recording) > 15_000_000:
+            _discard_question_recording()
+            st.session_state.transcription_error = "Record a shorter question; audio must be nonempty and under 15 MB."
+        else:
+            token = (audio.get("id"), hashlib.sha256(recording).hexdigest())
+            if token != st.session_state.get("question_recording_token"):
+                _discard_question_recording()
+                st.session_state.question_recording_token = token
+                st.session_state.question_recording = recording
+                st.session_state.transcribe_question = True
+    if st.session_state.pop("transcribe_question", False):
+        try:
+            if client is None:
+                raise InterviewServiceError("Transcription requires server API credentials.")
+            st.session_state.question_transcript_draft = transcribe(client, st.session_state.question_recording)
+            st.session_state.pop("transcription_error", None)
+        except InterviewServiceError as exc:
+            st.session_state.transcription_error = str(exc)
+    if st.session_state.get("transcription_error"):
+        st.error(st.session_state.transcription_error)
+        if st.session_state.get("question_recording") and st.button("Retry question transcription"):
+            st.session_state.transcribe_question = True
+            st.rerun()
+    if "question_transcript_draft" in st.session_state:
+        if st.session_state.get("question_draft_error"):
+            st.info(st.session_state.question_draft_error)
+        if "question_transcript_editor" not in st.session_state:
+            st.session_state.question_transcript_editor = st.session_state.question_transcript_draft
+        st.text_area("Review your question", key="question_transcript_editor", height=120,
+                     on_change=_save_question_draft)
+        st.button("Use this question", on_click=_submit_question_recording)
+    if any(key in st.session_state for key in ("question_recording", "question_transcript_draft", "transcription_error")):
+        st.button("Discard recording", on_click=_discard_question_recording)
+    return st.session_state.pop("submitted_voice_question", None)
 
 
 def render_planning_quick_view(chunks: list[dict]) -> str | None:

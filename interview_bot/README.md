@@ -41,6 +41,16 @@ question or select All roles. The job description and details guide relevance
 and phrasing; they are not evidence of qualifications or accomplishments. The
 selected saved experience remains the factual source for the answer.
 
+Question matching requires evidence from the question itself. Empty input,
+greetings, and microphone checks such as `Test.` prompt for an interview question
+without making a search request. General retrieval requires meaningful shared
+query terms in the saved question, aliases, or answer evidence; semantic rank and
+job-description terms alone cannot qualify a result. Authored shortcuts, matched
+questions, broad interview prompts, and explicit role browsing remain available.
+Unsupported questions produce a no-match message and clear the previous active
+answer and its actions. This is a conservative lexical safeguard, not a calibrated
+confidence score: an unfamiliar paraphrase can require more detail or a shortcut.
+
 **Transmission planning** uses an additional evidence gate: the saved STAR facts
 must establish a planning/study purpose, such as transmission assessments,
 interconnection studies, expansion alternatives, planning models, or planning-team
@@ -75,6 +85,25 @@ disagreement remains an explicitly requested backup, outside the 20-row primary
 map. Stories marked **Needs correction** show that status and hide their recall
 cues until the review status changes. Summaries are navigation metadata, excluded from answer text and embedding
 inputs; changing a cue does not require an embedding refresh or an AI request.
+
+## Recorded questions
+
+Record your question in English. After stopping the recorder, the app transcribes
+the audio into **Review your question**. Edit it and click **Use this question**
+to search, or **Discard recording** to remove it. A transcript is never submitted
+automatically or added to chat history before you use it. Reruns do not resend the
+same recording. A failed request keeps its audio for **Retry question transcription**;
+**Discard recording** also clears a failed recording. Draft edits survive switching
+to Practice and back; restoring a session discards unfinished drafts and pending
+submissions.
+
+The existing `whisper-1` request now supplies `language="en"`, following the
+[OpenAI transcription API](https://developers.openai.com/api/reference/python/resources/audio/subresources/transcriptions/methods/create).
+The language hint improves guidance but does not guarantee an accurate transcript.
+Local validation rejects malformed, empty, truncated, and digitally silent PCM WAV
+recordings before an API request. Quiet nonzero audio remains accepted; background
+noise without speech can still produce incorrect text, so review the draft.
+These checks also apply to practice transcription. Recordings stay in memory.
 
 ## Answer actions and practice
 
@@ -488,3 +517,9 @@ measure live semantic-search or generated-answer quality.
 Additional regressions cover persistent audio/context controls, safe retries,
 session import boundaries, unreviewed evidence metadata, coverage gaps, and typed
 and recorded practice. No external API calls are required for these checks.
+Question-input regressions cover test messages with a job description, unrelated
+queries, reviewed/edited transcripts, duplicate recorder events, silence,
+transcription retries, oversized drafts, and restoration without audio replay.
+PCM tests include quiet samples and 8/16/24/32-bit mono/stereo recordings. Mocked
+transcription responses verify request settings and UI behavior, not microphone
+quality or live speech-recognition accuracy.

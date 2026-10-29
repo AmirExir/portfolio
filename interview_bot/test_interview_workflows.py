@@ -24,13 +24,13 @@ def valid_feedback() -> dict[str, str]:
 
 
 def wav_recording(seconds: int = 65) -> bytes:
-    """Build a small deterministic PCM recording with a known duration."""
+    """Build a small non-silent PCM fixture with a known duration."""
     output = io.BytesIO()
     with wave.open(output, "wb") as recording:
         recording.setnchannels(1)
         recording.setsampwidth(1)
         recording.setframerate(100)
-        recording.writeframes(b"\x80" * (seconds * 100))
+        recording.writeframes(b"\x7f\x81" * (seconds * 50))
     return output.getvalue()
 
 

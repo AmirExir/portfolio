@@ -121,4 +121,8 @@ def restore_session(state: MutableMapping[str, Any], data: dict) -> None:
     clear_candidate_pool(state)
     for key in ("active_answer", "pending_answer", "pending_search", "answer_audio", "answer_error", "search_error", "audio_error", "practice_feedback", "practice_feedback_signature", "practice_answer", "practice_source", "practice_question", "practice_loaded_source", "practice_recording", "practice_audio", "practice_transcript", "practice_error", "question_recording", "transcription_error"):
         state.pop(key, None)
+    for key in ("question_transcript_draft", "question_transcript_editor", "submitted_voice_question",
+                "transcribe_question", "question_draft_error"):
+        state.pop(key, None)
+    # Keep the recorder token so restoring a session cannot replay the same audio.
     state["job_description_draft"] = validated["job_description"]
