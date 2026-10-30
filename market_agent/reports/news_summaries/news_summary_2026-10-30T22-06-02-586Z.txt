@@ -1,0 +1,25 @@
+Fresh market-moving headlines are limited in this article set, and several items are low-quality aggregations or non-market coverage. The clearest usable drivers are rates/inflation, a handful of earnings movers, and crypto security headlines.
+
+**Facts**
+- **US rates/inflation:** *The Times of India* (**2026-10-29T21:58:12Z**) said US Treasury yields fell, citing the 10-year down 6.5 bps to 4.98%, the 30-year down 4 bps to 5.321%, and the 2-year lower ahead of the 2026 midterm elections.
+- **Macro/inflation backdrop:** *Biztoc / ms.now* (**2026-10-29T21:51:50Z**) said September price increases accelerated while Q3 US growth was stronger than expected, describing “good news on growth, bad news on inflation.”
+- **Macro/growth:** *Biztoc / Morning Brew* (**2026-10-29T21:50:44Z**) said US Q3 GDP grew at a 3.4% annualized rate, helped by business investment and consumer spending.
+- **Amazon / AI semis:** *Crypto Briefing* (**2026-10-29T21:56:52Z**) reported Amazon CEO Andy Jassy said Amazon’s chip business is tripling every year and has passed a $25 billion revenue run rate.
+- **Amazon earnings reaction:** *Biztoc / Yahoo Finance* (**2026-10-29T21:53:40Z**) said investors were focused on Amazon’s Q3 report, especially AWS growth, capex, margins, and Q4 guidance.
+- **Intel earnings:** *Biztoc / Yahoo Finance* (**2026-10-29T21:53:24Z**) said Intel posted its strongest data-center revenue growth in 15 years, but gave weaker Q4 revenue, gross-margin, and earnings guidance.
+- **Chipotle earnings/pricing:** *New York Post* (**2026-10-29T21:53:59Z**) reported Chipotle said Q4 menu price increases will reach about 3% as beef, freight, and labor costs rise, alongside improving sales.
+- **M&A:** *Biztoc / Yahoo Finance* (**2026-10-29T21:53:43Z**) said ADT agreed to be acquired for $10 per share in cash.
+- **Crypto exchange/security:** *Slashdot* (**2026-10-29T22:00:00Z**) reported Binance is investigating a potential hack, with more than $2 billion reportedly drained and Blockaid estimating nearly $3.3 billion moved.
+- **Crypto exchange/security follow-up:** *Crypto Briefing* (**2026-10-29T21:38:07Z**) said Binance founder Changpeng Zhao stated user funds appear safe and Binance would cover losses.
+- **Prediction-market crypto/security:** *BleepingComputer* (**2026-10-29T21:47:25Z**) reported Polymarket temporarily halted trading after a third-party-service breach that distributed crypto-draining JavaScript; about $2.5 million in assets was traced to a suspected attacker wallet.
+- **Crypto earnings:** *Biztoc / Yahoo Finance* (**2026-10-29T21:52:49Z**) said Coinbase reported Q3 revenue down 34% year over year amid a crypto slump.
+- **Crypto earnings follow-up:** *Biztoc / Yahoo Finance* (**2026-10-29T21:52:09Z**) said Coinbase returned to profit in Q3, though much of that was tied to gains on crypto held on its own balance sheet.
+
+**Interpretation**
+- The most credible cross-asset inputs here are a **rates move lower**, paired with a **mixed macro message of firmer growth but sticky inflation**.
+- In equities, the fresh set points more to **single-stock and sector-specific moves** than to a well-explained broad index tape:  
+  - **AI/semis:** Amazon chip-growth commentary and Intel’s mixed report/guidance are relevant.  
+  - **Consumer/inflation pass-through:** Chipotle’s planned price increases reinforce ongoing cost pressure.  
+  - **Event-driven names:** ADT is a straightforward M&A headline.
+- In crypto, the dominant fresh theme is **security/risk sentiment**, with Binance and Polymarket breach headlines potentially weighing on confidence even as Binance says customer funds are safe.
+- Overall, this article set is **thin for explaining today’s full market action**. It provides some plausible drivers—rates, inflation/growth tension, earnings/guidance, and crypto security stress—but not enough high-quality breadth to fully explain the tape.
