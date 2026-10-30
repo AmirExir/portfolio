@@ -1,0 +1,362 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-10-30",
+  "source": {
+    "revision": "a70134fc600d729ee5813502af2a26c26e86f7cf",
+    "files": {
+      "Docs/ACCC_Input_Checks.md": "4546411d8f0ed4adb1717a82a392715f719dd189b3ebaf65cc9795db66faf03d",
+      "Docs/ACCC_Studies_and_Results.md": "0aae861673c3231aa7737fc25c1b573a51da521cae2c67b46ccf9b3b2734eb81",
+      "Docs/AELab25_Screenshots/01_psse_steady_state_analysis.png": "6bc19e37080beb583a4a5af594407b5ca59bfee286cc52fed9e041a16b4c132d",
+      "Docs/AELab25_Screenshots/02_psse_dynamic_flat_start.png": "565c9e7c00c7f3cb88754cbc8523bdf03a3156a6afb5af2decb00a5ae3290cf1",
+      "Docs/AELab25_Screenshots/03_psse_dynamic_fault_simulation.png": "d40439bff3ba1efff566b870dc95724791ca30412ab7f4f7396b28dc5f851a9a",
+      "Docs/AELab25_Screenshots/04_psse_dynamic_simulator.png": "ef7711768849ddc854f19213815d99b116c7e56fad2a367d35f738f987f45c3d",
+      "Docs/AELab25_Screenshots/05_psse_idv_generator.png": "47180cf093afe492524bb070a75ae4f9a75a7577d108b25a789e311136b1e082",
+      "Docs/AELab25_Screenshots/06_psse_result_visualization_comparison.png": "3ef67c2168f12ab19090634fdef6b957b0f155eaae7b04686bef19bb0067c7ee",
+      "Docs/AELab25_Screenshots/07_psse_apply_batch_changes.png": "bf2324d1d82d35663da1f6d71848802a4f8a061cf128e3b14894e295646679a6",
+      "Docs/AELab25_Screenshots/08_psse_model_qa_validation.png": "4bda03031772a2351b2036ff7f96e4bf7e4c5d33b405d939aca48ade643f295c",
+      "Docs/AELab25_Screenshots/09_psse_results_thermal_violations.png": "01ffd9d08495453bef77ae3c7f4798ea68ac765ae4f74f8ab8a4f7a12c16b2e8",
+      "Docs/AELab25_Screenshots/10_psse_results_voltage_violations.png": "9cbd40df5f20f26ae0906282ea92a86ee12fddaa5f23d4f570f9ccf26cadbacc",
+      "Docs/AELab25_Screenshots/11_psse_results_voltage_deviation.png": "afdcbc8d542f8a51b5030de8a939fc83261dde15a1520a6433fb804faa1c0e99",
+      "Docs/AELab25_Screenshots/12_psse_results_not_converged.png": "90e851627d395441adbdb3c94e7b2052da16fb8de57cdc9d4789f40de823d0f2",
+      "Docs/AELab25_Screenshots/13_psse_dynamic_results_pass_fail.png": "ed1c4e9293a689feaee4a9461399fce021461beff11f67b4c68ebb633426f6e8",
+      "Docs/AELab25_Screenshots/14_psse_dynamic_results_voltage.png": "ce16b8542310d5de7e3e337c8bc635f566c1df8eb60c548469d6613dbd8d63ec",
+      "Docs/AELab25_Screenshots/15_psse_dynamic_results_load_loss.png": "9cf9b1d7aa11f5940350114a73b53bb3c5663ccdbbdfe772e89df81216313bec",
+      "Docs/AELab25_Screenshots/16_psse_dynamic_results_out_channels.png": "285b5d0bff3706e7b97b944f70b054cb5fc8eb598171723d31d225fcd36f5b5e",
+      "Docs/AELab25_Screenshots/17_psse_dynamic_results_fault_summary.png": "04a6a833adc3dd62525b9a1e8500e13c22219b8d3caffefd69b5f8bd8ad58901",
+      "Docs/AELab25_Screenshots/18_psse_model_qa_results_summary.png": "6c593cf94132edd0e4e0973478bcd554bc3d7642c3fe49b4378f43ba64fbada7",
+      "Docs/AELab25_Screenshots/19_psse_model_qa_results_findings.png": "40177f534b349c2fa2eb4ea2a0450451b584c9e2fd1e03a6da3de5568f2e2092",
+      "Docs/AELab25_Screenshots/20_tara_visualizer_interactive_browser.png": "1e32f9eda8f2d2bc6c2c829d5e2956b316416bf2b3dae3e62534ac5d2b0c4eaf",
+      "Docs/AELab25_Screenshots/21_tara_visualizer_trlim.png": "85401781930d047c9d546910cca10c6617fedec668ca04120ae6fb7719a62e0a",
+      "Docs/AELab25_Screenshots/22_tara_visualizer_accc.png": "e45a27bd1fcf9ad968b8d4e71285d53493861a0798d44ec0e9179d2ec91436b1",
+      "Docs/AELab25_Screenshots/23_tara_visualizer_batch_ca.png": "2f80dbf71ff34cbb36375fc3bdc3e90482371eda587e093533abb64658f7a6b7",
+      "Docs/AELab25_Screenshots/24_tara_visualizer_batch_trlim_compare.png": "06f872c7db6061b9e21cca15823d86cadafff538ef8a6f407bdc612d0126ab7d",
+      "Docs/AELab25_Screenshots/25_tara_inch_compare_cases.png": "caf04ae625689133e2af95032b110f5fe3df9dca8ddf137effe86791c8fff57d",
+      "Docs/AELab25_Screenshots/26_tara_inch_apply_stack.png": "e0bb1193c387253343c1cfcbc84071671e2ef228a551c58002af8b77129c95d3",
+      "Docs/AELab25_Screenshots/27_tara_inch_build_from_inputs.png": "e3d8c33cb6b9a48124d0681ec55996e0d41985bdf766cb621df6efe2a43519c2",
+      "Docs/AELab25_Screenshots/28_tara_inch_case_diagnostics.png": "daa35ca402044bdc8dbffc0d323763b1e6eb5443b8b1320a611138f7df282262",
+      "Docs/AELab25_Screenshots/29_tara_steady_state_setup_run.png": "4d1877d81d240434b4833e3c9a5d6119a63a34972f53d1bee40c34ccaa15e65c",
+      "Docs/AELab25_Screenshots/30_tara_steady_state_plan_review.png": "594aaa2f2fb6e1a3827e5d6223227e4c2d848016eda3662c580f76f9f993fa30",
+      "Docs/AELab25_Screenshots/31_tara_results_jobs.png": "122596f4c5d6d087d3caf3c80553b7673cd775ebfd401bd9375d02e958291b9c",
+      "Docs/AELab25_Screenshots/32_tara_results_branch_violations.png": "98a70f6416d4e63426972091596783c8af8abfb519c69660a49bf2b3091c5351",
+      "Docs/AELab25_Screenshots/33_tara_results_voltage_violations.png": "379da0312ee4cadaea692f60eaa11f4877abe37ce49b2a832f293fa426707ea1",
+      "Docs/AELab25_Screenshots/34_utilities_contingency_element_data.png": "b7779a8113f5d5c8d2d567756321deea2bf2115d9e972a5a0926720f76cd2de2",
+      "Docs/AELab25_Screenshots/35_utilities_contingency_bus_filter.png": "5adca287f97c87d2df436f465287155ab5c094d7a2d5b01639c16c2a763449ed",
+      "Docs/AELab25_Screenshots/36_utilities_contingency_con_combiner.png": "bab0bbef4fb01a56b2ac595a127244584b10c061d718e65d16356cbb31769bd4",
+      "Docs/AELab25_Screenshots/37_utilities_contingency_corrections.png": "8b19ea93144550eea0cec5983e31c5f5d4a97d62a9dcd48fbd0b1e2bf00db958",
+      "Docs/AELab25_Screenshots/38_utilities_contingency_tara_n_level.png": "0e585676732a4e01ab434543888eff133f06840d5358e850827bcde3b0a24fe1",
+      "Docs/AELab25_Screenshots/39_utilities_dwg_setup.png": "7b9afdfa093d0e3e62b0b1475df5d00ba82411cd9c7fb6fc3c46538b1bca404c",
+      "Docs/AELab25_Screenshots/40_utilities_dwg_con2xls_builder.png": "61fece6a876add3dbae30bec7463065b24a9e1f6cc8eb6c87e4ce9df508616e1",
+      "Docs/AELab25_Screenshots/41_utilities_dwg_ctg_builder.png": "23ea601733bfbd6c7d21b13cf937c47d84b6457d97d3b34c8dbcdd4b66a1596f",
+      "Docs/AELab25_Screenshots/42_utilities_dwg_workflow.png": "b1c632d75341c6e96d3c78c74fa6352a5e5c97f4ed74ece20c3a1bfce1bda4dd",
+      "Docs/AELab25_Screenshots/43_utilities_dwg_run_log.png": "d0df38971b57a1c48faf221b24f2b94fe3b9007445667f9b3667dd4ec6240abd",
+      "Docs/AELab25_Screenshots/44_utilities_tpit.png": "db10b860d11fb43823c3289a4a5860f8360e0461f743a40647cca15c33caafbd",
+      "Docs/AELab25_Screenshots/45_utilities_grid_map.png": "341b0b88d6dff40ab8dcd4c1fcb1c78fadaac89a4c87d5735bccf24118cb92e4",
+      "Docs/AELab25_Screenshots/46_tara_scd_setup_run.png": "437a46c015243f90330553b63157d76a7f5d660503c0e01a471c75919f5c8cfa",
+      "Docs/AELab25_Screenshots/47_tara_scd_plan_review.png": "57af2aa4a561b2bc9864b17ba96d2b3559aad4398c3c0fabfc3095d329b71f40",
+      "Docs/AELab25_Screenshots/48_tara_results_worst_thermal.png": "3a981f547ee128e1d6e436c3ae0acd3acee4dd96b810f9364eead71b5afa9ff1",
+      "Docs/AELab25_Screenshots/49_tara_results_worst_voltage.png": "04df34630337af2a67e698f3049d82aa878ad4ef612606a1afdefe95e25ffb70",
+      "Docs/AELab25_Screenshots/50_tara_results_native_n1.png": "206db8b0b25fe6a7e0dba8f82daaa84fb70b389951f0402f9d27c8db5d2e2db6",
+      "Docs/AELab25_Screenshots/51_tara_results_native_n11_scd.png": "a04f08c6caa43bf78b6c507bed115f586789497f2906295304f6a15b546bbe15",
+      "Docs/AELab25_Screenshots/52_tara_results_thermal_cross_case.png": "0ee9280ad0b2eda54550d2e856766275a6c85fdbef14faefbb11e50c5836076a",
+      "Docs/AELab25_Screenshots/53_tara_results_voltage_cross_case.png": "7f55e3e058e97824bc24d7b30219f8d3f8178ee0bc731b5bba1038e5b99c88fe",
+      "Docs/AELab25_Screenshots/54_tara_results_thermal_summary.png": "c483a42b0f886b73e56efa7d57abdd31e6a2ce0b95095b67bcdc53df7bd3a8fa",
+      "Docs/AELab25_Screenshots/55_tara_results_voltage_summary.png": "a700ec1c201d0508042e9ffcb5138985301afcbb474df2806b4ef118c63f83d2",
+      "Docs/AELab25_Screenshots/README.md": "3845dd239baf45f3227fb545a2abacc853ae56ae2b65d45700f091cf1a2f5ee1",
+      "Docs/CMLD_Workspace.md": "6e35145dc9b32e3821e6348836b8ebb8d64072f5aefbb8210c9e3dabbeb3df59",
+      "Docs/Dynamic_Simulator_TRABAJO_Comparison.md": "e4d0eee5a096409b3f0e14889b26e43f0837f599a16205e014dec70956c3953d",
+      "Docs/EQUIPMENT_DYNAMIC_IDVS.md": "59eb46b55413349574e8b0df7803e64dec6b32460e1c1afbeb9b869d72c5d52e",
+      "Docs/Load_Modeling_PERC_Research.md": "500ddae55a1b33144d1536a722627290bbcece4959d72edd2ec875a0dcb670c0",
+      "Docs/One_Line_to_PSCAD.md": "eb08dd36f2b11e30d1e6a18a984ca42eb02668f76913df408e5e3f93228fbfe9",
+      "Docs/PAIRED_DYNAMIC_IDVS.md": "1bdd6a0d49eac4f9a27c0063b1714faee07c8fe049c3277b4e221dd6ada34392",
+      "Docs/PSCAD_Automation_Mapping.md": "f3a04f74d05fcfc0e3ee998826907aa228949826f90169378447c0f2d460db63",
+      "Docs/PSSE_Job_Isolation.md": "86879d2c9ca6fc27f6d79e88682ad708897a87d467447c04ad588d8dca8aaf4b",
+      "Docs/SELECTIVE_DWG_WORKFLOW.md": "8b29ee8e84a36c5b223474da33866f72f544537daec3b3862cbb57d4879abb08",
+      "Docs/build_aelab25_presentations.py": "bc6f98270facc389141b992a3404e0bd28cee76d73477a4c890f7cdc85fec3bf",
+      "Docs/capture_aelab25_screenshots.py": "7aae8a55e1379af9a241e65d50e129693db712780e7f2e8792e492f3c0e7bbc7",
+      "IDV_GENERATOR_README.md": "56c30b4482186a5c08be6fb6f1e2093e99566149a49543577b0484ae5bc8d40c",
+      "aelab25_app/TARA_POWERGEM_CA.md": "b0f056e85d856f207fe456ddc4043211269de5497b57f060a1e18d6c5cda5285",
+      "aelab25_app/dwg_contingency_source_ui.py": "853ba3d6bb47b38d344d29016e321a135034dc83876677170cb81bc0f4591580",
+      "aelab25_app/dwg_contingency_ui.py": "98f6f791be6b37a1e835414008410ec39856d9c90d1c96f6c851d4b09fb8101c",
+      "aelab25_app/dynamic_workspace_dashboard.py": "35ed2a5a9a0edfa48cd59fec0b1c3edd6c91a5df5b015b01c39d9f8cbdfe2873",
+      "aelab25_app/load_model_versions.py": "69f1f6affd9e7e77994853e9be83e5c5e7db9575798446ac53d8a7af8749ab60",
+      "aelab25_app/tabs/batch_case_tab.py": "bb0b632980c335effb70a881aa1b400709f2aee1521d238ac69e473cba7e1c4c",
+      "aelab25_app/tabs/cmld_tab.py": "5e62f4c7b7fc8fecc2706677a5085bd095e006d35478771b957ccdcbd4821859",
+      "aelab25_app/tabs/idv_tab.py": "dac115d71a9e926fb90a6c8d5206fd4d6d7b323604cc26b44280cf902685fdf2",
+      "aelab25_app/tabs/tara_powergem_ca_tab.py": "23bc2468b1a910ffeaf79b7fc69bf9b01e375246daf12dfb1919ba86c91c8c54",
+      "aelab25_app/workspace_navigation.py": "36070c34b124e093a3ee39e2412dd11672d8fe9c4f203d94feb39bbfe3ce5c58"
+    }
+  },
+  "cover": {
+    "title": "AELab25 Modern UI Overview",
+    "breadcrumb": "v25.1 | Updated October 30, 2026",
+    "description": "Current capabilities across PSS/E, TARA, PSCAD and Utilities. Source-verified feature updates lead this edition; an expanded, clearly labeled archive of 55 UI captures follows. Cover image: archived interface reference."
+  },
+  "slides": [
+    {
+      "title": "Current workspace map",
+      "breadcrumb": "PSS/E > TARA > PSCAD > Utilities",
+      "description": "The searchable tool rail now spans four platforms. PSS/E has a dedicated Load Modeling section; PSCAD has its own Model Preparation workspace.",
+      "bullets": [
+        "PSS/E | Steady-state and dynamic analysis; automation, model QA and results.",
+        "PSS/E Load Modeling | Composite Load Models (CMLD), PERC1 and PERC2.",
+        "TARA | Result visualization, INCH case preparation, study setup and result review.",
+        "PSCAD | Model Preparation > One-Line to PSCAD review prototype.",
+        "Utilities | Steady State Contingency and Dynamic Stability Contingency.",
+        "Utilities | TPIT and Grid Map remain available alongside the contingency tools."
+      ],
+      "sources": [
+        "aelab25_app/workspace_navigation.py"
+      ]
+    },
+    {
+      "title": "What has expanded since the previous overview",
+      "breadcrumb": "Implementation reviewed October 30, 2026 | AELab25 v25.1",
+      "description": "The published 47-page edition covered 45 archived screens. This update adds the current feature guide and the ten additional TARA screens in the source catalog.",
+      "bullets": [
+        "Study management | Saved ACCC setups and evidence; connected Dynamic Simulator studies, event selection, dashboard and history.",
+        "Model preparation | CMLD, PERC1/PERC2, the PSCAD review prototype, richer equipment IDV authoring and dynamic event preparation.",
+        "Review and reporting | ACCC input checks and audits; TARA native imports, SCD planning, summaries, cross-case plots and mitigation registers."
+      ],
+      "sources": [
+        "aelab25_app/workspace_navigation.py",
+        "Docs/AELab25_Screenshots/README.md"
+      ]
+    },
+    {
+      "title": "ACCC: saved studies and preflight checks",
+      "breadcrumb": "PSS/E > Analysis > Steady State Analysis",
+      "description": "Study setup, execution evidence and recorded results now have separate lifecycles. Reviewing a previous run does not replace the current editable setup.",
+      "bullets": [
+        "Save setup, Save as new and Load setup manage named configurations. Run history reopens recorded results and their submitted settings.",
+        "Check inputs reviews files, deck structure, subsystem references and numeric settings. Native DFAX check builds DFAX in a fresh worker without running ACCC.",
+        "Run manifests retain case identities, input hashes, criteria, runtime and output paths. Unsupported input syntax and native failures remain visible for review."
+      ],
+      "sources": [
+        "Docs/ACCC_Studies_and_Results.md",
+        "Docs/ACCC_Input_Checks.md"
+      ]
+    },
+    {
+      "title": "ACCC: assessment completeness and audit reports",
+      "breadcrumb": "PSS/E > Results > Steady State Results",
+      "description": "Run Summary and Contingency Audit expose the evidence behind violation tables, including nonconvergence, absent records and voltage extrema.",
+      "bullets": [
+        "Explicit convergence and uniquely identified base-case evidence govern comparisons. Missing ratings or voltage evidence are unavailable, never substituted with zero.",
+        "Submitted/returned contingency coverage, evaluated voltage counts and zero-voltage observations are retained. Zero voltage remains visible and requires review.",
+        "Excel/CSV reports distinguish complete assessments with no violations from incomplete evidence. Native PSS/E report criteria can differ from AELab's recorded assessment."
+      ],
+      "sources": [
+        "Docs/ACCC_Studies_and_Results.md"
+      ]
+    },
+    {
+      "title": "Dynamic Simulator: connected study workspaces",
+      "breadcrumb": "PSS/E > Analysis > Dynamic Stability Analysis > Dynamic Simulator",
+      "description": "Studies, Setup, Contingencies, Run dashboard and Study history organize the full workflow, with live console and files/plotting views also available.",
+      "bullets": [
+        "Named studies support save, duplicate, import/export and restoration. Previews show settings, notes and checked events before opening a study.",
+        "Searchable Run checkboxes preserve hidden selections. Highlighting an event is separate from selecting it for execution; Run selected includes all checked events.",
+        "The dashboard combines live execution status with event details. History reopens recorded settings and evidence; automatic refresh stays on the dashboard. One study runs at a time."
+      ],
+      "sources": [
+        "Docs/Dynamic_Simulator_TRABAJO_Comparison.md",
+        "aelab25_app/dynamic_workspace_dashboard.py"
+      ]
+    },
+    {
+      "title": "Dynamic Simulator: event evidence and run controls",
+      "breadcrumb": "Run dashboard > Summary / Channels / Losses / Plots / Attempts / Logs / Setup",
+      "description": "Execution outcome and engineering assessment remain separate. Event-level evidence supports investigation of completed, failed and retried attempts.",
+      "bullets": [
+        "Review full-resolution channel extrema and times, voltage evidence and separate connectivity, equipment-loss and relay-shedding measures. Missing evidence remains explicit.",
+        "Embedded previews and interactive plots use recorded artifacts. Preview samples may be decimated; reported extrema come from full-resolution assessment, and FREQ is not automatically Hz.",
+        "Isolated workers support concurrency, per-attempt timeout, retries and optional crash reruns with recorded settings. Failed attempts remain available; engineering FAIL/REVIEW is not automatically retried."
+      ],
+      "sources": [
+        "Docs/Dynamic_Simulator_TRABAJO_Comparison.md"
+      ]
+    },
+    {
+      "title": "Composite Load Models (CMLD)",
+      "breadcrumb": "PSS/E > Load Modeling > Composite Load Models (CMLD)",
+      "description": "A guided workspace wraps source inspection, database preparation and reviewed legacy CMLD DYR generation, with dedicated source, output and log views.",
+      "bullets": [
+        "Create a blank workbook or inspect Excel/SQLite inputs. Validate schema, values and assignments, then create a canonical database snapshot without PSS/E.",
+        "Save/load setups and select an explicit runtime, SAV and generation settings. Generate DYR uses an isolated licensed Windows PSS/E process and retains logs, manifests and hashes.",
+        "New setups default to PSS/E 35.6. Version guidance is explicit; structural checks and generated records do not validate model suitability, initialization or legacy-to-modular conversion."
+      ],
+      "sources": [
+        "Docs/CMLD_Workspace.md",
+        "aelab25_app/tabs/cmld_tab.py"
+      ]
+    },
+    {
+      "title": "PERC1 and PERC2 preparation workspaces",
+      "breadcrumb": "PSS/E > Load Modeling > PERC1 / PERC2",
+      "description": "Separate model drafts organize study context, reference parameters, facility allocation, vendor DYR templates, research limits and review logs.",
+      "bullets": [
+        "Record explicit MW/Mvar allocations and inspect reference worksheets. Save/load each model's draft independently; reference exports are labeled REFERENCE_ONLY.",
+        "Reviewed vendor-template replication changes bus/load identity while retaining the supplied model parameters. Worksheet values are not silently serialized into a guessed DYR schema.",
+        "The app defaults to PERC1 36.5 and provisional PERC2 36.7 targets. PERC2 availability remains UNCONFIRMED; templates, installed libraries and model behavior require separate verification."
+      ],
+      "sources": [
+        "Docs/Load_Modeling_PERC_Research.md",
+        "aelab25_app/load_model_versions.py"
+      ]
+    },
+    {
+      "title": "One-Line to PSCAD: local review prototype",
+      "breadcrumb": "PSCAD > Model Preparation > One-Line to PSCAD",
+      "description": "Import a PDF or image, inspect the interpreted drawing and explicitly review equipment, values, units and connectivity before preparing exports.",
+      "bullets": [
+        "Drawing overlays, equipment/parameter editors, connectivity and issue review retain source identity and correction history. Missing data remain unresolved rather than receiving invented defaults.",
+        "Save/load JSON and export a REVIEW_ONLY bundle without PSCAD. Review release-specific mappings before preparing a Windows build bundle for the configured PSCAD 5.1.0 target.",
+        "Recognition supports a narrow local baseline and optional OCR. This is not a verified turnkey drawing-to-EMT converter; licensed project creation, compilation and engineering validation are separate stages."
+      ],
+      "sources": [
+        "Docs/One_Line_to_PSCAD.md",
+        "Docs/PSCAD_Automation_Mapping.md"
+      ]
+    },
+    {
+      "title": "IDV Generator: equipment projects and full-file editing",
+      "breadcrumb": "PSS/E > Automation & QA > IDV Generator",
+      "description": "Build a change and Edit an existing IDV now support complementary authoring workflows. Generation produces reviewed command text; it does not execute a case.",
+      "bullets": [
+        "Built-in line, autotransformer, shunt and bus templates expose editable engineering defaults. Combine equipment changes in an ordered project and save/reload its configuration.",
+        "The persistent conductor/rating library supports explicit mappings. Line previews distinguish conductor ratings from the separately entered substation equipment limit and show the conversion.",
+        "The complete-file editor retains command order, comments and unedited recording content. Edit labeled commands or full text, then save under a new name for independent case review."
+      ],
+      "sources": [
+        "IDV_GENERATOR_README.md",
+        "aelab25_app/tabs/idv_tab.py"
+      ]
+    },
+    {
+      "title": "Batch Changes and Model QA: isolated execution",
+      "breadcrumb": "PSS/E > Automation & QA > Apply Batch Changes / Model QA & Validation",
+      "description": "The batch interface separates Setup & Plan, Case Outputs and Run Log, while retaining visible run/cancel controls and explicit per-case change ordering.",
+      "bullets": [
+        "Assign ordered IDV/Python changes to selected cases and review derived outputs. Case Outputs fills when the batch finishes; Run Log shows progress during execution.",
+        "QA and Batch Changes run in separate owned worker processes. Cancellation targets the selected process tree; shutdown failures and partial outputs remain visible.",
+        "These jobs have no automatic elapsed-time cutoff. Process liveness is not numerical progress, and successful process completion does not turn failed QA checks into passes."
+      ],
+      "sources": [
+        "Docs/PSSE_Job_Isolation.md",
+        "aelab25_app/tabs/batch_case_tab.py"
+      ]
+    },
+    {
+      "title": "TARA: contingency profiles and SCD planning",
+      "breadcrumb": "TARA > Workflows > Steady State Analysis",
+      "description": "Study planning now offers finer contingency-family selection, explicit event roles and frozen plan review before isolated TARA execution.",
+      "bullets": [
+        "Select N-1 families P1s, P2s, P4s, P5s and P7s independently, alongside P3/P6/ERCOT2/ERCOT3 N-1-1 mappings. Review case, deck and output assignments before running.",
+        "Export separate N-1/N-1-1 TARAViewer batch CSVs and printable plans. SCD planning retains explicit Options files, subsystem choices and load-eligibility selections.",
+        "Generation-side/no-load-adjustment and load-enabled SCD variants remain distinct. Reported execution is not correction approval; SCD engineering outcome remains NOT_EVALUATED."
+      ],
+      "sources": [
+        "aelab25_app/TARA_POWERGEM_CA.md",
+        "aelab25_app/tabs/tara_powergem_ca_tab.py"
+      ]
+    },
+    {
+      "title": "TARA: native results, summaries and comparisons",
+      "breadcrumb": "TARA > Results > Steady State Analysis Results",
+      "description": "Native N-1 and N-1-1/SCD imports join the combined-workbook workflow, with traceable result views and exports for engineering review.",
+      "bullets": [
+        "Worst Thermal and Worst Voltage retain reported element/event identity, source rows and distinct reported-contingency counts. These counts do not establish execution coverage.",
+        "Detailed Thermal/Voltage Cross-Case and compact Summary tables preserve case context and source limits. Missing values and status text are not converted to zero.",
+        "Export updated workbooks and self-contained HTML thermal/voltage plot reports. Native source-selection policy and SCD adjustment context remain explicit in the evidence."
+      ],
+      "sources": [
+        "aelab25_app/TARA_POWERGEM_CA.md",
+        "Docs/AELab25_Screenshots/README.md"
+      ]
+    },
+    {
+      "title": "TARA: mitigation register preparation",
+      "breadcrumb": "TARA > Results > Mitigation template export",
+      "description": "Direct native N-1 and N-1-1 workbooks can feed an auditable Excel register for reviewing candidate mitigation work.",
+      "bullets": [
+        "Combine reported thermal and voltage issues into a review template while retaining source workbook, source-row and hash evidence.",
+        "Editable CAP/action fields support engineering disposition. Policy-review information accompanies the generated register rather than silently approving a response.",
+        "A register entry or plotted violation is a review aid. It does not establish an accepted mitigation, contingency coverage, study compliance or successful corrective operation."
+      ],
+      "sources": [
+        "aelab25_app/TARA_POWERGEM_CA.md"
+      ]
+    },
+    {
+      "title": "Dynamic contingencies: Audit & Split and Auto CONs",
+      "breadcrumb": "Utilities > Dynamic Stability Contingency",
+      "description": "The newer event-preparation tabs extend the original DWG setup/build workflow with searchable event evidence, cut-ins and reviewed template reconstruction.",
+      "bullets": [
+        "Audit executable bus references in IDV folders, loose files and ZIPs. Preview/export selected events; prepare two-sided line cut-ins and batch mappings from Excel/CSV.",
+        "Audit & Split retains manifests and recovery archives. Default replacement removes selected originals from the active folder only after verification; Keep originals selects copies-only behavior.",
+        "Audit & Split > Rebuild from DWG reuses reviewed event templates. Auto CONs prepares P1 source CONs from SINGLE rules and paired CON decks from selected sources."
+      ],
+      "sources": [
+        "Docs/SELECTIVE_DWG_WORKFLOW.md",
+        "aelab25_app/dwg_contingency_source_ui.py"
+      ]
+    },
+    {
+      "title": "Dynamic contingencies: pairing and equipment inputs",
+      "breadcrumb": "Utilities > Dynamic Stability Contingency > Pair event IDVs / Equipment IDVs",
+      "description": "Two additional preparation routes assemble candidate event scripts with explicit inputs, previewable text and export evidence.",
+      "bullets": [
+        "Pair event IDVs combines ordered first-outage and second-event sources for P3/P6/ERCOT2/ERCOT3 candidates. Preview scripts and export selected pairs with hashes and assumptions.",
+        "Equipment IDVs accepts pasted bus, AC-line, transformer and machine tables to prepare P1/P3/P6/ERCOT2/ERCOT3 batches. Advanced exact templates and full-script previews remain available.",
+        "Generated category names do not establish compliance, complete topology coverage or an adjusted initial case. Review event actions, timing and case assumptions before licensed simulation."
+      ],
+      "sources": [
+        "Docs/PAIRED_DYNAMIC_IDVS.md",
+        "Docs/EQUIPMENT_DYNAMIC_IDVS.md"
+      ]
+    },
+    {
+      "title": "Screenshot reference: 55 archived application views",
+      "breadcrumb": "Reference atlas | PSS/E, TARA and Utilities captures",
+      "description": "The following pages preserve the established screen guide and add ten TARA catalog views missing from the previous portfolio PDF. These are archived captures, not fresh October screenshots.",
+      "bullets": [
+        "The atlas covers analysis, automation, result review, INCH preparation, contingency utilities, TPIT and Grid Map. Added TARA pages cover SCD, Worst/native results and cross-case/summary views.",
+        "Load Modeling, PSCAD and the expanded Dynamic Simulator dashboard are documented in the preceding source-based feature pages; the archived catalog has no captures of those new layouts.",
+        "Blank tables and synthetic labels are intentional. Captures do not represent licensed study validation. Source revision, content and image hashes are recorded in docs/aelab-overview.json."
+      ],
+      "sources": [
+        "Docs/AELab25_Screenshots/README.md",
+        "Docs/capture_aelab25_screenshots.py"
+      ]
+    }
+  ],
+  "screenshot_overrides": {
+    "psse-steady-state-analysis": {
+      "description": "Archived ACCC setup with case, contingency, solver and reporting controls. The current workflow adds saved studies, input/DFAX checks, history and assessment audit reports; see the feature guide."
+    },
+    "psse-dynamic-simulator": {
+      "description": "Archived prepared-case IDV batch setup. The current Dynamic Simulator adds connected study tabs, searchable Run checkboxes, event-detail dashboards and recorded history; see the feature guide."
+    },
+    "psse-idv-generator": {
+      "description": "Archived line-oriented IDV authoring form. The current generator adds equipment templates, editable defaults, ordered projects, conductor/rating libraries and complete-file editing; see the feature guide."
+    },
+    "psse-apply-batch-changes": {
+      "description": "Archived stacked batch form for ordered case changes. The current tool separates Setup & Plan, Case Outputs and Run Log, with persistent controls and isolated worker execution."
+    },
+    "psse-model-qa-validation": {
+      "description": "Case scope and deterministic model checks. This archived setup predates the newer owned-worker isolation and cancellation behavior. Review findings separately from process completion."
+    },
+    "utilities-dwg-setup": {
+      "description": "Archived DWG source/setup workspace. Current navigation also includes Audit & Split, Auto CONs, Pair event IDVs and Equipment IDVs; their source-verified capabilities appear in the feature guide."
+    },
+    "tara-scd-setup-run": {
+      "description": "Review separate SCD plans for generation adjustments and P6 load-enabled policies, with explicit Options files and engineer-selected load eligibility."
+    },
+    "tara-results-native-n1": {
+      "description": "Import native N-1 workbooks with explicit source-pair selection. Direct BranchViol/VoltViol is preferred; cross-comparison results follow their Primary-row policy. Retain source decisions and reported-row provenance."
+    },
+    "tara-steady-state-setup-run": {
+      "description": "Archived RAW/deck mapping and run setup. Current selection separates P1s, P2s, P4s, P5s and P7s N-1 families alongside the N-1-1 mappings. Review the frozen plan before execution."
+    }
+  }
+}

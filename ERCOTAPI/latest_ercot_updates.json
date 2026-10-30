@@ -2,6 +2,26 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "86c4b9e96061d9bc4c2455779219b728874c75f6f79ea43d758e1e074f2f0be5",
+      "title": "PGRR146",
+      "document_number": "PGRR146",
+      "source": "PGRR",
+      "published_date": "May 20, 2026",
+      "downloaded_at": "2026-10-30T11:00:54Z",
+      "observed_at": "2026-10-30T11:00:54Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/PGRR146",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR146",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) modifies the stability assessment schedule for planned large generators and Large Loads from every three months to every four months and rename the stability assessment from quarterly stability assessment to qualifying stability assessment.",
+      "issue_title": "Rename Quarterly Stability Assessment and Modify the Assessment Schedule",
+      "affected_sections": "5.3.2.5, 5.3.4, 5.3.5, and 5.5",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
       "content_sha256": "38ebdc780f0024390c36ee99f0b5a5a81a3078d50044ec3d84a82b05468d6c2f",
       "title": "NPRR1352",
       "document_number": "NPRR1352",
@@ -977,26 +997,6 @@
       "issue_title": "Update to Standard Generation Interconnection Agreement (SGIA) Requirement",
       "affected_sections": "5.2.8.1",
       "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
-    },
-    {
-      "content_sha256": "182665b91ef257bd6779067b0eeb44b25c9b54d6acef09fa9d09a1cabf39a89a",
-      "title": "PGRR146",
-      "document_number": "PGRR146",
-      "source": "PGRR",
-      "published_date": "May 20, 2026",
-      "downloaded_at": "2026-10-14T11:00:50Z",
-      "observed_at": "2026-10-14T11:00:50Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/PGRR146",
-      "sources": [
-        "PGRR"
-      ],
-      "revision_id": "PGRR146",
-      "revision_family": "PGRR",
-      "explanation": "This Planning Guide Revision Request (PGRR) modifies the stability assessment schedule for planned large generators and Large Loads from every three months to every four months and rename the stability assessment from quarterly stability assessment to qualifying stability assessment.",
-      "issue_title": "Rename Quarterly Stability Assessment and Modify the Assessment Schedule",
-      "affected_sections": "5.3.2.5, 5.3.4, 5.3.5, and 5.5",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
       "content_sha256": "a48e9bf88cd16e7169147d7cb33cf5f2bbbb09c500f9f29eda7f057e704d0adc",
@@ -15879,7 +15879,7 @@
     }
   ],
   "count": 810,
-  "generated_at": "2026-10-28T11:01:39.748603+00:00",
+  "generated_at": "2026-10-30T11:01:31.852384+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",
@@ -18576,16 +18576,16 @@
       "effective_state": "pending_proposal",
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "TAC",
+      "next_group": "BOARD",
       "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "10/01/2026",
-        "governing_body": "ROS",
+        "date": "10/28/2026",
+        "governing_body": "TAC",
         "action": "Recommended for Approval",
         "next_step": "Revision Request Consideration"
       },
-      "source_downloaded_at": "2026-10-14T11:00:50Z",
-      "source_observed_at": "2026-10-14T11:00:50Z"
+      "source_downloaded_at": "2026-10-30T11:00:54Z",
+      "source_observed_at": "2026-10-30T11:00:54Z"
     },
     "PGRR147": {
       "revision_id": "PGRR147",

@@ -54,8 +54,10 @@ inferred from those retained images.
 script and selection, catalog identities, exported filenames, slide order,
 file sizes, SHA-256 hashes, and new-image dimensions.
 The website and its tests use only the copied local assets; they do not need
-the sibling application repository. The existing overview PDF and all legacy
-image URLs remain intact.
+the sibling application repository. All legacy image URLs remain intact.
+The October 30 overview PDF refresh is separate from this gallery capture:
+see `docs/portfolio.md` and `docs/aelab-overview.json`. Its source-based feature
+pages distinguish current capabilities from the archived screenshot atlas.
 
 To reproduce the selected UI-only captures from the source repository, run
 the existing harness with a new temporary output directory and isolated

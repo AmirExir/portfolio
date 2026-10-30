@@ -111,10 +111,48 @@ for the script paths and how to distinguish local changes from hosted versions.
 - Maintain the selected card’s image link, title link, and text link together when changing its destination. Internal anchors must match an existing unique `id`.
 - Keep paths relative to the repository root in HTML, and encode spaces as `%20`. CSS `url(...)` paths are relative to `assets/css/`; JavaScript feed paths resolve relative to the HTML document. The feed address is configured with `data-feed-url` on `#ercotUpdatesList`.
 - Add gallery images inside `.carousel-track` using `.carousel-slide`. Include descriptive alt text. The script generates navigation dots, slide counts, and accessibility state. Galleries advance manually, so users can inspect technical screenshots without a timer.
-- The AELab gallery has 28 slides. Original visualization/result slides 2, 4, 10, 23, and 25–28 retain their exact images and positions; the other 20 use app captures in `assets/images/aelab/`. The selected-work thumbnail uses the same current steady-state workspace as slide 1. `docs/aelab-gallery.json` records the ordered sources and checksums; `tests/test_aelab_gallery.py` verifies the retained images, copies, and markup together. See `docs/visual-assets.md` for capture provenance and limitations. Original root images and the downloadable overview PDF are not deleted or overwritten.
-- The résumé/download disclosure and course certificate disclosure use native HTML `details` elements. They also work without JavaScript. Preserve the AELab overview’s version query and download filename when editing its two existing links; its regression test verifies the published document.
+- The AELab gallery has 28 slides. Original visualization/result slides 2, 4, 10, 23, and 25–28 retain their exact images and positions; the other 20 use app captures in `assets/images/aelab/`. The selected-work thumbnail uses the same steady-state workspace as slide 1. `docs/aelab-gallery.json` records the ordered sources and checksums; `tests/test_aelab_gallery.py` verifies the retained images, copies, and markup together. See `docs/visual-assets.md` for capture provenance and limitations. Original root images remain available. The overview PDF has its own update process below.
+- The résumé/download disclosure and course certificate disclosure use native HTML `details` elements. They also work without JavaScript. Keep both AELab overview download links synchronized; advance their version query and the PDF checksum regression when replacing the document, while preserving its download filename.
 - External links that open another tab use `rel="noopener noreferrer"`. Keep alternative contact methods available if the browser denies clipboard access.
 - Maintain the three academic entries in `#education` separately from professional credentials. The section uses native fragment links and readable HTML, so the timeline does not depend on animation or JavaScript. Preserve the recorded institution names, degree types, study dates, and the AI degree's candidate status unless the owner provides updated information.
+
+### Updating the AELab overview PDF
+
+`AELab25_Modern_UI_Overview.pdf` was reviewed on October 30, 2026 against
+`psse_codes` revision `a70134fc600d729ee5813502af2a26c26e86f7cf`.
+Its 73 pages contain a cover, 17 feature/reference pages and all 55 archived
+catalog screens. The feature guide covers the four-platform navigation, saved
+ACCC studies and audits, Dynamic Simulator dashboard/history, CMLD/PERC tools,
+PSCAD review prototype, IDV authoring, worker isolation, TARA reporting and
+dynamic-contingency preparation. Existing website screenshots remain unchanged.
+
+`docs/aelab-overview.json` is the editable content and provenance record.
+It pins source documents, the existing AELab renderer/catalog and screenshot
+bytes with SHA-256 hashes. `scripts/build_aelab_overview.py` reuses that renderer
+without launching the application or executing a simulator. The build fails
+on a changed revision, changed input or text that would be truncated.
+
+Use Python 3.10+ with Pillow (available in the existing project environment)
+and a checkout of the reviewed source revision:
+
+```sh
+.venv/bin/python scripts/build_aelab_overview.py --source-root ../psse_codes --check-inputs
+.venv/bin/python scripts/build_aelab_overview.py --source-root ../psse_codes --preview-dir /tmp/aelab-overview-review
+```
+
+The default output replaces the portfolio PDF only after complete rendering
+and PDF structure verification. Source inputs are read-only. For a future
+revision, review the implementation and update content/fingerprints deliberately;
+do not simply refresh hashes to bypass a mismatch. Inspect rendered pages, then
+update both `index.html` version queries and `tests/test_aelab_ui_download.py`.
+The PDF checksum can depend on Pillow/font versions; record the build environment
+when refreshing it. This edition used Python 3.13.14, Pillow 11.3.0 and macOS Arial.
+
+The screenshot atlas is explicitly historical: it does not show the new load
+modeling, PSCAD or expanded simulator layouts. Those additions are documented
+from source. Blank/synthetic capture data are not study results. PERC2 availability
+remains unconfirmed, PSCAD conversion is a review prototype, and no licensed
+solver or engineering validation was performed for this documentation update.
 
 The site combines self-hosted Instrument Serif with system fonts, existing project screenshots, and photography. The immersive hero introduces the engineering themes through an interactive signal field. The original `AmirinSubstation.jpeg` appears in the Field Notes section immediately below the opening material, with responsive WebP copies where supported. That original portrait remains visually separate from the labeled AI-generated grid landscape. Selected-work cards show actual project screenshots in application-window frames; detailed galleries retain their screenshots. Content and navigation remain available without JavaScript; galleries then scroll horizontally. The mobile AI assistant link appears in the footer to avoid covering page content.
 
