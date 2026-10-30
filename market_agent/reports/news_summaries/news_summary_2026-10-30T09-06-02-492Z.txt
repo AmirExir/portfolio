@@ -1,0 +1,15 @@
+Fresh, market-moving coverage in this set is limited and somewhat thin for explaining today’s tape.
+
+**Facts**
+- **CNBC (2026-10-29T09:00:01Z):** An analysis of Fed Chair **Kevin Warsh’s** post-meeting stance says he signaled a **lean toward higher interest rates** while keeping options open depending on incoming data. This is relevant for **rates, Fed expectations, and broad risk assets**.
+- **NPR (2026-10-29T09:00:00Z):** U.S. automakers are saying **input costs are rising** for **computer chips, steel, copper, tariffs, and diesel**, with pressure showing up during **Q3 earnings** commentary. Relevant for **autos, inflation pass-through, and industrial cost pressure**.
+- **IBTimes Australia (2026-10-29T08:54:13Z):** **Samsung Electronics** posted **record Q3 profit**, but the report **fell short of high expectations for its semiconductor division**, and the article says Samsung shares declined. Relevant for **semis and Asian tech sentiment**.
+- **IBTimes Australia (2026-10-29T08:53:36Z):** **Advantest** raised its **profit forecast**, and the article says that supported a **Tokyo chip rally** ahead of the **Bank of Japan** decision. Relevant for **AI/semi supply chain and Japan equities**.
+- **The Times of India / Economic Times (2026-10-29T09:04:04Z):** India’s finance ministry nowcasting model estimates **Q2 FY27 GDP growth at 7.35%**, after **7.8%** in the prior quarter. Relevant for **macro growth sentiment in Asia**, though less directly for U.S. markets.
+- **CBC News (2026-10-29T09:00:00Z):** The **Bank of Canada’s rate hike** this week was framed as addressing the risk that **high global oil prices** spread into broader inflation, and the report says further hikes may be possible. Relevant for **energy-linked inflation and global rate sensitivity**.
+
+**Interpretation**
+- The clearest fresh macro signal here is **still-restrictive central bank bias**: CNBC on the Fed and CBC on the Bank of Canada both point to policymakers staying alert to **inflation persistence**, especially where **energy costs** can spill over.
+- In equities, the most market-relevant fresh cross-currents are in **semis/AI hardware**: **Samsung disappointing versus elevated chip expectations** contrasts with **Advantest’s upbeat forecast**. That suggests **selective semiconductor leadership rather than a uniform sector read-through**.
+- The NPR auto piece adds to the idea that **input-cost inflation** remains a live earnings issue, especially for **manufacturing-heavy sectors**.
+- There is **little in this article set on U.S. index-level flows, Treasury yields, oil price moves, or major crypto price action** beyond these indirect signals, so this set alone does **not fully explain today’s tape**.
