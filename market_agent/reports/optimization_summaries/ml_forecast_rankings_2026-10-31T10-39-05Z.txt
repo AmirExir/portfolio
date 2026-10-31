@@ -1,0 +1,53 @@
+Market Optimization
+Generated: 2026-10-31 10:32 UTC
+As of: 2026-10-30
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+No buy or sell signals passed the checks.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+WATCHLIST - POLICY SIGNALS ONLY
+Sell/avoid watch:
+
+AAL: forecast -8.14% by 2026-12-14
+  Reliability: speculative; model-estimated chance of a rise: 32%.
+
+GS: forecast -4.79% by 2026-12-14
+  Reliability: moderate; model-estimated chance of a rise: 32%.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted gains
+
+XOM: forecast +6.57% by 2026-12-14
+  Why rejected: up/down predictions failed accuracy checks.
+
+USO: forecast +6.36% by 2026-12-14
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; predicted move is small relative to past forecast errors.
+
+SPCX: forecast +14.08% by 2026-12-14
+  Why rejected: testing on unseen data is unverified; historical forecast error is unavailable; too few historical tests; too few non-overlapping historical tests; required historical validation data is missing or invalid.
+
+SLV: forecast +6.92% by 2026-12-14
+  Why rejected: predicted move is small relative to past forecast errors.
+
+Predicted declines
+
+WDC: forecast -12.77% by 2026-12-14
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; predicted move is small relative to past forecast errors.
+
+DOT: forecast -10.91% by 2026-11-29
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+TLT: forecast -4.66% by 2026-12-14
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+PG: forecast -2.85% by 2026-12-14
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast; predicted move is small relative to past forecast errors.
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.
