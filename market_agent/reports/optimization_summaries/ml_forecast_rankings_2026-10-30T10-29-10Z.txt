@@ -1,0 +1,47 @@
+Market Optimization
+Generated: 2026-10-30 10:22 UTC
+As of: 2026-10-29
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+No buy or sell signals passed the checks.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted gains
+
+XOM: forecast +5.85% by 2026-12-11
+  Why rejected: up/down predictions failed accuracy checks.
+
+OXY: forecast +6.41% by 2026-12-11
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+USO: forecast +6.52% by 2026-12-11
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; predicted move is small relative to past forecast errors.
+
+COP: forecast +5.06% by 2026-12-11
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast; predicted move is small relative to past forecast errors.
+
+HYPE: forecast +15.29% by 2026-11-28
+  Why rejected: too few non-overlapping historical tests; up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+Predicted declines
+
+WDC: forecast -11.77% by 2026-12-11
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; predicted move is small relative to past forecast errors.
+
+ORCL: forecast -8.38% by 2026-12-11
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast; predicted move is small relative to past forecast errors.
+
+TLT: forecast -4.89% by 2026-12-11
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+PG: forecast -2.93% by 2026-12-11
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.

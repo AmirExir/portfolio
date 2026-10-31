@@ -1,0 +1,29 @@
+Fresh market-moving headlines are limited, but there are a few usable catalysts in the last 36 hours.
+
+**Facts**
+- **Federal Reserve held rates steady** and the decision included **two dissents in favor of a hike**, underscoring ongoing inflation concern.  
+  - Source: **CNBC**, **2026-10-28T21:31:46Z**
+  - Source: **Fox Business via Biztoc**, **2026-10-28T21:51:18Z**
+  - Source: **Daily Caller**, **2026-10-28T21:36:05Z**
+- **Fed Chair Kevin Warsh** said the Fed will deliver **price stability** after the hold decision.  
+  - Source: **YouTube via Biztoc**, **2026-10-28T21:53:54Z**
+- **Microsoft beat expectations**, with profit reported above forecast; the same AFP report said **Google missed on profit**.  
+  - Source: **New Zealand Herald / AFP**, **2026-10-28T22:03:02Z**
+- Separate reporting tied to Microsoft’s results said **Microsoft Foundry passed 120,000 customers** and revenue **more than tripled**, highlighting continued enterprise AI demand.  
+  - Source: **Crypto Briefing**, **2026-10-28T21:54:52Z**
+- Another Microsoft-related report said **AI agents now open more than 40% of GitHub pull requests**, reinforcing the AI adoption narrative around software productivity.  
+  - Source: **Crypto Briefing**, **2026-10-28T21:54:20Z**
+- In Japan, the **Nikkei rose with chipmakers leading**, supported by demand for **AI-related semiconductor shares**.  
+  - Source: **News on Japan**, **2026-10-28T21:51:46Z**
+- In crypto-related equity news, **Datavault AI** said it has been unable to access its Bitcoin at Biconomy since June and would restate four financial reports tied to a deal; the article says the **stock fell sharply** on that filing.  
+  - Source: **Decrypt**, **2026-10-28T21:46:02Z**
+- **Ripple integrated RLUSD into Coinbase’s ecosystem**, expanding retail and institutional access across **XRP, Ethereum, and Base**.  
+  - Source: **ZyCrypto**, **2026-10-28T21:46:08Z**
+- **Google Cloud** is reportedly preparing a **multi-party computing** service for crypto wallets aimed at financial institutions.  
+  - Source: **SiliconANGLE**, **2026-10-28T21:28:13Z**
+
+**Interpretation**
+- The clearest macro takeaway is **higher-for-longer risk remains alive**: the Fed held steady, but **two hawkish dissents** suggest policy debate is still tilted by sticky inflation.
+- For equities, the most relevant fresh driver is **mega-cap tech divergence**: **Microsoft’s beat** supports the AI spending theme, while **Google’s profit miss** points to less uniform strength across big tech.
+- The AI/semi theme still appears intact based on the **Microsoft enterprise AI datapoints** and **chip-led strength in Japan**, but today’s article set is **too thin to fully explain the broader tape** beyond Fed-plus-big-tech.
+- In crypto, the fresh headlines are more **idiosyncratic** than marketwide: **Datavault AI** is a single-name negative, while **RLUSD/Coinbase** and **Google’s wallet-security effort** are ecosystem/infrastructure developments rather than clear broad BTC/ETH price drivers.
