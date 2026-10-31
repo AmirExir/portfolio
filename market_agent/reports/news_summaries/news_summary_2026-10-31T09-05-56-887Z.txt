@@ -1,0 +1,36 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+## Facts
+- **European Central Bank survey showed higher euro-area inflation expectations** — The ECB’s Q4 Survey of Professional Forecasters said **headline and core inflation expectations were revised up for 2026 and 2027**, mainly due to **higher energy prices**, while **longer-term inflation expectations were unchanged**.  
+  *Source: ECB, publishedAt 2026-10-30T09:00:00Z*
+
+- **Anthropic disclosed a very large planned AI infrastructure spend** — A report says Anthropic has **committed up to $567 billion for compute and infrastructure expansion**, underscoring ongoing AI capex intensity and potential read-throughs for AI infrastructure suppliers.  
+  *Source: Crypto Briefing, publishedAt 2026-10-30T08:53:51Z*
+
+- **Foxconn flagged OpenAI collaboration and rejected AI-bubble concerns** — Foxconn Chairman Young Liu reportedly cited **new work with OpenAI** and forecast **double-digit growth next year**, tying into the AI hardware/infrastructure theme.  
+  *Source: Crypto Briefing, publishedAt 2026-10-30T08:53:18Z*
+
+- **WSJ-sourced headline said Intel and Amazon earnings were pressuring the AI/tech trade** — A market headline summarized by Biztoc said **“Intel Stock Crashes Premarket as Tech Selloff Extends”** and that **Intel and Amazon earnings further stoked fears around the AI trade**.  
+  *Source: Biztoc citing WSJ, publishedAt 2026-10-30T08:52:08Z*
+
+- **WSJ-sourced headline pointed to a potential Nvidia-related China information-security issue** — A Biztoc summary of a WSJ report said a **Chinese executive close to Nvidia CEO Jensen Huang** was suspected by investigators of **providing information to China**.  
+  *Source: Biztoc citing WSJ, publishedAt 2026-10-30T08:52:18Z*
+
+- **Crypto headline flagged a major suspected Binance hack affecting digital assets** — A Yahoo Finance headline summarized by Biztoc said **Binance reported $6.3 billion impacted in a suspected record crypto hack**, with **bitcoin and digital assets tumbling**. The summary specifically said **BTC fell about 3% to around $77,000**.  
+  *Source: Biztoc citing Yahoo Finance, publishedAt 2026-10-30T08:52:06Z*
+
+- **Oil-focused report said elevated oil prices could spur North Sea M&A** — Reuters-poll-based reporting said **high oil and gas prices** are expected to **drive further consolidation in the UK North Sea sector**.  
+  *Source: OilPrice.com, publishedAt 2026-10-30T08:45:00Z*
+
+## Interpretation
+- The **clearest macro item** in this set is the **ECB inflation-expectations revision upward**, which matters for **rates, inflation expectations, and energy sensitivity** in Europe.
+
+- The **AI/semi complex** has mixed fresh inputs:  
+  - supportive on **AI infrastructure demand/capex** via **Anthropic** and **Foxconn/OpenAI**,  
+  - but potentially negative on **near-term sentiment** via the **Intel/Amazon earnings read-through** and the **Nvidia/China security-related headline**.
+
+- In **crypto**, the **Binance hack headline** is the most direct fresh risk item and could weigh on **bitcoin, exchange-related sentiment, and broader digital-asset risk appetite**.
+
+- In **energy**, the fresh item is more about **industry structure/M&A** than an immediate oil-price catalyst.
+
+- Overall, the fresh set is **fairly thin** and does **not fully explain today’s broader tape** on its own.
