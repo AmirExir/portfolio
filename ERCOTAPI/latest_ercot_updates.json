@@ -2,6 +2,46 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "0fa110db3156c6614c604ceb6b2941348be2e8993cf83ac8984f14961ae75716",
+      "title": "1340NPRR-23 Revised Impact Analysis 101326",
+      "document_number": "NPRR1340",
+      "source": "NPRR",
+      "published_date": "Oct 13, 2026",
+      "downloaded_at": "2026-10-31T11:00:49Z",
+      "observed_at": "2026-10-31T11:00:49Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/10/13/1340NPRR-23-Revised-Impact-Analysis-101326.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1340",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
+      "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "889e5c30373358dc8bbe9d3650f70d4909f356342704609a8ae974d8877c2f3b",
+      "title": "1340NPRR-20 ROS Comments 100526",
+      "document_number": "NPRR1340",
+      "source": "NPRR",
+      "published_date": "Oct 5, 2026",
+      "downloaded_at": "2026-10-31T11:00:48Z",
+      "observed_at": "2026-10-31T11:00:48Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/10/05/1340NPRR-20-ROS-Comments-100526.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1340",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
+      "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
       "content_sha256": "86c4b9e96061d9bc4c2455779219b728874c75f6f79ea43d758e1e074f2f0be5",
       "title": "PGRR146",
       "document_number": "PGRR146",
@@ -15878,8 +15918,8 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     }
   ],
-  "count": 810,
-  "generated_at": "2026-10-30T11:01:31.852384+00:00",
+  "count": 812,
+  "generated_at": "2026-10-31T11:01:36.852572+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",
@@ -17821,8 +17861,8 @@
         "action": "Recommended for Approval",
         "next_step": "PRS for Impact Analysis consideration"
       },
-      "source_downloaded_at": "2026-10-24T11:00:43Z",
-      "source_observed_at": "2026-10-24T11:00:43Z"
+      "source_downloaded_at": "2026-10-31T11:00:43Z",
+      "source_observed_at": "2026-10-31T11:00:43Z"
     },
     "NPRR1341": {
       "revision_id": "NPRR1341",
