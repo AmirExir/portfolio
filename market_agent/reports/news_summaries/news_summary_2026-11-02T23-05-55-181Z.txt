@@ -1,0 +1,13 @@
+Fresh market-moving headlines are thin in this article set, and several items are low-quality aggregations, opinion, or generic preview pieces. The clearest fresh themes are AI/tech funding skepticism and crypto security risk.
+
+**Facts**
+- **PYMNTS, 2026-11-01 22:45 UTC:** Reported that **OpenAI cut the target for its current funding round to $20 billion from $30 billion**, citing a Financial Times report that investor concerns about the AI market are weighing on fundraising appetite.
+- **The Information, 2026-11-01 23:00 UTC:** Previewed the week around **Apple, Uber, Palantir and U.S. elections**, and said **worries about excessive AI spending** hurt Google’s stock last week and contributed to a weak October for the Nasdaq. This is partly backward-looking context, not a new standalone catalyst.
+- **Biztoc/Semafor aggregation, 2026-11-01 22:50 UTC and 22:35 UTC:** Summarized that **investors are dialing back expectations for U.S. growth and questioning the sustainability of the AI buildout after tech earnings**. Because this is an aggregator rewrite, treat it cautiously.
+- **Feld.com, 2026-11-01 22:58 UTC:** Said **Binance reopened withdrawals and has covered 95% of the $6.3 billion hack**, while a full zero-knowledge proof of reserves was still pending.
+- **Biztoc/Semafor aggregation, 2026-11-01 22:36 UTC** and **Biztoc/Inc. aggregation, 2026-11-01 22:19 UTC:** Reported that the **FBI linked the record $6.3 billion Binance crypto heist to North Korea**, a fresh crypto-sector security headline with potential implications for risk appetite in major crypto.
+
+**Interpretation**
+- The strongest fresh read-through for markets is **continued skepticism around AI spending/funding**, with the OpenAI fundraising cut reinforcing concerns already circulating after recent tech earnings.
+- The **Binance/North Korea** headlines are relevant mainly for **crypto sentiment and regulatory/security concerns**, rather than broad equities unless spillover risk becomes clearer.
+- This article set does **not** provide enough fresh, high-confidence reporting to explain the full day’s tape in **equity indexes, Fed/rates, inflation, or energy**. There are no solid fresh macro headlines here on those fronts.
