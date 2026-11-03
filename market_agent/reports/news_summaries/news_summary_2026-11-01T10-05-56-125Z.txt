@@ -1,0 +1,19 @@
+Fresh market-moving headline set is thin and noisy. Most items are either non-market, low-credibility aggregation, or not directly relevant to broad-market tape. The clearest fresh themes are crypto security risk, AI/tech pipeline news, and a small inflation-related anecdote.
+
+**Facts**
+- **Cointelegraph, 2026-10-31T09:58:50Z** — Reported that the **$6.3 billion Binance hack** has become a political talking point ahead of the U.S. election, framing it as the biggest crypto heist on record.
+- **TechRadar, 2026-10-31T09:00:00Z** — Published an explainer on the **$6.36 billion Binance theft**, saying North Korea was allegedly behind the attack and highlighting the scale and speed of the loss.
+- **Crypto Briefing, 2026-10-31T09:04:57Z** — Reported **Chainalysis disclosed a cyberattack** that exposed some customer names and emails, while saying passwords and investigation materials were not accessed.
+- **Slate Magazine, 2026-10-31T09:15:00Z** — Reported that **Anthropic filed to go public**, with the filing drawing attention to its revenue profile and risks.
+- **Phoronix, 2026-10-31T09:50:00Z** — Reported **NVIDIA engineers released CUDA Oxide 0.3**, described as improving Rust support for CUDA programming.
+- **Phoronix, 2026-10-31T10:00:00Z** — Reported **DXVK-NVAPI 0.9.3** was released with improvements tied to newer NVIDIA drivers and Linux gaming support.
+- **Business Insider, 2026-10-31T09:00:01Z** — Citing **S&P Global**, reported that **an hour of work buys fewer candy bars in 2026**, a consumer-inflation anecdote suggesting some wages are not keeping pace with price increases.
+- **The Times of India/Reuters, 2026-10-31T10:04:12Z** — Reported that **U.S. electricity bills are rising sharply** and becoming a political issue, with proposed measures to limit utility rate increases and profits.
+
+**Interpretation**
+- The most market-relevant fresh headline is the **Binance hack**, which reinforces **crypto-specific risk sentiment** and could keep attention on exchange/custody/security names rather than implying anything broader for equities.
+- **Chainalysis’ breach disclosure** adds to the same crypto-security narrative, particularly around trust and infrastructure resilience in digital assets.
+- **Anthropic’s IPO filing** is relevant for the **AI trade**, but this article set does not provide enough hard financial detail to infer a broader move in AI or semiconductor stocks by itself.
+- The **NVIDIA software items** are incremental ecosystem/newsflow positives for the AI and developer stack, but they are not obviously broad tape-drivers on their own.
+- The **inflation/power-bills items** point to ongoing consumer cost pressure, but they are **anecdotal**, not fresh macro data likely to move Fed expectations by themselves.
+- Overall, this fresh set is **too thin to cleanly explain today’s broad index, rates, or Fed-driven action**.

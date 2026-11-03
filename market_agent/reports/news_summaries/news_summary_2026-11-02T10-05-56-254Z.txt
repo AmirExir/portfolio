@@ -1,0 +1,22 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Crypto / risk sentiment:** **Binance resumed phased withdrawals after a roughly $6.3 billion hack**, reopening withdrawals for selected assets including major tokens, after saying it had replaced most stolen assets.  
+  - **Cointelegraph** — *2026-11-01T09:38:18Z*  
+  - **Business Standard / Reuters** — *2026-11-01T09:31:50Z*  
+  - **Times of India** — *2026-11-01T09:39:21Z*
+
+- **Crypto / security:** **The FBI attributed the Binance hack to North Korea-linked actors**, according to coverage cited in the Binance-related reports.  
+  - **Times of India** — *2026-11-01T09:39:21Z*  
+  - **Business Standard / Reuters** — *2026-11-01T09:31:50Z*
+
+- **Solana-specific crypto headline:** **About 485,270 SOL, valued around $46 million, was moved from wallets tied to the Binance hack to an unknown wallet**, underscoring ongoing laundering/security concerns around the incident.  
+  - **Crypto Briefing** — *2026-11-01T09:42:45Z*
+
+- **AI / semis:** **NVIDIA is reportedly exploring use of PTFE (“Teflon”) materials in next-generation NVLink switch boards** to address signal-loss issues in AI server infrastructure.  
+  - **Wccftech** — *2026-11-01T09:10:50Z*
+
+### Interpretation
+- The **clearest fresh market-moving theme in this dataset is crypto-specific**, centered on the Binance hack, withdrawal restart, and follow-on token movements. That is relevant for **major crypto risk sentiment**, especially **BTC, ETH, SOL, and exchange-related confidence**.
+- The **NVIDIA/PTFE item is a niche supply-chain/engineering report**, potentially relevant to **AI infrastructure and semi sentiment**, but it is **less definitive** than an earnings release, guidance change, or official company filing.
+- **There is little fresh, high-quality coverage here on U.S. equity indexes, Treasury yields/Fed, inflation, major earnings, or energy**. So if you’re trying to explain today’s broader tape, **this article set is thin and likely incomplete**.

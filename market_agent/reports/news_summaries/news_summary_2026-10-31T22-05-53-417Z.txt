@@ -1,0 +1,16 @@
+Fresh set is very thin for broad macro, rates, inflation, or energy, and it does not clearly explain today’s full tape beyond AI/tech-risk and crypto-specific stress.
+
+**Facts**
+- **NPR — 2026-10-30T21:44:09Z:** Reported that hackers stole **more than $6 billion** from **Binance**, describing it as the biggest crypto heist ever and noting suspicion that **North Korea may be behind it**.
+- **Cointelegraph — 2026-10-30T22:00:00Z:** Said attackers behind the **estimated $6.3 billion Binance hack** still control billions in stolen crypto, despite efforts by issuers such as **Tether and Circle** to freeze proceeds.
+- **Biztoc citing WSJ — 2026-10-30T21:44:11Z:** Previewed a WSJ item titled **“Cracks in AI Trade Power Sharp Tech Selloff,”** also referencing Binance executives dealing with losses from the crypto heist. This is second-hand aggregation, so details are limited.
+- **Biztoc citing Yahoo Finance — 2026-10-30T21:43:48Z:** Reported **Alphabet’s October wipeout hit $758 billion**, with **$468 billion lost this week**, calling it the company’s worst week ever. This is also aggregator-sourced and sparse on underlying drivers.
+- **Slashdot citing Yahoo/Reuters/NBC — 2026-10-30T21:52:41Z:** Aggregated headlines saying the **Nasdaq, Dow, and S&P 500** were hit late in the month, with **October ending weak for Intel, Reddit, and AI-linked names** and references to **AI-boom concerns**. This is not a primary-source article.
+
+**Interpretation**
+- The only clearly fresh, directly market-relevant primary reporting here is the **Binance hack**, which is a meaningful **crypto risk-sentiment** headline and could matter most for **major crypto and exchange-related sentiment**.
+- The rest of the tape explanation is weakly supported because the available index/AI weakness stories are mostly **aggregated or second-hand** rather than full primary articles.
+- Based on this article set alone, the safest read is:
+  - **Crypto:** fresh headline risk from the Binance breach.
+  - **AI/semis/megacap tech:** there are signs of concern around the AI trade and Alphabet-specific damage, but the provided links are too thin to make stronger claims.
+  - **Macro/rates/Fed/inflation/energy:** **no fresh explanatory headlines** in the supplied set.

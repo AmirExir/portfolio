@@ -1,0 +1,41 @@
+Market Optimization
+Generated: 2026-10-31 23:32 UTC
+As of: 2026-10-30
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+Passed model checks: 0 buy, 1 sell/avoid.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+SELL / AVOID SIGNALS - PASSED MODEL CHECKS
+
+GS: forecast -5.71% by 2026-12-14
+  Reliability: moderate; model-estimated chance of a rise: 29%.
+
+WATCHLIST - POLICY SIGNALS ONLY
+Sell/avoid watch:
+
+AAL: forecast -8.17% by 2026-12-14
+  Reliability: speculative; model-estimated chance of a rise: 32%.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted gains
+
+XOM: forecast +6.46% by 2026-12-14
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks.
+
+SPCX: forecast +14.08% by 2026-12-14
+  Why rejected: testing on unseen data is unverified; historical forecast error is unavailable; too few historical tests; too few non-overlapping historical tests; required historical validation data is missing or invalid.
+
+SHIB: forecast +15.51% by 2026-11-29
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+SLV: forecast +6.11% by 2026-12-14
+  Why rejected: predicted move is small relative to past forecast errors.
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.

@@ -1,0 +1,38 @@
+Market Optimization
+Generated: 2026-11-03 00:23 UTC
+As of: 2026-11-01 to 2026-11-02
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+Passed model checks: 0 buy, 1 sell/avoid.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+SELL / AVOID SIGNALS - PASSED MODEL CHECKS
+
+HD: forecast -7.25% by 2026-12-15
+  Reliability: moderate; model-estimated chance of a rise: 23%.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted gains
+
+XOM: forecast +8.60% by 2026-12-15
+  Why rejected: up/down predictions failed accuracy checks.
+
+USO: forecast +10.24% by 2026-12-15
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks.
+
+XLE: forecast +4.70% by 2026-12-15
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks.
+
+MSFT: forecast +7.76% by 2026-12-15
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+SLB: forecast +7.58% by 2026-12-15
+  Why rejected: return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.
