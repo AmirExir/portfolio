@@ -1,0 +1,17 @@
+Fresh market-moving headlines are limited, and much of the feed is analysis, opinion, or secondary aggregation rather than new market-moving developments. The clearest fresh themes are AI/tech weakness, election-related policy uncertainty, oil/geopolitical tone, and crypto sentiment.
+
+**Facts**
+- **CNA/Reuters (2026-11-02T10:03:28Z):** Reuters analysis said a **steep decline in US AI and technology shares** is testing whether investors will rotate into other parts of the market, citing **disappointing results from Alphabet, Amazon and Intel**.
+- **CNA/Reuters (2026-11-02T10:05:21Z):** Reuters analysis said investors are **gaming out control of Congress** ahead of the Nov. 3 midterms, with potential implications for **federal spending, debt-ceiling negotiations, and the AI outlook**.
+- **Biztoc citing WSJ (2026-11-02T10:03:14Z):** WSJ said **stock futures recovered after Friday’s selloff** and that **oil slid on signs a wider Middle East escalation may be avoided for now**. This is a secondary source/aggregation, so treat cautiously.
+- **Yahoo Finance (2026-11-02T10:00:00Z):** A pre-midterm check-in said **inflation worries remain the central headwind** in President Trump’s economic approval ratings.
+- **Crypto Briefing (2026-11-02T09:56:25Z):** **Bitcoin held above $77K** ahead of a heavy US event week including the **midterms, jobs data, and Apple/Palantir earnings**.
+- **Crypto Briefing (2026-11-02T09:53:08Z):** The **Crypto Fear & Greed Index fell to 30** after a reported **Binance hack**, signaling weaker crypto risk sentiment.
+- **TechPowerUp (2026-11-02T10:00:44Z):** Report said **Nvidia board partners are still waiting for GeForce RTX 5080 24GB design kits**, implying a near-term launch may be unlikely. This is more sector-specific and supply-chain oriented than broad market-moving confirmation.
+
+**Interpretation**
+- The freshest cross-asset read-through is that **AI/semi earnings disappointment remains the main equity narrative** in this article set.
+- **Election uncertainty** is relevant mainly through possible effects on **fiscal policy, debt-ceiling risk, and AI regulation/spending**, but there is **no concrete election outcome yet** in the fresh articles.
+- For **energy/risk sentiment**, the only fresh directional catalyst here is the report that **oil eased on reduced fears of near-term Middle East escalation**; however, that item comes through a secondary aggregator.
+- In **crypto**, the setup looks mixed: **Bitcoin resilience above $77K** versus **broader sentiment damage from the Binance hack**.
+- Overall, the fresh set is **thin on hard new macro data or official policy decisions**, so it does **not fully explain today’s tape on its own**.
