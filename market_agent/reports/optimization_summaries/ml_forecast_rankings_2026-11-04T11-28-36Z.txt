@@ -1,0 +1,23 @@
+Market Optimization
+Generated: 2026-11-04 11:23 UTC
+As of: 2026-11-03
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+Passed model checks: 1 buy, 1 sell/avoid.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+BUY SIGNALS - PASSED MODEL CHECKS
+
+SLV: forecast +10.18% by 2026-12-16
+  Reliability: high; model-estimated chance of a rise: 70%.
+
+SELL / AVOID SIGNALS - PASSED MODEL CHECKS
+
+HD: forecast -5.07% by 2026-12-16
+  Reliability: moderate; model-estimated chance of a rise: 30%.
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.

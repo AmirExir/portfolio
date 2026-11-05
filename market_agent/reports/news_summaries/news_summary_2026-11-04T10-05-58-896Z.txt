@@ -1,0 +1,21 @@
+Fresh headline set is fairly thin and noisy for explaining today’s tape. The clearest market-relevant items in the last 36 hours are geopolitics around Iran/Strait of Hormuz, a cybersecurity/AI M&A item, and a crypto-specific Bitcoin support story. I do not see solid fresh Fed, U.S. inflation, major earnings, or broad index-moving macro headlines in this feed.
+
+**Facts**
+- **Geopolitics / energy risk:** The U.S. conducted strikes on Iranian targets tied to **Qeshm Island / the Strait of Hormuz**, according to multiple reports. This is the most directly market-relevant fresh development because Hormuz is a critical energy chokepoint.  
+  - **Business Standard / Bloomberg** — *2026-11-03T09:49:45Z*  
+  - **HuffPost / AP-based report** — *2026-11-03T09:50:43Z*  
+  - **Political Wire citing WSJ** — *2026-11-03T09:58:42Z*
+- **AI / cybersecurity M&A:** **CrowdStrike** agreed to acquire **Fiddler AI** and **Dreadnode** for **$495 million**, aimed at AI security, model monitoring, explainability, and stress-testing AI agents.  
+  - **Crypto Briefing** — *2026-11-03T09:59:01Z*
+- **Crypto:** **Bitcoin** fell below **$77,700**, which Cointelegraph described as the realized price/cost basis for the 1-to-3-month buyer cohort, raising the risk that this level becomes resistance.  
+  - **Cointelegraph** — *2026-11-03T10:04:05Z*
+- **China / AI regulation:** China is planning an investigation into the use of **AI applications for financial oversight**, extending recent AI governance efforts for banks and insurers.  
+  - **Crypto Briefing** — *2026-11-03T09:56:07Z*
+- **Inflation ex-U.S.:** **Turkey’s annual inflation** rose to **29.77%** in October, with monthly CPI at **2.58%**, above expectations.  
+  - **RTE** — *2026-11-03T09:56:51Z*
+
+**Interpretation**
+- The **Iran/Hormuz** headlines are the strongest plausible driver for any fresh move in **oil, energy equities, shipping risk, and broader risk sentiment**.
+- The **CrowdStrike** deal is a targeted read-through for **AI infrastructure/security software**, but by itself does not explain broad market action.
+- The **Bitcoin $77.7K** story is relevant for **crypto and crypto-linked equities** if traders are focused on technical support and underwater recent buyers.
+- The rest of the feed is mostly **generic commentary, low-credibility aggregation, or non-market coverage**, so this article set does **not fully explain today’s broader tape**.

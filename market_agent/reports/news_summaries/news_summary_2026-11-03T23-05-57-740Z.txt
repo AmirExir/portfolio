@@ -1,0 +1,18 @@
+Fresh market-moving headlines are limited in this article set, and several items are either generic, secondary aggregations, or not clearly tied to today’s tape.
+
+**Facts**
+- **Reuters/Ipsos poll via Al Jazeera, 2026-11-02 23:05Z:** President Trump’s approval rating was reported at **32%** ahead of the U.S. midterm elections, near a record low. This is a fresh political headline with potential policy and risk-sentiment implications, but it is **not a direct market datapoint**.
+- **Economic Times, 2026-11-02 23:00Z:** A market wrap said U.S. stocks were mixed ahead of Election Day, citing election uncertainty and naming large-cap tech movers including **Apple, Palantir, Alphabet, and Nvidia**. However, this is more a summary of market action than a new causal headline.
+- **CNBC, 2026-11-02 23:00Z:** CNBC reported that **Nvidia’s humanoid robot systems use robot hands from China-linked startups**, highlighting ongoing China supply-chain exposure in a key AI name.
+- **Fox News interview with Treasury Secretary Scott Bessent, 2026-11-02 23:00Z:** Bessent said the U.S. has begun “the greatest economic isolation of any nation in history” regarding **Iran**, a fresh geopolitical/energy-related headline.
+- **CryptoSlate, 2026-11-02 23:00Z:** **Tether froze more than $4.5 million in USDT** linked to a hack at Brazilian exchange Mercado Bitcoin; the hacker was said to hold about **$46 million in crypto**.
+- **Activist Post, 2026-11-02 23:00Z:** Report said **Deutsche Bank is weeks away from launching a bitcoin custody service**. This is crypto adoption-related, though the source quality is weaker than major wires.
+- **Biztoc/Yahoo aggregation, 2026-11-02 22:59Z:** Apple was described as having delivered **better-than-expected revenue**, helped by **iPhone sales**. Because this is an aggregation rather than a primary report, it should be treated cautiously.
+- **Crikey, 2026-11-02 22:42Z:** Preview coverage said the **RBA was likely to raise rates** amid persistent inflation in Australia. This is relevant for global rates sentiment but is not a U.S. Fed/inflation headline.
+
+**Interpretation**
+- The **clearest fresh macro driver** in this set is **U.S. election-related uncertainty**, reinforced by the Reuters/Ipsos approval-rating poll and the market wrap explicitly tying trading to Election Day.
+- For **AI/semis**, the freshest usable item is **Nvidia’s China-linked robotics supply-chain exposure**. It is more of a strategic/supply-chain angle than an immediate earnings or demand shock.
+- For **energy/geopolitics**, Bessent’s Iran comments could matter for oil and broader risk sentiment if markets interpret them as signaling tighter sanctions enforcement.
+- For **crypto**, the most concrete fresh headline is the **Tether freeze tied to the Mercado Bitcoin hack**; the Deutsche Bank custody report is potentially supportive for institutional adoption, but the sourcing is less robust.
+- There is **little fresh, high-quality coverage here on the Fed, Treasury yields, U.S. inflation, or major same-day earnings** that would fully explain today’s tape.
