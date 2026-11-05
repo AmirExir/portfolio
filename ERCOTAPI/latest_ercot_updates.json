@@ -2,6 +2,46 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "0d2d4692c34ffeb8c7efe3b870853961642ac4d79eb626dd7669e7520d3452ab",
+      "title": "147PGRR-05 Rayburn Comments 110326",
+      "document_number": "PGRR147",
+      "source": "PGRR",
+      "published_date": "Nov 3, 2026",
+      "downloaded_at": "2026-11-04T12:00:52Z",
+      "observed_at": "2026-11-04T12:00:52Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/11/03/147PGRR-05-Rayburn-Comments-110326.docx",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR147",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) aligns current ERCOT guidelines with North American Electric Reliability Corporation (NERC) during a Category P6, N-1-1 contingency and ensures Market Participants are in compliance with both.",
+      "issue_title": "Allowable Non-Consequential Load Loss Alignment",
+      "affected_sections": "4.1.1.2 and 4.1.1.8",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "c3a06f8450fc67705d2bf085ac4ffde85f3e775b3eaa246165673b1e0f5d1057",
+      "title": "PGRR147",
+      "document_number": "PGRR147",
+      "source": "PGRR",
+      "published_date": "May 20, 2026",
+      "downloaded_at": "2026-11-04T12:00:51Z",
+      "observed_at": "2026-11-04T12:00:51Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/PGRR147",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR147",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) aligns current ERCOT guidelines with North American Electric Reliability Corporation (NERC) during a Category P6, N-1-1 contingency and ensures Market Participants are in compliance with both.",
+      "issue_title": "Allowable Non-Consequential Load Loss Alignment",
+      "affected_sections": "4.1.1.2 and 4.1.1.8",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
       "content_sha256": "18f723124b681a0ea2035fec075c343e9cb1fda9d29bba9fb4c8f4638c78ebf3",
       "title": "1348NPRR-12 Google Comments 103026",
       "document_number": "NPRR1348",
@@ -1297,26 +1337,6 @@
       "issue_title": "Contract for Capacity Dispatch Process and Energy Offer Curves",
       "affected_sections": "4.4.8",
       "effectiveness_note": "Withdrawn or rejected revision request; it is not governing text."
-    },
-    {
-      "content_sha256": "be013f1cfc535a2bbf1e5fc6d46173c92c513a2999134ff7e428d85fa797e3d5",
-      "title": "PGRR147",
-      "document_number": "PGRR147",
-      "source": "PGRR",
-      "published_date": "May 20, 2026",
-      "downloaded_at": "2026-10-13T20:01:32Z",
-      "observed_at": "2026-10-13T20:01:32Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/PGRR147",
-      "sources": [
-        "PGRR"
-      ],
-      "revision_id": "PGRR147",
-      "revision_family": "PGRR",
-      "explanation": "This Planning Guide Revision Request (PGRR) aligns current ERCOT guidelines with North American Electric Reliability Corporation (NERC) during a Category P6, N-1-1 contingency and ensures Market Participants are in compliance with both.",
-      "issue_title": "Allowable Non-Consequential Load Loss Alignment",
-      "affected_sections": "4.1.1.2 and 4.1.1.8",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
       "content_sha256": "07bada4b2c44086d6fcf9b27969f27957f21f139e630a03dafcf3c6a6c2ebe7b",
@@ -16038,8 +16058,8 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     }
   ],
-  "count": 818,
-  "generated_at": "2026-11-01T21:05:27.839653+00:00",
+  "count": 819,
+  "generated_at": "2026-11-04T12:01:33.576328+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",
@@ -18770,8 +18790,8 @@
         "action": "Deferred/Tabled",
         "next_step": "Language Consideration"
       },
-      "source_downloaded_at": "2026-10-13T20:01:32Z",
-      "source_observed_at": "2026-10-13T20:01:32Z"
+      "source_downloaded_at": "2026-11-04T12:00:51Z",
+      "source_observed_at": "2026-11-04T12:00:51Z"
     },
     "RMGRR184": {
       "revision_id": "RMGRR184",
