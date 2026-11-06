@@ -1,0 +1,16 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Qualcomm guidance/earnings hit AI-semi sentiment** — **CNA/Reuters, 2026-11-05 10:01Z**: Qualcomm shares were indicated **about 9% lower premarket** after smartphone chip sales missed estimates, with weakness in its core handset business overshadowing data-center progress.  
+- **US regulators checked banks after Binance hack** — **CNA/Reuters, 2026-11-05 10:03Z**: US regulators contacted banks to ask about system vulnerabilities after the reported **$6.3 billion Binance hack**, highlighting concern that crypto-related cyber risk could spill into traditional finance.  
+- **Eurozone rates tone softer** — **Times of India citing market report, 2026-11-05 10:03Z**: Eurozone government bond yields edged lower as oil stabilized and investors weighed easing geopolitical risks and ECB rate expectations.  
+- **US sanctions tied to Iran oil evasion** — **Al Jazeera, 2026-11-05 09:57Z**: The US imposed sanctions on Indian and Turkish firms/individuals accused of helping Iran circumvent restrictions, a headline relevant to oil flows and geopolitical risk.  
+- **Bitcoin-related policy headline from South Korea** — **Cointelegraph, 2026-11-05 09:35Z**: South Korea backed delaying its planned crypto gains tax again, now targeting **2029** instead of 2027.  
+- **AI infrastructure/power scrutiny remains a theme** — **CNBC, 2026-11-05 10:00Z**: OpenAI said it would pay the full cost of powering data centers and made further community commitments after election results highlighted public concern over AI data-center buildouts.
+
+### Interpretation
+- The clearest **fresh, tape-relevant catalyst** in this set is **Qualcomm**, which may pressure **chip/AI-adjacent sentiment**, especially where investors are sensitive to handset demand versus data-center exposure.
+- The **Binance hack/regulatory follow-up** is a meaningful fresh headline for **crypto risk sentiment** and for any stocks exposed to tighter scrutiny around cyber and digital-asset plumbing.
+- **Rates/inflation macro explanations are thin** in this article set. There is one fresh Europe-rates item, but there is **not enough here to confidently explain today’s broader US equity or Treasury move**.
+- On **energy**, the Iran sanctions headline matters at the margin for geopolitical/oil monitoring, but this set does **not** provide enough evidence to make a strong call on today’s oil-driven market narrative.
+- Overall, the fresh set is **somewhat thin for explaining the full tape**; the best-supported drivers here are **Qualcomm/semis**, **crypto-regulatory spillover risk**, and **ongoing AI infrastructure scrutiny**.
