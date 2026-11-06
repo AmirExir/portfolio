@@ -1,0 +1,22 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+## Facts
+- **AI/data-center policy shock hit tech sentiment** — **NPR, 2026-11-05T23:06:25Z**: Reported that AI-related shares fell sharply after election results fueled fears that a Democratic Congress and states could crack down on AI data centers.
+- **Volatility and hedging demand surged during the tech-led rout** — **BusinessLine/Reuters, 2026-11-05T23:04:21Z**: Said Wall Street’s “fear gauge” jumped, retail traders pulled back, and systematic funds were preparing large sales as the AI trade weakened.
+- **Broad US stock selloff was led by tech/AI concerns** — **BusinessLine/Bloomberg, 2026-11-05T22:53:11Z**: Reported the worst US stock rout since 2020, citing concerns over AI valuations and potential policy changes.
+- **Nvidia faces China-related chip shipment friction** — **Biztoc citing Semafor/Reuters, 2026-11-05T23:02:51Z**: Said roughly 600,000 advanced Nvidia chips are stuck in Hong Kong as Beijing blocks their entry amid concern about reliance on Western technology.
+- **Nvidia is reportedly exploring more data-center capacity** — **Biztoc citing The Information, 2026-11-05T23:02:28Z**: Reported Nvidia is in talks with Apollo Global Management to buy Brightspeed buildings that could be repurposed as data centers.
+- **Amazon plans a major data-center campus tied to nuclear power** — **Crypto Briefing, 2026-11-05T22:53:25Z**: Reported Amazon is planning a roughly $5 billion data-center campus near Glen Rose, Texas, on Vistra land alongside a 20-year nuclear power deal.
+- **Unity is reportedly in recent acquisition talks** — **CNA/Reuters, 2026-11-05T23:02:43Z**: Reported Unity Software has held recent talks to be acquired by a consortium including Silver Lake and Saudi Arabia’s PIF.
+- **October jobs report is the next macro focus** — **NBC News, 2026-11-05T23:00:00Z**: Previewed the upcoming US October jobs report, highlighting a still-lukewarm labor market, slowing wage growth, and AI’s impact on employment.
+- **Energy angle remains tied to geopolitics rather than a concrete new policy move** — **OilPrice.com, 2026-11-05T23:00:00Z**: Framed Asian hopes that US midterm results could eventually ease the Middle East conflict and fuel pressures, but this was speculative rather than a confirmed policy development.
+
+## Interpretation
+- The clearest fresh driver in this article set is **a sharp repricing of AI/semiconductor and data-center exposure**, linked to **regulatory/political fears after the election**.
+- **Risk sentiment appears meaningfully worse** based on Reuters/Bloomberg coverage of volatility, hedging, and broad de-risking.
+- For **AI/semi names**, the most concrete fresh incremental headlines are:
+  1. policy fears around AI data centers,
+  2. Nvidia’s China shipment friction,
+  3. ongoing hyperscaler/data-center buildout signals from Nvidia and Amazon.
+- On **macro**, the fresh set is **thin** beyond the upcoming jobs report preview. There are **no solid fresh Fed or inflation headlines** here that clearly explain today’s tape.
+- On **crypto**, the provided fresh stories are mostly niche or feature-style; they do **not** offer a strong market-wide bitcoin/ether driver from this set.
