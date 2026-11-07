@@ -1,0 +1,15 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **AMD outlook/AI semis:** *Reuters via CNA*, **2026-11-04T09:53:37Z** — AMD said it expects faster growth through 2027, citing AI-driven data-center demand; the report says shares were indicated **up 7.3% premarket**.  
+- **AMD outlook/AI semis:** *Reuters via The Times of India*, **2026-11-04T09:59:12Z** — Same Reuters-based headline: AMD’s growth outlook reassured investors that AI infrastructure demand remains strong; report again cites **7.3% premarket** gain.
+- **Bitcoin / crypto flows:** *Cointelegraph*, **2026-11-04T09:38:07Z** — U.S. spot Bitcoin ETFs saw **$1.16 billion of net outflows over three trading sessions**; Bitwise described the selling as “short-term.”
+- **U.S. politics / trade backdrop:** *Reuters via BusinessLine*, **2026-11-04T10:01:41Z** — Reuters reported that Republicans’ midterm setback could weaken the U.S. administration’s hand in global trade talks and affect expectations around investment commitments, trade agreements, and tech restrictions.
+- **Data-center/infrastructure policy risk:** *Crypto Briefing*, **2026-11-04T10:04:10Z** — A local vote in Sunbury, Ohio approved a charter amendment blocking Amazon’s proposed **$2 billion** data-center project.
+
+### Interpretation
+- The **clearest fresh tape-relevant item** in this set is **AMD’s AI/data-center growth outlook**, which supports continued focus on **AI/semi leadership and capex demand**.
+- The **Bitcoin ETF outflows** are a fresh **risk-sentiment/crypto** datapoint, but this set does **not** include broad fresh reporting on BTC price action itself.
+- The **midterm/trade** item may matter for **policy-sensitive sectors** if investors start reassessing trade and tech-restriction assumptions, but the article is more about political implications than immediate market pricing.
+- The **Amazon Ohio data-center halt** is a **localized policy/regulatory headline** rather than a broad market driver on its own.
+- Overall, the fresh article set is **thin** and does **not fully explain today’s broader tape** beyond **AI/semi strength** and some **crypto/policy caution**.

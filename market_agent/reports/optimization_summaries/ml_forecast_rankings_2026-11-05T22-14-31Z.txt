@@ -1,0 +1,47 @@
+Market Optimization
+Generated: 2026-11-05 22:07 UTC
+As of: 2026-11-04 to 2026-11-05
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+No buy or sell signals passed the checks.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted gains
+
+MSFT: forecast +15.84% by 2026-12-18
+  Why rejected: too few non-overlapping historical tests.
+
+XLF: forecast +4.06% by 2026-12-18
+  Why rejected: too few non-overlapping historical tests.
+
+XLY: forecast +5.08% by 2026-12-18
+  Why rejected: too few non-overlapping historical tests; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+AMZN: forecast +7.56% by 2026-12-18
+  Why rejected: too few non-overlapping historical tests; up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+WMT: forecast +4.30% by 2026-12-18
+  Why rejected: too few non-overlapping historical tests; up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast; predicted move is small relative to past forecast errors.
+
+Predicted declines
+
+HD: forecast -4.95% by 2026-12-18
+  Why rejected: too few non-overlapping historical tests; up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+PG: forecast -3.57% by 2026-12-18
+  Why rejected: too few non-overlapping historical tests; up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+PEP: forecast -3.55% by 2026-12-18
+  Why rejected: too few non-overlapping historical tests; up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+TLT: forecast -2.95% by 2026-12-18
+  Why rejected: too few non-overlapping historical tests; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.

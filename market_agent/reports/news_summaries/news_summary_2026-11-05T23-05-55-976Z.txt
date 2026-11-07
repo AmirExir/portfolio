@@ -1,0 +1,17 @@
+Fresh market-moving headlines are fairly thin here, and several items are low-quality aggregators or opinion-style coverage. The clearest usable drivers are a handful of earnings/chip headlines plus some crypto protocol/security news.
+
+**Facts**
+- **Crypto Briefing, 2026-11-04T22:49:49Z** — Qualcomm CFO said Apple-related revenue is expected to drop roughly **50% sequentially** in the December quarter, pointing to a notable handset/customer headwind.
+- **Crypto Briefing, 2026-11-04T22:36:49Z** — Qualcomm said its **data-center revenue should exceed $650 million in the December quarter**, highlighting AI/data-center growth as an offset to smartphone exposure.
+- **Biztoc / Investing.com, 2026-11-04T22:57:29Z** — AppLovin reported **Q3 results above Wall Street expectations** and **raised current-quarter guidance**; the article says shares were up sharply in after-hours trading.
+- **Slashdot / CNBC headline pickup, 2026-11-04T22:53:10Z** — e.l.f. Beauty posted a **51% sales increase** and **raised full-year guidance**.
+- **PR Newswire UK, 2026-11-04T22:31:00Z** — Lundin Mining reported Q3 results and cited **record copper prices** as part of strong financial performance.
+- **Cointelegraph, 2026-11-04T22:31:58Z** — BitMart’s founder said the exchange’s **security team is severely understaffed** following restructuring, after confirmation of a **new hack**.
+- **Crypto Briefing, 2026-11-04T22:50:53Z** and **Decrypt, 2026-11-04T22:46:03Z** — Bitcoin developers are pushing **BIP-54 / “Great Consensus Cleanup”**, a proposed soft fork to patch legacy consensus-rule flaws.
+
+**Interpretation**
+- The most relevant equity read-through is in **semis/AI infrastructure**: Qualcomm’s update cuts both ways, with weaker Apple-linked revenue but stronger data-center/AI revenue.
+- The **earnings tone** in this article set is modestly supportive for select consumer-tech/beauty names via AppLovin and e.l.f. Beauty, but it’s not broad enough on its own to explain the full tape.
+- **Copper/mining** may be supported at the margin by the Lundin headline tying results to strong copper pricing.
+- In **crypto**, the actionable headlines are more about **infrastructure and security** than price: Bitcoin upgrade discussion is constructive for protocol maintenance, while the BitMart hack is a negative for exchange-risk sentiment.
+- There is **not enough fresh, high-quality coverage here on Fed, rates, inflation, oil, or major index drivers** to confidently explain today’s broader market action from this feed alone.

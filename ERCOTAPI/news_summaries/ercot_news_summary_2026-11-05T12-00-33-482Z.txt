@@ -1,0 +1,14 @@
+1. Elon Musk Says “Data Centers In Space Looking Pretty Appealing Right Now, As The Blue Wave In Texas Puts 10-15 GW Of Capacity At Risk
+Wccftech • 2026-11-04
+With a historic blue wave currently unfurling across the length and breadth of America, including in Texas, a state that is absolutely indispensable to the ongoing AI buildout, analysts are now mulling over what this seismic shift entails for the oncoming com…
+https://wccftech.com/elon-musk-says-data-centers-in-space-looking-pretty-appealing-right-now-as-the-blue-wave-in-texas-puts-10-15-gw-of-capacity-at-risk/
+
+2. curtailment added to PyPI
+Pypi.org • 2026-11-04
+Curtailment proof report: measured load vs. ERCOT real-time price from a CSV log
+https://pypi.org/project/curtailment/
+
+3. ercot-api added to PyPI
+Pypi.org • 2026-11-04
+Minimal client skeleton for the ERCOT Public API (api.ercot.com/api/public-reports)
+https://pypi.org/project/ercot-api/
