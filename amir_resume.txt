@@ -9,14 +9,16 @@ Currently pursuing a Master of Science in Artificial Intelligence at University 
 Proficient in PSS/E, GE EMS SCADA/TSM/DTS, ABB MMS, Streamlit, Embeddings, Python (Pandas, NumPy, Matplotlib, Scikit-learn, XGBoost, Pytorch, Tensorflow Keras ,OpenAI, N8N), ERCOT PUBLIC API, JavaScript, GitHub Pages.
 
 Work History
-Transmission Engineer 4 (Lead Professional / Technical Supervisor)	  |  PEC  |          1/2026 – Present
--Served as technical lead for 3 engineers in planning team.
--Structure processes, automate workflows and provide procedures and templates.
--Represent PEC in ERCOT PLWG, DWG, SSWG.
--Perform Steady State and Stability Analysis for Generator and Large Load Interconnections Requests and Transmission Planning System Improvements. 
--Propose and sponsor transmission system improvement projects.
--Submits CMLD, UFLS, DWG Contingencies.
--Submit PMCR, LGP, DCP, SSWG Contingencies.
+Transmission Engineer 4 (Transmission Planning)             | PEC |                                      1/2026 – Present
+-Served as Vice Chair of  ERCOT Dynamic Working Group and represent PEC in ERCOT DWG, SSWG, PLWG and LLWG.
+-Served as Lead Professional Engineer for planning team.
+- Developed and maintain AELAB, a Python automation suite for PSS/E and TARA PowerGEM that streamlines study preparation, steady-state contingency analysis, dynamic simulations, model validation, and results visualization and reporting.
+- Built a Retrieval-Augmented Generation platform covering ERCOT Protocols, Planning and Operating Guides, Resource Integration, DWG/SSWG procedures, Revision Requests.
+-Standardized processes, automate workflows and provide procedures and templates.
+- Performed Steady State and Stability Analysis for Generator and Large Load Interconnections Requests and annual Transmission Planning System Assessment using PSS/E and TARA PowerGEM, PSCAD, and ASPEN.
+-Proposed and sponsor transmission system improvement projects.
+-Submitted CMLD, UFLS, DWG Contingencies.
+
 
 
 

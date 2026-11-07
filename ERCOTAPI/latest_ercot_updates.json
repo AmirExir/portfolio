@@ -2,6 +2,106 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "d9e0ebfd697da3c02bcbd023e77b4ad68a335e3d50a8c1b61d4054deb6ff15fc",
+      "title": "NOGRR288",
+      "document_number": "NOGRR288",
+      "source": "NOGRR",
+      "published_date": "May 29, 2026",
+      "downloaded_at": "2026-11-06T21:00:52Z",
+      "observed_at": "2026-11-06T21:00:52Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NOGRR288",
+      "sources": [
+        "NOGRR"
+      ],
+      "revision_id": "NOGRR288",
+      "revision_family": "NOGRR",
+      "explanation": "This Nodal Operating Guide Revision Request (NOGRR) and related NPRR1340 adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service.",
+      "issue_title": "Related to NPRR1340, Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
+      "affected_sections": "2.3",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "c6ee4a44d47a8828ad427d5972b6a86eb1e97a2336b6f6582f509320b1b125b4",
+      "title": "1353NPRR-01 SCED Constraint and Shift Factor Reports 110526",
+      "document_number": "NPRR1353",
+      "source": "NPRR",
+      "published_date": "Nov 5, 2026",
+      "downloaded_at": "2026-11-06T12:00:50Z",
+      "observed_at": "2026-11-06T12:00:50Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/11/05/1353NPRR-01-SCED-Constraint-and-Shift-Factor-Reports-110526.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1353",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the posting timeline on the Market Information System (MIS) Secure Area of Security-Constrained Economic Dispatch (SCED) output from hourly to after every SCED interval in Section 6.5.7.1.13. The proposed change would improve market transparency and operational efficiency by publishing data ERCOT already calculates at the same cadence as the underlying SCED process, enabling Market Participants to respond to system conditions in Real-Time.",
+      "issue_title": "SCED Constraint Data and Shift Factor Reports",
+      "affected_sections": "6.5.7.1.13",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "690857e88fe6b79f3330369e6522cff6e47a2f0e80acc21d7a027c9a7f4a5471",
+      "title": "NPRR1353",
+      "document_number": "NPRR1353",
+      "source": "NPRR",
+      "published_date": "Nov 5, 2026",
+      "downloaded_at": "2026-11-06T12:00:43Z",
+      "observed_at": "2026-11-06T12:00:43Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1353",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1353",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the posting timeline on the Market Information System (MIS) Secure Area of Security-Constrained Economic Dispatch (SCED) output from hourly to after every SCED interval in Section 6.5.7.1.13. The proposed change would improve market transparency and operational efficiency by publishing data ERCOT already calculates at the same cadence as the underlying SCED process, enabling Market Participants to respond to system conditions in Real-Time.",
+      "issue_title": "SCED Constraint Data and Shift Factor Reports",
+      "affected_sections": "6.5.7.1.13",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "a4e04c733cc14885d3163062c73051aa113831075c80a4da90d48810be25ee40",
+      "title": "1351NPRR-05 ERCOT Comments 110426",
+      "document_number": "NPRR1351",
+      "source": "NPRR",
+      "published_date": "Nov 4, 2026",
+      "downloaded_at": "2026-11-05T12:00:49Z",
+      "observed_at": "2026-11-05T12:00:49Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/11/04/1351NPRR-05-ERCOT-Comments-110426.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1351",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) continues the automation of outdated email-based form submissions by Market Participants to ERCOT, facilitating streamlined digital processing of these submissions via the Market Participant Service Portal (MPSP). These previously emailed forms will now be entered by MPs directly into the new portal. The forms themselves will remain in the Protocols so that stakeholders can see a visual of the information they will be prompted to enter into the portal and make revisions to the forms as needed.",
+      "issue_title": "Revisions to Section 23 Forms for the Market Participant Service Portal (MPSP)",
+      "affected_sections": "23A, 23B, 23C, 23D, 23F, 23G, 23H, 23I, 23J, 23K, 23L, 23M, 23N, 23O, 23P, 23Q, 23R, and 23U",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "2ba94635df1135635591e6a98bad9b52b2f8a10d214abb77fc0ebc08d2389899",
+      "title": "NPRR1351",
+      "document_number": "NPRR1351",
+      "source": "NPRR",
+      "published_date": "Sep 29, 2026",
+      "downloaded_at": "2026-11-05T12:00:45Z",
+      "observed_at": "2026-11-05T12:00:45Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1351",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1351",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) continues the automation of outdated email-based form submissions by Market Participants to ERCOT, facilitating streamlined digital processing of these submissions via the Market Participant Service Portal (MPSP). These previously emailed forms will now be entered by MPs directly into the new portal. The forms themselves will remain in the Protocols so that stakeholders can see a visual of the information they will be prompted to enter into the portal and make revisions to the forms as needed.",
+      "issue_title": "Revisions to Section 23 Forms for the Market Participant Service Portal (MPSP)",
+      "affected_sections": "23A, 23B, 23C, 23D, 23F, 23G, 23H, 23I, 23J, 23K, 23L, 23M, 23N, 23O, 23P, 23Q, 23R, and 23U",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
       "content_sha256": "0d2d4692c34ffeb8c7efe3b870853961642ac4d79eb626dd7669e7520d3452ab",
       "title": "147PGRR-05 Rayburn Comments 110326",
       "document_number": "PGRR147",
@@ -519,26 +619,6 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) establishes timelines for the modeling of new 765kV and its supporting transmission in the ERCOT Network Operations Model and allows ERCOT to give priority to transmission Outages in support of 765kV transmission construction, commissioning, and energization.",
       "issue_title": "765kV Transmission Outage Priority and Modeling Timelines",
       "affected_sections": "3.1.5.8 and 3.10.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "d4b44ff0249ae1ded912da6b47e4cc59672effbcb37bc178a44c71b364340143",
-      "title": "NPRR1351",
-      "document_number": "NPRR1351",
-      "source": "NPRR",
-      "published_date": "Sep 29, 2026",
-      "downloaded_at": "2026-10-20T11:00:42Z",
-      "observed_at": "2026-10-20T11:00:42Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1351",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1351",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) continues the automation of outdated email-based form submissions by Market Participants to ERCOT, facilitating streamlined digital processing of these submissions via the Market Participant Service Portal (MPSP). These previously emailed forms will now be entered by MPs directly into the new portal. The forms themselves will remain in the Protocols so that stakeholders can see a visual of the information they will be prompted to enter into the portal and make revisions to the forms as needed.",
-      "issue_title": "Revisions to Section 23 Forms for the Market Participant Service Portal (MPSP)",
-      "affected_sections": "23A, 23B, 23C, 23D, 23F, 23G, 23H, 23I, 23J, 23K, 23L, 23M, 23N, 23O, 23P, 23Q, 23R, and 23U",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -1296,26 +1376,6 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) permits a Large Computational Load (LCL) to achieve compliance with the applicable ride-through requirements within 365 days after its in-service date where the LCL’s cooling load is unable to satisfy such requirements as of the in-service date due to ongoing design and manufacturing limitations, including constraints associated with vendors’ continued adaptation of chiller and Variable Frequency Drive (VFD) equipment to the applicable standards.",
       "issue_title": "Extension for LCL Cooling Load Ride-Through Compliance",
       "affected_sections": "2.6.4 and 2.15",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "22b52e184e5bb7f3091e0a8ab74f27e3edada9f6cbad76af0c679f7627c5a2fb",
-      "title": "NOGRR288",
-      "document_number": "NOGRR288",
-      "source": "NOGRR",
-      "published_date": "May 29, 2026",
-      "downloaded_at": "2026-10-14T11:00:46Z",
-      "observed_at": "2026-10-14T11:00:46Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NOGRR288",
-      "sources": [
-        "NOGRR"
-      ],
-      "revision_id": "NOGRR288",
-      "revision_family": "NOGRR",
-      "explanation": "This Nodal Operating Guide Revision Request (NOGRR) and related NPRR1340 adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service.",
-      "issue_title": "Related to NPRR1340, Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "2.3",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -16058,8 +16118,8 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     }
   ],
-  "count": 819,
-  "generated_at": "2026-11-04T12:01:33.576328+00:00",
+  "count": 822,
+  "generated_at": "2026-11-06T21:02:03.454490+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",
@@ -16413,16 +16473,16 @@
       "effective_state": "pending_proposal",
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "ROS",
-      "next_step": "ROS for Impact Analysis consideration",
+      "next_group": "TAC",
+      "next_step": "TAC for consideration",
       "latest_action": {
-        "date": "10/01/2026",
+        "date": "11/05/2026",
         "governing_body": "ROS",
         "action": "Recommended for Approval",
-        "next_step": "ROS for Impact Analysis consideration"
+        "next_step": "TAC for consideration"
       },
-      "source_downloaded_at": "2026-10-14T11:00:46Z",
-      "source_observed_at": "2026-10-14T11:00:46Z"
+      "source_downloaded_at": "2026-11-06T21:00:52Z",
+      "source_observed_at": "2026-11-06T21:00:52Z"
     },
     "NOGRR289": {
       "revision_id": "NOGRR289",
@@ -18282,8 +18342,8 @@
         "action": "Recommended for Approval",
         "next_step": "Impact Analysis Consideration"
       },
-      "source_downloaded_at": "2026-10-20T11:00:42Z",
-      "source_observed_at": "2026-10-20T11:00:42Z"
+      "source_downloaded_at": "2026-11-05T12:00:45Z",
+      "source_observed_at": "2026-11-05T12:00:45Z"
     },
     "NPRR1352": {
       "revision_id": "NPRR1352",
@@ -18307,6 +18367,29 @@
       },
       "source_downloaded_at": "2026-10-28T11:00:43Z",
       "source_observed_at": "2026-10-28T11:00:43Z"
+    },
+    "NPRR1353": {
+      "revision_id": "NPRR1353",
+      "revision_family": "NPRR",
+      "issue_title": "SCED Constraint Data and Shift Factor Reports",
+      "official_description": "This Nodal Protocol Revision Request (NPRR) revises the posting timeline on the Market Information System (MIS) Secure Area of Security-Constrained Economic Dispatch (SCED) output from hourly to after every SCED interval in Section 6.5.7.1.13. The proposed change would improve market transparency and operational efficiency by publishing data ERCOT already calculates at the same cadence as the underlying SCED process, enabling Market Participants to respond to system conditions in Real-Time.",
+      "status": "Pending",
+      "date_posted": "Nov 5, 2026",
+      "sponsor": "Vistra",
+      "urgent": "No",
+      "affected_sections": "6.5.7.1.13",
+      "reason": "General system and/or process improvement(s)",
+      "issue_url": "https://www.ercot.com/mktrules/issues/NPRR1353",
+      "effective_state": "pending_proposal",
+      "effectiveness_note": "Pending proposal; it is not current governing text.",
+      "explanation_source": "official_ercot_issue_page",
+      "next_group": "PRS",
+      "next_step": "Language Consideration",
+      "latest_action": {
+        "action": "No action posted"
+      },
+      "source_downloaded_at": "2026-11-06T12:00:43Z",
+      "source_observed_at": "2026-11-06T12:00:43Z"
     },
     "NPRR917": {
       "revision_id": "NPRR917",
