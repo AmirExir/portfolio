@@ -1,0 +1,44 @@
+Market Optimization
+Generated: 2026-11-08 11:23 UTC
+As of: 2026-11-06 to 2026-11-07
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+No buy or sell signals passed the checks.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted gains
+
+MSFT: forecast +11.91% by 2026-12-21
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+V: forecast +3.40% by 2026-12-21
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks.
+
+AAPL: forecast +4.48% by 2026-12-21
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast.
+
+USO: forecast +17.32% by 2026-12-21
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks.
+
+UAL: forecast +11.68% by 2026-12-21
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+Predicted declines
+
+UNH: forecast -9.29% by 2026-12-21
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+PG: forecast -6.08% by 2026-12-21
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+TLT: forecast -3.19% by 2026-12-21
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.
