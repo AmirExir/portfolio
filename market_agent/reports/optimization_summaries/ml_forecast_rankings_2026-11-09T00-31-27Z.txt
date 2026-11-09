@@ -1,0 +1,32 @@
+Market Optimization
+Generated: 2026-11-09 00:24 UTC
+As of: 2026-11-06 to 2026-11-08
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+Passed model checks: 1 buy, 0 sell/avoid.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+BUY SIGNALS - PASSED MODEL CHECKS
+
+AMZN: forecast +7.16% by 2026-12-21
+  Reliability: moderate; model-estimated chance of a rise: 71%.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted declines
+
+UNH: forecast -9.06% by 2026-12-21
+  Why rejected: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+PG: forecast -6.08% by 2026-12-21
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+TLT: forecast -2.96% by 2026-12-21
+  Why rejected: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.
