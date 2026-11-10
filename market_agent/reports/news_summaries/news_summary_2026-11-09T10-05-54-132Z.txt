@@ -1,0 +1,14 @@
+Fresh market-moving headlines are limited in this article set, and several items are low-quality aggregations or not directly relevant to broad market pricing. Here’s the clean summary from the usable fresh items only.
+
+**Facts**
+- **Reuters, via Crypto Briefing — 2026-11-08T07:58:38Z:** A tower in **Riyadh’s King Abdullah Financial District** was reportedly **damaged by a projectile**, according to Reuters-cited witness/briefed sources. This is a potentially relevant **geopolitical/energy risk** headline.
+- **Cointelegraph — 2026-11-08T09:48:48Z:** Protesters reportedly **broke into a Microsoft data center construction site in Amsterdam**; Dutch police detained **150–200 people** for trespassing. This is a fresh **AI/data-center infrastructure** headline tied to hyperscaler buildout friction.
+- **Cointelegraph — 2026-11-08T08:12:56Z:** **Binance finance chief Kaiser Ng** is reportedly leaving the company and will be replaced by **Justin Yek**, formerly VP of finance at Airwallex. This is a fresh **major crypto corporate** headline.
+- **Crypto Briefing — 2026-11-08T07:35:00Z:** **Quantinuum** raised its **2026 revenue outlook** to **$31M–$34M** after reporting **record bookings** and **233% year-over-year Q3 revenue growth**. This is a fresh **emerging AI/quantum tech** earnings/guidance item.
+
+**Interpretation**
+- The **Riyadh projectile** report is the clearest potentially market-moving item for **oil, defense, and general risk sentiment**, but the article set does **not** provide confirmation of market price impact.
+- The **Microsoft data-center protest** adds to the theme of **permitting/social resistance to AI infrastructure expansion**, which could matter for hyperscalers, utilities, and data-center suppliers if the issue broadens.
+- The **Binance CFO transition** is relevant for **crypto sentiment**, but on its own it does not clearly explain broad moves in BTC or crypto equities.
+- **Quantinuum’s raised outlook** supports ongoing investor interest in **next-gen compute themes**, though it is more niche than a major semiconductor or megacap AI headline.
+- There are **no strong fresh headlines here on the Fed, Treasury yields, CPI/PPI, major U.S. earnings, or large-cap semis**, so this set is **too thin to fully explain today’s tape**.

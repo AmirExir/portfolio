@@ -1,0 +1,31 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+If you’re trying to explain today’s broader tape from this article set, **the fresh headlines are fairly thin and concentrated in Nvidia/AI and crypto regulation sentiment**. There is **little here on U.S. macro, Fed, inflation, Treasuries, or major earnings**.
+
+## Facts
+- **Nvidia opened an independent investigation into CEO Jensen Huang** after reports he was targeted by Chinese intelligence; the board said Huang supports the review and will remain CEO.  
+  *Sources: NBC News / KQED / The Verge / iTnews / IGN / MarketWatch reposts, published 2026-11-08*
+
+- Several fresh reports tie the Nvidia matter to **concerns over AI-chip routes to China and governance/security risk** around one of the market’s most important AI/semi companies.  
+  *Sources: iTnews, 2026-11-08; MarketWatch repost via Biztoc, 2026-11-08*
+
+- **Crypto-focused headlines turned risk-negative on regulation and security:** one report said **bitcoin and ether fell to two-month lows in late Sunday trade** amid fears a Democratic-controlled U.S. Congress could tighten crypto regulation.  
+  *Source: Yahoo Finance repost via Biztoc, 2026-11-08*
+
+- **Coinbase said it was not affected by the reported Binance hot-wallet incident** and reiterated that more than 99% of customer assets are held in cold storage.  
+  *Source: NewsBTC, 2026-11-08*
+
+- **CFTC/CME positioning data showed leveraged funds cut CME bitcoin futures shorts by 22% week/week**, leaving shorts at their lowest since 2023, while open interest also declined.  
+  *Source: DCForecasts, 2026-11-08*
+
+- In central-bank commentary, an **RBA official said there is limited evidence AI has materially boosted productivity or caused broad job losses yet**, while warning of possible financial-stability risks over time.  
+  *Source: CNA, 2026-11-08*
+
+- **Iran nuclear talks were described by U.S. Secretary of State Marco Rubio as not close**, with Tehran’s demands called unrealistic. This is geopolitically relevant for energy markets, though the article set does not provide an oil-price reaction.  
+  *Source: Israel National News, 2026-11-08*
+
+## Interpretation
+- The clearest fresh equity-market item here is **idiosyncratic risk around Nvidia**, which matters because Nvidia is a major AI/semi bellwether and index heavyweight.
+- The clearest fresh cross-asset signal is **crypto-specific risk aversion**, driven by **regulatory concerns and exchange-security headlines**.
+- There is **not enough fresh macro news in this set** to confidently explain moves in the S&P 500, Nasdaq, Dow, or Treasury yields today.
+- Energy implications from the Iran headline are **possible**, but **not confirmed by these articles alone**.

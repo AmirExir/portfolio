@@ -1,0 +1,23 @@
+**Fresh market-moving headlines only (last 36 hours): the set is fairly thin and skewed toward secondary/commentary sources, so it only partly explains today’s tape.**
+
+## Facts
+- **Nvidia/China export-control scrutiny** — **Biztoc / New York Times, 2026-11-07 10:05Z**: Report says the **U.S. Commerce Department approved dozens of Chinese companies to handle Nvidia H200 chips**, including some with ties to firms under sanctions over national-security concerns.  
+  Source: **Biztoc citing NYT**.
+
+- **Bitcoin ETF outflows / crypto demand** — **Biztoc / Finance Yahoo citing Investing.com, 2026-11-07 09:35Z**: Report says **Bitcoin traded above $76,000**, while **another wave of withdrawals from U.S. spot ETFs totaled about $1.3 billion**, raising questions about institutional demand.  
+  Source: **Biztoc citing Yahoo/Investing.com**.
+
+- **Crypto sentiment linked to tech/AI worries and strong U.S. jobs data** — **The Times of India, 2026-11-07 09:19Z**: Article says **Bitcoin was near $76,000 and Ethereum near $2,240**, with sentiment weighed by **technology-stock weakness, AI/data-center spending concerns, strong U.S. jobs data, and U.S. crypto-legislation uncertainty**.  
+  Source: **The Times of India**.
+
+- **AI investment-cycle caution from Jefferies** — **BusinessLine, 2026-11-07 09:33Z**: Jefferies warned the **global AI investment cycle may have peaked or be entering a mid-cycle correction**, citing **higher borrowing costs** and concerns over returns on large capex.  
+  Source: **BusinessLine / ANI**.
+
+- **Rotation/defensive positioning commentary** — **BusinessLine, 2026-11-07 09:05Z**: Goldman Sachs commentary said **U.S. midterms could accelerate stock-market rotation**, with **healthcare** discussed as a potential “next leg”/defensive expression around the AI trade.  
+  Source: **BusinessLine / ANI**.
+
+## Interpretation
+- The **clearest fresh, potentially market-moving headline** is the **Nvidia/China export-control story**, which matters for **AI semis, U.S.-China tech policy risk, and mega-cap tech sentiment**.
+- The **next most relevant theme** is **AI-spending skepticism**: Jefferies’ warning about a possible peak or correction in the AI capex cycle could weigh on **semis, servers, memory, and data-center supply-chain names** if investors take it seriously.
+- In **crypto**, the usable fresh signal is mixed: prices were reported stabilizing near **BTC $76K / ETH $2,240**, but **large ETF outflows** suggest institutional demand may still be soft.
+- There is **not enough high-quality fresh macro news here** on **Fed, Treasury yields, inflation, or energy** to confidently explain broader index moves from this article set alone.

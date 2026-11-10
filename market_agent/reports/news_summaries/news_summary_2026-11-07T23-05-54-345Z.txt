@@ -1,0 +1,17 @@
+Fresh market-moving headlines are limited in this article set, and several items are either speculative, low-credibility, secondary aggregations, or not clearly tied to broad market price action. Here’s the clean summary of what looks potentially relevant.
+
+**Facts**
+- **AI / semis:** **TechRadar** reported that OpenAI CEO Sam Altman met Samsung executives, including its chip chief, amid concerns about AI memory capacity; **no deal was announced**. Published **2026-11-06T23:05:00Z**.
+- **AI / semis / geopolitics:** **The Verge** reported that, according to the New York Times, China’s intelligence agency recruited an AI executive to spy on Nvidia CEO Jensen Huang for information related to American AI chips. Published **2026-11-06T23:00:44Z**.
+- **Crypto:** **Crypto Briefing** reported Solana Labs launched a public TestFlight beta of its Leap iPhone app for crypto swaps, and the article said **SOL was down 6%**. Published **2026-11-06T23:01:30Z**.
+- **Crypto / fintech plumbing:** **Biztoc**, citing Bloomberg/PYMNTS, said **Nubank and Mercado Pago paused some crypto operations** due to third-party provider issues. Published **2026-11-06T22:50:44Z**.
+- **AI policy / big tech:** **Crypto Briefing** reported the Trump administration canceled a scheduled meeting of a White House tech advisory panel that includes figures such as Jensen Huang and Mark Zuckerberg. Published **2026-11-06T22:49:30Z**.
+- **Single-stock AI infrastructure:** **Biztoc**, citing Yahoo Finance, said **Iren** rose after quarterly results beat expectations and AI cloud revenue nearly tripled. Published **2026-11-06T22:38:47Z**.
+- **Apple / Washington risk:** **MacDailyNews** reported Democrats were targeting Apple over a $25 million donation to a White House project and threatening subpoenas. Published **2026-11-06T22:37:06Z**.
+
+**Interpretation**
+- The freshest actionable themes here are **AI capacity constraints**, **Nvidia/China geopolitical risk**, and **crypto operational stress**, especially around Solana and retail crypto access.
+- For semis and AI infrastructure, Altman’s Samsung outreach reinforces the ongoing narrative that **memory and hardware availability remain bottlenecks** for AI buildout, but with no transaction announced, it is more thematic than immediately price-setting.
+- The Nvidia espionage report could matter for **AI-chip export controls, U.S.-China tensions, and sentiment around semiconductor leaders**, though this set does not include any direct market reaction.
+- In crypto, the combination of **SOL weakness** and reports of **paused crypto operations at Nubank and Mercado Pago** points to fresh caution around trading infrastructure and counterparty reliability.
+- There is **little in this set on Fed, rates, inflation, oil, or broad index-level drivers**, so this article batch does **not fully explain today’s broader tape**.

@@ -1,0 +1,18 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+## Facts
+- **AI/semi policy risk:** **Digitimes** reported that **three U.S. lawmakers asked Nvidia CEO Jensen Huang to attend a closed-door briefing** about his dealings with a former Megaspeed executive tied to allegations involving China’s government. *(Digitimes, 2026-11-06T10:04:49Z)*
+
+- **Nvidia / AI financing risk:** **Business Insider** reported that **Nvidia is finding new ways to support “neocloud” customers as the sector faces financing strain**, and that Nvidia could be taking on added risk depending on how far it goes. *(Business Insider, 2026-11-06T10:00:01Z)*
+
+- **India earnings / cost pressure:** **Reuters via BusinessLine** reported **3M India’s Q2 profit fell more than 17%** due to a weaker rupee and higher input costs, while revenue rose 14.7%. *(BusinessLine/Reuters, 2026-11-06T09:57:48Z)*
+
+- **Crypto ETF flows:** **CryptoSlate** reported that **U.S. spot Bitcoin and Ethereum ETFs saw $530 million of combined outflows on Nov. 5**, citing Farside data. *(CryptoSlate, 2026-11-06T09:55:27Z)*
+
+- **Crypto tax policy:** A **Coindesk story mirrored on Biztoc** said **Greece approved a 10% tax on crypto gains and a 15% levy on DeFi income**. *(Biztoc citing Coindesk, 2026-11-06T09:15:55Z; original timestamp referenced in snippet as 2026-11-06 08:47:42)*
+
+## Interpretation
+- The **fresh, directly usable set is thin** and does **not fully explain broader index or rates moves** on its own.
+- The most actionable fresh items are **Nvidia-related policy/credit-risk headlines** and **crypto ETF outflows**.
+- There is **not enough fresh, high-quality coverage here on Fed, Treasury yields, inflation, energy, or major U.S. index-level catalysts** to make a confident cross-asset explanation of today’s tape.
+- Several other items in the feed discuss a broader AI/tech selloff, but many are **aggregators, low-quality rewrites, or insufficiently sourced**, so they should be treated cautiously rather than as primary market-moving evidence.
