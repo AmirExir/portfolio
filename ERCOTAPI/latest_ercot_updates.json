@@ -2,6 +2,206 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "d34ed887008b105c51ee262001bf3223012aa077b85f149406a5dd54fa3b7ed7",
+      "title": "1353NPRR-01 SCED Constraint and Shift Factor Reports 110526",
+      "document_number": "NPRR1353",
+      "source": "NPRR",
+      "published_date": "Nov 5, 2026",
+      "downloaded_at": "2026-11-10T21:02:04Z",
+      "observed_at": "2026-11-10T21:02:04Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/11/05/1353NPRR-01-SCED-Constraint-and-Shift-Factor-Reports-110526.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1353",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the posting timeline on the Market Information System (MIS) Secure Area of Security-Constrained Economic Dispatch (SCED) output from hourly to after every SCED interval in Section 6.5.7.1.13. The proposed change would improve market transparency and operational efficiency by publishing data ERCOT already calculates at the same cadence as the underlying SCED process, enabling Market Participants to respond to system conditions in Real-Time.",
+      "issue_title": "SCED Constraint Data and Shift Factor Reports",
+      "affected_sections": "6.5.7.1.13",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "c94c5f6f2afaff45b1457db062903ac9a28a2e90be7e043f0ccc332f6f540614",
+      "title": "NPRR1353",
+      "document_number": "NPRR1353",
+      "source": "NPRR",
+      "published_date": "Nov 5, 2026",
+      "downloaded_at": "2026-11-10T21:02:03Z",
+      "observed_at": "2026-11-10T21:02:03Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1353",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1353",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the posting timeline on the Market Information System (MIS) Secure Area of Security-Constrained Economic Dispatch (SCED) output from hourly to after every SCED interval in Section 6.5.7.1.13. The proposed change would improve market transparency and operational efficiency by publishing data ERCOT already calculates at the same cadence as the underlying SCED process, enabling Market Participants to respond to system conditions in Real-Time.",
+      "issue_title": "SCED Constraint Data and Shift Factor Reports",
+      "affected_sections": "6.5.7.1.13",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "9a244914b4694de52764451fd4d118d7e4e57640c5c6f451019eef893534677d",
+      "title": "144PGRR-21 PUCT Report 110526",
+      "document_number": "PGRR144",
+      "source": "PGRR",
+      "published_date": "Nov 9, 2026",
+      "downloaded_at": "2026-11-09T21:01:19Z",
+      "observed_at": "2026-11-09T21:01:19Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/11/09/144PGRR-21-PUCT-Report-110526.docx",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR144",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
+      "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
+      "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "6a77fd67752cac0062fb2af80113e026c3dedd35d8a730b3077e3b1627580a50",
+      "title": "PGRR144",
+      "document_number": "PGRR144",
+      "source": "PGRR",
+      "published_date": "Feb 18, 2026",
+      "downloaded_at": "2026-11-09T21:01:10Z",
+      "observed_at": "2026-11-09T21:01:10Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/mktrules/issues/PGRR144",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR144",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
+      "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
+      "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "d2a2bce7fae112a81970e36b7472d8f7be8bc5700ac32fd737af91d2b5dbf435",
+      "title": "288NOGRR-08 ROS Report 110526",
+      "document_number": "NOGRR288",
+      "source": "NOGRR",
+      "published_date": "Nov 6, 2026",
+      "downloaded_at": "2026-11-07T12:01:46Z",
+      "observed_at": "2026-11-07T12:01:46Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/11/06/288NOGRR-08-ROS-Report-110526.docx",
+      "sources": [
+        "NOGRR"
+      ],
+      "revision_id": "NOGRR288",
+      "revision_family": "NOGRR",
+      "explanation": "This Nodal Operating Guide Revision Request (NOGRR) and related NPRR1340 adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service.",
+      "issue_title": "Related to NPRR1340, Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
+      "affected_sections": "2.3",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "5560c9507992bc930f4486cbe97478ddae0004f0799112b2e97d06b54a93a86c",
+      "title": "1345NPRR-09 TAC Report 102826",
+      "document_number": "NPRR1345",
+      "source": "NPRR",
+      "published_date": "Nov 6, 2026",
+      "downloaded_at": "2026-11-07T12:01:12Z",
+      "observed_at": "2026-11-07T12:01:12Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/11/06/1345NPRR-09-TAC-Report-102826.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1345",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) extends the sunset date established by NPRR1279, Reinstate Enhancements to the Exceptional Fuel Cost Process, from April 1, 2027 to April 1, 2030. The extension preserves the existing review and validation framework for Exceptional Fuel Cost submissions, including supporting documentation and fuel supply contracts submitted under the Exceptional Fuel Cost process, and provides additional time for ERCOT and stakeholders to evaluate long-term enhancements to the treatment of contractual fuel costs while maintaining an existing and operational process that has been actively used since implementation of NPRR1279.",
+      "issue_title": "Extend NPRR1279 Sunset Date for Exceptional Fuel Cost Process",
+      "affected_sections": "2.1 and 4.4.9.4.1",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "801fb60593f290cc51e534cae83bdfb721ec6ac8846afb3c46783a19464f96dc",
+      "title": "1345NPRR-07 PRS Report 101426",
+      "document_number": "NPRR1345",
+      "source": "NPRR",
+      "published_date": "Oct 19, 2026",
+      "downloaded_at": "2026-11-07T12:00:57Z",
+      "observed_at": "2026-11-07T12:00:57Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/10/19/1345NPRR-07-PRS-Report-101426-v2.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1345",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) extends the sunset date established by NPRR1279, Reinstate Enhancements to the Exceptional Fuel Cost Process, from April 1, 2027 to April 1, 2030. The extension preserves the existing review and validation framework for Exceptional Fuel Cost submissions, including supporting documentation and fuel supply contracts submitted under the Exceptional Fuel Cost process, and provides additional time for ERCOT and stakeholders to evaluate long-term enhancements to the treatment of contractual fuel costs while maintaining an existing and operational process that has been actively used since implementation of NPRR1279.",
+      "issue_title": "Extend NPRR1279 Sunset Date for Exceptional Fuel Cost Process",
+      "affected_sections": "2.1 and 4.4.9.4.1",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "d3a0f8f9573d721b1c1dae9f85c131b497b4d29e4438500f82920fc2799cb02f",
+      "title": "NPRR1346",
+      "document_number": "NPRR1346",
+      "source": "NPRR",
+      "published_date": "Aug 17, 2026",
+      "downloaded_at": "2026-11-07T12:00:43Z",
+      "observed_at": "2026-11-07T12:00:43Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1346",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1346",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the transportation-cost allowance incorporated into the Fuel Oil Price (FOP) by increasing the adder from $0.05 per gallon to $0.10 per gallon. The NPRR updates the FOP definition in Section 2.1, Definitions. The revision maintains the existing fuel oil index methodology and conversion factor while updating a transportation-cost assumption that has remained substantially unchanged since implementation of the Nodal market more than 15 years ago. The proposed change improves the accuracy of fuel oil pricing assumptions used for reliability services and cost recovery calculations by better reflecting current transportation costs associated with the delivery and replenishment of fuel oil inventories.",
+      "issue_title": "Updates to the Fuel Oil Price (FOP)",
+      "affected_sections": "2.1",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "b8ddbc69aa54082b3717a4f6454957b3688e55c300f5342d5dc94460c0a15b9a",
+      "title": "NPRR1345",
+      "document_number": "NPRR1345",
+      "source": "NPRR",
+      "published_date": "Aug 10, 2026",
+      "downloaded_at": "2026-11-07T12:00:43Z",
+      "observed_at": "2026-11-07T12:00:43Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1345",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1345",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) extends the sunset date established by NPRR1279, Reinstate Enhancements to the Exceptional Fuel Cost Process, from April 1, 2027 to April 1, 2030. The extension preserves the existing review and validation framework for Exceptional Fuel Cost submissions, including supporting documentation and fuel supply contracts submitted under the Exceptional Fuel Cost process, and provides additional time for ERCOT and stakeholders to evaluate long-term enhancements to the treatment of contractual fuel costs while maintaining an existing and operational process that has been actively used since implementation of NPRR1279.",
+      "issue_title": "Extend NPRR1279 Sunset Date for Exceptional Fuel Cost Process",
+      "affected_sections": "2.1 and 4.4.9.4.1",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "a3d9a20dcfbeeb814695e18ea486f4f5a9ef58c081d37ca2c37c60b69cc177f6",
+      "title": "NPRR1343",
+      "document_number": "NPRR1343",
+      "source": "NPRR",
+      "published_date": "Jun 30, 2026",
+      "downloaded_at": "2026-11-07T12:00:43Z",
+      "observed_at": "2026-11-07T12:00:43Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1343",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1343",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) proposes the introduction of a bid fee for each inefficient hourly Point-to-Point (PTP) Obligation bid in the Day-Ahead Market (DAM). The fee will be assessed per inefficient PTP hourly bid and will be modifiable. Changes to the fee will be recommended by WMS, approved by TAC, and communicated to Market Participants in advance of the DAM run in which the change will take effect.",
+      "issue_title": "Introduction of PTP Obligation Bid Fee in DAM",
+      "affected_sections": "4.6.3., 7.9.3.1, 9.2.3, and 16.11.4.3.1",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
       "content_sha256": "d9e0ebfd697da3c02bcbd023e77b4ad68a335e3d50a8c1b61d4054deb6ff15fc",
       "title": "NOGRR288",
       "document_number": "NOGRR288",
@@ -19,46 +219,6 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) and related NPRR1340 adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service.",
       "issue_title": "Related to NPRR1340, Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
       "affected_sections": "2.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "c6ee4a44d47a8828ad427d5972b6a86eb1e97a2336b6f6582f509320b1b125b4",
-      "title": "1353NPRR-01 SCED Constraint and Shift Factor Reports 110526",
-      "document_number": "NPRR1353",
-      "source": "NPRR",
-      "published_date": "Nov 5, 2026",
-      "downloaded_at": "2026-11-06T12:00:50Z",
-      "observed_at": "2026-11-06T12:00:50Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/files/docs/2026/11/05/1353NPRR-01-SCED-Constraint-and-Shift-Factor-Reports-110526.docx",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1353",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the posting timeline on the Market Information System (MIS) Secure Area of Security-Constrained Economic Dispatch (SCED) output from hourly to after every SCED interval in Section 6.5.7.1.13. The proposed change would improve market transparency and operational efficiency by publishing data ERCOT already calculates at the same cadence as the underlying SCED process, enabling Market Participants to respond to system conditions in Real-Time.",
-      "issue_title": "SCED Constraint Data and Shift Factor Reports",
-      "affected_sections": "6.5.7.1.13",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "690857e88fe6b79f3330369e6522cff6e47a2f0e80acc21d7a027c9a7f4a5471",
-      "title": "NPRR1353",
-      "document_number": "NPRR1353",
-      "source": "NPRR",
-      "published_date": "Nov 5, 2026",
-      "downloaded_at": "2026-11-06T12:00:43Z",
-      "observed_at": "2026-11-06T12:00:43Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1353",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1353",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the posting timeline on the Market Information System (MIS) Secure Area of Security-Constrained Economic Dispatch (SCED) output from hourly to after every SCED interval in Section 6.5.7.1.13. The proposed change would improve market transparency and operational efficiency by publishing data ERCOT already calculates at the same cadence as the underlying SCED process, enabling Market Participants to respond to system conditions in Real-Time.",
-      "issue_title": "SCED Constraint Data and Shift Factor Reports",
-      "affected_sections": "6.5.7.1.13",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -502,26 +662,6 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
-      "content_sha256": "1d52de3bf3dd5ec8af281489a03c42fe7c2eda17fd138882a6ca9bddbd355d94",
-      "title": "NPRR1343",
-      "document_number": "NPRR1343",
-      "source": "NPRR",
-      "published_date": "Jun 30, 2026",
-      "downloaded_at": "2026-10-24T11:00:43Z",
-      "observed_at": "2026-10-24T11:00:43Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1343",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1343",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) proposes the introduction of a bid fee for each inefficient hourly Point-to-Point (PTP) Obligation bid in the Day-Ahead Market (DAM). The fee will be assessed per inefficient PTP hourly bid and will be modifiable. Changes to the fee will be recommended by WMS, approved by TAC, and communicated to Market Participants in advance of the DAM run in which the change will take effect.",
-      "issue_title": "Introduction of PTP Obligation Bid Fee in DAM",
-      "affected_sections": "4.6.3., 7.9.3.1, 9.2.3, and 16.11.4.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
       "content_sha256": "9f3ad5c95234568d5c41ab268fa2396809d0e095e5f13b8ee492180fc19e9b6d",
       "title": "NPRR1340",
       "document_number": "NPRR1340",
@@ -539,26 +679,6 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
       "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
       "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "71391738dfc63c2eddc8165293cb0595615ba0db08689325de3a6970a4467b25",
-      "title": "NPRR1345",
-      "document_number": "NPRR1345",
-      "source": "NPRR",
-      "published_date": "Aug 10, 2026",
-      "downloaded_at": "2026-10-24T11:00:42Z",
-      "observed_at": "2026-10-24T11:00:42Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1345",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1345",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) extends the sunset date established by NPRR1279, Reinstate Enhancements to the Exceptional Fuel Cost Process, from April 1, 2027 to April 1, 2030. The extension preserves the existing review and validation framework for Exceptional Fuel Cost submissions, including supporting documentation and fuel supply contracts submitted under the Exceptional Fuel Cost process, and provides additional time for ERCOT and stakeholders to evaluate long-term enhancements to the treatment of contractual fuel costs while maintaining an existing and operational process that has been actively used since implementation of NPRR1279.",
-      "issue_title": "Extend NPRR1279 Sunset Date for Exceptional Fuel Cost Process",
-      "affected_sections": "2.1 and 4.4.9.4.1",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -816,26 +936,6 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) proposes the introduction of a bid fee for each inefficient hourly Point-to-Point (PTP) Obligation bid in the Day-Ahead Market (DAM). The fee will be assessed per inefficient PTP hourly bid and will be modifiable. Changes to the fee will be recommended by WMS, approved by TAC, and communicated to Market Participants in advance of the DAM run in which the change will take effect.",
       "issue_title": "Introduction of PTP Obligation Bid Fee in DAM",
       "affected_sections": "4.6.3., 7.9.3.1, 9.2.3, and 16.11.4.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "813f5ed98ac26ed69e7f50e4af4c2a8fb41ac638e1ed975ba8aee8962ea46ee5",
-      "title": "NPRR1346",
-      "document_number": "NPRR1346",
-      "source": "NPRR",
-      "published_date": "Aug 17, 2026",
-      "downloaded_at": "2026-10-16T20:02:03Z",
-      "observed_at": "2026-10-16T20:02:03Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1346",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1346",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the transportation-cost allowance incorporated into the Fuel Oil Price (FOP) by increasing the adder from $0.05 per gallon to $0.10 per gallon. The NPRR updates the FOP definition in Section 2.1, Definitions. The revision maintains the existing fuel oil index methodology and conversion factor while updating a transportation-cost assumption that has remained substantially unchanged since implementation of the Nodal market more than 15 years ago. The proposed change improves the accuracy of fuel oil pricing assumptions used for reliability services and cost recovery calculations by better reflecting current transportation costs associated with the delivery and replenishment of fuel oil inventories.",
-      "issue_title": "Updates to the Fuel Oil Price (FOP)",
-      "affected_sections": "2.1",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -1159,26 +1259,6 @@
       "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
-      "content_sha256": "fdb8f149042f01e432e8049e1051fb45d4aec4f722027581a53b8e8c147e8283",
-      "title": "PGRR144",
-      "document_number": "PGRR144",
-      "source": "PGRR",
-      "published_date": "Feb 18, 2026",
-      "downloaded_at": "2026-10-14T11:00:51Z",
-      "observed_at": "2026-10-14T11:00:51Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/PGRR144",
-      "sources": [
-        "PGRR"
-      ],
-      "revision_id": "PGRR144",
-      "revision_family": "PGRR",
-      "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
-      "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
-      "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
       "content_sha256": "361e83153828d73349a03165e2e98f589c58c528c5a837b36bed2d3fe72b8ace",
       "title": "PGRR143",
       "document_number": "PGRR143",
@@ -1316,7 +1396,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) establishes guidelines for Transmission Operators (TOs) and Transmission and/or Distribution Service Providers (TDSPs) to collaborate in identifying and prioritizing critical natural gas infrastructure Loads essential for the reliability of the ERCOT System. Furthermore, this NOGRR outlines provisions for TOs and TDSPs to minimize overlaps between circuits designated for manual Load shedding, Under-Voltage Load Shedding (UVLS), and Under-Frequency Load Shedding (UFLS), and those circuits identified as critical Loads necessary for maintaining reliability of the ERCOT System.",
       "issue_title": "Load Shed Provisions to Identify and Minimize Overlap of Essential Loads",
       "affected_sections": "4.5.3.4 and 8L",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "075006589ea66930e47f887d5635ec31daa9f1d8f7a8526192e7d1b6bfb3cafd",
@@ -1336,7 +1416,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) defines necessary operational guidelines to support the reliable operation of 765-kV equipment.",
       "issue_title": "Addition of 765-kV Operational Voltage Limits",
       "affected_sections": "2.7.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "c28299bf7762a2f45971632786043aa0df21a14d7ecb44064b68915b155d4d03",
@@ -2693,7 +2773,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) defines necessary operational guidelines to support the reliable operation of 765-kV equipment.",
       "issue_title": "Addition of 765-kV Operational Voltage Limits",
       "affected_sections": "2.7.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "98ec06f1bc8689d28a13b013abd472bdd212fcf072c572239d77edd693c2c066",
@@ -2793,7 +2873,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) establishes guidelines for Transmission Operators (TOs) and Transmission and/or Distribution Service Providers (TDSPs) to collaborate in identifying and prioritizing critical natural gas infrastructure Loads essential for the reliability of the ERCOT System. Furthermore, this NOGRR outlines provisions for TOs and TDSPs to minimize overlaps between circuits designated for manual Load shedding, Under-Voltage Load Shedding (UVLS), and Under-Frequency Load Shedding (UFLS), and those circuits identified as critical Loads necessary for maintaining reliability of the ERCOT System.",
       "issue_title": "Load Shed Provisions to Identify and Minimize Overlap of Essential Loads",
       "affected_sections": "4.5.3.4 and 8L",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "f02f0b38492f73bc64fdf938a1f625e72fbfc0a9ab8e98508b1125be5957b7e8",
@@ -2819,8 +2899,8 @@
       "source": "PGRR",
       "published_date": "Sep 15, 2026",
       "downloaded_at": "2026-09-16T20:10:28Z",
-      "observed_at": "2026-09-16T20:10:28Z",
-      "status": "Pending",
+      "observed_at": "2026-11-09T21:01:16Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/09/15/144PGRR-20-Board-Report-091526.docx",
       "sources": [
         "PGRR"
@@ -2830,7 +2910,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "b97abbfd782bb14b393800a4dd12b62d1b648e55ba79c23ac53d295341010e8c",
@@ -3707,7 +3787,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "6977dff506b14895106e213799133086574c9f720d744832c9efb7a92b35ef3e",
@@ -3807,8 +3887,8 @@
       "source": "PGRR",
       "published_date": "Aug 31, 2026",
       "downloaded_at": "2026-09-01T20:01:37Z",
-      "observed_at": "2026-09-01T20:01:37Z",
-      "status": "Pending",
+      "observed_at": "2026-11-10T21:02:13Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/08/31/144PGRR-19-TAC-Report-082626.docx",
       "sources": [
         "PGRR"
@@ -3818,7 +3898,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "fb7edc1527ea9cd4113fc387ff5a65bca56c72a86e8609b6f2fe60b582189614",
@@ -4858,7 +4938,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "acd0b76bd46b6fd17f78cca6bd36ecf713f0a4a9c32aeb48ddf76fa884a59a29",
@@ -7635,7 +7715,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "2945b5f611ca94981492327cd3d03c931452b74b1eb554672d81d93a73fa72ba",
@@ -7849,7 +7929,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "e9c849744b61a41dd4060898a9f6cff8ecb62307eb0d9606a95934c4d5e0415a",
@@ -8295,8 +8375,8 @@
       "source": "NOGRR",
       "published_date": "Jul 31, 2026",
       "downloaded_at": "2026-08-04T20:02:05Z",
-      "observed_at": "2026-08-04T20:02:05Z",
-      "status": "Pending",
+      "observed_at": "2026-11-10T21:02:08Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/07/31/286NOGRR-13-TAC-Report-072926.docx",
       "sources": [
         "NOGRR"
@@ -8306,7 +8386,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) defines necessary operational guidelines to support the reliable operation of 765-kV equipment.",
       "issue_title": "Addition of 765-kV Operational Voltage Limits",
       "affected_sections": "2.7.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "3c69d4f14bf70cb509b66969deee992bd97fe12e614426e19edf8120a656e72f",
@@ -8386,7 +8466,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) establishes guidelines for Transmission Operators (TOs) and Transmission and/or Distribution Service Providers (TDSPs) to collaborate in identifying and prioritizing critical natural gas infrastructure Loads essential for the reliability of the ERCOT System. Furthermore, this NOGRR outlines provisions for TOs and TDSPs to minimize overlaps between circuits designated for manual Load shedding, Under-Voltage Load Shedding (UVLS), and Under-Frequency Load Shedding (UFLS), and those circuits identified as critical Loads necessary for maintaining reliability of the ERCOT System.",
       "issue_title": "Load Shed Provisions to Identify and Minimize Overlap of Essential Loads",
       "affected_sections": "4.5.3.4 and 8L",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "6b05d4885fcd8ad5063141fd878fbe6c35d91e543584d8bd1374d78700a5e511",
@@ -8623,7 +8703,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) defines necessary operational guidelines to support the reliable operation of 765-kV equipment.",
       "issue_title": "Addition of 765-kV Operational Voltage Limits",
       "affected_sections": "2.7.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "9531bd5f4f1967fa12018e5a41e7a824db39c33003975a2177ae5c7749f98158",
@@ -8783,7 +8863,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) establishes guidelines for Transmission Operators (TOs) and Transmission and/or Distribution Service Providers (TDSPs) to collaborate in identifying and prioritizing critical natural gas infrastructure Loads essential for the reliability of the ERCOT System. Furthermore, this NOGRR outlines provisions for TOs and TDSPs to minimize overlaps between circuits designated for manual Load shedding, Under-Voltage Load Shedding (UVLS), and Under-Frequency Load Shedding (UFLS), and those circuits identified as critical Loads necessary for maintaining reliability of the ERCOT System.",
       "issue_title": "Load Shed Provisions to Identify and Minimize Overlap of Essential Loads",
       "affected_sections": "4.5.3.4 and 8L",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "79be374258762b4329439f7b06908e8f1dd944bb731a60a96a1a9a4635a05c66",
@@ -10166,7 +10246,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "e5a9f482d27bf93630ab9e9600aaa32b5ea5744ef748787daa5c0a8dd747ecba",
@@ -10300,7 +10380,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "9830bf5f534123f02d739180a02cc08be70129b3cfa7cada878486f7ce9434e1",
@@ -10360,7 +10440,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "803bd7621cad23cf31c08bfa49200089cb47f0eb89fdceab0663a4705dbea026",
@@ -10594,7 +10674,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "827944001d5812b12a15b7231c5b56e171fa0c0f95ac969a93aa21fa07515e88",
@@ -10808,7 +10888,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "fd707b8f34b5e9ee25480a077c890ee68b5cb6d41f22562a1a6c6f332517ac44",
@@ -10817,8 +10897,8 @@
       "source": "PGRR",
       "published_date": "Mar 9, 2026",
       "downloaded_at": "2026-07-24T11:02:14Z",
-      "observed_at": "2026-07-24T11:02:14Z",
-      "status": "Pending",
+      "observed_at": "2026-11-09T21:01:21Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/03/09/144PGRR-05-ROS-Report-030526.docx",
       "sources": [
         "PGRR"
@@ -10828,7 +10908,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "12c83ba9cabe4b33e514146575adf511a2c4ec871be60b9214a91a701ca34858",
@@ -12436,7 +12516,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) defines necessary operational guidelines to support the reliable operation of 765-kV equipment.",
       "issue_title": "Addition of 765-kV Operational Voltage Limits",
       "affected_sections": "2.7.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "6266e5bcfecba0a2c90a8d7a066b4350cd68e0cf32d10ba4619b79602c4e8263",
@@ -12896,8 +12976,8 @@
       "source": "NOGRR",
       "published_date": "Jun 16, 2026",
       "downloaded_at": "2026-07-22T20:00:44Z",
-      "observed_at": "2026-07-22T20:00:44Z",
-      "status": "Pending",
+      "observed_at": "2026-11-10T21:02:09Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/06/16/286NOGRR-09-Impact-Analysis-061626.docx",
       "sources": [
         "NOGRR"
@@ -12907,7 +12987,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) defines necessary operational guidelines to support the reliable operation of 765-kV equipment.",
       "issue_title": "Addition of 765-kV Operational Voltage Limits",
       "affected_sections": "2.7.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "6965340ae22d6f65a6a1d4ea104a51d8271dc29acae96050fa2d6a6224ee31c6",
@@ -12927,7 +13007,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) establishes guidelines for Transmission Operators (TOs) and Transmission and/or Distribution Service Providers (TDSPs) to collaborate in identifying and prioritizing critical natural gas infrastructure Loads essential for the reliability of the ERCOT System. Furthermore, this NOGRR outlines provisions for TOs and TDSPs to minimize overlaps between circuits designated for manual Load shedding, Under-Voltage Load Shedding (UVLS), and Under-Frequency Load Shedding (UFLS), and those circuits identified as critical Loads necessary for maintaining reliability of the ERCOT System.",
       "issue_title": "Load Shed Provisions to Identify and Minimize Overlap of Essential Loads",
       "affected_sections": "4.5.3.4 and 8L",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "f011eb6e8e2af31ab697bf25301746d1e00facf6fd1c4c4794c1a86eea8df27e",
@@ -12947,7 +13027,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) establishes guidelines for Transmission Operators (TOs) and Transmission and/or Distribution Service Providers (TDSPs) to collaborate in identifying and prioritizing critical natural gas infrastructure Loads essential for the reliability of the ERCOT System. Furthermore, this NOGRR outlines provisions for TOs and TDSPs to minimize overlaps between circuits designated for manual Load shedding, Under-Voltage Load Shedding (UVLS), and Under-Frequency Load Shedding (UFLS), and those circuits identified as critical Loads necessary for maintaining reliability of the ERCOT System.",
       "issue_title": "Load Shed Provisions to Identify and Minimize Overlap of Essential Loads",
       "affected_sections": "4.5.3.4 and 8L",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "bb9731500d6ca8b51f1aa2a8f3855bf140b00ce74eb9d52c6dcdab0195b8f760",
@@ -12956,8 +13036,8 @@
       "source": "NOGRR",
       "published_date": "Jul 13, 2026",
       "downloaded_at": "2026-07-22T20:00:43Z",
-      "observed_at": "2026-07-22T20:00:43Z",
-      "status": "Pending",
+      "observed_at": "2026-11-10T21:02:08Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/07/13/286NOGRR-11-ROS-Report-070926.docx",
       "sources": [
         "NOGRR"
@@ -12967,7 +13047,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) defines necessary operational guidelines to support the reliable operation of 765-kV equipment.",
       "issue_title": "Addition of 765-kV Operational Voltage Limits",
       "affected_sections": "2.7.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "366755bfdaf7bbc8090ef4d6a7dbd94d902fe84302f42a2fbfc61744d9fdb3cd",
@@ -12976,8 +13056,8 @@
       "source": "NOGRR",
       "published_date": "Apr 3, 2026",
       "downloaded_at": "2026-07-22T20:00:43Z",
-      "observed_at": "2026-07-22T20:00:43Z",
-      "status": "Pending",
+      "observed_at": "2026-11-10T21:02:09Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/04/03/286NOGRR-03-ROS-Report-040226.docx",
       "sources": [
         "NOGRR"
@@ -12987,7 +13067,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) defines necessary operational guidelines to support the reliable operation of 765-kV equipment.",
       "issue_title": "Addition of 765-kV Operational Voltage Limits",
       "affected_sections": "2.7.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "0731ae86d1ae99edb01bbd122b50845b79bfc2a2223fc37a77001108545e331f",
@@ -12996,8 +13076,8 @@
       "source": "NOGRR",
       "published_date": "Mar 16, 2026",
       "downloaded_at": "2026-07-22T20:00:43Z",
-      "observed_at": "2026-07-22T20:00:43Z",
-      "status": "Pending",
+      "observed_at": "2026-11-10T21:02:09Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/03/16/286NOGRR-01-Addition-of-765-kV-Operating-Limits-031626.docx",
       "sources": [
         "NOGRR"
@@ -13007,7 +13087,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) defines necessary operational guidelines to support the reliable operation of 765-kV equipment.",
       "issue_title": "Addition of 765-kV Operational Voltage Limits",
       "affected_sections": "2.7.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "ec1cb36d9f7ed7339181f27d409d894ffa2c1b02e404d27b409ee3ca25519112",
@@ -13016,8 +13096,8 @@
       "source": "NOGRR",
       "published_date": "Apr 22, 2026",
       "downloaded_at": "2026-07-22T20:00:42Z",
-      "observed_at": "2026-07-22T20:00:42Z",
-      "status": "Pending",
+      "observed_at": "2026-11-10T21:02:09Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/04/22/287NOGRR-01-Load-Shed-Provisions-to-Identify-and-Minimize-Overlap-of-Essential-Loads-042226.docx",
       "sources": [
         "NOGRR"
@@ -13027,7 +13107,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) establishes guidelines for Transmission Operators (TOs) and Transmission and/or Distribution Service Providers (TDSPs) to collaborate in identifying and prioritizing critical natural gas infrastructure Loads essential for the reliability of the ERCOT System. Furthermore, this NOGRR outlines provisions for TOs and TDSPs to minimize overlaps between circuits designated for manual Load shedding, Under-Voltage Load Shedding (UVLS), and Under-Frequency Load Shedding (UFLS), and those circuits identified as critical Loads necessary for maintaining reliability of the ERCOT System.",
       "issue_title": "Load Shed Provisions to Identify and Minimize Overlap of Essential Loads",
       "affected_sections": "4.5.3.4 and 8L",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "6b1b5491a7e0b56fffdadaa3e669d341ca71144965f4c32d4297ebc776f8a75d",
@@ -13355,7 +13435,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "ba12ffd26218fb32f9f63310edbabdf3de83435756b0cb5b3546cca778ac74be",
@@ -13455,7 +13535,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "6fc45d71e266bad854f59d527a587d343287694a761d18eeddafae8c7d5966c5",
@@ -13524,8 +13604,8 @@
       "source": "NOGRR",
       "published_date": "Jun 1, 2026",
       "downloaded_at": "2026-07-22T11:30:23Z",
-      "observed_at": "2026-07-22T11:30:23Z",
-      "status": "Pending",
+      "observed_at": "2026-11-10T21:02:08Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/06/01/287NOGRR-05-ERCOT-Comments-060126.docx",
       "sources": [
         "NOGRR"
@@ -13535,7 +13615,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) establishes guidelines for Transmission Operators (TOs) and Transmission and/or Distribution Service Providers (TDSPs) to collaborate in identifying and prioritizing critical natural gas infrastructure Loads essential for the reliability of the ERCOT System. Furthermore, this NOGRR outlines provisions for TOs and TDSPs to minimize overlaps between circuits designated for manual Load shedding, Under-Voltage Load Shedding (UVLS), and Under-Frequency Load Shedding (UFLS), and those circuits identified as critical Loads necessary for maintaining reliability of the ERCOT System.",
       "issue_title": "Load Shed Provisions to Identify and Minimize Overlap of Essential Loads",
       "affected_sections": "4.5.3.4 and 8L",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "55b5693a3294b494cf18c11908e736bc814f87a6e657909d35c932b42e686014",
@@ -13544,8 +13624,8 @@
       "source": "NOGRR",
       "published_date": "Apr 22, 2026",
       "downloaded_at": "2026-07-22T11:30:23Z",
-      "observed_at": "2026-07-22T11:30:23Z",
-      "status": "Pending",
+      "observed_at": "2026-11-10T21:02:09Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/04/22/287NOGRR-02-Impact-Analysis-042226.docx",
       "sources": [
         "NOGRR"
@@ -13555,7 +13635,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) establishes guidelines for Transmission Operators (TOs) and Transmission and/or Distribution Service Providers (TDSPs) to collaborate in identifying and prioritizing critical natural gas infrastructure Loads essential for the reliability of the ERCOT System. Furthermore, this NOGRR outlines provisions for TOs and TDSPs to minimize overlaps between circuits designated for manual Load shedding, Under-Voltage Load Shedding (UVLS), and Under-Frequency Load Shedding (UFLS), and those circuits identified as critical Loads necessary for maintaining reliability of the ERCOT System.",
       "issue_title": "Load Shed Provisions to Identify and Minimize Overlap of Essential Loads",
       "affected_sections": "4.5.3.4 and 8L",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "2bf0561e767ee9a97e1ff650f5a99ffa0fa9951157155645ffd72d5f7b668bc4",
@@ -13575,7 +13655,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) defines necessary operational guidelines to support the reliable operation of 765-kV equipment.",
       "issue_title": "Addition of 765-kV Operational Voltage Limits",
       "affected_sections": "2.7.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "94e05769cb66b88e9073f211edd0851d42fa93ea83570d52cd40dc767f36b352",
@@ -13595,7 +13675,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) defines necessary operational guidelines to support the reliable operation of 765-kV equipment.",
       "issue_title": "Addition of 765-kV Operational Voltage Limits",
       "affected_sections": "2.7.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "026425f5f1c18831bef85dfd37b78d5c3c9036cde9049fb313371882bd95eeda",
@@ -13655,7 +13735,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) establishes guidelines for Transmission Operators (TOs) and Transmission and/or Distribution Service Providers (TDSPs) to collaborate in identifying and prioritizing critical natural gas infrastructure Loads essential for the reliability of the ERCOT System. Furthermore, this NOGRR outlines provisions for TOs and TDSPs to minimize overlaps between circuits designated for manual Load shedding, Under-Voltage Load Shedding (UVLS), and Under-Frequency Load Shedding (UFLS), and those circuits identified as critical Loads necessary for maintaining reliability of the ERCOT System.",
       "issue_title": "Load Shed Provisions to Identify and Minimize Overlap of Essential Loads",
       "affected_sections": "4.5.3.4 and 8L",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "4e928c0297d71f203200d5370ea61049d3cea6b534224908b24bfa8c52dbfdba",
@@ -14008,7 +14088,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) establishes guidelines for Transmission Operators (TOs) and Transmission and/or Distribution Service Providers (TDSPs) to collaborate in identifying and prioritizing critical natural gas infrastructure Loads essential for the reliability of the ERCOT System. Furthermore, this NOGRR outlines provisions for TOs and TDSPs to minimize overlaps between circuits designated for manual Load shedding, Under-Voltage Load Shedding (UVLS), and Under-Frequency Load Shedding (UFLS), and those circuits identified as critical Loads necessary for maintaining reliability of the ERCOT System.",
       "issue_title": "Load Shed Provisions to Identify and Minimize Overlap of Essential Loads",
       "affected_sections": "4.5.3.4 and 8L",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "5be5fef876591ad3b2445d6a61c948db0046b0baaf90f42d3e2ae404b588cb18",
@@ -14094,8 +14174,8 @@
       "source": "PGRR",
       "published_date": "May 5, 2026",
       "downloaded_at": "2026-07-21T11:00:48Z",
-      "observed_at": "2026-07-21T11:00:48Z",
-      "status": "Pending",
+      "observed_at": "2026-11-10T21:02:16Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/05/05/144PGRR-09-ERCOT-Comments-050526.docx",
       "sources": [
         "PGRR"
@@ -14105,7 +14185,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "65a906da360e9caafd67a306d29124b406769d386bbac37bc8d22385b4406e26",
@@ -14438,7 +14518,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "5fbb942c12953e93c78a00eae65d40ef1274efbbd9afbc686cd2687ddbd091e6",
@@ -14498,7 +14578,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "0df249da8046a20544cb1df3baea79964da67b1885daa7f6cb5570e68013ce05",
@@ -15071,8 +15151,8 @@
       "source": "PGRR",
       "published_date": "Mar 3, 2026",
       "downloaded_at": "2026-07-19T11:00:45Z",
-      "observed_at": "2026-07-19T11:00:45Z",
-      "status": "Pending",
+      "observed_at": "2026-11-10T21:02:21Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/03/03/144PGRR-03-Hut-8-Comments-030326.docx",
       "sources": [
         "PGRR"
@@ -15082,7 +15162,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "b1705ae956aead60be79e43e83abcdeb86fe4427ff788dfe4bd4249f0ed71721",
@@ -15142,7 +15222,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) defines necessary operational guidelines to support the reliable operation of 765-kV equipment.",
       "issue_title": "Addition of 765-kV Operational Voltage Limits",
       "affected_sections": "2.7.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "ac3409e54dc5001cd559dae3bdcc8f443cfbe5de3e1d38579d276ca26ec987c0",
@@ -15202,7 +15282,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) defines necessary operational guidelines to support the reliable operation of 765-kV equipment.",
       "issue_title": "Addition of 765-kV Operational Voltage Limits",
       "affected_sections": "2.7.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "b5434844471f0ffa497001d889dfffd66fc732da4118a8447b811eb4a94ac73c",
@@ -15855,7 +15935,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "63af3e417865b2d28ab0429420ebb420b2ef00728274ca80f911da09897865a8",
@@ -15884,8 +15964,8 @@
       "source": "PGRR",
       "published_date": "Mar 30, 2026",
       "downloaded_at": "2026-07-18T22:22:36Z",
-      "observed_at": "2026-07-18T22:22:36Z",
-      "status": "Pending",
+      "observed_at": "2026-11-10T21:02:19Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/03/30/144PGRR-07-Data-Center-Coalition-Comments-033026.docx",
       "sources": [
         "PGRR"
@@ -15895,7 +15975,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "e7b8ee9ad22fc9293946355c5ab9a4baaf3e97ab6148c84814964875d7cc0369",
@@ -15935,7 +16015,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) defines necessary operational guidelines to support the reliable operation of 765-kV equipment.",
       "issue_title": "Addition of 765-kV Operational Voltage Limits",
       "affected_sections": "2.7.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "7c6ab653aeca576534630f805e2f76d27e77d64ad3299f778378b44a6a2f0a75",
@@ -16015,7 +16095,7 @@
       "explanation": "This Nodal Operating Guide Revision Request (NOGRR) defines necessary operational guidelines to support the reliable operation of 765-kV equipment.",
       "issue_title": "Addition of 765-kV Operational Voltage Limits",
       "affected_sections": "2.7.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "eb43103205124e243c5f26dd5ac95d44f2b1d0ff6cc3b489d173d6e8e252a2fa",
@@ -16118,8 +16198,8 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     }
   ],
-  "count": 822,
-  "generated_at": "2026-11-06T21:02:03.454490+00:00",
+  "count": 826,
+  "generated_at": "2026-11-10T21:03:14.327059+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",
@@ -16411,52 +16491,46 @@
       "revision_family": "NOGRR",
       "issue_title": "Addition of 765-kV Operational Voltage Limits",
       "official_description": "This Nodal Operating Guide Revision Request (NOGRR) defines necessary operational guidelines to support the reliable operation of 765-kV equipment.",
-      "status": "Pending",
+      "status": "Approved",
       "date_posted": "Mar 16, 2026",
       "sponsor": "Joint Sponsors",
       "urgent": "No",
       "affected_sections": "2.7.3.1",
       "reason": "General system and/or process improvement(s)",
       "issue_url": "https://www.ercot.com/mktrules/issues/NOGRR286",
-      "effective_state": "pending_proposal",
-      "effectiveness_note": "Pending proposal; it is not current governing text.",
+      "effective_state": "approved_not_independently_governing",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "PUCT",
-      "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "09/15/2026",
-        "governing_body": "BOARD",
-        "action": "Recommended for Approval",
-        "next_step": "Revision Request Consideration"
+        "date": "11/05/2026",
+        "governing_body": "PUCT",
+        "action": "Approved"
       },
-      "source_downloaded_at": "2026-10-14T11:00:47Z",
-      "source_observed_at": "2026-10-14T11:00:47Z"
+      "source_downloaded_at": "2026-11-10T21:02:08Z",
+      "source_observed_at": "2026-11-10T21:02:08Z"
     },
     "NOGRR287": {
       "revision_id": "NOGRR287",
       "revision_family": "NOGRR",
       "issue_title": "Load Shed Provisions to Identify and Minimize Overlap of Essential Loads",
       "official_description": "This Nodal Operating Guide Revision Request (NOGRR) establishes guidelines for Transmission Operators (TOs) and Transmission and/or Distribution Service Providers (TDSPs) to collaborate in identifying and prioritizing critical natural gas infrastructure Loads essential for the reliability of the ERCOT System. Furthermore, this NOGRR outlines provisions for TOs and TDSPs to minimize overlaps between circuits designated for manual Load shedding, Under-Voltage Load Shedding (UVLS), and Under-Frequency Load Shedding (UFLS), and those circuits identified as critical Loads necessary for maintaining reliability of the ERCOT System.",
-      "status": "Pending",
+      "status": "Approved",
       "date_posted": "Apr 22, 2026",
       "sponsor": "ERCOT",
       "urgent": "No",
       "affected_sections": "4.5.3.4 and 8L",
       "reason": "Regulatory requirements",
       "issue_url": "https://www.ercot.com/mktrules/issues/NOGRR287",
-      "effective_state": "pending_proposal",
-      "effectiveness_note": "Pending proposal; it is not current governing text.",
+      "effective_state": "approved_not_independently_governing",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "PUCT",
-      "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "09/15/2026",
-        "governing_body": "BOARD",
-        "action": "Recommended for Approval",
-        "next_step": "Revision Request Consideration"
+        "date": "11/05/2026",
+        "governing_body": "PUCT",
+        "action": "Approved"
       },
-      "source_downloaded_at": "2026-10-14T11:00:47Z",
-      "source_observed_at": "2026-10-14T11:00:47Z"
+      "source_downloaded_at": "2026-11-10T21:02:07Z",
+      "source_observed_at": "2026-11-10T21:02:07Z"
     },
     "NOGRR288": {
       "revision_id": "NOGRR288",
@@ -16481,8 +16555,8 @@
         "action": "Recommended for Approval",
         "next_step": "TAC for consideration"
       },
-      "source_downloaded_at": "2026-11-06T21:00:52Z",
-      "source_observed_at": "2026-11-06T21:00:52Z"
+      "source_downloaded_at": "2026-11-07T12:01:31Z",
+      "source_observed_at": "2026-11-07T12:01:31Z"
     },
     "NOGRR289": {
       "revision_id": "NOGRR289",
@@ -18139,8 +18213,8 @@
         "action": "Recommended for Approval",
         "next_step": "Impact Analysis Consideration"
       },
-      "source_downloaded_at": "2026-10-24T11:00:43Z",
-      "source_observed_at": "2026-10-24T11:00:43Z"
+      "source_downloaded_at": "2026-11-07T12:00:43Z",
+      "source_observed_at": "2026-11-07T12:00:43Z"
     },
     "NPRR1344": {
       "revision_id": "NPRR1344",
@@ -18183,16 +18257,16 @@
       "effective_state": "pending_proposal",
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "TAC",
+      "next_group": "BOARD",
       "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "10/14/2026",
-        "governing_body": "PRS",
+        "date": "10/28/2026",
+        "governing_body": "TAC",
         "action": "Recommended for Approval",
         "next_step": "Revision Request Consideration"
       },
-      "source_downloaded_at": "2026-10-24T11:00:42Z",
-      "source_observed_at": "2026-10-24T11:00:42Z"
+      "source_downloaded_at": "2026-11-07T12:00:43Z",
+      "source_observed_at": "2026-11-07T12:00:43Z"
     },
     "NPRR1346": {
       "revision_id": "NPRR1346",
@@ -18209,16 +18283,16 @@
       "effective_state": "pending_proposal",
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "TAC",
+      "next_group": "BOARD",
       "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "10/14/2026",
-        "governing_body": "PRS",
+        "date": "10/28/2026",
+        "governing_body": "TAC",
         "action": "Recommended for Approval",
         "next_step": "Revision Request Consideration"
       },
-      "source_downloaded_at": "2026-10-24T11:00:42Z",
-      "source_observed_at": "2026-10-24T11:00:42Z"
+      "source_downloaded_at": "2026-11-07T12:00:43Z",
+      "source_observed_at": "2026-11-07T12:00:43Z"
     },
     "NPRR1347": {
       "revision_id": "NPRR1347",
@@ -18388,8 +18462,8 @@
       "latest_action": {
         "action": "No action posted"
       },
-      "source_downloaded_at": "2026-11-06T12:00:43Z",
-      "source_observed_at": "2026-11-06T12:00:43Z"
+      "source_downloaded_at": "2026-11-10T21:02:03Z",
+      "source_observed_at": "2026-11-10T21:02:03Z"
     },
     "NPRR917": {
       "revision_id": "NPRR917",
@@ -18780,26 +18854,23 @@
       "revision_family": "PGRR",
       "issue_title": "Dynamic Model Submission and Review Requirements for Large Loads including Large Computational Loads",
       "official_description": "This Planning Guide Revision Request (PGRR) clarifies requirements for submitting dynamic model data for Large Loads to ensure accurate representation of each Large Load in ERCOT’s models. The PGRR requires submission of this data using formats compatible with the software platforms described in the Dynamics Working Group Procedure Manual (i.e., PSS/E, PSCAD, and TSAT). This PGRR also requires model quality tests demonstrating voltage ride-through capability for all Large Loads and converter model validation reports benchmarking PSCAD models against actual hardware tests for all Large Computational Loads (LCLs), ensuring high-quality and accurate models. In addition, this PGRR clarifies that material changes to an LCL that could impact ride-through capability must be reviewed through the Large Load Interconnection Study (LLIS) process before implementing the change. Furthermore, the PGRR clarifies that an Interconnecting Large Load Entity (ILLE) must meet the dynamic data submission requirements before initiating a dynamic stability study. The same dynamic data submission requirements are applicable whenever dynamic data is required to be submitted in accordance with the prerequisites specified in the current paragraph (5) of Section 5.3.5, Quarterly Stability Assessment. Finally, the PGRR requires the ILLE to submit updated dynamic models for the “as-built” LCL facility prior to requesting Initial Energization along with documentation identifying any differences from previously submitted model data used in the ERCOT quarterly stability assessment (“QSA”) and an attestation that the as-built data reflect the actual field settings.",
-      "status": "Pending",
+      "status": "Approved",
       "date_posted": "Feb 18, 2026",
       "sponsor": "ERCOT",
       "urgent": "No",
       "affected_sections": "6.2, 9.2.1, 9.2.1.5 (new), and 9.6",
       "reason": "General system and/or process improvement(s)",
       "issue_url": "https://www.ercot.com/mktrules/issues/PGRR144",
-      "effective_state": "pending_proposal",
-      "effectiveness_note": "Pending proposal; it is not current governing text.",
+      "effective_state": "approved_not_independently_governing",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "PUCT",
-      "next_step": "PUCT for consideration",
       "latest_action": {
-        "date": "09/15/2026",
-        "governing_body": "BOARD",
-        "action": "Recommended for Approval",
-        "next_step": "PUCT for consideration"
+        "date": "11/05/2026",
+        "governing_body": "PUCT",
+        "action": "Approved"
       },
-      "source_downloaded_at": "2026-10-14T11:00:51Z",
-      "source_observed_at": "2026-10-14T11:00:51Z"
+      "source_downloaded_at": "2026-11-10T21:02:12Z",
+      "source_observed_at": "2026-11-10T21:02:12Z"
     },
     "PGRR145": {
       "revision_id": "PGRR145",

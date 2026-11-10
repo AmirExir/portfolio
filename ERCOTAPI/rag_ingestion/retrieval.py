@@ -1538,6 +1538,56 @@ def format_citation(chunk: Mapping[str, Any]) -> str:
     return "[" + " | ".join(parts) + "]"
 
 
+def prepare_evidence(
+    chunks: Sequence[Mapping[str, Any]],
+    *,
+    max_words: int | None = None,
+) -> list[dict[str, Any]]:
+    """Copy the exact evidence shown to generation and subsequent verification.
+
+    Preserve IDs on retry subsets and assign missing IDs before rendering either
+    context or source links. Truncation is explicit so the verifier can withhold
+    claims whose source may have lost conditions or exceptions.
+    """
+
+    if max_words is not None and max_words < 1:
+        raise ValueError("Evidence word budget must be positive")
+    reserved: set[str] = set()
+    for chunk in chunks:
+        identifier = str(chunk.get("evidence_id") or "").strip()
+        if identifier:
+            if not re.fullmatch(r"E[1-9]\d*", identifier) or identifier in reserved:
+                raise ValueError("Evidence IDs must be unique E-number identifiers")
+            reserved.add(identifier)
+    prepared: list[dict[str, Any]] = []
+    remaining = max_words
+    next_number = 1
+    for original in chunks:
+        if remaining is not None and remaining <= 0:
+            break
+        text = str(original.get("text") or "").strip()
+        if not text:
+            continue
+        chunk = dict(original)
+        words = list(re.finditer(r"\S+", text))
+        if remaining is not None and len(words) > remaining:
+            text = text[:words[remaining - 1].end()]
+            chunk["context_truncated"] = True
+        if remaining is not None:
+            remaining -= min(len(words), remaining)
+        identifier = str(chunk.get("evidence_id") or "").strip()
+        if not identifier:
+            while f"E{next_number}" in reserved:
+                next_number += 1
+            identifier = f"E{next_number}"
+            reserved.add(identifier)
+        chunk["text"] = text
+        chunk["evidence_id"] = identifier
+        chunk["citation"] = format_citation(chunk)
+        prepared.append(chunk)
+    return prepared
+
+
 def format_context(
     chunks: Sequence[Mapping[str, Any]],
     *,
@@ -1584,7 +1634,7 @@ def format_source_list(
     *,
     max_sources: int = 8,
 ) -> str:
-    """Return a deterministic, deduplicated Markdown source footer."""
+    """List every cited evidence ID; deduplicate uncited legacy lists by document."""
 
     if max_sources < 1:
         return ""
@@ -1603,17 +1653,18 @@ def format_source_list(
                 if re.fullmatch(r"https?://[^\s]+", value)
             )
         )
-        identity = str(
+        evidence_id = str(chunk.get("evidence_id") or "").strip()
+        document_identity = str(
             chunk.get("document_id")
             or chunk.get("content_hash")
             or chunk.get("source_path")
             or chunk.get("source")
             or citation
         )
+        identity = f"evidence:{evidence_id}" if evidence_id else f"document:{document_identity}"
         if identity in seen:
             continue
         seen.add(identity)
-        evidence_id = str(chunk.get("evidence_id") or "").strip()
         prefix = f"**[{evidence_id}]** " if evidence_id else ""
         line = f"- {prefix}{citation}"
         for index, source_url in enumerate(source_urls[:3]):

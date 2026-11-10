@@ -4,6 +4,12 @@ The ERCOT retrieval indexes now use one centralized ingestion pipeline. It keeps
 official ERCOT source material separate from generated summaries, embeds only
 new official content, and publishes complete index generations atomically.
 
+All five active ERCOT assistants additionally check generated claims against
+their cited passages before displaying an answer. Unsupported claims are
+removed, and corrections must pass a separate check. See
+[claim verification](CLAIM_VERIFICATION.md) for the enforced workflow,
+configuration, tests, and limitations.
+
 ## Data flow
 
 ```text

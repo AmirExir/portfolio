@@ -6,6 +6,32 @@ from dataclasses import dataclass
 from typing import Any, Mapping, Sequence
 
 
+ANSWER_VERIFICATION_POLICY = "claim-verification-v1"
+
+
+def retain_verified_history(
+    messages: Sequence[Mapping[str, Any]],
+) -> list[dict[str, Any]]:
+    """Preserve user turns and assistant output accepted by the current gate.
+
+    A missing or old policy marker identifies a pre-verification answer. Remove
+    it before both replay and model-context construction; keep the user's turns
+    so upgrading the app does not discard their questions.
+    """
+
+    retained: list[dict[str, Any]] = []
+    for message in messages:
+        if not isinstance(message, Mapping):
+            continue
+        role = message.get("role")
+        if role == "user" or (
+            role == "assistant"
+            and message.get("verification_policy") == ANSWER_VERIFICATION_POLICY
+        ):
+            retained.append(dict(message))
+    return retained
+
+
 def _field(value: Any, name: str, default: Any = None) -> Any:
     if isinstance(value, Mapping):
         return value.get(name, default)

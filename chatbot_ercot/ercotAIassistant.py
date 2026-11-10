@@ -10,14 +10,18 @@ import streamlit as st
 from openai import OpenAI
 
 try:
+    from ERCOTAPI.rag_ingestion.claim_verification import verify_answer
     from ERCOTAPI.rag_ingestion.retrieval import (
         format_context,
         format_source_list,
         index_state,
         load_index,
+        prepare_evidence,
         retrieve_chunks,
     )
     from ERCOTAPI.rag_ingestion.response_handling import (
+        ANSWER_VERIFICATION_POLICY,
+        retain_verified_history,
         assess_response,
         compact_chat_messages,
     )
@@ -25,14 +29,18 @@ except ModuleNotFoundError as exc:
     if exc.name != "ERCOTAPI":
         raise
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from ERCOTAPI.rag_ingestion.claim_verification import verify_answer
     from ERCOTAPI.rag_ingestion.retrieval import (
         format_context,
         format_source_list,
         index_state,
         load_index,
+        prepare_evidence,
         retrieve_chunks,
     )
     from ERCOTAPI.rag_ingestion.response_handling import (
+        ANSWER_VERIFICATION_POLICY,
+        retain_verified_history,
         assess_response,
         compact_chat_messages,
     )
@@ -80,6 +88,8 @@ cited documentation below. Do not guess or use outside knowledge. If the answer
 is not explicitly present, respond exactly: "I couldn’t find that in the
 documentation." Preserve relevant citations in the answer. Do not create a
 separate source list; the application adds the retrieved sources.
+
+Cite every material statement with its supplied evidence ID, such as [E1].
 
 ---
 {context}
@@ -190,6 +200,7 @@ with st.sidebar:
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
+st.session_state.messages = retain_verified_history(st.session_state.messages)
 
 for message in st.session_state.messages:
     st.chat_message(message["role"]).markdown(message["content"])
@@ -206,13 +217,21 @@ if prompt := st.chat_input("Ask about ERCOT planning guides..."):
             else "No planning sources are currently indexed."
         )
         st.chat_message("assistant").markdown(answer)
-        st.session_state.messages.append({"role": "assistant", "content": answer})
+        st.session_state.messages.append({
+            "role": "assistant",
+            "content": answer,
+            "verification_policy": ANSWER_VERIFICATION_POLICY,
+        })
         st.stop()
 
     if is_last_read_question(prompt):
         answer = build_last_read_answer(chunks, sources)
         st.chat_message("assistant").markdown(answer)
-        st.session_state.messages.append({"role": "assistant", "content": answer})
+        st.session_state.messages.append({
+            "role": "assistant",
+            "content": answer,
+            "verification_policy": ANSWER_VERIFICATION_POLICY,
+        })
         st.stop()
 
     with st.spinner("Thinking..."):
@@ -224,7 +243,8 @@ if prompt := st.chat_input("Ask about ERCOT planning guides..."):
         if not matches:
             st.error("No matching Planning Guide documentation was found.")
             st.stop()
-        context = format_context(matches, max_words=10_000)
+        answer_evidence = prepare_evidence(matches, max_words=10_000)
+        context = format_context(answer_evidence)
         conversation_messages = compact_chat_messages(
             st.session_state.messages,
             max_messages=6,
@@ -241,7 +261,8 @@ if prompt := st.chat_input("Ask about ERCOT planning guides..."):
             )
             response_assessment = assess_response(response)
             if response_assessment.retryable:
-                retry_context = format_context(matches[:3], max_words=4_000)
+                answer_evidence = prepare_evidence(matches[:3], max_words=4_000)
+                retry_context = format_context(answer_evidence)
                 retry_response = client.responses.create(
                     model="gpt-6-astra",
                     reasoning={"effort": "low"},
@@ -264,6 +285,32 @@ if prompt := st.chat_input("Ask about ERCOT planning guides..."):
             )
             st.stop()
 
-        bot_message = response_assessment.text + format_source_list(matches)
+        try:
+            with st.spinner("Checking claims against cited sources..."):
+                verified_answer = verify_answer(
+                    response_assessment.text,
+                    answer_evidence,
+                    client=client,
+                    question=prompt,
+                    as_of=answer_evidence[0].get("as_of") if answer_evidence else None,
+                )
+        except Exception:
+            st.error("Source verification could not complete. No generated answer was shown. Please retry.")
+            st.stop()
+        if not verified_answer.text.strip():
+            st.error("Source verification returned no usable answer. Please retry.")
+            st.stop()
+        bot_message = verified_answer.text
+        if verified_answer.notice:
+            bot_message += "\n\n_" + verified_answer.notice + "_"
+        bot_message += format_source_list(
+            verified_answer.cited_chunks,
+            max_sources=len(verified_answer.cited_chunks),
+        )
+
         st.chat_message("assistant").markdown(bot_message)
-        st.session_state.messages.append({"role": "assistant", "content": bot_message})
+        st.session_state.messages.append({
+            "role": "assistant",
+            "content": bot_message,
+            "verification_policy": ANSWER_VERIFICATION_POLICY,
+        })

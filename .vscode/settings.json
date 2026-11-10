@@ -1,0 +1,40 @@
+{
+  "files.watcherExclude": {
+    "**/.venv/**": true,
+    "**/venv/**": true,
+    "**/node_modules/**": true,
+    "**/__pycache__/**": true,
+    "**/market_agent/reports/**": true,
+    "**/ERCOTAPI/NEWS/**": true,
+    "**/.rag_store/**": true,
+    "**/.rag/**": true,
+    "**/deployment_rag_store/**": true,
+    "**/ercot_combined_index/**": true
+  },
+  "search.exclude": {
+    "**/.venv/**": true,
+    "**/venv/**": true,
+    "**/node_modules/**": true,
+    "**/__pycache__/**": true,
+    "**/market_agent/reports/**": true,
+    "**/ERCOTAPI/NEWS/**": true,
+    "**/.rag_store/**": true,
+    "**/.rag/**": true,
+    "**/deployment_rag_store/**": true,
+    "**/ercot_combined_index/**": true
+  },
+  "python.analysis.indexing": false,
+  "python.analysis.diagnosticMode": "openFilesOnly",
+  "python.analysis.exclude": [
+    "**/.venv/**",
+    "**/venv/**",
+    "**/node_modules/**",
+    "**/__pycache__/**",
+    "**/market_agent/reports/**",
+    "**/ERCOTAPI/NEWS/**",
+    "**/.rag_store/**",
+    "**/.rag/**",
+    "**/deployment_rag_store/**",
+    "**/ercot_combined_index/**"
+  ]
+}

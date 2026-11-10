@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import os
-import re
 import sys
 from pathlib import Path
 
@@ -11,14 +10,18 @@ import streamlit as st
 from openai import OpenAI
 
 try:
+    from ERCOTAPI.rag_ingestion.claim_verification import verify_answer
     from ERCOTAPI.rag_ingestion.retrieval import (
         format_context,
         format_source_list,
         index_state,
         load_index,
+        prepare_evidence,
         retrieve_chunks,
     )
     from ERCOTAPI.rag_ingestion.response_handling import (
+        ANSWER_VERIFICATION_POLICY,
+        retain_verified_history,
         assess_response,
         compact_chat_messages,
     )
@@ -26,14 +29,18 @@ except ModuleNotFoundError as exc:
     if exc.name != "ERCOTAPI":
         raise
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from ERCOTAPI.rag_ingestion.claim_verification import verify_answer
     from ERCOTAPI.rag_ingestion.retrieval import (
         format_context,
         format_source_list,
         index_state,
         load_index,
+        prepare_evidence,
         retrieve_chunks,
     )
     from ERCOTAPI.rag_ingestion.response_handling import (
+        ANSWER_VERIFICATION_POLICY,
+        retain_verified_history,
         assess_response,
         compact_chat_messages,
     )
@@ -68,26 +75,13 @@ the citations supporting your answer. If the documentation does not support an
 answer, say so directly. Do not create a separate source list; the application
 adds the retrieved sources.
 
+Cite every material statement with its supplied evidence ID, such as [E1].
+
 ---
 {context}
 ---
 """,
     }
-
-
-def extract_function_names(chunks) -> set[str]:
-    functions: set[str] = set()
-    for chunk in chunks:
-        functions.update(re.findall(r"\bpsspy\.(\w+)\b", str(chunk.get("text", ""))))
-    return functions
-
-
-def find_invalid_functions(response_text: str, valid_functions: set[str]) -> list[str]:
-    return [
-        function
-        for function in re.findall(r"\bpsspy\.(\w+)\b", response_text)
-        if function not in valid_functions
-    ]
 
 
 st.set_page_config(page_title="Amir Exir's Resource Integration AI Assistant", page_icon="⚡")
@@ -99,7 +93,6 @@ with st.spinner("Loading the saved central Resource Integration index..."):
     except Exception as exc:
         st.error(str(exc))
         st.stop()
-valid_functions = extract_function_names(rag_index.chunks)
 
 with st.sidebar:
     st.caption(f"Loaded {len(rag_index.chunks)} Resource Integration chunks")
@@ -108,6 +101,7 @@ with st.sidebar:
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
+st.session_state.messages = retain_verified_history(st.session_state.messages)
 
 for message in st.session_state.messages:
     st.chat_message(message["role"]).markdown(message["content"])
@@ -125,7 +119,8 @@ if prompt := st.chat_input("Ask about ERCOT Resource Integration or the QSA proc
         if not matches:
             st.error("No matching Resource Integration documentation was found.")
             st.stop()
-        context = format_context(matches, max_words=20_000)
+        answer_evidence = prepare_evidence(matches, max_words=20_000)
+        context = format_context(answer_evidence)
         conversation_messages = compact_chat_messages(
             st.session_state.messages,
             max_messages=6,
@@ -142,7 +137,8 @@ if prompt := st.chat_input("Ask about ERCOT Resource Integration or the QSA proc
             )
             response_assessment = assess_response(response)
             if response_assessment.retryable:
-                retry_context = format_context(matches[:6], max_words=6_000)
+                answer_evidence = prepare_evidence(matches[:6], max_words=6_000)
+                retry_context = format_context(answer_evidence)
                 retry_response = client.responses.create(
                     model="gpt-6-astra",
                     reasoning={"effort": "low"},
@@ -165,14 +161,32 @@ if prompt := st.chat_input("Ask about ERCOT Resource Integration or the QSA proc
             )
             st.stop()
 
-        bot_message = response_assessment.text
-        invalid_functions = find_invalid_functions(bot_message, valid_functions)
-        if invalid_functions:
-            warning = ", ".join(sorted(set(invalid_functions)))
-            st.warning(f"These PSS/E functions were not found in the indexed documentation: {warning}")
-            bot_message += f"\n\n*Caution: these functions were not found in the indexed sources: {warning}.*"
-
-        bot_message = bot_message.rstrip() + format_source_list(matches)
+        try:
+            with st.spinner("Checking claims against cited sources..."):
+                verified_answer = verify_answer(
+                    response_assessment.text,
+                    answer_evidence,
+                    client=client,
+                    question=prompt,
+                    as_of=answer_evidence[0].get("as_of") if answer_evidence else None,
+                )
+        except Exception:
+            st.error("Source verification could not complete. No generated answer was shown. Please retry.")
+            st.stop()
+        if not verified_answer.text.strip():
+            st.error("Source verification returned no usable answer. Please retry.")
+            st.stop()
+        bot_message = verified_answer.text
+        if verified_answer.notice:
+            bot_message += "\n\n_" + verified_answer.notice + "_"
+        bot_message += format_source_list(
+            verified_answer.cited_chunks,
+            max_sources=len(verified_answer.cited_chunks),
+        )
 
         st.chat_message("assistant").markdown(bot_message)
-        st.session_state.messages.append({"role": "assistant", "content": bot_message})
+        st.session_state.messages.append({
+            "role": "assistant",
+            "content": bot_message,
+            "verification_policy": ANSWER_VERIFICATION_POLICY,
+        })

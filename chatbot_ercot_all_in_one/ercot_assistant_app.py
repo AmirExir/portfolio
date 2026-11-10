@@ -29,9 +29,12 @@ from ERCOTAPI.rag_ingestion.retrieval import (
     format_context,
     format_change_reports,
     format_source_list,
+    prepare_evidence,
     retrieve_requirement_evidence,
 )
 from ERCOTAPI.rag_ingestion.response_handling import (
+    ANSWER_VERIFICATION_POLICY,
+    retain_verified_history,
     assess_response,
     compact_chat_messages,
 )
@@ -40,8 +43,7 @@ from ERCOTAPI.rag_ingestion.startup import (
     load_startup_index,
     startup_index_state,
 )
-from ERCOTAPI.rag_ingestion.requirements import validate_answer_citations
-from ERCOTAPI.rag_ingestion.answer_support import support_notice
+from ERCOTAPI.rag_ingestion.claim_verification import verify_answer
 
 PACKAGED_INDEX_DIR = REPOSITORY_ROOT / "ERCOTAPI" / "deployment_rag_store"
 
@@ -325,6 +327,7 @@ with st.expander(f"New ERCOT documents ({updates.get('count', 0)})", expanded=Fa
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
+st.session_state.messages = retain_verified_history(st.session_state.messages)
 
 for message in st.session_state.messages:
     st.chat_message(message["role"]).markdown(message["content"])
@@ -356,8 +359,9 @@ if prompt:
             st.error(f"Retrieval failed: {exc}")
             st.stop()
         change_reports = evidence_bundle.get("change_reports") or []
+        answer_evidence = prepare_evidence(top_chunks, max_words=18_000)
         context = build_answer_context(
-            top_chunks,
+            answer_evidence,
             change_reports,
             max_words=18_000,
         )
@@ -382,8 +386,9 @@ if prompt:
         )
         response_assessment = assess_response(response) if response is not None else None
         if response_assessment is not None and response_assessment.retryable:
+            retry_evidence = prepare_evidence(top_chunks[:8], max_words=7_000)
             retry_context = build_answer_context(
-                top_chunks[:8],
+                retry_evidence,
                 change_reports,
                 max_words=7_000,
             )
@@ -399,6 +404,7 @@ if prompt:
                 max_output_tokens=8_000,
             )
             if retry_response is not None:
+                answer_evidence = retry_evidence
                 response_assessment = assess_response(retry_response)
 
     if response_assessment is None:
@@ -411,29 +417,31 @@ if prompt:
             f"Details: {response_assessment.diagnostic}. Please retry the question."
         )
     else:
-        answer_text = response_assessment.text
-        citation_audit = validate_answer_citations(answer_text, top_chunks)
-        if not citation_audit["passed"]:
-            answer_text += (
-                "\n\n_Citation audit warning: the answer omitted required evidence IDs or "
-                "used an ID that was not retrieved. Verify the source list before relying on it._"
-            )
-        answer_text += "\n\n_" + support_notice(citation_audit) + "_"
-        if citation_audit["support_review_required"]:
-            with st.expander("Source-support checks requiring review"):
-                for check in citation_audit["claim_checks"]:
-                    if check["review_reasons"]:
-                        st.write(check["claim_line"])
-                        st.caption(", ".join(reason.replace("_", " ") for reason in check["review_reasons"]))
-        cited_ids = set(citation_audit["cited_evidence_ids"])
-        cited_chunks = [
-            chunk for chunk in top_chunks
-            if str(chunk.get("evidence_id") or "") in cited_ids
-        ]
-        footer_chunks = cited_chunks or top_chunks[:4]
-        bot_message = answer_text + format_source_list(
-            footer_chunks,
-            max_sources=len(footer_chunks),
+        try:
+            with st.spinner("Checking claims against cited sources..."):
+                verified_answer = verify_answer(
+                    response_assessment.text,
+                    answer_evidence,
+                    client=client,
+                    question=prompt,
+                    as_of=evidence_bundle["analysis"].get("as_of"),
+                )
+        except Exception:
+            st.error("Source verification could not complete. No generated answer was shown. Please retry.")
+            st.stop()
+        if not verified_answer.text.strip():
+            st.error("Source verification returned no usable answer. Please retry.")
+            st.stop()
+        bot_message = verified_answer.text
+        if verified_answer.notice:
+            bot_message += "\n\n_" + verified_answer.notice + "_"
+        bot_message += format_source_list(
+            verified_answer.cited_chunks,
+            max_sources=len(verified_answer.cited_chunks),
         )
         st.chat_message("assistant").markdown(bot_message)
-        st.session_state.messages.append({"role": "assistant", "content": bot_message})
+        st.session_state.messages.append({
+            "role": "assistant",
+            "content": bot_message,
+            "verification_policy": ANSWER_VERIFICATION_POLICY,
+        })
