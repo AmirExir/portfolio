@@ -1,0 +1,16 @@
+Fresh market-moving headlines are limited and skew heavily to **Nvidia/AI** and **crypto**. There is **no solid fresh coverage here on Fed, Treasury yields, CPI/PPI prints, broad earnings, or energy** beyond references to upcoming inflation data.
+
+**Facts**
+- **NPR — 2026-11-09 09:42:57Z:** Nvidia launched an investigation into CEO Jensen Huang over reports of an alleged relationship with a Chinese spy.  
+- **Decrypt — 2026-11-09 09:50:21Z:** Nvidia’s board opened an independent investigation after reports Huang was the target of a foreign intelligence effort; the article says Nvidia shares were indicated lower in premarket trading.  
+- **TechRadar — 2026-11-09 09:49:14Z:** Nvidia said it opened an internal investigation into Huang’s conduct; the article also cited shares lower in premarket trading.  
+- **Business Standard — 2026-11-09 09:57:27Z:** A fresh report revisited prior hedge-fund concerns about Nvidia’s China exposure and Huang’s ties to a Megaspeed executive, adding to scrutiny around Nvidia.  
+- **Crypto Briefing — 2026-11-09 09:40:22Z:** Aletheia Capital downgraded Nvidia to hold, citing more than **$165 billion** in AI financing commitments and withdrawing its prior price target.  
+- **Cointelegraph — 2026-11-09 10:03:40Z:** Bitcoin fell to roughly **$73,500** late Sunday, with the piece linking crypto weakness to Nvidia-related volatility and caution ahead of this week’s U.S. CPI and PPI reports.  
+- **Crypto Briefing — 2026-11-09 10:05:11Z:** Coinbase received a full U.S. national trust charter from the OCC, a step that strengthens its position in crypto custody under federal oversight.  
+- **newsBTC — 2026-11-09 10:00:00Z:** The UK FCA said wholesale banks can apply to extend permissions into regulated crypto-asset activities ahead of the 2027 framework.  
+
+**Interpretation**
+- The clearest fresh market-moving theme in this article set is **idiosyncratic pressure around Nvidia**, coming from both **governance/headline risk** and a **separate analyst downgrade tied to AI financing exposure**. That matters beyond one stock because Nvidia is a key **AI/semi sentiment bellwether**.
+- The crypto headlines suggest a **risk-sensitive tone**: Bitcoin weakness is being framed alongside **AI/tech volatility** and caution ahead of **U.S. inflation data**, while Coinbase’s OCC charter is a **constructive company-specific regulatory development**.
+- There is **not enough fresh macro reporting in this set** to confidently explain the full tape for equities, rates, or energy today. The only macro signal here is that markets are **awaiting CPI/PPI**, not reacting to an actual inflation release yet.
