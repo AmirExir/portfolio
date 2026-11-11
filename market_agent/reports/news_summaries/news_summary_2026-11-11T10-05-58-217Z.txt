@@ -1,0 +1,18 @@
+Fresh market-moving headlines are limited in this feed, and several items are low-credibility, opinion, duplicate, or not clearly tied to broad market pricing. The clearest fresh macro drivers here are CPI anticipation, a hawkish Fed comment, and Iran/Qatar diplomacy with potential energy implications.
+
+**Facts**
+- **Fed/rates:** **Biztoc citing BreakingTheNews**, **2026-11-10T09:42:09Z** — Report says Fed Governor **Christopher Waller** indicated a **December rate hike might be needed** if the inflation reading due later in the day comes in at **0.3%**.
+- **Inflation:** **Biztoc citing NPR**, **2026-11-10T09:57:24Z** — The **U.S. October CPI report** is due Tuesday morning; the summary says **gasoline prices are falling** but overall cost of living remains elevated.
+- **Pre-market positioning/risk setup:** **Biztoc citing BreakingTheNews**, **2026-11-10T09:42:33Z** — U.S. stock index futures were described as **mixed ahead of the CPI report**, with markets also looking ahead to labor data.
+- **Energy/geopolitics:** **Rigzone**, **2026-11-10T09:42:19Z** — The **U.S. held off strikes after Qatari mediation**, and President Trump indicated interest in **diplomacy with Iran** and winding down the war.
+- **Crude/oil sensitivity:** **Business Standard**, **2026-11-10T09:43:58Z** — Article frames **crude oil near $90/bbl** as relevant for risk sentiment and the **interest-rate/inflation outlook**. The piece itself appears internally inconsistent, so treat with caution.
+- **Crypto/company-specific:** **DCForecasts**, **2026-11-10T10:04:29Z** — **Bakkt** said it processed **$147.9M** in Q3 volume and is targeting much higher volumes into 2027.
+- **Crypto/miner earnings:** **newsBTC**, **2026-11-10T10:00:00Z** — **American Bitcoin** said **Q3 net income reached about $126M** and its Bitcoin reserve grew through mining rather than spot purchases.
+- **AI/semi headline risk:** **New York Post**, **2026-11-10T10:00:00Z** and **Business Standard/Reuters**, **2026-11-10T10:03:46Z** — Fresh reports add scrutiny around **Nvidia CEO Jensen Huang** and China-related allegations. These are reputation/governance headlines rather than confirmed operating updates.
+
+**Interpretation**
+- The **main fresh macro event** in this set is clearly **U.S. CPI**, with a **hawkish Waller** headline raising the stakes for rates if inflation is firm.
+- The **Iran/Qatar diplomacy** item matters because it could **temper immediate geopolitical oil-risk assumptions**, though this feed does not provide a direct market price reaction.
+- The **Nvidia/Jensen Huang** stories are **headline risk** for a major AI/semi bellwether, but based on this feed alone they do **not** establish a concrete impact on earnings, guidance, or export policy.
+- The crypto items are **company-specific** and **not enough on their own** to explain broad moves in major crypto or risk assets.
+- Overall, the fresh set is **thin** and only partially explains today’s tape; the strongest cross-asset drivers here are **inflation data risk, Fed path sensitivity, and geopolitics/oil**.
