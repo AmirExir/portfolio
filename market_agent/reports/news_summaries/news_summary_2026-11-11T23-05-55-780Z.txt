@@ -1,0 +1,17 @@
+Fresh market-moving headlines are concentrated in **rates/inflation** and **AI/semi-specific headlines**. There is **not much high-quality fresh reporting here that fully explains today’s broader tape** beyond higher Treasury yields/hot inflation chatter and Nvidia-related scrutiny.
+
+**Facts**
+- **The Times of India, 2026-11-10 23:03Z:** Reported U.S. Treasury yields jumped, with the **2-year yield up 18.7 bps to 4.73%**, described as the highest since Oct. 28, linking the move to shifting Fed-rate expectations.  
+- **Crypto Briefing, 2026-11-10 22:44Z:** Reported the **U.S. 10-year Treasury yield moved above 5%** after hotter-than-expected inflation data, also noting pressure from a **$42 billion Treasury auction**.  
+- **Fortune, 2026-11-10 22:51Z:** Reported Nvidia remains under scrutiny tied to **China smuggling allegations**, including references to investigations involving firms allegedly routing banned servers to China through Southeast Asia.  
+- **Foreign Policy, 2026-11-10 22:55Z:** Published a piece centered on allegations involving **Nvidia CEO Jensen Huang** and China-related questions, adding to headline risk around Nvidia.  
+- **SiliconANGLE, 2026-11-10 22:45Z:** Reported **Mercor raised $750 million at a $20 billion valuation**, a fresh sign of continued investor appetite for AI infrastructure/training-related businesses.  
+- **Decrypt, 2026-11-10 22:46Z:** Reported **Bitcoin miner HIVE** said its Sweden facility could generate **$45 million annually** from a proposed AI colocation deal, though the arrangement remains **nonbinding**.  
+- **newsBTC, 2026-11-10 23:00Z:** Reported **Visa added Monad** as a stablecoin settlement option for participating institutional clients, a fresh crypto/payments infrastructure development.  
+- **New York Post, 2026-11-10 22:45Z:** Reported **Kalshi** could face possible federal charges tied to handling of regulatory notifications for new contracts, citing pressure from U.S. regulators.  
+
+**Interpretation**
+- The clearest fresh macro driver in this set is **higher Treasury yields tied to inflation/Fed concerns**; that is the strongest market-relevant theme here.
+- For equities, the most notable sector-specific risk is **Nvidia/AI-semi headline pressure** from China-related scrutiny, but the article set is noisy and partly allegation-driven rather than hard new operating data.
+- There are **some fresh AI/crypto cross-currents**—new funding for AI infrastructure names, HIVE’s AI pivot headline, Visa/Monad stablecoin settlement expansion—but these are **not enough on their own to explain broad index action**.
+- Overall, the fresh article set is **thin for broad-market causality** beyond the rates/inflation move and Nvidia-specific headline risk.

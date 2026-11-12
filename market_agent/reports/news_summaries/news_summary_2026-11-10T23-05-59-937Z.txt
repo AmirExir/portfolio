@@ -1,0 +1,19 @@
+**Fresh market-moving headlines only (last 36 hours):**
+
+### Facts
+- **Nvidia governance/national-security overhang remains a live market story** — multiple fresh reports said President Trump stated the **FBI is looking into Nvidia CEO Jensen Huang’s relationship with an alleged Chinese spy**, while Nvidia has said it has **no reason to believe company secrets or national security were compromised**.  
+  **Sources:** BBC News, **2026-11-09T22:50:07Z**; CNN, **2026-11-09T22:45:42Z**; The Information, **2026-11-09T23:02:13Z**; TechCrunch, **2026-11-09T22:46:09Z**.
+
+- **A short seller had reportedly raised concerns about the Nvidia CEO relationship months earlier**, adding to the governance scrutiny around one of the market’s most important AI/semi companies.  
+  **Source:** TechCrunch, **2026-11-09T22:46:09Z**.
+
+- **Inflation data watch:** NBC reported that **last month’s CPI likely showed some easing pressure from lower fuel prices**, framing inflation as a near-term macro focus for rates and Fed expectations.  
+  **Source:** NBC News, **2026-11-09T23:00:00Z**.
+
+- **Hims & Hers posted in-line Q3 revenue but weaker full-year guidance**, according to a fresh earnings write-up.  
+  **Source:** TradingView / StockStory, **2026-11-09T23:04:14Z**.
+
+### Interpretation
+- The **clearest fresh, market-relevant headline** in this set is the **Nvidia CEO/FBI probe story**, because Nvidia is central to AI/semi leadership and broader risk sentiment.
+- The **macro setup** in the fresh articles is thin: the only meaningful rates/inflation item here is a **preview-style CPI piece**, not the actual report.
+- Outside Nvidia and the Hims & Hers guidance miss, this article set is **too thin to fully explain today’s tape**. There are **no strong fresh articles here** on Fed action, actual CPI/PPI results, Treasury moves, major energy shocks, or major crypto-specific catalysts.

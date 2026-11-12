@@ -1,0 +1,19 @@
+Fresh market-moving headlines are limited, and several items in the feed are low-quality aggregations or speculative coverage. The clearest fresh macro drivers in this set are hotter U.S. inflation and a bond-yield spike; there is also fresh Nvidia-specific governance/political risk coverage.
+
+**Facts**
+- **BusinessLine/Bloomberg, 2026-11-11T05:08:32Z:** U.S. bond yields “spike most since tariff meltdown on rate-hike bets” after **consumer prices rose faster than expected** and **Fed officials warned rates may need to rise more aggressively**.
+- **Biztoc/Benzinga, 2026-11-11T05:22:28Z:** U.S. stocks reacted to a **hotter-than-expected inflation report**; the piece also said CNN’s Fear & Greed Index remained in **“Fear.”**  
+- **CNBC, 2026-11-11T05:15:50Z:** Treasury Secretary **Bessent** said the U.S. and China should “**harbor no illusions**” as they both cooperate and compete on **AI**, with an AI dialogue channel intended to reduce serious incidents.
+- **BusinessLine/AP-PTI, 2026-11-11T05:01:06Z:** Fresh coverage says an alleged **spy plot targeting Nvidia CEO Jensen Huang** is raising questions about **Nvidia’s future** at a sensitive time for the AI industry.
+- **Biztoc/Benzinga, 2026-11-11T05:21:57Z:** Nvidia shares were indicated **higher after hours** after a sharp sell-off, as investors weighed **analyst target cuts** and **leadership concerns**.
+- **Biztoc/BreakingTheNews/Politico-sourced, 2026-11-11T05:21:41Z:** A GOP senator reportedly called for **Jensen Huang to step down**, adding to the Nvidia governance overhang.
+- **The Times of India, 2026-11-11T05:16:44Z:** The **rupee strengthened** in early trade, helped by **easing crude oil prices** and foreign inflows.  
+- **Crypto Briefing, 2026-11-11T05:03:17Z:** Indian equities were reported at **8-month highs**, also citing **lower crude prices** and foreign investment.
+
+**Interpretation**
+- The strongest fresh cross-asset signal here is **macro**: hotter inflation plus hawkish Fed implications are the main explanatory headlines in this feed.
+- For **rates and equity risk sentiment**, the bond-yield spike matters more than the weaker aggregator summaries.
+- In **AI/semis**, Nvidia has a fresh **idiosyncratic risk** layer tied to leadership/political scrutiny, separate from the broader inflation/rates story.
+- On **energy**, the only fresh signal in this set is indirect: softer crude is being cited as supportive for Indian FX/equities, but there is **no major standalone oil headline** here.
+- On **crypto**, there is **no clear fresh market-moving crypto headline** in this feed.
+- Overall, this article set is **somewhat thin** for fully explaining today’s tape beyond the inflation/yields story and Nvidia-specific noise.
