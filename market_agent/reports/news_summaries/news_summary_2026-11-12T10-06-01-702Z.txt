@@ -1,0 +1,30 @@
+Market brief — Nov 12, 2026, 4:05 AM CST
+
+What matters:
+1. Nvidia (NVDA) faces an intensifying governance and export-control overhang in this evidence set. Multiple reports say allegations around CEO Jensen Huang could prompt tighter U.S. scrutiny of AI cloud providers in Southeast Asia, while separate reporting says a PLA-linked Chinese university bought Nvidia H200 chips despite being on a U.S. blacklist. If those reports hold up, the mechanism is not just reputation risk: tougher enforcement or broader export restrictions could affect Nvidia’s China-adjacent sales channels, compliance costs, and competitive positioning. The evidence here reports investigations/allegations and procurement-record claims, not proof of wrongdoing by Nvidia. No clear company rebuttal is included in the supplied articles.
+Source: CNA — Nov 11, 2026, 3:21 AM CST
+https://www.channelnewsasia.com/world/jensen-huang-nvidia-scandal-scrutiny-cloud-providers-southeast-asia-6542471
+Source: Yahoo Entertainment — Nov 11, 2026, 2:40 AM CST
+https://finance.yahoo.com/news/exclusive-pla-linked-chinese-university-051308504.html
+
+2. Rates/macro: hotter U.S. inflation and hawkish Fed commentary are driving a renewed global yield and dollar shock in the sample. Reports say the dollar gained against most currencies and U.S. bond yields posted their sharpest jump in 19 months on increased bets for another Fed hike. The business mechanism is broad: higher discount rates can pressure equity valuations, raise funding costs, and tighten financial conditions globally, with spillovers already cited for India bonds and New Zealand equities.
+Source: CNA — Nov 11, 2026, 3:00 AM CST
+https://www.channelnewsasia.com/business/dollar-gains-hot-inflation-hawkish-fed-talk-lift-rate-hike-bets-6541161
+Source: BusinessLine — Nov 10, 2026, 11:08 PM CST
+https://www.thehindubusinessline.com/markets/bond-yields-spike-most-since-tariff-meltdown-on-rate-hike-bets/article71688251.ece
+
+3. BitGo reported headline profitability, but the quality of earnings appears mixed. The source says third-quarter net income rose to $44.1 million, nearly double the prior year, helped by a $72 million unrealized crypto gain, while revenue after direct costs fell 32% to $37.3 million. The mechanism for crypto-market readthrough is that mark-to-market gains can flatter earnings even as underlying operating momentum softens, which matters for how investors assess platform resilience.
+Source: Bitcoinfoundation.org — Nov 11, 2026, 3:06 AM CST
+https://bitcoinfoundation.org/news/companies/bitgo-posts-44m-profit-as-72m-crypto-gain-lifts-net-income/
+
+4. Crypto flows remain risk-off relative to equities in this sample. Cointelegraph reports U.S. spot Bitcoin ETFs saw $95 million of net outflows Tuesday, with cumulative bleeding from Bitcoin funds while stock ETF buyers “pounced on the dip.” If sustained, that would suggest weaker near-term institutional demand for crypto exposure versus conventional equities.
+Source: Cointelegraph — Nov 11, 2026, 2:55 AM CST
+https://cointelegraph.com/markets/bitcoin-etf-outflows-persist-while-equity-investors-buy-the-dip
+
+Watch actions:
+- NVDA — mixed/bearish watch: monitor any formal U.S. regulatory response, board response, or company disclosure on the CEO allegations and export-control channel checks. More bearish if confirmed restrictions broaden or customer access tightens; less negative if Nvidia provides evidence of limited operational exposure and no policy change follows.
+- AI semiconductor supply chain/competitors — mixed watch: watch whether enforcement gaps around H200 shipments trigger stricter cloud-provider compliance rules in Southeast Asia. Bullish for rivals only if actual licensing/enforcement changes shift share; this thesis weakens if reported procurement workarounds prove isolated.
+- Duration-sensitive equities and EM assets — bearish watch: reassess if hotter U.S. inflation keeps pushing Treasury yields and the dollar higher. This turns less negative if subsequent data or Fed communication softens hike expectations.
+- Crypto platforms and BTC-linked products — mixed watch: focus on whether ETF outflows stabilize and whether crypto firms’ earnings are being driven by operating growth or unrealized gains. More constructive if flows turn positive and revenue quality improves.
+
+Coverage: Within the last 36 hours, the provider returned only a sample of matching coverage: 96 fetched articles, 85 eligible unique articles, 24 selected articles from 20 sources.
