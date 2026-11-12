@@ -30,6 +30,21 @@ gate passes.
 
 ## Forecast qualification invariants
 
+The CLI defaults to 1,825 calendar days of price history for all run profiles.
+The former 913-day quick/scheduled window provided about 630 equity sessions:
+after features and a 30-session target, its 25% holdout contained only about
+145 origins, or five non-overlapping return windows. That could not satisfy
+the unchanged minimum of eight windows. Five years normally provides enough
+windows for both the 25% direct holdout and 20% nested outer holdout. This fixes
+an input-length constraint; it does not guarantee predictive skill or a trade.
+
+Longer history increases initial downloads and fit work, and includes older
+market regimes. Quick runs retain their fixed hyperparameters and disabled
+sequence models. An explicit `--history-days` override remains supported;
+short histories, new listings, gaps, and longer forecast horizons may still
+fail the evidence-count gate. Cached forecasts include the requested history
+in their key, so a short-window result cannot substitute for the new default.
+
 - A published reliability grade and a new allocation require
   `validation_is_oos` to be the literal boolean `true`. Missing, malformed, or
   false values fail closed.

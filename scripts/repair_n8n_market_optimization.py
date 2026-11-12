@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import errno
 import json
 import socket
 import sqlite3
@@ -23,7 +24,15 @@ from market_agent.n8n_workflow import (  # noqa: E402
 def _n8n_is_running(host: str = "127.0.0.1", port: int = 5678) -> bool:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
         client.settimeout(0.25)
-        return client.connect_ex((host, port)) == 0
+        status = client.connect_ex((host, port))
+    if status == 0:
+        return True
+    if status == errno.ECONNREFUSED:
+        return False
+    raise RuntimeError(
+        f"Cannot verify whether n8n is stopped (socket error {status}); "
+        "refusing to edit its workflow store"
+    )
 
 
 def _backup_database(connection: sqlite3.Connection, destination: Path) -> None:

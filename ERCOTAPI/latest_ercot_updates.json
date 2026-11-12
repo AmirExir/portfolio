@@ -2,6 +2,126 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "3a03f0f52dacb3c9828cbbd4157d9d19968a11fc8981a0d245ebf21dcdf21fbf",
+      "title": "128PGRR-23 PUCT Report 110526",
+      "document_number": "PGRR128",
+      "source": "PGRR",
+      "published_date": "Nov 9, 2026",
+      "downloaded_at": "2026-11-11T21:01:03Z",
+      "observed_at": "2026-11-11T21:01:03Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/11/09/128PGRR-23-PUCT-Report-110526.docx",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR128",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) suggests ERCOT should host an annual forum to discuss advanced transmission technologies, commonly referred to as grid enhancing technologies (“GETs”) and high performance conductors (“HPCs”).",
+      "issue_title": "Regional Planning Group Discussion of Grid Enhancing Technologies",
+      "affected_sections": "3.1.1.2, 3.1.2.1, and 3.1.10 (new)",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "141e1917dda3eaba99706ac87b38838204a176b1da5c86a9bf9d6fcb1f7015e4",
+      "title": "123PGRR-13 PUCT Report 110526",
+      "document_number": "PGRR123",
+      "source": "PGRR",
+      "published_date": "Nov 10, 2026",
+      "downloaded_at": "2026-11-11T21:01:03Z",
+      "observed_at": "2026-11-11T21:01:03Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/11/10/123PGRR-13-PUCT-Report-110526.docx",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR123",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) modifies what an Entity may be affected by in order to qualify to submit PGRRs, in alignment with Protocol changes made by NPRR1264.",
+      "issue_title": "Related to NPRR1264, Creation of a New Energy Attribute Certificate Program",
+      "affected_sections": "1.2.2",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "a3f74694ce10374819d408a286835be202645f62c5c978a0d0203e1a8ed9ba6a",
+      "title": "128PGRR-22 Board Report 091526",
+      "document_number": "PGRR128",
+      "source": "PGRR",
+      "published_date": "Sep 17, 2026",
+      "downloaded_at": "2026-11-11T21:01:01Z",
+      "observed_at": "2026-11-11T21:01:01Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/09/17/128PGRR-22-Board-Report-091526.docx",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR128",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) suggests ERCOT should host an annual forum to discuss advanced transmission technologies, commonly referred to as grid enhancing technologies (“GETs”) and high performance conductors (“HPCs”).",
+      "issue_title": "Regional Planning Group Discussion of Grid Enhancing Technologies",
+      "affected_sections": "3.1.1.2, 3.1.2.1, and 3.1.10 (new)",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "e6a3e9f00b7510dded2374289cd8bb2e213c11abc493f31036b8c3ce7ffa9d1b",
+      "title": "123PGRR-12 Board Report 091526",
+      "document_number": "PGRR123",
+      "source": "PGRR",
+      "published_date": "Sep 18, 2026",
+      "downloaded_at": "2026-11-11T21:01:01Z",
+      "observed_at": "2026-11-11T21:01:01Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/09/18/123PGRR-12-Board-Report-091526.docx",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR123",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) modifies what an Entity may be affected by in order to qualify to submit PGRRs, in alignment with Protocol changes made by NPRR1264.",
+      "issue_title": "Related to NPRR1264, Creation of a New Energy Attribute Certificate Program",
+      "affected_sections": "1.2.2",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "36addb360704fde71a225c53c8535d4ef88a2671a31f1a90623594e065ef1683",
+      "title": "PGRR123",
+      "document_number": "PGRR123",
+      "source": "PGRR",
+      "published_date": "Dec 19, 2024",
+      "downloaded_at": "2026-11-11T21:00:59Z",
+      "observed_at": "2026-11-11T21:00:59Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/mktrules/issues/PGRR123",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR123",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) modifies what an Entity may be affected by in order to qualify to submit PGRRs, in alignment with Protocol changes made by NPRR1264.",
+      "issue_title": "Related to NPRR1264, Creation of a New Energy Attribute Certificate Program",
+      "affected_sections": "1.2.2",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "64f20819030484aa232411b167835001aa08272d79df7a552ee4f7571fcf8f4d",
+      "title": "PGRR128",
+      "document_number": "PGRR128",
+      "source": "PGRR",
+      "published_date": "Jun 12, 2025",
+      "downloaded_at": "2026-11-11T21:00:58Z",
+      "observed_at": "2026-11-11T21:00:58Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/mktrules/issues/PGRR128",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR128",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) suggests ERCOT should host an annual forum to discuss advanced transmission technologies, commonly referred to as grid enhancing technologies (“GETs”) and high performance conductors (“HPCs”).",
+      "issue_title": "Regional Planning Group Discussion of Grid Enhancing Technologies",
+      "affected_sections": "3.1.1.2, 3.1.2.1, and 3.1.10 (new)",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
       "content_sha256": "d34ed887008b105c51ee262001bf3223012aa077b85f149406a5dd54fa3b7ed7",
       "title": "1353NPRR-01 SCED Constraint and Shift Factor Reports 110526",
       "document_number": "NPRR1353",
@@ -10369,8 +10489,8 @@
       "source": "PGRR",
       "published_date": "Jul 22, 2026",
       "downloaded_at": "2026-07-25T20:01:58Z",
-      "observed_at": "2026-07-25T20:01:58Z",
-      "status": "Pending",
+      "observed_at": "2026-11-11T21:01:06Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/07/22/144PGRR-14-Revised-Impact-Analysis-072226.docx",
       "sources": [
         "PGRR"
@@ -14804,8 +14924,8 @@
       "source": "PGRR",
       "published_date": "May 12, 2026",
       "downloaded_at": "2026-07-19T20:02:13Z",
-      "observed_at": "2026-07-19T20:02:13Z",
-      "status": "Pending",
+      "observed_at": "2026-11-11T21:01:07Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/05/12/123PGRR-06-ROS-Report-050726.docx",
       "sources": [
         "PGRR"
@@ -14815,7 +14935,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) modifies what an Entity may be affected by in order to qualify to submit PGRRs, in alignment with Protocol changes made by NPRR1264.",
       "issue_title": "Related to NPRR1264, Creation of a New Energy Attribute Certificate Program",
       "affected_sections": "1.2.2",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "2740f4214c5b5e2080a3e6db33bd389f6ec48e98b3a9d63b041d7b91e8d25518",
@@ -15191,8 +15311,8 @@
       "source": "PGRR",
       "published_date": "Jun 9, 2026",
       "downloaded_at": "2026-07-19T11:00:45Z",
-      "observed_at": "2026-07-19T11:00:45Z",
-      "status": "Pending",
+      "observed_at": "2026-11-11T21:01:06Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/06/09/128PGRR-15-ROS-Report-060426.docx",
       "sources": [
         "PGRR"
@@ -15202,7 +15322,7 @@
       "explanation": "This Planning Guide Revision Request (PGRR) suggests ERCOT should host an annual forum to discuss advanced transmission technologies, commonly referred to as grid enhancing technologies (“GETs”) and high performance conductors (“HPCs”).",
       "issue_title": "Regional Planning Group Discussion of Grid Enhancing Technologies",
       "affected_sections": "3.1.1.2, 3.1.2.1, and 3.1.10 (new)",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "c57f37600c3e570294e2c3b0092f7e2b2fb7c1c22623fd05afab533401a97391",
@@ -15924,8 +16044,8 @@
       "source": "PGRR",
       "published_date": "Jun 11, 2026",
       "downloaded_at": "2026-07-18T22:22:37Z",
-      "observed_at": "2026-07-18T22:22:37Z",
-      "status": "Pending",
+      "observed_at": "2026-11-11T21:01:03Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/06/11/144PGRR-11-ERCOT-Comments-061126.docx",
       "sources": [
         "PGRR"
@@ -16198,8 +16318,8 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     }
   ],
-  "count": 826,
-  "generated_at": "2026-11-10T21:03:14.327059+00:00",
+  "count": 832,
+  "generated_at": "2026-11-11T21:02:02.463438+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",
@@ -18565,26 +18685,23 @@
       "revision_family": "PGRR",
       "issue_title": "Related to NPRR1264, Creation of a New Energy Attribute Certificate Program",
       "official_description": "This Planning Guide Revision Request (PGRR) modifies what an Entity may be affected by in order to qualify to submit PGRRs, in alignment with Protocol changes made by NPRR1264.",
-      "status": "Pending",
+      "status": "Approved",
       "date_posted": "Dec 19, 2024",
       "sponsor": "Texas Energy Buyers Alliance (TEBA)",
       "urgent": "No",
       "affected_sections": "1.2.2",
       "reason": "Strategic Plan Objective 2 – Enhance the ERCOT region’s economic competitiveness with respect to trends in wholesale power rates and retail electricity prices to consumers",
       "issue_url": "https://www.ercot.com/mktrules/issues/PGRR123",
-      "effective_state": "pending_proposal",
-      "effectiveness_note": "Pending proposal; it is not current governing text.",
+      "effective_state": "approved_not_independently_governing",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "TAC",
-      "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "06/04/2026",
-        "governing_body": "ROS",
-        "action": "Recommended for Approval",
-        "next_step": "Revision Request Consideration"
+        "date": "11/05/2026",
+        "governing_body": "PUCT",
+        "action": "Approved"
       },
-      "source_downloaded_at": "2026-07-19T20:02:10Z",
-      "source_observed_at": "2026-07-19T20:02:10Z"
+      "source_downloaded_at": "2026-11-11T21:00:59Z",
+      "source_observed_at": "2026-11-11T21:00:59Z"
     },
     "PGRR127": {
       "revision_id": "PGRR127",
@@ -18614,26 +18731,23 @@
       "revision_family": "PGRR",
       "issue_title": "Regional Planning Group Discussion of Grid Enhancing Technologies",
       "official_description": "This Planning Guide Revision Request (PGRR) suggests ERCOT should host an annual forum to discuss advanced transmission technologies, commonly referred to as grid enhancing technologies (“GETs”) and high performance conductors (“HPCs”).",
-      "status": "Pending",
+      "status": "Approved",
       "date_posted": "Jun 12, 2025",
       "sponsor": "TEBA",
       "urgent": "No",
       "affected_sections": "3.1.1.2, 3.1.2.1, and 3.1.10 (new)",
       "reason": "Strategic Plan Objective 1",
       "issue_url": "https://www.ercot.com/mktrules/issues/PGRR128",
-      "effective_state": "pending_proposal",
-      "effectiveness_note": "Pending proposal; it is not current governing text.",
+      "effective_state": "approved_not_independently_governing",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "TAC",
-      "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "07/09/2026",
-        "governing_body": "ROS",
-        "action": "Recommended for Approval",
-        "next_step": "Revision Request Consideration"
+        "date": "11/05/2026",
+        "governing_body": "PUCT",
+        "action": "Approved"
       },
-      "source_downloaded_at": "2026-07-19T20:02:09Z",
-      "source_observed_at": "2026-07-19T20:02:09Z"
+      "source_downloaded_at": "2026-11-11T21:00:58Z",
+      "source_observed_at": "2026-11-11T21:00:58Z"
     },
     "PGRR131": {
       "revision_id": "PGRR131",
@@ -18869,8 +18983,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-11-10T21:02:12Z",
-      "source_observed_at": "2026-11-10T21:02:12Z"
+      "source_downloaded_at": "2026-11-11T21:01:00Z",
+      "source_observed_at": "2026-11-11T21:01:00Z"
     },
     "PGRR145": {
       "revision_id": "PGRR145",

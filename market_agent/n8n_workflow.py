@@ -7,6 +7,7 @@ import re
 from collections.abc import Mapping
 from typing import Any
 
+from market_agent.news_workflow import repair_market_news_workflow
 
 RUN_NODE = "Run Optimization Scripts"
 REQUEST_CONTEXT_NODE = "Market Request Context"
@@ -90,7 +91,7 @@ SCHEDULED_SHORT_SEQUENCE_JS = (
 )
 DEFAULT_RL_SHADOW_JS = "let includeRlPolicy = false;"
 SCHEDULED_HISTORY_DAYS_JS = (
-    "'--history-days', runProfile === 'overnight' ? '1825' : '913',"
+    "'--history-days', '1825',"
 )
 EXPLICIT_RL_COMMAND_FLAG_JS = (
     "args.push(includeRlPolicy ? '--include-rl-policy' : '--no-rl-policy');"
@@ -115,6 +116,107 @@ TELEGRAM_HTML_TEXT_EXPRESSION = (
     ".replace(/</g, '&lt;')"
     ".replace(/>/g, '&gt;') }}"
 )
+
+TELEGRAM_SPLIT_JS = r"""const bodyLimit = 3600;
+const output = [];
+for (const item of $input.all()) {
+  let remaining = String(item.json.text ?? '');
+  const parts = [];
+  while (remaining.length > bodyLimit) {
+    let cut = remaining.lastIndexOf('\n', bodyLimit);
+    if (cut < bodyLimit / 2) cut = remaining.lastIndexOf(' ', bodyLimit);
+    if (cut < bodyLimit / 2) cut = bodyLimit;
+    // Do not split a UTF-16 surrogate pair in a long word or URL.
+    const code = remaining.charCodeAt(cut - 1);
+    if (code >= 0xD800 && code <= 0xDBFF) cut--;
+    parts.push(remaining.slice(0, cut));
+    remaining = remaining.slice(cut);
+  }
+  if (remaining || !parts.length) parts.push(remaining);
+  parts.forEach((body, index) => output.push({json: {
+    ...item.json,
+    text: parts.length > 1 ? `Part ${index + 1}/${parts.length}\n\n${body}` : body,
+    telegram_part: index + 1, telegram_total_parts: parts.length,
+  }}));
+}
+return output;"""
+
+_FULL_TELEGRAM_TEXT_JS = r"""function safeTelegramText(title, body, footer) {
+  const cleanBody = String(body ?? '').trim();
+  if (!cleanBody) throw new Error(`${title} publication text is empty.`);
+  return cleanBody.startsWith(title) ? cleanBody : `${title}\n\n${cleanBody}`;
+}"""
+
+
+def _repair_market_delivery(workflow: dict[str, Any]) -> tuple[str, ...]:
+    """Retain complete reports on direct and channel paths before splitting."""
+
+    nodes = workflow["nodes"]
+    connections = workflow["connections"]
+    changes: list[str] = []
+    builders = (
+        "Build Optimization Telegram Payload", "Build Optimization Channel Payload",
+        "Build News Telegram Payload", "Build News Channel Payload",
+    )
+    for name in builders:
+        if not any(node.get("name") == name for node in nodes):
+            continue
+        node = _named_node(nodes, name)
+        parameters = node.setdefault("parameters", {})
+        code = parameters.get("jsCode", "")
+        updated, count = re.subn(
+            r"function safeTelegramText\(.*?\n\}",
+            lambda _match: _FULL_TELEGRAM_TEXT_JS,
+            code, flags=re.DOTALL,
+        )
+        if count != 1:
+            raise ValueError(f"{name} has no recognizable text delivery helper")
+        if updated != code:
+            parameters["jsCode"] = updated
+            changes.append(f"retain all report text in {name}")
+        if "Channel" not in name:
+            continue
+        split_name = name.replace("Build", "Split").replace("Payload", "Message")
+        if not any(node.get("name") == split_name for node in nodes):
+            nodes.append({"name": split_name, "id": split_name.lower().replace(" ", "-"),
+                          "type": "n8n-nodes-base.code", "typeVersion": 2,
+                          "position": list(node.get("position", [0, 0])), "parameters": {}})
+            changes.append(f"add {split_name}")
+        splitter = _named_node(nodes, split_name)
+        expected = {"mode": "runOnceForAllItems", "jsCode": TELEGRAM_SPLIT_JS}
+        if splitter.get("parameters") != expected:
+            splitter["parameters"] = expected
+            changes.append(f"configure complete report splitting in {split_name}")
+        source_output = _first_main_output(connections, name)
+        split_output = _first_main_output(connections, split_name)
+        for descriptor in source_output:
+            if descriptor.get("node") != split_name:
+                _append_connection(split_output, descriptor)
+        if source_output != [_connection(split_name)]:
+            source_output[:] = [_connection(split_name)]
+            changes.append(f"route {name} through complete report splitting")
+    for node in nodes:
+        if node.get("name") == "Split Direct Telegram Message":
+            expected = {"mode": "runOnceForAllItems", "jsCode": TELEGRAM_SPLIT_JS}
+            if node.get("parameters") != expected:
+                node["parameters"] = expected
+                changes.append("preserve complete direct-message text while splitting")
+        elif node.get("name") == "Telegram News":
+            changes.extend(_configure_telegram_delivery(node))
+        elif node.get("name") == "Build Market Acknowledgement":
+            code = node.get("parameters", {}).get("jsCode", "")
+            updated = code.replace(
+                "lines.push(`News: ${runNews ? 'included' : 'skipped'}`);",
+                "lines.push(runNews ? 'News: separate event brief; not used in forecast scoring.' "
+                ": 'News: not requested. Price forecasts do not include breaking-news analysis.');",
+            ).replace(
+                "`Main horizon: ${mainHorizon} trading day${mainHorizon === 1 ? '' : 's'}`",
+                "`Main horizon: ${mainHorizon} sessions (stock trading days; crypto calendar days)`",
+            )
+            if updated != code:
+                node["parameters"]["jsCode"] = updated
+                changes.append("clarify forecast sessions and separate news context in acknowledgements")
+    return tuple(changes)
 
 
 VALIDATION_JS = r"""const input = $input.first()?.json ?? {};
@@ -333,7 +435,7 @@ def _repair_scheduled_profile(node: dict[str, Any]) -> tuple[str, ...]:
         updated,
     )
     if updated != previous:
-        changes.append("request five years of history for overnight validation")
+        changes.append("request five years of history for every profile's validation")
     previous = updated
     updated, rl_count = _DEFAULT_RL_SHADOW.subn(
         DEFAULT_RL_SHADOW_JS,
@@ -510,9 +612,9 @@ def repair_market_optimization_workflow(
 ) -> tuple[dict[str, Any], tuple[str, ...]]:
     """Return an idempotently repaired workflow and a change description.
 
-    Only named optimization nodes, their graph edges, and the target publisher's
-    authentication binding are changed. Credential values are never included in
-    errors or change descriptions.
+    Named market nodes, their graph edges, and the target publisher's
+    authentication binding are changed. The news branch is repaired if present.
+    Credential values are never included in errors or change descriptions.
     """
 
     repaired = copy.deepcopy(dict(workflow))
@@ -628,6 +730,21 @@ def repair_market_optimization_workflow(
 
     changes.extend(_configure_deterministic_publication_adapter(model_node))
     changes.extend(_configure_publisher_credential(publisher, credential_source))
+    news_publishers = [node for node in nodes if node.get("name") == "Save News To GitHub"]
+    if news_publishers:
+        news_publisher = _named_node(nodes, "Save News To GitHub")
+        changes.extend(change.replace("optimization", "news") for change in
+                       _configure_publisher_credential(news_publisher, credential_source))
+        news_builder = _named_node(nodes, "Build News GitHub Payload")
+        news_code = news_builder.get("parameters", {}).get("jsCode", "")
+        updated_news_code = re.sub(r"(\bbranch\s*:\s*)(['\"])generated-output\2",
+                                  lambda match: f"{match[1]}{match[2]}main{match[2]}", news_code)
+        if updated_news_code != news_code:
+            news_builder["parameters"]["jsCode"] = updated_news_code
+            changes.append("save market news reports to the dashboard branch")
+    changes.extend(_repair_market_delivery(repaired))
+    repaired, news_changes = repair_market_news_workflow(repaired)
+    changes.extend(news_changes)
 
     issues = audit_market_optimization_workflow(
         repaired, credential_source_node=credential_source_node

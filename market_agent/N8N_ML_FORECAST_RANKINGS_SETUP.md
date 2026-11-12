@@ -2,13 +2,16 @@
 
 Use this with your existing n8n workflow:
 
-`Schedule Trigger -> News API -> Message a model -> Code -> Stock Market`
+`Schedule Trigger -> News API -> Build Market News Digest -> Message Model For News -> publication payloads`
 
 and:
 
 `Message a model -> Code -> Telegram`
 
 The ML forecast step can run from the same Schedule Trigger as a parallel branch.
+See [Market news and report delivery](NEWS_WORKFLOW.md) for the news evidence
+contract, credential setup, complete-message splitting and activation steps,
+and [Response evaluation](RESPONSE_EVALUATION.md) for the independent audit.
 
 ## Option A: n8n sends the message
 
@@ -42,8 +45,9 @@ Recommended node layout:
 
 ```text
 Schedule Trigger
-├─ News API -> Message a model -> Code -> Stock Market
-├─ Message a model -> Code -> Telegram
+├─ News API -> Build Market News Digest -> Message Model For News
+│                                      ├-> complete text -> Telegram splitters
+│                                      └-> news GitHub payload -> GitHub
 └─ ML Forecast Rankings -> Validate Optimization Output
                          ├-> deterministic publication adapter -> Telegram
                          ├-> validated text GitHub payload -> GitHub
@@ -151,6 +155,10 @@ be hard-cancelled mid-fit; the runner checks immediately after it returns and
 fails closed without publishing if the ranking or publication cutoff was
 crossed. The fast `scheduled` profile remains available for manual fallbacks
 with fixed settings, sequence models off, and no nested search.
+All profiles now default to five calendar years of requested history; the
+former quick-run lookback could not supply enough non-overlapping validation
+windows for the default 30-session horizon. Explicit CLI history overrides
+remain available, and the qualification thresholds remain unchanged.
 The deadline is one absolute workflow clock shared by the main pass, every
 requested short-horizon pass, and finalization. Every requested subrun must
 return the literal `run_complete: true`. Report, latest, policy-state, and

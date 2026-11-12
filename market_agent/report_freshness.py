@@ -16,6 +16,10 @@ _TIMESTAMP = re.compile(
     re.IGNORECASE,
 )
 _MINIMUM_TIMESTAMP = datetime.min.replace(tzinfo=timezone.utc)
+_READABLE_TIMESTAMP = re.compile(
+    r"(?P<local>[A-Z][a-z]{2} \d{1,2}, \d{4} at \d{1,2}:\d{2} [AP]M) "
+    r"\S+ \(UTC(?P<offset>[+-]\d{2}:\d{2})\)"
+)
 _Payload = TypeVar("_Payload", bound=Mapping[str, object])
 
 
@@ -24,7 +28,16 @@ def parse_report_timestamp(value: object) -> datetime | None:
 
     match = _TIMESTAMP.search(str(value or ""))
     if match is None:
-        return None
+        readable = _READABLE_TIMESTAMP.search(str(value or ""))
+        if readable is None:
+            return None
+        try:
+            return datetime.strptime(
+                readable["local"] + " " + readable["offset"],
+                "%b %d, %Y at %I:%M %p %z",
+            ).astimezone(timezone.utc)
+        except ValueError:
+            return None
     try:
         return datetime.fromisoformat(
             f"{match.group('date')}T{match.group('hour')}:"

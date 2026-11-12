@@ -419,7 +419,7 @@ class DailyReportOutputTests(unittest.TestCase):
         self.assertIn("Market Optimization", telegram_text)
         self.assertIn("Passed model checks: 1 buy, 0 sell/avoid.", telegram_text)
         self.assertIn("BUY SIGNALS - PASSED MODEL CHECKS", telegram_text)
-        self.assertIn("SNDK: forecast +12.50% by 2026-09-17", telegram_text)
+        self.assertIn("SNDK: forecast +12.50% by Sep 17, 2026", telegram_text)
         self.assertIn("Allocation blocked: unverified holdings.", telegram_text)
         self.assertIn("Position sizes are research-only.", telegram_text)
         self.assertIn("model-estimated chance of a rise: 82%", telegram_text)
@@ -452,11 +452,11 @@ class DailyReportOutputTests(unittest.TestCase):
         telegram_text = report.build_telegram_text([row], [], self.args)
 
         self.assertIn("No buy or sell signals passed the checks.", telegram_text)
-        self.assertIn("FORECASTS THAT FAILED CHECKS", telegram_text)
+        self.assertIn("RESEARCH WATCHLIST - NOT QUALIFIED", telegram_text)
         self.assertIn("These are not buy or sell signals.", telegram_text)
-        self.assertIn("Predicted gains", telegram_text)
-        self.assertIn("SNDK: forecast +12.50% by 2026-09-17", telegram_text)
-        self.assertIn("Why rejected: up/down predictions failed accuracy checks", telegram_text)
+        self.assertIn("Buy candidates:", telegram_text)
+        self.assertIn("SNDK: forecast +12.50% by Sep 17, 2026", telegram_text)
+        self.assertIn("Not qualified: up/down predictions failed accuracy checks", telegram_text)
         self.assertIn("probability estimates failed reliability checks", telegram_text)
         self.assertNotIn("direction_hit_rate_below_minimum", telegram_text)
         self.assertNotIn("Strong Buy", telegram_text)
@@ -507,8 +507,8 @@ class DailyReportOutputTests(unittest.TestCase):
 
         rendered = report.build_telegram_text([row], [], self.args)
 
-        self.assertIn("Predicted declines", rendered)
-        self.assertIn("DOT: forecast -15.32% by 2026-10-09", rendered)
+        self.assertIn("Sell/avoid candidates:", rendered)
+        self.assertIn("DOT: forecast -15.32% by Oct 9, 2026", rendered)
         self.assertNotIn("SELL / AVOID SIGNALS - PASSED MODEL CHECKS", rendered)
 
     def test_telegram_portfolio_checks_do_not_imply_trade_approval(self) -> None:
@@ -544,7 +544,7 @@ class DailyReportOutputTests(unittest.TestCase):
         self.assertIn("No forecasts could be evaluated.", rendered)
         self.assertIn("Allocation blocked: portfolio verification is unavailable.", rendered)
         self.assertIn("SPCX: not enough price history (needs 71 valid closing prices).", rendered)
-        self.assertIn("PEPE-USD: outdated price data (latest 2022-12-11; needed 2026-09-09).", rendered)
+        self.assertIn("PEPE-USD: outdated price data (latest Dec 11, 2022; needed Sep 9, 2026).", rendered)
         self.assertIn(errors[2], rendered)
         self.assertIn("1 additional data issue in the full report.", rendered)
         self.assertNotIn("No buy or sell signals passed", rendered)
@@ -863,7 +863,7 @@ class DailyReportOutputTests(unittest.TestCase):
             0.0,
         )
         self.assertIn("Horizon: 30 sessions per asset", payload["telegram_text"])
-        self.assertIn("As of: 2026-08-05", payload["telegram_text"])
+        self.assertIn("As of: Aug 5, 2026", payload["telegram_text"])
         self.assertIn("BUY", payload["telegram_text"])
         self.assertNotIn("Primary signal rule:", payload["telegram_text"])
 

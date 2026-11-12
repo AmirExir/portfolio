@@ -62,6 +62,8 @@ from forecast_cache import (
     snapshots_to_ranking_frame,
 )
 from patterns import recognize_patterns
+from report_dates import format_report_timestamp, format_session_date
+from telegram_delivery import split_telegram_text
 
 
 DEFAULT_SYMBOLS = [
@@ -2397,7 +2399,8 @@ def format_telegram_forecast(row: dict) -> str:
     symbol = str(row_value(row, "symbol", "Symbol", default="")).strip()
     forecast_return = forecast_return_pct(row)
     target_session = str(row_value(row, "Target Session", default="") or "").strip()
-    target_text = f" by {target_session}" if target_session else " (target date unavailable)"
+    target_date = format_session_date(target_session)
+    target_text = f" by {target_date}" if target_date != "unavailable" else " (target date unavailable)"
     return f"{symbol}: forecast {forecast_return:+.2f}%{target_text}"
 
 
@@ -2407,7 +2410,13 @@ def format_telegram_signal_row(row: dict) -> str:
     details = [f"Reliability: {reliability_grade(row).lower()}"]
     probability_up = finite_row_float(row, "Probability Up %", default=np.nan)
     if np.isfinite(probability_up) and 0.0 <= probability_up <= 100.0:
-        details.append(f"model-estimated chance of a rise: {probability_up:.0f}%")
+        if forecast_return_pct(row) < 0.0:
+            details.append(f"model-estimated chance of no rise: {100.0 - probability_up:.0f}%")
+        else:
+            details.append(f"model-estimated chance of a rise: {probability_up:.0f}%")
+    expected_error = finite_row_float(row, "Expected Error %")
+    if np.isfinite(expected_error) and expected_error >= 0.0:
+        details.append(f"estimated error: {expected_error:.1f} percentage points")
     return format_telegram_forecast(row) + "\n  " + "; ".join(details) + "."
 
 
@@ -2464,6 +2473,14 @@ def telegram_qualification_reasons(
         reason, metric_keys = explanations.get(code, (code.replace("_", " "), ()))
         if metric_keys and not np.isfinite(finite_row_float(row, *metric_keys)):
             reason = "required historical validation data is missing or invalid"
+        elif code == "nonoverlapping_validation_samples_below_minimum":
+            count = finite_row_float(row, "Nonoverlapping Validation Samples")
+            required = RELIABILITY_POLICY_CONFIG.min_nonoverlapping_validation_samples
+            reason += f" ({count:g}/{required} required)"
+        elif code == "validation_samples_below_minimum":
+            count = finite_row_float(row, "Validation Samples")
+            required = RELIABILITY_POLICY_CONFIG.min_validation_samples
+            reason += f" ({count:g}/{required} required)"
         if reason not in reasons:
             reasons.append(reason)
     return reasons
@@ -2478,7 +2495,7 @@ def format_telegram_candidate_row(
     """Show a rejected prediction with a plain-language summary of failed checks."""
 
     reasons = telegram_qualification_reasons(row, args, side=side)
-    return format_telegram_forecast(row) + "\n  Why rejected: " + "; ".join(reasons) + "."
+    return format_telegram_forecast(row) + "\n  Not qualified: " + "; ".join(reasons) + "."
 
 
 def format_telegram_data_issue(error: str) -> str:
@@ -2497,7 +2514,10 @@ def format_telegram_data_issue(error: str) -> str:
         r"(\d{4}-\d{2}-\d{2}), lag .+", detail,
     )
     if stale:
-        return f"{symbol}: outdated price data (latest {stale[1]}; needed {stale[2]})."
+        return (
+            f"{symbol}: outdated price data (latest {format_session_date(stale[1])}; "
+            f"needed {format_session_date(stale[2])})."
+        )
     return error
 
 
@@ -2892,19 +2912,15 @@ def build_telegram_text(
 ) -> str:
     """Build a decision-first summary using the existing qualification rules."""
 
-    generated_at = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    generated_at = format_report_timestamp(dt.datetime.now(dt.timezone.utc))
     sorted_rows = sorted(rows, key=ranking_score, reverse=True)
-    model_buys = cap_signal_rows(
-        [row for row in sorted_rows if is_threshold_buy(row, args)],
-        args,
+    all_model_buys = [row for row in sorted_rows if is_threshold_buy(row, args)]
+    all_model_sells = sorted(
+        [row for row in rows if is_threshold_sell(row, args)],
+        key=ranking_score,
     )
-    model_sells = cap_signal_rows(
-        sorted(
-            [row for row in rows if is_threshold_sell(row, args)],
-            key=ranking_score,
-        ),
-        args,
-    )
+    model_buys = cap_signal_rows(all_model_buys, args)
+    model_sells = cap_signal_rows(all_model_sells, args)
     watch_buys = cap_signal_rows(
         [row for row in sorted_rows if is_policy_watch_buy(row, args)],
         args,
@@ -2917,19 +2933,24 @@ def build_telegram_text(
         args,
     )
     candidate_limit = max_signal_rows_from_args(args) or 5
-    candidate_buys = [
+    all_candidate_buys = [
         row for row in sorted_rows if is_unqualified_model_buy(row, args)
-    ][:candidate_limit]
-    candidate_sells = sorted(
+    ]
+    all_candidate_sells = sorted(
         [row for row in rows if is_unqualified_model_sell(row, args)],
         key=forecast_return_pct,
-    )[:candidate_limit]
+    )
+    candidate_buys = all_candidate_buys[:candidate_limit]
+    candidate_sells = all_candidate_sells[:candidate_limit]
 
     as_of_sessions = as_of_sessions_from_rows(rows)
     if len(as_of_sessions) == 1:
-        data_as_of_text = f"As of: {as_of_sessions[0]}"
+        data_as_of_text = f"As of: {format_session_date(as_of_sessions[0])}"
     elif as_of_sessions:
-        data_as_of_text = f"As of: {as_of_sessions[0]} to {as_of_sessions[-1]}"
+        data_as_of_text = (
+            f"As of: {format_session_date(as_of_sessions[0])} "
+            f"to {format_session_date(as_of_sessions[-1])}"
+        )
     else:
         data_as_of_text = "As of: unavailable"
 
@@ -2952,7 +2973,7 @@ def build_telegram_text(
     if not rows:
         result_text = "No forecasts could be evaluated."
     elif model_buys or model_sells:
-        result_text = f"Passed model checks: {len(model_buys)} buy, {len(model_sells)} sell/avoid."
+        result_text = f"Passed model checks: {len(all_model_buys)} buy, {len(all_model_sells)} sell/avoid."
     else:
         result_text = "No buy or sell signals passed the checks."
     session_label = "session" if args.horizon == 1 else "sessions"
@@ -2962,6 +2983,9 @@ def build_telegram_text(
         data_as_of_text,
         f"Horizon: {args.horizon} {session_label} per asset",
         "Stocks count trading days; crypto counts calendar days.",
+        f"Coverage: {len(rows)} symbols evaluated; {len(errors)} data/run issues.",
+        "General news is not included in these forecast scores.",
+        "The forecast is an end-date return, not a prediction of the path each day.",
         "",
         "RESULT",
         result_text,
@@ -2969,14 +2993,18 @@ def build_telegram_text(
     ]
     if unverified_checks or not rows:
         lines.append("Position sizes are research-only.")
+    if rows and unverified_checks:
+        lines.append("Holdings verification affects sizing, not which forecasts pass model checks.")
     if model_buys:
         lines.extend(["", "BUY SIGNALS - PASSED MODEL CHECKS"])
-        for row in model_buys:
-            lines.extend(["", format_telegram_signal_row(row)])
+        lines.append(f"Showing {len(model_buys)} of {len(all_model_buys)}; ranked by model/policy score.")
+        for rank, row in enumerate(model_buys, 1):
+            lines.extend(["", f"{rank}. " + format_telegram_signal_row(row)])
     if model_sells:
         lines.extend(["", "SELL / AVOID SIGNALS - PASSED MODEL CHECKS"])
-        for row in model_sells:
-            lines.extend(["", format_telegram_signal_row(row)])
+        lines.append(f"Showing {len(model_sells)} of {len(all_model_sells)}; ranked by model/policy score.")
+        for rank, row in enumerate(model_sells, 1):
+            lines.extend(["", f"{rank}. " + format_telegram_signal_row(row)])
 
     if watch_buys or watch_sells:
         lines.extend(["", "WATCHLIST - POLICY SIGNALS ONLY"])
@@ -2989,19 +3017,25 @@ def build_telegram_text(
             for row in watch_sells:
                 lines.extend(["", format_telegram_signal_row(row)])
 
-    if (not model_buys and candidate_buys) or (not model_sells and candidate_sells):
+    if candidate_buys or candidate_sells:
         lines.extend([
-            "", "FORECASTS THAT FAILED CHECKS",
+            "", "RESEARCH WATCHLIST - NOT QUALIFIED",
             "Research only. These are not buy or sell signals.",
         ])
-    if not model_buys and candidate_buys:
-        lines.extend(["", "Predicted gains"])
-        for row in candidate_buys:
-            lines.extend(["", format_telegram_candidate_row(row, args, side="buy")])
-    if not model_sells and candidate_sells:
-        lines.extend(["", "Predicted declines"])
-        for row in candidate_sells:
-            lines.extend(["", format_telegram_candidate_row(row, args, side="sell")])
+    if candidate_buys:
+        lines.extend(["", f"Buy candidates: {len(candidate_buys)} of {len(all_candidate_buys)}; ranked by model/policy score."])
+        for rank, row in enumerate(candidate_buys, 1):
+            lines.extend(["", f"{rank}. " + format_telegram_candidate_row(row, args, side="buy")])
+    if candidate_sells:
+        lines.extend(["", f"Sell/avoid candidates: {len(candidate_sells)} of {len(all_candidate_sells)}; ranked by predicted decline."])
+        for rank, row in enumerate(candidate_sells, 1):
+            lines.extend(["", f"{rank}. " + format_telegram_candidate_row(row, args, side="sell")])
+    if candidate_buys or candidate_sells:
+        lines.extend([
+            "", "NEXT CHECK",
+            "More price history can address sample shortages where available. "
+            "Failed accuracy or probability checks need better results on unseen data before promotion.",
+        ])
 
     if errors:
         lines.extend(["", "SKIPPED - DATA ISSUES"])
@@ -4613,17 +4647,19 @@ def json_dumps_strict(payload, **kwargs) -> str:
 
 
 def send_telegram(text: str) -> None:
+    """Send the complete report in ordered, bounded plain-text messages."""
     bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
     chat_id = os.getenv("TELEGRAM_CHAT_ID")
     if not bot_token or not chat_id:
         raise ValueError("Set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID to send Telegram messages.")
 
-    response = requests.post(
-        f"https://api.telegram.org/bot{bot_token}/sendMessage",
-        json={"chat_id": chat_id, "text": text},
-        timeout=20,
-    )
-    response.raise_for_status()
+    for chunk in split_telegram_text(text):
+        response = requests.post(
+            f"https://api.telegram.org/bot{bot_token}/sendMessage",
+            json={"chat_id": chat_id, "text": chunk},
+            timeout=20,
+        )
+        response.raise_for_status()
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -4651,10 +4687,14 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--history-days",
         type=int,
-        default=913,
+        default=1825,
         help=(
-            "Calendar-day OHLCV lookback. A shared cache may retain more "
-            "history, but the model receives this deterministic window."
+            "Calendar-day OHLCV lookback (default: 1825). Five years provides "
+            "enough outer-holdout windows for the default 30-session "
+            "qualification check when full history is available. A shared "
+            "cache may retain more history, but the model receives this "
+            "deterministic window. Shorter explicit windows can leave too "
+            "few non-overlapping validation samples."
         ),
     )
     parser.add_argument("--horizon", type=int, default=30)

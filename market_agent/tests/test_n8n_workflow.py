@@ -216,7 +216,7 @@ class MarketOptimizationWorkflowTests(unittest.TestCase):
         self.assertIn(SCHEDULED_NO_OPTIMIZE_JS, request_code)
         self.assertIn(CAFFEINATED_RUNNER_JS, request_code)
         self.assertIn(
-            "runProfile === 'overnight' ? '1825' : '913'",
+            "'--history-days', '1825',",
             request_code,
         )
         self.assertIn(
