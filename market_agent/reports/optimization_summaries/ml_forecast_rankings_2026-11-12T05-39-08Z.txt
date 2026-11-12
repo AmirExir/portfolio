@@ -1,0 +1,32 @@
+Market Optimization
+Generated: 2026-11-12 05:32 UTC
+As of: 2026-11-11
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+RESULT
+Passed model checks: 1 buy, 0 sell/avoid.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+
+BUY SIGNALS - PASSED MODEL CHECKS
+
+BNB: forecast +7.89% by 2026-12-11
+  Reliability: moderate; model-estimated chance of a rise: 69%.
+
+FORECASTS THAT FAILED CHECKS
+Research only. These are not buy or sell signals.
+
+Predicted declines
+
+PEP: forecast -4.55% by 2026-12-24
+  Why rejected: too few non-overlapping historical tests; up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+PG: forecast -2.93% by 2026-12-24
+  Why rejected: too few non-overlapping historical tests; up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+TLT: forecast -2.88% by 2026-12-24
+  Why rejected: too few non-overlapping historical tests; probability estimates failed reliability checks.
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.
