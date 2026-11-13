@@ -1,0 +1,27 @@
+Market brief — Nov 13, 2026, 5:05 PM CST
+
+What matters:
+1. Nvidia (NVDA) faces a major leadership and governance shock after multiple outlets reported CEO Jensen Huang resigned amid allegations tied to an affair with a woman U.S. authorities believe was linked to Chinese intelligence. Separate coverage also says federal authorities and Nvidia’s board were investigating related allegations, while CFO Colette Kress was described as interim CEO and succession questions remain active. If accurate, the market mechanism is less about personal scandal itself than about execution risk at a strategically important AI chip supplier, possible customer hesitation, board scrutiny, and renewed policy pressure around export controls and chip security. These are reported allegations and investigations, not proof of wrongdoing by Nvidia or Huang.
+ABC News, Nov 12, 2026, 2:32 PM CST, https://abcnews.com/Business/timeline-stunning-fall-powerful-nvidia-ceo-jensen-huang/story?id=138041659
+CBS News, Nov 12, 2026, 2:38 PM CST, https://www.cbsnews.com/news/nvidia-jensen-huang-resigns-competitors/
+
+2. Nvidia’s political and regulatory exposure may deepen beyond the resignation. ABC reports Republican lawmakers are pushing for Huang’s testimony after his exit, while MIT Technology Review reports Nvidia privately told Rep. Bill Foster that chip-tracking requirements to combat smuggling were technically possible, despite broader industry public skepticism. The mechanism here is potential tightening in compliance, traceability, and export-enforcement expectations for advanced chips, which could raise operating burdens for Nvidia and peers while reshaping competitive dynamics in AI hardware.
+ABC News, Nov 12, 2026, 2:07 PM CST, https://abcnews.com/Politics/republicans-renew-push-jensen-huangs-testimony-nvidia-ceos/story?id=138083749
+MIT Technology Review, Nov 12, 2026, 2:16 PM CST, https://www.technologyreview.com/2026/11/12/1148483/nvidia-chip-tracking/
+
+3. Broader markets absorbed sharp intraday swings tied to Nvidia and oil, with the AP-reported HuffPost item saying Wall Street recovered most early losses by the close. That suggests investors, at least in this coverage, saw limited immediate spillover from the Nvidia leadership shock and higher oil into a full-market repricing. The mechanism to watch is whether contained index-level damage persists or whether sector rotation intensifies if AI capex confidence weakens or energy costs stay elevated.
+HuffPost, Nov 12, 2026, 4:49 PM CST, https://www.huffpost.com/entry/financial-markets-nvidia_n_6af641bbe4b0476a159ad820
+
+4. Oil prices moved higher on geopolitical rhetoric around Iran and the Strait of Hormuz, according to Jalopnik, which cited Brent near $95.10 and WTI near $88.16 at publication. If sustained, higher crude would matter through inflation expectations, transport/input costs, and possible pressure on rate-sensitive equities. This evidence set does not provide independent official confirmation of any policy change.
+Jalopnik, Nov 12, 2026, 1:57 PM CST, https://www.jalopnik.com/2315318/trump-claiming-we-dont-need-iran-deal-bad-for-oil-prices/
+
+5. Bit Digital reported a Q3 revenue miss, and Cointelegraph says the Nasdaq-listed stock fell in premarket trading. The mechanism is straightforward: a miss against expectations can pressure confidence in crypto/AI infrastructure monetization and funding flexibility, especially for companies straddling volatile end markets.
+Cointelegraph, Nov 12, 2026, 7:52 AM CST, https://cointelegraph.com/news/bit-digital-stock-falls-q3-revenue-miss
+
+Watch actions:
+- NVDA — mixed: monitor board communications, permanent CEO selection, and any confirmed operational/customer disruption. More bearish if investigations broaden or export/compliance burdens rise; less bearish if transition stability and demand visibility are affirmed.
+- AMD and other AI chip rivals — bullish only if evidence emerges of share gains, customer defections, or procurement diversification following Nvidia’s transition; otherwise this remains a narrative, not a confirmed business shift.
+- Oil-sensitive sectors and inflation/rates trades — mixed: reassess if follow-through evidence shows sustained crude strength or actual Strait/Hormuz supply risk, because that would matter more than rhetoric alone.
+- BTBT — bearish on the reported miss unless management shows improving revenue quality, margin resilience, or clearer AI infrastructure traction.
+
+Coverage: Within the last 36 hours, the provider returned only a sample of matching coverage: 96 fetched articles, 88 eligible unique articles, 24 selected articles, and 18 selected sources.
