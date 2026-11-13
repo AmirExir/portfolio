@@ -1,0 +1,29 @@
+Market brief — Nov 13, 2026, 4:05 AM CST
+
+What matters:
+1. Nvidia (NVDA) faces a reported leadership crisis just as export-control and U.S.-China tensions intensify. Multiple outlets in this evidence set say Nvidia’s board is reportedly considering ousting CEO Jensen Huang amid allegations tied to personal conduct and espionage claims; those are allegations, not proof. ABC News (AU) also reports Nvidia lacks a clear succession plan, while BusinessLine says the controversy is testing a broader U.S.-China trade truce ahead of high-level talks. The business mechanism is potentially large: leadership instability could disrupt strategic execution, customer confidence, regulatory posture, and already-sensitive AI chip supply chains. Nvidia spokesperson John Rizzo is reported by ABC as saying the company stood by Huang and that he was cooperating with authorities.
+Source: ABC News (AU), Nov 12, 2026, 1:01 AM CST, https://www.abc.net.au/news/2026-11-12/jensen-huang-nvidia-ceo-succession-plan-after-spy-plot/107376722
+Source: BusinessLine, Nov 12, 2026, 3:52 AM CST, https://www.thehindubusinessline.com/news/world/nvidia-fallout-puts-trade-truce-to-test-as-xi-jinping-welcomes-trump/article71692964.ece
+
+2. Separate from the leadership allegations, a Chinese university with defense ties reportedly bought advanced Nvidia H200 AI chips despite stringent U.S. restrictions. CNA says procurement notices show the purchase. If accurate, that raises compliance and enforcement risk for Nvidia and could prompt tighter U.S. export controls or more aggressive investigations, affecting China-linked revenue and broader semiconductor trade flows.
+Source: CNA, Nov 12, 2026, 1:34 AM CST, https://www.channelnewsasia.com/east-asia/china-northwestern-polytechnical-university-bought-nvidia-chips-6541951
+
+3. AI spending fears appear to have split into two narratives: CoreWeave reportedly calmed investor worries with strong earnings, helping lift the S&P 500 and Nasdaq, while separate reporting says SoftBank disclosed a $3.7 billion charge tied to power-equipment procurement, weighing on AI power-infrastructure names. The mechanism is important for AI-adjacent equities: demand for compute may still be strong even as the build-out of data-center power and equipment becomes costlier or more uneven.
+Source: The Times of India, Nov 11, 2026, 7:52 PM CST, https://economictimes.indiatimes.com/markets/us-stocks/news/wall-street-gains-as-coreweave-calms-ai-jitters/articleshow/135752112.cms
+Source: Naturalnews.com, Nov 12, 2026, 12:00 AM CST, https://www.naturalnews.com/2026-11-12-ai-power-stocks-fall-after-softbank-write-down.html
+
+4. Inflation/rates pressure remains live. ValueWalk reports October CPI rose 0.4% after September’s 0.6%, with Fed Governor Waller leaning toward a December rate hike and possibly 50bp if inflation stays high. Hurriyet also reports Türkiye’s central bank raised year-end inflation forecasts because of Middle East tensions and energy costs. The market mechanism is tighter financial conditions: higher policy expectations can pressure duration-sensitive equities, credit, and emerging-market assets.
+Source: ValueWalk, Nov 12, 2026, 1:55 AM CST, https://www.valuewalk.com/october-cpi-waller-december-hike/
+Source: Hurriyet Daily News, Nov 12, 2026, 3:26 AM CST, https://www.hurriyetdailynews.com/turkish-central-bank-raises-inflation-forecasts-on-middle-east-tension-229306
+
+5. Oil signals are conflicted but consequential for inflation and energy equities. CNA says prices edged lower as rising crude output offset geopolitical risks, while OilPrice.com says optimism on Iran and Ukraine peace also weighed on crude. If lower oil persists, that could soften some inflation pressure; if geopolitics reasserts, the disinflation benefit could fade quickly.
+Source: CNA, Nov 12, 2026, 3:49 AM CST, https://www.channelnewsasia.com/business/oil-prices-edge-lower-rising-crude-output-offset-geopolitical-risks-6544501
+Source: OilPrice.com, Nov 12, 2026, 12:35 AM CST, https://oilprice.com/Latest-Energy-News/World-News/Oil-Prices-Sink-as-Iran-and-Ukraine-Peace-Optimism-Builds.html
+
+Watch actions:
+- NVDA — Mixed/bearish near term: monitor board response, any formal investigation, and signs of operational disruption or export-control fallout. View would improve if Nvidia reaffirms governance stability, succession readiness, and no material business impact.
+- AI semiconductor supply chain/data-center buildout — Mixed: strong CoreWeave commentary supports continued AI demand, but power-equipment cost stress could challenge enablers. Reassess if more operators confirm healthy utilization and capex discipline, or if additional write-downs emerge.
+- Rate-sensitive growth equities and EM assets — Bearish if inflation data and Fed rhetoric continue to firm. That would change with softer inflation prints or clearer pushback against additional hikes.
+- Energy/inflation linkage — Mixed: sustained oil weakness would be supportive for disinflation-sensitive assets; renewed supply disruption or escalating conflict would reverse that.
+
+Coverage: From a 36-hour window, the provider returned only a sample of matching coverage: 98 fetched articles, 92 eligible unique articles, 24 selected articles, and 15 selected sources.
