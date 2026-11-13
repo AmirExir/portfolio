@@ -1,5 +1,45 @@
 # Daily ML Forecast Rankings to Telegram with n8n
 
+## Chat commands and report titles
+
+The user-facing report is **Market Outlook & Trade Watchlist**. The Telegram
+bot accepts the commands below as typed text or private-chat keyboard buttons.
+
+| Request | Slash command | Result |
+| --- | --- | --- |
+| Run market analysis | `/analysis` | Price forecasts, qualified signals and research watchlists |
+| Run full market briefing | `/briefing` | Market news plus the outlook/watchlist report |
+| Market news | `/news` | News and conditional event watch actions |
+| Market help | `/market` or `/help` | Available choices and examples; no analysis run |
+
+`/start` and `/menu` also show help. Users can add symbols and supported time
+horizons, for example `Run market analysis for NVDA, MSFT next week` or
+`/analysis NVDA next week`. Legacy requests such as `Run market optimization`
+remain accepted. Internal workflow node names, output paths and CLI flags
+retain their historical names for compatibility.
+
+The private-chat reply keyboard remains available after acknowledgements and
+direct replies. It is not attached to channel or group messages. The help
+branch bypasses analysis, news retrieval, calendar creation and publication.
+The normal analysis and briefing publication behavior is unchanged.
+
+After installing the repaired workflow, register the native Telegram `/`
+command suggestions using the same bot's credential:
+
+```bash
+.venv/bin/python scripts/configure_market_telegram_commands.py \
+  --backup /path/to/private/backups/telegram-commands-before.json
+```
+
+The script reads `TELEGRAM_BOT_TOKEN` from the environment, updates only
+private-chat command suggestions, preserves unrelated default/private
+commands, saves the prior menus before any change, and verifies the result.
+It does not send messages. Do not save the token in a tracked file or command
+argument. Registering suggestions alone does not install the command routes;
+run the workflow repair first.
+
+## Workflow setup
+
 Use this with your existing n8n workflow:
 
 `Schedule Trigger -> News API -> Build Market News Digest -> Message Model For News -> publication payloads`

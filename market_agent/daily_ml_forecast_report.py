@@ -2620,7 +2620,7 @@ def build_market_report(
     )
 
     lines = [
-        "Market Intelligence Forecast Report",
+        "Market Outlook & Trade Watchlist",
         f"Generated: {generated_at}",
         data_as_of_text,
         (
@@ -2978,7 +2978,7 @@ def build_telegram_text(
         result_text = "No buy or sell signals passed the checks."
     session_label = "session" if args.horizon == 1 else "sessions"
     lines = [
-        "Market Optimization",
+        "Market Outlook & Trade Watchlist",
         f"Generated: {generated_at}",
         data_as_of_text,
         f"Horizon: {args.horizon} {session_label} per asset",

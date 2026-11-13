@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import ast
 import datetime as dt
+from pathlib import Path
 import unittest
 
 import numpy as np
@@ -29,6 +31,30 @@ def _history_frame(calendar_days: int) -> pd.DataFrame:
 
 
 class ProfileValidationHistoryTests(unittest.TestCase):
+    def test_dashboard_and_cli_default_to_the_same_validation_history(self) -> None:
+        """Inspect settings without starting Streamlit or its network requests."""
+
+        app_path = Path(report.__file__).with_name("market_agent_app.py")
+        module = ast.parse(app_path.read_text())
+        assignments = {
+            target.id: node.value
+            for node in module.body
+            if isinstance(node, ast.Assign)
+            for target in node.targets
+            if isinstance(target, ast.Name)
+        }
+        options = ast.literal_eval(assignments["history_options"])
+        selectbox = assignments["history_label"]
+        default_index = next(
+            ast.literal_eval(keyword.value)
+            for keyword in selectbox.keywords
+            if keyword.arg == "index"
+        )
+        self.assertEqual(
+            list(options.values())[default_index],
+            report.build_parser().parse_args([]).history_days,
+        )
+
     def test_default_profiles_can_meet_nonoverlap_count_without_lowering_gates(
         self,
     ) -> None:

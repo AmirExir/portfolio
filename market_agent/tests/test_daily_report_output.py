@@ -402,6 +402,10 @@ class DailyReportOutputTests(unittest.TestCase):
         self.assertTrue(report.is_threshold_buy(row, self.args))
         rendered = report.build_market_report([row], [], self.args)
 
+        self.assertEqual(
+            rendered["report_text"].splitlines()[0],
+            "Market Outlook & Trade Watchlist",
+        )
         self.assertEqual(rendered["top_buys"], ["SNDK"])
         self.assertIn("Model-Qualified Buy Forecasts", rendered["report_text"])
         self.assertIn("SNDK: +12.50% through 2026-09-17", rendered["report_text"])
@@ -416,7 +420,9 @@ class DailyReportOutputTests(unittest.TestCase):
 
         telegram_text = report.build_telegram_text([row], [], self.args)
 
-        self.assertIn("Market Optimization", telegram_text)
+        self.assertEqual(
+            telegram_text.splitlines()[0], "Market Outlook & Trade Watchlist"
+        )
         self.assertIn("Passed model checks: 1 buy, 0 sell/avoid.", telegram_text)
         self.assertIn("BUY SIGNALS - PASSED MODEL CHECKS", telegram_text)
         self.assertIn("SNDK: forecast +12.50% by Sep 17, 2026", telegram_text)

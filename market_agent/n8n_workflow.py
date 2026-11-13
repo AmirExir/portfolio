@@ -8,6 +8,7 @@ from collections.abc import Mapping
 from typing import Any
 
 from market_agent.news_workflow import repair_market_news_workflow
+from market_agent.chat_commands import repair_market_chat_workflow
 
 RUN_NODE = "Run Optimization Scripts"
 REQUEST_CONTEXT_NODE = "Market Request Context"
@@ -308,7 +309,7 @@ return {
   json: {
     filename: `market_agent/reports/optimization_summaries/ml_forecast_rankings_${timestamp}.txt`,
     content: Buffer.from(websiteText, 'utf8').toString('base64'),
-    message: `Validated Market Optimization Report - ${timestamp}`,
+    message: `Validated Market Outlook & Trade Watchlist - ${timestamp}`,
     branch: 'main'
   }
 };"""
@@ -745,6 +746,8 @@ def repair_market_optimization_workflow(
     changes.extend(_repair_market_delivery(repaired))
     repaired, news_changes = repair_market_news_workflow(repaired)
     changes.extend(news_changes)
+    repaired, chat_changes = repair_market_chat_workflow(repaired)
+    changes.extend(chat_changes)
 
     issues = audit_market_optimization_workflow(
         repaired, credential_source_node=credential_source_node

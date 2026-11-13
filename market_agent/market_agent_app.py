@@ -1313,7 +1313,7 @@ def render_market_hero() -> None:
     st.markdown(
         f"""
         <div class="market-hero">
-            <h1>Market Intelligence Agent</h1>
+            <h1>Market Outlook &amp; Trade Watchlist</h1>
             <p>
                 Professional multi-asset dashboard for scheduled ML forecasts, risk-aware policy signals,
                 market heatmaps, paper-trading controls, and portfolio monitoring.
@@ -1385,7 +1385,7 @@ def render_chart(fig: go.Figure) -> None:
 
 
 st.set_page_config(
-    page_title="Market Intelligence Agent",
+    page_title="Market Outlook & Trade Watchlist",
     page_icon="📈",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -3272,14 +3272,14 @@ st.sidebar.caption(
     "raw ML direction, and RL-shadow outputs cannot submit orders."
 )
 
-st.sidebar.header("🔮 ML Forecast Settings")
+st.sidebar.header("🔮 Market Outlook Settings")
 history_options = {
-    "~2 years": 365,
-    "~5 years": 913,
-    "~10 years": 1825,
-    "~15 years": 2738,
+    "~1 year": 365,
+    "~2.5 years": 913,
+    "~5 years": 1825,
+    "~7.5 years": 2738,
 }
-history_label = st.sidebar.selectbox("Historical data lookback", list(history_options.keys()), index=1)
+history_label = st.sidebar.selectbox("Historical data lookback", list(history_options.keys()), index=2)
 history_days = history_options[history_label]
 forecast_horizon = st.sidebar.slider("Forecast horizon", min_value=1, max_value=60, value=30, step=1)
 forecast_lookback = st.sidebar.slider("Lag window", min_value=5, max_value=60, value=20, step=5)
@@ -3332,7 +3332,7 @@ run_symbol_forecast = st.sidebar.checkbox(
     help="Adds the ML forecast overlay to the selected-symbol chart. Leave off for a fast public dashboard load.",
 )
 run_forecast_rankings = st.sidebar.checkbox(
-    "Run forecast rankings",
+    "Run market outlook & trade watchlist",
     value=False,
     key="run_forecast_rankings_v2",
     help="Computes fresh ML rankings for the selected ticker universe. Leave off to show saved reports and quick charts immediately.",
@@ -3615,7 +3615,7 @@ with top_analysis_tab:
         latest_ml_report = fetch_latest_ml_report()
         if latest_ml_payload and latest_ml_payload.get("rows"):
             render_section_header(
-                "Scheduled ML Forecast Rankings",
+                "Scheduled Market Outlook & Trade Watchlist",
                 "Latest n8n-generated model-qualified signals, smart-policy watchlists, and reliability metadata.",
             )
             generated_at = latest_ml_payload.get("generated_at")
@@ -3719,7 +3719,7 @@ with top_analysis_tab:
                     st.info(latest_ml_report.strip())
         elif latest_ml_report:
             render_section_header(
-                "Scheduled ML Forecast Rankings",
+                "Scheduled Market Outlook & Trade Watchlist",
                 "Latest scheduled report text from the automation pipeline.",
             )
             report_caption = report_generated_caption(latest_ml_report)
@@ -3728,12 +3728,12 @@ with top_analysis_tab:
             st.info(latest_ml_report.strip())
         else:
             st.caption(
-                "Scheduled ML forecast rankings will appear here after n8n writes "
+                "Scheduled market outlooks and trade watchlists will appear here after n8n writes "
                 "timestamped files under market_agent/reports/ and "
                 "market_agent/reports/optimization_summaries/."
             )
     except Exception as e:
-        st.caption(f"Scheduled ML forecast report unavailable: {e}")
+        st.caption(f"Scheduled market outlook unavailable: {e}")
 
     #  Selected non-crypto universe heatmap (market-cap weighted + labels)
     render_section_header(
@@ -3911,7 +3911,7 @@ with top_analysis_tab:
 
     if run_forecast_rankings:
         render_section_header(
-            "Live ML Forecast Rankings",
+            "Live Market Outlook & Trade Watchlist",
             "On-demand ranking run for the selected forecast universe using the sidebar model settings.",
         )
 
@@ -3923,7 +3923,7 @@ with top_analysis_tab:
             st.info("Resume ML forecasts in the sidebar to compute rankings.")
         else:
             try:
-                with st.spinner("Computing ML forecast rankings and optimization..."):
+                with st.spinner("Preparing the market outlook & trade watchlist..."):
                     ranking_table, ranking_errors = cached_forecast_rankings(
                         tuple(selected_forecast_symbols),
                         history_days,
