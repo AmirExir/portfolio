@@ -1,0 +1,63 @@
+Market Optimization
+Generated: Nov 13, 2026 at 5:24 AM CST (UTC-06:00)
+As of: Nov 12, 2026
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+Coverage: 80 symbols evaluated; 0 data/run issues.
+General news is not included in these forecast scores.
+The forecast is an end-date return, not a prediction of the path each day.
+
+RESULT
+Passed model checks: 2 buy, 0 sell/avoid.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+Holdings verification affects sizing, not which forecasts pass model checks.
+
+BUY SIGNALS - PASSED MODEL CHECKS
+Showing 2 of 2; ranked by model/policy score.
+
+1. SLB: forecast +17.11% by Dec 28, 2026
+  Reliability: high; model-estimated chance of a rise: 82%; estimated error: 11.5 percentage points.
+
+2. SLV: forecast +12.89% by Dec 28, 2026
+  Reliability: moderate; model-estimated chance of a rise: 78%; estimated error: 11.3 percentage points.
+
+RESEARCH WATCHLIST - NOT QUALIFIED
+Research only. These are not buy or sell signals.
+
+Buy candidates: 5 of 15; ranked by model/policy score.
+
+1. XOM: forecast +8.83% by Dec 28, 2026
+  Not qualified: up/down predictions failed accuracy checks; probability estimates failed reliability checks.
+
+2. CVX: forecast +5.60% by Dec 28, 2026
+  Not qualified: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+3. XLE: forecast +5.63% by Dec 28, 2026
+  Not qualified: up/down predictions failed accuracy checks; probability estimates failed reliability checks.
+
+4. OXY: forecast +6.32% by Dec 28, 2026
+  Not qualified: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+5. SPCX: forecast +19.05% by Dec 28, 2026
+  Not qualified: forecast is unusually extreme; testing on unseen data is unverified; historical forecast error is unavailable; too few historical tests (0/8 required); too few non-overlapping historical tests (0/8 required); required historical validation data is missing or invalid.
+
+Sell/avoid candidates: 4 of 4; ranked by predicted decline.
+
+1. TLT: forecast -5.26% by Dec 28, 2026
+  Not qualified: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+2. UNH: forecast -4.87% by Dec 28, 2026
+  Not qualified: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks; predicted move is small relative to past forecast errors.
+
+3. PG: forecast -4.17% by Dec 28, 2026
+  Not qualified: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+4. XLV: forecast -2.92% by Dec 28, 2026
+  Not qualified: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+NEXT CHECK
+More price history can address sample shortages where available. Failed accuracy or probability checks need better results on unseen data before promotion.
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.
