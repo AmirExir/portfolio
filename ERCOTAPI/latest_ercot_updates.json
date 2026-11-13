@@ -2,6 +2,206 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "4a053d9c4686dc7be1f8d6cac6c39e2d0d29d6ce10a2b63f534bab2ae0f002ab",
+      "title": "128PGRR-13 PLWG Comments 051226",
+      "document_number": "PGRR128",
+      "source": "PGRR",
+      "published_date": "May 12, 2026",
+      "downloaded_at": "2026-11-13T12:01:30Z",
+      "observed_at": "2026-11-13T12:01:30Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/05/12/128PGRR-13-PLWG-Comments-051226.docx",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR128",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) suggests ERCOT should host an annual forum to discuss advanced transmission technologies, commonly referred to as grid enhancing technologies (“GETs”) and high performance conductors (“HPCs”).",
+      "issue_title": "Regional Planning Group Discussion of Grid Enhancing Technologies",
+      "affected_sections": "3.1.1.2, 3.1.2.1, and 3.1.10 (new)",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "1837b174443707c7ff0d2d4c6a3959830e8308eed5d44c5f6e0c9e5f4781716f",
+      "title": "128PGRR-21 TAC Report 072926",
+      "document_number": "PGRR128",
+      "source": "PGRR",
+      "published_date": "Aug 3, 2026",
+      "downloaded_at": "2026-11-13T12:01:29Z",
+      "observed_at": "2026-11-13T12:01:29Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/08/03/128PGRR-21-TAC-Report-072926.docx",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR128",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) suggests ERCOT should host an annual forum to discuss advanced transmission technologies, commonly referred to as grid enhancing technologies (“GETs”) and high performance conductors (“HPCs”).",
+      "issue_title": "Regional Planning Group Discussion of Grid Enhancing Technologies",
+      "affected_sections": "3.1.1.2, 3.1.2.1, and 3.1.10 (new)",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "30241f463a048ec8df2e6575460ed393bf105e1793a7c93601f1ac94dbd4e046",
+      "title": "123PGRR-11 TAC Report 072926",
+      "document_number": "PGRR123",
+      "source": "PGRR",
+      "published_date": "Jul 31, 2026",
+      "downloaded_at": "2026-11-13T12:01:29Z",
+      "observed_at": "2026-11-13T12:01:29Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/07/31/123PGRR-11-TAC-Report-072926.docx",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR123",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) modifies what an Entity may be affected by in order to qualify to submit PGRRs, in alignment with Protocol changes made by NPRR1264.",
+      "issue_title": "Related to NPRR1264, Creation of a New Energy Attribute Certificate Program",
+      "affected_sections": "1.2.2",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "8413bd0d3a621dc17fad3827fc33fb062a9b3c6e64ca343bb837d0dbb524535f",
+      "title": "123PGRR-09 ROS Report 060426",
+      "document_number": "PGRR123",
+      "source": "PGRR",
+      "published_date": "Jun 8, 2026",
+      "downloaded_at": "2026-11-13T12:01:27Z",
+      "observed_at": "2026-11-13T12:01:27Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/06/08/123PGRR-09-ROS-Report-060426.docx",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR123",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) modifies what an Entity may be affected by in order to qualify to submit PGRRs, in alignment with Protocol changes made by NPRR1264.",
+      "issue_title": "Related to NPRR1264, Creation of a New Energy Attribute Certificate Program",
+      "affected_sections": "1.2.2",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "454568d30697a0e75d0d9d373ec2b15d069907fd319d0cc26ff2c2426e7f0cb3",
+      "title": "128PGRR-18 ROS Report 070926",
+      "document_number": "PGRR128",
+      "source": "PGRR",
+      "published_date": "Jul 13, 2026",
+      "downloaded_at": "2026-11-13T12:01:26Z",
+      "observed_at": "2026-11-13T12:01:26Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/07/13/128PGRR-18-ROS-Report-070926.docx",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR128",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) suggests ERCOT should host an annual forum to discuss advanced transmission technologies, commonly referred to as grid enhancing technologies (“GETs”) and high performance conductors (“HPCs”).",
+      "issue_title": "Regional Planning Group Discussion of Grid Enhancing Technologies",
+      "affected_sections": "3.1.1.2, 3.1.2.1, and 3.1.10 (new)",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "a1ebabcba99c6dcfb56ecb5fbac60375b0d9c4600d51c6904bc6a6c784be6791",
+      "title": "273NOGRR-11 TAC Report 072926",
+      "document_number": "NOGRR273",
+      "source": "NOGRR",
+      "published_date": "Jul 31, 2026",
+      "downloaded_at": "2026-11-13T12:01:04Z",
+      "observed_at": "2026-11-13T12:01:04Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/07/31/273NOGRR-11-TAC-Report-072926.docx",
+      "sources": [
+        "NOGRR"
+      ],
+      "revision_id": "NOGRR273",
+      "revision_family": "NOGRR",
+      "explanation": "This Nodal Operating Guide Revision Request (NOGRR) modifies what an Entity may be affected by in order to qualify to submit NOGRRs, in alignment with Protocol changes made by NPRR1264.",
+      "issue_title": "Related to NPRR1264, Creation of a New Energy Attribute Certificate Program",
+      "affected_sections": "1.3.2",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "33e87c50d4b3e4ac6a1935db2d388f5b40d8075996b3259fc1625c900f77a83f",
+      "title": "273NOGRR-09 ROS Report 060426",
+      "document_number": "NOGRR273",
+      "source": "NOGRR",
+      "published_date": "Jun 8, 2026",
+      "downloaded_at": "2026-11-13T12:01:02Z",
+      "observed_at": "2026-11-13T12:01:02Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/06/08/273NOGRR-09-ROS-Report-060426.docx",
+      "sources": [
+        "NOGRR"
+      ],
+      "revision_id": "NOGRR273",
+      "revision_family": "NOGRR",
+      "explanation": "This Nodal Operating Guide Revision Request (NOGRR) modifies what an Entity may be affected by in order to qualify to submit NOGRRs, in alignment with Protocol changes made by NPRR1264.",
+      "issue_title": "Related to NPRR1264, Creation of a New Energy Attribute Certificate Program",
+      "affected_sections": "1.3.2",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "c633b8049adb660f01444d0473755f9235d6e3f0eae5be8a8f895464dedbfeae",
+      "title": "273NOGRR-06 ROS Report 050726",
+      "document_number": "NOGRR273",
+      "source": "NOGRR",
+      "published_date": "May 12, 2026",
+      "downloaded_at": "2026-11-13T12:01:01Z",
+      "observed_at": "2026-11-13T12:01:01Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/05/12/273NOGRR-06-ROS-Report-050726.docx",
+      "sources": [
+        "NOGRR"
+      ],
+      "revision_id": "NOGRR273",
+      "revision_family": "NOGRR",
+      "explanation": "This Nodal Operating Guide Revision Request (NOGRR) modifies what an Entity may be affected by in order to qualify to submit NOGRRs, in alignment with Protocol changes made by NPRR1264.",
+      "issue_title": "Related to NPRR1264, Creation of a New Energy Attribute Certificate Program",
+      "affected_sections": "1.3.2",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "b78404860502b16545787bf58d439d4e2fb7736349681967b4ec830d8af3c4cd",
+      "title": "1352NPRR-04 PRS Report 111126",
+      "document_number": "NPRR1352",
+      "source": "NPRR",
+      "published_date": "Nov 12, 2026",
+      "downloaded_at": "2026-11-13T12:00:53Z",
+      "observed_at": "2026-11-13T12:00:53Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/11/12/1352NPRR-04-PRS-Report-111126.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1352",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the ERCOT Fee Schedule to permit a Resource Entity to designate a Qualified Scheduling Entity (QSE) representing one or more of its Resources to receive the Resource Entity’s weatherization inspection fee Invoice and make payment on the Resource Entity’s behalf.",
+      "issue_title": "QSE Receipt and Payment of Weatherization Inspection Fee Invoices",
+      "affected_sections": "ERCOT Fee Schedule",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "93ae75597add310a2502d57c561fd08d2488a63dc0eff2cad01a70b55f7c4ca0",
+      "title": "NPRR1352",
+      "document_number": "NPRR1352",
+      "source": "NPRR",
+      "published_date": "Oct 27, 2026",
+      "downloaded_at": "2026-11-13T12:00:51Z",
+      "observed_at": "2026-11-13T12:00:51Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1352",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1352",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the ERCOT Fee Schedule to permit a Resource Entity to designate a Qualified Scheduling Entity (QSE) representing one or more of its Resources to receive the Resource Entity’s weatherization inspection fee Invoice and make payment on the Resource Entity’s behalf.",
+      "issue_title": "QSE Receipt and Payment of Weatherization Inspection Fee Invoices",
+      "affected_sections": "ERCOT Fee Schedule",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
       "content_sha256": "3a03f0f52dacb3c9828cbbd4157d9d19968a11fc8981a0d245ebf21dcdf21fbf",
       "title": "128PGRR-23 PUCT Report 110526",
       "document_number": "PGRR128",
@@ -619,26 +819,6 @@
       "explanation": "This Planning Guide Revision Request (PGRR) modifies the stability assessment schedule for planned large generators and Large Loads from every three months to every four months and rename the stability assessment from quarterly stability assessment to qualifying stability assessment.",
       "issue_title": "Rename Quarterly Stability Assessment and Modify the Assessment Schedule",
       "affected_sections": "5.3.2.5, 5.3.4, 5.3.5, and 5.5",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "38ebdc780f0024390c36ee99f0b5a5a81a3078d50044ec3d84a82b05468d6c2f",
-      "title": "NPRR1352",
-      "document_number": "NPRR1352",
-      "source": "NPRR",
-      "published_date": "Oct 27, 2026",
-      "downloaded_at": "2026-10-28T11:00:43Z",
-      "observed_at": "2026-10-28T11:00:43Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1352",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1352",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the ERCOT Fee Schedule to permit a Resource Entity to designate a Qualified Scheduling Entity (QSE) representing one or more of its Resources to receive the Resource Entity’s weatherization inspection fee Invoice and make payment on the Resource Entity’s behalf.",
-      "issue_title": "QSE Receipt and Payment of Weatherization Inspection Fee Invoices",
-      "affected_sections": "ERCOT Fee Schedule",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -8038,8 +8218,8 @@
       "source": "PGRR",
       "published_date": "Aug 3, 2026",
       "downloaded_at": "2026-08-06T20:00:58Z",
-      "observed_at": "2026-08-06T20:00:58Z",
-      "status": "Pending",
+      "observed_at": "2026-11-12T12:01:08Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/08/03/144PGRR-15-TIEC-Comments-080326.docx",
       "sources": [
         "PGRR"
@@ -10355,8 +10535,8 @@
       "source": "PGRR",
       "published_date": "Apr 8, 2026",
       "downloaded_at": "2026-07-26T11:00:50Z",
-      "observed_at": "2026-07-26T11:00:50Z",
-      "status": "Pending",
+      "observed_at": "2026-11-12T12:01:09Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/04/08/144PGRR-08-ERCOT-Comments-040826.docx",
       "sources": [
         "PGRR"
@@ -14627,8 +14807,8 @@
       "source": "PGRR",
       "published_date": "Feb 18, 2026",
       "downloaded_at": "2026-07-20T20:01:14Z",
-      "observed_at": "2026-07-20T20:01:14Z",
-      "status": "Pending",
+      "observed_at": "2026-11-12T12:01:04Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/02/18/144PGRR-01-Dynamic-Model-Submission-and-Review-Requirements-for-Large-Loads-including-Large-Electronic-Loads-021826.docx",
       "sources": [
         "PGRR"
@@ -14687,8 +14867,8 @@
       "source": "PGRR",
       "published_date": "Feb 18, 2026",
       "downloaded_at": "2026-07-20T20:01:11Z",
-      "observed_at": "2026-07-20T20:01:11Z",
-      "status": "Pending",
+      "observed_at": "2026-11-12T12:01:01Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/02/18/144PGRR-02-Impact-Analysis-021826.docx",
       "sources": [
         "PGRR"
@@ -16318,8 +16498,8 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     }
   ],
-  "count": 832,
-  "generated_at": "2026-11-11T21:02:02.463438+00:00",
+  "count": 841,
+  "generated_at": "2026-11-13T12:02:40.588222+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",
@@ -16441,6 +16621,29 @@
       },
       "source_downloaded_at": "2026-10-14T11:01:00Z",
       "source_observed_at": "2026-10-14T11:01:00Z"
+    },
+    "NOGRR273": {
+      "revision_id": "NOGRR273",
+      "revision_family": "NOGRR",
+      "issue_title": "Related to NPRR1264, Creation of a New Energy Attribute Certificate Program",
+      "official_description": "This Nodal Operating Guide Revision Request (NOGRR) modifies what an Entity may be affected by in order to qualify to submit NOGRRs, in alignment with Protocol changes made by NPRR1264.",
+      "status": "Approved",
+      "date_posted": "Dec 19, 2024",
+      "sponsor": "Texas Energy Buyers Alliance (TEBA)",
+      "urgent": "No",
+      "affected_sections": "1.3.2",
+      "reason": "Strategic Plan Objective 2 – Enhance the ERCOT region’s economic competitiveness with respect to trends in wholesale power rates and retail electricity prices to consumers",
+      "issue_url": "https://www.ercot.com/mktrules/issues/NOGRR273",
+      "effective_state": "approved_not_independently_governing",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text.",
+      "explanation_source": "official_ercot_issue_page",
+      "latest_action": {
+        "date": "11/05/2026",
+        "governing_body": "PUCT",
+        "action": "Approved"
+      },
+      "source_downloaded_at": "2026-11-13T12:00:58Z",
+      "source_observed_at": "2026-11-13T12:00:58Z"
     },
     "NOGRR279": {
       "revision_id": "NOGRR279",
@@ -18555,12 +18758,15 @@
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
       "next_group": "PRS",
-      "next_step": "PRS for language consideration",
+      "next_step": "PRS for consideration",
       "latest_action": {
-        "action": "No action posted"
+        "date": "11/11/2026",
+        "governing_body": "PRS",
+        "action": "Deferred/Tabled",
+        "next_step": "PRS for consideration"
       },
-      "source_downloaded_at": "2026-10-28T11:00:43Z",
-      "source_observed_at": "2026-10-28T11:00:43Z"
+      "source_downloaded_at": "2026-11-13T12:00:51Z",
+      "source_observed_at": "2026-11-13T12:00:51Z"
     },
     "NPRR1353": {
       "revision_id": "NPRR1353",
@@ -18700,8 +18906,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-11-11T21:00:59Z",
-      "source_observed_at": "2026-11-11T21:00:59Z"
+      "source_downloaded_at": "2026-11-13T12:01:22Z",
+      "source_observed_at": "2026-11-13T12:01:22Z"
     },
     "PGRR127": {
       "revision_id": "PGRR127",
@@ -18746,8 +18952,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-11-11T21:00:58Z",
-      "source_observed_at": "2026-11-11T21:00:58Z"
+      "source_downloaded_at": "2026-11-13T12:01:21Z",
+      "source_observed_at": "2026-11-13T12:01:21Z"
     },
     "PGRR131": {
       "revision_id": "PGRR131",
@@ -18983,8 +19189,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-11-11T21:01:00Z",
-      "source_observed_at": "2026-11-11T21:01:00Z"
+      "source_downloaded_at": "2026-11-12T12:00:59Z",
+      "source_observed_at": "2026-11-12T12:00:59Z"
     },
     "PGRR145": {
       "revision_id": "PGRR145",
