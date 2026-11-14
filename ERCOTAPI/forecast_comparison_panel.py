@@ -14,12 +14,14 @@ if __package__:
     from .actual_load_report import fetch_actual_load_history
     from .forecast_comparison import ForecastComparisonStore
     from .forecast_comparison_service import comparison_store_path, run_and_save_comparison
+    from .forecast_labels import model_display_name
     from .load_forecast import HAS_XGBOOST, train_load_forecast_model
     from .load_forecast_report import fetch_forecast_report
 else:  # Streamlit runs the entry point with ERCOTAPI itself on sys.path.
     from actual_load_report import fetch_actual_load_history
     from forecast_comparison import ForecastComparisonStore
     from forecast_comparison_service import comparison_store_path, run_and_save_comparison
+    from forecast_labels import model_display_name
     from load_forecast import HAS_XGBOOST, train_load_forecast_model
     from load_forecast_report import fetch_forecast_report
 
@@ -101,6 +103,7 @@ def accuracy_table(evaluations: list[dict[str, Any]]) -> pd.DataFrame:
     for result in evaluations:
         model, official = result["model_metrics"] or {}, result["ercot_metrics"] or {}
         rows.append({
+            "Model method": model_display_name(result["model_metadata"].get("model_type", "")),
             "Model issued (Central)": local_time(result["model_issued_at"]),
             "ERCOT published (Central)": local_time(result["ercot_published_at"]),
             "Scored hours": result["matched_count"], "Future hours": result["pending_count"],
@@ -168,7 +171,7 @@ def _render_actual_history(days: int) -> None:
 def render_forecast_comparison() -> None:
     """Show an official outlook, generate a matched comparison and score saved runs."""
     st.subheader("Load Forecast Comparison")
-    st.write("ERCOT’s official outlook alongside your experimental load model, with accuracy measured later against actual system demand.")
+    st.write("ERCOT’s official outlook alongside an experimental load forecast, labeled by its model method. Accuracy is measured later against actual system demand.")
     report = None
     try:
         with st.spinner("Loading ERCOT’s official forecast…"):
@@ -179,7 +182,7 @@ def render_forecast_comparison() -> None:
 
     days, mode, params = _model_settings()
     run_col, score_col = st.columns([2, 1])
-    run = run_col.button("Run my model vs ERCOT", type="primary", disabled=report is None, use_container_width=True)
+    run = run_col.button("Run model comparison", type="primary", disabled=report is None, use_container_width=True)
     refresh = score_col.button("Update accuracy scores", use_container_width=True)
     try:
         store = ForecastComparisonStore(comparison_store_path())
@@ -207,14 +210,14 @@ def render_forecast_comparison() -> None:
         saved, evaluations = [], []
 
     comparison_tab, official_tab, accuracy_tab, method_tab = st.tabs([
-        "My model vs ERCOT", "Official 7-day outlook", "Accuracy history", "Method & sources",
+        "Model vs ERCOT", "Official 7-day outlook", "Accuracy history", "Method & sources",
     ])
     selected = None
     with comparison_tab:
         if not saved:
-            st.info("Run your model to create the first comparison. Both forecasts will be saved before the target hours begin.")
+            st.info("Run the model comparison to create the first saved run. Both forecasts will be saved before the target hours begin.")
             if report:
-                st.caption("Latest official outlook while your model comparison is pending")
+                st.caption("Latest official outlook while the model comparison is pending")
                 st.plotly_chart(hourly_figure(report["hourly_series"], [("load_mw", "Official ERCOT", "#008b8b")]), use_container_width=True, key="forecast_official_initial")
         else:
             selected_id = st.selectbox("Saved comparison", [item["snapshot_id"] for item in saved],
@@ -222,16 +225,17 @@ def render_forecast_comparison() -> None:
             selected = next(item for item in saved if item["snapshot_id"] == selected_id)
             evaluation = next(item for item in evaluations if item["snapshot_id"] == selected_id)
             metadata, summary = selected["model_metadata"], selected["summary"]
-            st.caption(f"Your {metadata['model_type']} model issued {local_time(selected['model_issued_at'])}")
+            model_name = model_display_name(metadata.get("model_type", ""))
+            st.caption(f"{model_name} forecast issued {local_time(selected['model_issued_at'])}")
             st.caption(f"Paired ERCOT forecast published {local_time(selected['ercot_published_at'])} · Actual inputs complete through {local_time(selected['model_data_cutoff_utc'])}")
             st.caption("The chart uses the saved ERCOT vintage from this run. The separate official outlook tab shows the latest available vintage.")
             one, two, three = st.columns(3)
             one.metric("Matching forecast hours", summary["matched_hours"])
-            two.metric("Average model − ERCOT", f"{summary['mean_difference_mw']:+,.0f} MW")
+            two.metric(f"Average {model_name} − ERCOT", f"{summary['mean_difference_mw']:+,.0f} MW")
             three.metric("Largest absolute difference", f"{summary['maximum_absolute_difference_mw']:,.0f} MW")
             scored = {row["interval_start_utc"]: row["actual_mw"] for row in evaluation["rows"]}
             plot_rows = [{**row, "actual_mw": scored.get(row["interval_start_utc"])} for row in selected["rows"]]
-            series = [("ercot_mw", "Official ERCOT · saved vintage", "#008b8b"), ("model_mw", "Your model · experimental", "#8b5cf6")]
+            series = [("ercot_mw", "Official ERCOT · saved vintage", "#008b8b"), ("model_mw", f"{model_name} · experimental", "#8b5cf6")]
             if scored:
                 series.append(("actual_mw", "Observed actual load", "#e3a323"))
             st.plotly_chart(hourly_figure(plot_rows, series), use_container_width=True, key="model_official_comparison")
@@ -264,13 +268,13 @@ def render_forecast_comparison() -> None:
 
     with method_tab:
         st.markdown("**Official forecast:** ERCOT NP3-561-CD, one identified publication. **Model target:** hourly system-wide load in MW. **Actual observations:** NP6-345-CD daily archives plus the completed hours in ERCOT’s GEN-527-UI current-day display.")
-        st.write("Your existing XGBoost model (or Random Forest when XGBoost is unavailable) uses Central-time calendar features, lagged load and rolling statistics. Its recursive forecast predicts each next hour using previous predictions. A short gap after the latest completed observation is predicted as a bridge and excluded from the scored future window.")
+        st.write("The experimental forecast uses XGBoost when installed, with Random Forest as the fallback. Each saved run is labeled by the estimator that actually produced it. Inputs are Central-time calendar features, lagged load and rolling statistics; weather is not an input. The recursive forecast predicts each next hour using previous predictions. A short gap after the latest completed observation is predicted as a bridge and excluded from the scored future window.")
         st.write("Training requires continuous, finite hourly observations. No missing hours are interpolated. Time is matched in UTC to preserve daylight-saving transitions. Forecasts and source hashes are saved before target hours begin, preventing hindsight comparisons.")
         st.markdown("[Forecast product](https://www.ercot.com/mp/data-products/data-product-details?id=NP3-561-CD) · [Actual-load product](https://www.ercot.com/mp/data-products/data-product-details?id=NP6-345-CD) · [Current-day actuals](https://www.ercot.com/content/cdr/html/actual_loads_of_weather_zones.html)")
         if selected:
             metadata = selected["model_metadata"]
             st.write("Internal model validation uses a chronological one-hour-ahead holdout with observed lag updates. These diagnostics do not measure recursive 24-hour skill and are separate from the prospective ERCOT comparison.")
-            diagnostics = {"Model": metadata.get("test_mae"), "Previous-hour baseline": metadata.get("persistence_mae"), "Previous-day baseline": metadata.get("seasonal_mae")}
+            diagnostics = {model_display_name(metadata.get("model_type", "")): metadata.get("test_mae"), "Previous-hour baseline": metadata.get("persistence_mae"), "Previous-day baseline": metadata.get("seasonal_mae")}
             st.dataframe(pd.DataFrame({"One-hour holdout": diagnostics.keys(), "MAE (MW)": diagnostics.values()}).round(1), hide_index=True)
             with st.expander("Model configuration and data provenance"):
                 st.json(metadata)

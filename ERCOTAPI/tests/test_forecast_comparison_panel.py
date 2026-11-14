@@ -17,14 +17,15 @@ from streamlit.testing.v1 import AppTest
 
 from ERCOTAPI import forecast_comparison_panel as panel
 from ERCOTAPI.forecast_comparison import ForecastComparisonStore
+from ERCOTAPI.forecast_labels import model_display_name
 from ERCOTAPI.tests.test_forecast_comparison import ISSUED, official_report, snapshot
 
 
-def fixture() -> tuple[dict, dict, dict]:
+def fixture(model_type: str = "XGBRegressor") -> tuple[dict, dict, dict]:
     """Use a genuinely validated saved snapshot, with later-vintage chart data."""
     with tempfile.TemporaryDirectory() as directory:
         store = ForecastComparisonStore(Path(directory) / "ledger.sqlite", clock=lambda: ISSUED + timedelta(minutes=6))
-        identifier = store.append_snapshot(snapshot())
+        identifier = store.append_snapshot(snapshot(model_metadata={"model_type": model_type, "method_version": "test-v1", "dataset_sha256": "a" * 64}))
         saved = store.list_snapshots()[0]
         evaluation = store.evaluate_snapshot(identifier)
     current = official_report()
@@ -44,6 +45,12 @@ def store_stub(saved: list[dict], evaluation: dict) -> Mock:
 
 
 class ForecastPresentationTests(unittest.TestCase):
+    def test_method_names_follow_recorded_estimator_and_unknowns_are_not_echoed(self) -> None:
+        self.assertEqual(model_display_name("XGBRegressor"), "XGBoost")
+        self.assertEqual(model_display_name("RandomForestRegressor"), "Random Forest")
+        for unknown in ("UnknownModel", "<b>not a method</b>", "", None):
+            self.assertEqual(model_display_name(unknown), "Experimental load model")
+
     def test_streamlit_direct_entrypoint_imports_without_repository_on_pythonpath(self) -> None:
         result = subprocess.run(
             [sys.executable, "-c", "import forecast_comparison_panel; import actual_load_report; import forecast_comparison_service"],
@@ -102,18 +109,20 @@ class ForecastPanelAppTests(unittest.TestCase):
     def assert_no_exception(self, app: AppTest) -> None:
         self.assertFalse(app.exception, [item.message for item in app.exception])
 
-    def assert_saved_vintage_and_pending_accuracy(self, app: AppTest) -> None:
+    def assert_saved_vintage_and_pending_accuracy(self, app: AppTest, model_name: str = "XGBoost") -> None:
         plots = [json.loads(element.proto.spec) for element in app.get("plotly_chart")]
         saved_plot = next(plot for plot in plots if plot["data"][0]["name"] == "Official ERCOT · saved vintage")
         current_plot = next(plot for plot in plots if plot["data"][0]["name"] == "Official ERCOT")
         self.assertEqual(saved_plot["data"][0]["y"], [100, 200, 200])
         self.assertEqual(saved_plot["data"][1]["y"], [110, 190, 190])
+        self.assertEqual(saved_plot["data"][1]["name"], f"{model_name} · experimental")
         self.assertEqual(current_plot["data"][0]["y"], [1100, 1200, 1200])
         self.assertEqual(saved_plot["data"][0]["x"], saved_plot["data"][1]["x"])
         self.assertFalse(any(trace["name"] == "Observed actual load" for trace in saved_plot["data"]))
         accuracy = next(item.value for item in app.dataframe if "Future hours" in item.value.columns)
         self.assertTrue(pd.isna(accuracy.iloc[0]["Model MAE (MW)"]))
         self.assertEqual(accuracy.iloc[0]["Scored hours"], 0)
+        self.assertEqual(accuracy.iloc[0]["Model method"], model_name)
         self.assertEqual(accuracy.iloc[0]["Future hours"], 2)
 
     def test_forecast_view_is_available_without_authenticated_api_or_news(self) -> None:
@@ -130,6 +139,15 @@ class ForecastPanelAppTests(unittest.TestCase):
         self.assertIn("Load Forecast Comparison", [item.value for item in app.subheader])
         self.assert_saved_vintage_and_pending_accuracy(app)
 
+    def test_saved_random_forest_label_is_not_replaced_by_current_xgboost_runtime(self) -> None:
+        current, saved, evaluation = fixture("RandomForestRegressor")
+        app = AppTest.from_string("from ERCOTAPI.forecast_comparison_panel import render_forecast_comparison\nrender_forecast_comparison()\n", default_timeout=30)
+        with patch.object(panel, "official_forecast", return_value=current), patch.object(panel, "ForecastComparisonStore", return_value=store_stub([saved], evaluation)), patch.object(panel, "HAS_XGBOOST", True):
+            app.run()
+        self.assert_no_exception(app)
+        self.assert_saved_vintage_and_pending_accuracy(app, "Random Forest")
+        self.assertTrue(any(item.value.startswith("Random Forest forecast issued") for item in app.caption))
+
     def test_run_button_loads_persisted_comparison_and_keeps_latest_vintage_separate(self) -> None:
         current, saved, evaluation = fixture()
         saved_runs = []
@@ -144,7 +162,7 @@ class ForecastPanelAppTests(unittest.TestCase):
         with patch.object(panel, "official_forecast", return_value=current), patch.object(panel, "ForecastComparisonStore", return_value=store), patch.object(panel, "actual_history", return_value=bundle), patch.object(panel, "run_and_save_comparison", side_effect=save) as run:
             app.run()
             self.assert_no_exception(app)
-            next(button for button in app.button if button.label == "Run my model vs ERCOT").click().run()
+            next(button for button in app.button if button.label == "Run model comparison").click().run()
         self.assert_no_exception(app)
         run.assert_called_once()
         self.assertIs(run.call_args.args[0], current)
@@ -153,7 +171,7 @@ class ForecastPanelAppTests(unittest.TestCase):
         self.assert_saved_vintage_and_pending_accuracy(app)
 
     def test_failed_run_or_refresh_preserves_saved_comparison(self) -> None:
-        for button_label in ("Run my model vs ERCOT", "Update accuracy scores"):
+        for button_label in ("Run model comparison", "Update accuracy scores"):
             with self.subTest(action=button_label):
                 current, saved, evaluation = fixture()
                 app = AppTest.from_string("from ERCOTAPI.forecast_comparison_panel import render_forecast_comparison\nrender_forecast_comparison()\n", default_timeout=30)

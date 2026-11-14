@@ -218,6 +218,20 @@ def _error_metrics(errors: list[float]) -> dict[str, Any] | None:
     return {"sample_count": len(errors), "mae_mw": sum(map(abs, errors)) / len(errors), "rmse_mw": math.sqrt(sum(value * value for value in errors) / len(errors)), "bias_mw": sum(errors) / len(errors)}
 
 
+def validate_comparison_snapshot(snapshot: Mapping[str, Any]) -> dict[str, Any]:
+    """Return an independent validated copy for report and chart consumers.
+
+    Validation reconstructs every interval, lead time and disagreement metric.
+    It checks prospective capture semantics, not current forecast freshness;
+    consumers presenting a current report must also verify its source vintage.
+    """
+    if not isinstance(snapshot, Mapping):
+        raise ComparisonError("Comparison snapshot must be a mapping.")
+    if not isinstance(snapshot.get("summary"), Mapping):
+        raise ComparisonError("Comparison snapshot requires a disagreement summary.")
+    return _validate_snapshot(snapshot)
+
+
 class ForecastComparisonStore:
     """Insert-only prospective snapshots and observed actual vintages.
 

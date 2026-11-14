@@ -24,7 +24,7 @@ LOAD_DIRECT_PHOTO = "Send ERCOT Load Direct Chart"
 LOAD_CHANNEL_RESTORE = "Restore ERCOT Load Channel Text"
 LOAD_DIRECT_RESTORE = "Restore ERCOT Load Direct Text"
 
-LOAD_COMMAND = 'exec "${ERCOT_REPO_ROOT:-$HOME/Documents/GitHub/portfolio}/scripts/run_ercot_load_forecast.sh" --chart'
+LOAD_COMMAND = 'exec "${ERCOT_REPO_ROOT:-$HOME/Documents/GitHub/portfolio}/scripts/run_ercot_load_forecast.sh" --chart --compare'
 
 LOAD_REPORT_JS = r"""const context = $('ERCOT Load Forecast Context').first().json;
 let report;
@@ -60,20 +60,22 @@ if (report.ok && report.chart) {
 } else if (report.ok && !report.chart_error) {
   text += '\n\nChart unavailable: the image could not be generated. The forecast values above remain available.';
 }
-return {json: {...context, text, report_ok: report.ok, has_chart: Boolean(binary)},
+const caption = typeof report.chart_caption === 'string' && report.chart_caption.length <= 900
+  ? report.chart_caption : 'ERCOT hourly load forecast · MW · Central time';
+return {json: {...context, text, chart_caption: caption, report_ok: report.ok, has_chart: Boolean(binary)},
   ...(binary ? {binary} : {})};"""
 
 LOAD_DIRECT_JS = r"""const source = $input.first();
 const item = source.json;
 if (item.source !== 'telegram' || !item.reply_chat_id || item.reply_chat_id === item.channel_chat_id) return [];
 return [{json: {chat_id: item.reply_chat_id, text: item.text, report_ok: item.report_ok,
-  has_chart: item.has_chart, disable_web_page_preview: true, send_direct: true},
+  chart_caption: item.chart_caption, has_chart: item.has_chart, disable_web_page_preview: true, send_direct: true},
   ...(source.binary ? {binary: source.binary} : {})}];"""
 
 LOAD_CHANNEL_JS = r"""// n8n's $binary exposes metadata only; use the full input item for image bytes.
 const source = $input.item;
 return {json: {chat_id: $json.channel_chat_id, text: $json.text,
-  report_ok: $json.report_ok, has_chart: $json.has_chart, disable_web_page_preview: true},
+  chart_caption: $json.chart_caption, report_ok: $json.report_ok, has_chart: $json.has_chart, disable_web_page_preview: true},
   ...($json.has_chart ? {binary: source.binary} : {})};"""
 
 
@@ -193,8 +195,7 @@ def repair_ercot_load_forecast_workflow(
         install(photo, sender["type"], sender["typeVersion"], {
             "resource": "message", "operation": "sendPhoto", "chatId": "={{ $json.chat_id }}",
             "binaryData": True, "binaryPropertyName": "data", "replyMarkup": "none",
-            "additionalFields": {"caption": "ERCOT hourly load forecast · MW\n48-hour detail and seven-day outlook · Central time",
-                                 "parse_mode": "HTML"},
+            "additionalFields": {"caption": "={{ $json.chart_caption || 'ERCOT hourly load forecast · MW · Central time' }}"},
         }, [-1700, y], credentials=copy.deepcopy(sender["credentials"]), onError="continueRegularOutput")
         install(restore, "n8n-nodes-base.code", 2,
                 {"mode": "runOnceForEachItem", "jsCode": restore_text_js(payload)}, [-1480, y])

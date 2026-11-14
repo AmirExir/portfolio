@@ -94,7 +94,7 @@ class ForecastWorkflowTests(unittest.TestCase):
             self.assertEqual(photo["parameters"]["binaryPropertyName"], "data")
             self.assertLess(len(photo["parameters"]["additionalFields"]["caption"]), 1024)
             self.assertEqual(photo["onError"], "continueRegularOutput")
-        self.assertTrue(by_name[LOAD_RUNNER]["parameters"]["command"].endswith(" --chart"))
+        self.assertTrue(by_name[LOAD_RUNNER]["parameters"]["command"].endswith(" --chart --compare"))
 
     def test_load_path_cannot_run_news_retrieval_optimization_or_calendar(self) -> None:
         repaired, _ = repair_ercot_load_forecast_workflow(fixture())
@@ -140,7 +140,8 @@ class ForecastDeliveryTests(unittest.TestCase):
             if ok:
                 report["chart"] = {"base64": PNG_BASE64, "mime_type": "image/png", "file_name": "chart.png"}
             actual = execute_js(LOAD_REPORT_JS, {"stdout": json.dumps(report), "exitCode": 0}, context)["json"]
-            self.assertEqual(actual, {**context, "text": report["text"], "report_ok": ok, "has_chart": ok})
+            self.assertEqual(actual, {**context, "text": report["text"], "report_ok": ok, "has_chart": ok,
+                                      "chart_caption": "ERCOT hourly load forecast · MW · Central time"})
 
     def test_execution_errors_are_visible_without_echoing_raw_output(self) -> None:
         for payload in ({"error": "private process details"}, {"exitCode": 1, "stdout": "private"},
@@ -170,7 +171,9 @@ class ForecastDeliveryTests(unittest.TestCase):
         self.assertTrue(all(len(item["json"]["text"].encode("utf-16-le")) // 2 < 4096 for item in result))
 
     def test_png_bytes_survive_report_and_both_destination_builders(self) -> None:
-        report = {"ok": True, "text": "Forecast", "chart": {"base64": PNG_BASE64, "mime_type": "image/png"}}
+        caption = "Official ERCOT + XGBoost\n24 matching hourly intervals · MW"
+        report = {"ok": True, "text": "Forecast", "chart_caption": caption,
+                  "chart": {"base64": PNG_BASE64, "mime_type": "image/png"}}
         context = {"source": "telegram", "reply_chat_id": "123", "channel_chat_id": "@test"}
         parsed = execute_js(LOAD_REPORT_JS, {"stdout": json.dumps(report)}, context)
         self.assertEqual(parsed["binary"]["data"]["data"], PNG_BASE64)
@@ -180,6 +183,16 @@ class ForecastDeliveryTests(unittest.TestCase):
         self.assertEqual(direct["binary"], parsed["binary"])
         self.assertEqual(channel["binary"], parsed["binary"])
         self.assertEqual(channel["json"]["chat_id"], "@test")
+        self.assertEqual(channel["json"]["chart_caption"], caption)
+        self.assertEqual(direct["json"]["chart_caption"], caption)
+
+    def test_comparison_failure_has_no_image_or_redundant_missing_chart_notice(self) -> None:
+        report = {"ok": True, "text": "Official forecast. Model comparison unavailable.",
+                  "chart_error": "comparison_unavailable"}
+        result = execute_js(LOAD_REPORT_JS, {"stdout": json.dumps(report)}, {})
+        self.assertFalse(result["json"]["has_chart"])
+        self.assertNotIn("binary", result)
+        self.assertEqual(result["json"]["text"], report["text"])
 
     def test_missing_invalid_and_oversized_chart_preserve_valid_forecast(self) -> None:
         for chart in (None, {"base64": "not a PNG", "mime_type": "image/png"},

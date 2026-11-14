@@ -109,7 +109,11 @@ Then open your browser to `http://localhost:8501`
 
 ## Machine Learning Model
 
-The dashboard uses XGBoost when installed, otherwise Random Forest. The pure
+The dashboard uses XGBoost when installed, otherwise Random Forest. Charts and
+saved-run tables name the estimator that actually produced each forecast;
+loading an older Random Forest run in an XGBoost runtime does not relabel it.
+XGBoost is a boosted-tree regressor here: it learns from calendar features and
+past load, then feeds each predicted hour into the next recursive step. The pure
 [`load_forecast.py`](load_forecast.py) module owns feature construction,
 evaluation, and recursive forecasting. The existing dashboard entry point and
 six-value `train_load_forecast_model` return interface are preserved.
@@ -142,7 +146,7 @@ The comparison offers 7, 14, or 30 days of public actual-load history. This is
 still a small exploratory sample. No weather features, calibrated
 uncertainty intervals, or seasonal/operational validation are provided.
 
-### Official ERCOT versus your model
+### Official ERCOT versus the experimental model
 
 Open **Load Forecast Comparison**, or append `?view=forecasts` to the dashboard
 URL. This view uses public ERCOT sources and does not require API credentials.
@@ -150,7 +154,7 @@ The operations **Load & Forecast** tab uses the same component.
 
 - **Official 7-day outlook** plots every hourly `SystemTotal` value from one
   identified NP3-561-CD archive, with publication/retrieval time and source link.
-- **Run my model vs ERCOT** trains the existing model on continuous NP6-345-CD
+- **Run model comparison** trains the existing model on continuous NP6-345-CD
   actual-load archives, augmented with completed current-day hours from ERCOT's
   GEN-527-UI display. It predicts any short unobserved bridge recursively and
   compares the next 24 complete future intervals. Actuals more than four hours
@@ -180,9 +184,11 @@ The append-only SQLite ledger defaults to
 Set **`ERCOT_COMPARISON_STORE`** to a persistent writable path for retained
 history. `ERCOT_ACTUAL_LOAD_CACHE_DIR` configures the bounded daily-archive
 cache. Streamlit hosting may reset local storage on redeployment; download
-comparison JSON to retain evidence. The dashboard creates runs on request.
-Model comparisons appear only in the dashboard; Telegram continues to publish
-the official forecast and chart. No winner is claimed before actuals are available.
+comparison JSON to retain evidence. The dashboard creates runs on request;
+Telegram creates a current comparison when its load command or schedule runs.
+A separately hosted dashboard and Telegram runner keep separate server-local
+histories unless configured to share storage. No winner is claimed before
+actuals are available.
 
 ```sh
 python -m unittest ERCOTAPI.tests.test_actual_load_report \
@@ -237,21 +243,27 @@ The combined agent's private-chat keyboard includes **ERCOT news**
 reopen the keyboard. News requests return the existing digest directly;
 scheduled news publication retains its new-item filtering.
 
-The load command returns a current **official ERCOT** system-wide load forecast
-and posts it to the configured ERCOT channel (currently `@ERCOTNEWS`). Both
-destinations receive a PNG chart with the next 48 complete hourly intervals
-and the seven-day hourly outlook, followed by the text summary. The chart uses
-the original hourly MW values without smoothing; earlier hours on the current
-operating day are distinguished from upcoming intervals. The summary includes
-publication/retrieval times in Central time, the next 24-hour peak, the seven-day
-peak, and each day's highest forecast hour. Whole-day peaks include earlier
-hours on the current operating day. Source hour-ending labels remain in the
-JSON; displayed intervals use readable bounds such as **6–7 PM CT** for HE 19.
+The load command compares a current **official ERCOT** system-wide load forecast
+with the experimental model and posts to the configured ERCOT channel (currently
+`@ERCOTNEWS`). Both destinations receive **one PNG graph with both forecast
+curves on the same axes**, covering the same 24 complete future hourly intervals.
+The legend names the recorded method, such as **XGBoost · experimental** or
+**Random Forest · experimental**; it does not say “my model.” The chart uses
+hourly MW values without smoothing, with Central-time interval labels and
+separate official-publication and model-issuance times. It does not add a second
+seven-day graph. The accompanying text covers the paired 24-hour window,
+source links, peak intervals, and the model-versus-ERCOT differences. Those
+differences measure disagreement, not accuracy. The official seven-day outlook
+remains available in the dashboard. The CLI's default mode without `--compare`
+retains the official seven-day and daily-peak summary. Source hour-ending labels remain in the JSON; displayed
+intervals use readable bounds such as **6–7 PM CT** for HE 19.
 
 The forecast source is ERCOT's public **NP3-561-CD, Seven-Day Load Forecast by
 Weather Zone**, including its `SystemTotal` field. The report links the exact
-downloaded archive and records its hash. Telegram remains official-only;
-the experimental model comparison and accuracy history appear in the dashboard.
+downloaded archive and records its hash. The experimental forecast uses the
+same existing load-model service as the dashboard, with 30 days of actual-load
+history by default and no weather inputs. Its separately generated predictions
+are saved before the target hours begin.
 
 The load workflow has its own schedule trigger, copied from the existing ERCOT
 news schedule. It runs independently so a news or document-monitor error cannot
@@ -264,8 +276,10 @@ chat help times to match. Runs require the host and n8n to be running.
 The report rejects stale vintages (over three hours by default), missing hourly
 coverage, duplicate intervals, invalid MW values and unsupported DST labels.
 An unavailable notice is delivered instead of substituting old or invented
-values. Chart generation/upload failures retain the valid text forecast and
-show a visible notice. The current daylight-saving convention is checked with 23/25-hour
+values. If the model comparison fails, the valid official text remains available
+with an explicit notice and **no substitute image**; the older two-panel chart
+is not sent as though it were a comparison. Chart generation/upload failures
+also retain the valid text and show a visible notice. The current daylight-saving convention is checked with 23/25-hour
 calendar fixtures; unsupported source conventions fail visibly. Telegram output
 is split without discarding the final days.
 
@@ -273,11 +287,12 @@ is split without discarding the final days.
 # Fetch and inspect JSON locally; this command sends no messages:
 scripts/run_ercot_load_forecast.sh
 
-# Include the in-memory PNG as base64 JSON, as the scheduled workflow does:
-scripts/run_ercot_load_forecast.sh --chart
+# Generate the saved comparison and one combined PNG, as the workflow does:
+scripts/run_ercot_load_forecast.sh --chart --compare
 
 # Offline regression checks:
 python -m unittest ERCOTAPI.tests.test_load_forecast_report \
+  ERCOTAPI.tests.test_forecast_comparison_chart \
   ERCOTAPI.tests.test_load_forecast_chart \
   ERCOTAPI.tests.test_load_forecast_workflow market_agent.tests.test_chat_commands
 ```

@@ -245,6 +245,60 @@ class LoadForecastReportTests(unittest.TestCase):
         self.assertNotIn("private renderer diagnostics", stream.getvalue())
         self.assertNotIn("private renderer diagnostics", " ".join(logs.output))
 
+    def test_comparison_is_opt_in_and_precedes_the_single_chart_for_both_flag_orders(self) -> None:
+        image = {"base64": "cG5n", "mime_type": "image/png", "file_name": "ercot-comparison.png"}
+        comparison_module = ModuleType("ERCOTAPI.comparison_report")
+        chart_module = ModuleType("ERCOTAPI.forecast_comparison_chart")
+        official_chart_module = ModuleType("ERCOTAPI.load_forecast_chart")
+        official_chart_module.render_load_forecast_chart = Mock()
+        for arguments in ([], ["--compare"], ["--chart", "--compare"], ["--compare", "--chart"]):
+            payload = report.build_forecast_report(vintage(), forecast_csv(), now=self.now)
+            compared = {**payload, "comparison": {"snapshot": {"rows": ["validated model and official pair"]}}}
+            comparison_module.attach_model_comparison = Mock(return_value=compared)
+            chart_module.render_forecast_comparison_chart = Mock(return_value=image)
+            stream = StringIO()
+            with patch.dict(sys.modules, {"ERCOTAPI.comparison_report": comparison_module,
+                                         "ERCOTAPI.forecast_comparison_chart": chart_module,
+                                         "ERCOTAPI.load_forecast_chart": official_chart_module}), patch.object(report, "fetch_forecast_report", return_value=payload), redirect_stdout(stream):
+                report.main(arguments)
+            rendered = json.loads(stream.getvalue())
+            self.assertEqual("comparison" in rendered, "--compare" in arguments)
+            self.assertEqual("chart" in rendered, "--chart" in arguments)
+            if "--compare" in arguments:
+                comparison_module.attach_model_comparison.assert_called_once_with(payload)
+            else:
+                comparison_module.attach_model_comparison.assert_not_called()
+            if "--chart" in arguments:
+                chart_module.render_forecast_comparison_chart.assert_called_once_with(compared)
+            else:
+                chart_module.render_forecast_comparison_chart.assert_not_called()
+            official_chart_module.render_load_forecast_chart.assert_not_called()
+
+    def test_comparison_failure_keeps_official_text_and_skips_all_chart_renderers(self) -> None:
+        payload = report.build_forecast_report(vintage(), forecast_csv(), now=self.now)
+        comparison_module = ModuleType("ERCOTAPI.comparison_report")
+        chart_module = ModuleType("ERCOTAPI.forecast_comparison_chart")
+        official_chart_module = ModuleType("ERCOTAPI.load_forecast_chart")
+        chart_module.render_forecast_comparison_chart = Mock()
+        official_chart_module.render_load_forecast_chart = Mock()
+        for action in (Mock(side_effect=ImportError("private missing module")), Mock(return_value={**payload,
+                "comparison_error": "comparison_unavailable", "chart_error": "comparison_unavailable",
+                "text": payload["text"] + "\nModel comparison unavailable"})):
+            comparison_module.attach_model_comparison = action
+            stream = StringIO()
+            with patch.dict(sys.modules, {"ERCOTAPI.comparison_report": comparison_module,
+                                         "ERCOTAPI.forecast_comparison_chart": chart_module,
+                                         "ERCOTAPI.load_forecast_chart": official_chart_module}), patch.object(report, "fetch_forecast_report", return_value=payload), redirect_stdout(stream), patch.object(report.logging.getLogger(report.__name__), "error"):
+                report.main(["--chart", "--compare"])
+            rendered = json.loads(stream.getvalue())
+            self.assertTrue(rendered["ok"])
+            self.assertEqual(rendered["hourly_series"], payload["hourly_series"])
+            self.assertNotIn("chart", rendered)
+            self.assertEqual(rendered["chart_error"], "comparison_unavailable")
+            self.assertNotIn("private", rendered["text"])
+            chart_module.render_forecast_comparison_chart.assert_not_called()
+            official_chart_module.render_load_forecast_chart.assert_not_called()
+
     def test_external_source_override_is_rejected_before_network(self) -> None:
         with patch.object(report.requests, "get") as get, self.assertRaises(report.ForecastReportError):
             report._download("https://example.com/forecast.zip")

@@ -328,6 +328,7 @@ def main(argv: list[str] | None = None) -> None:
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--chart", action="store_true", help="Include a PNG chart as base64 in the JSON result.")
+    parser.add_argument("--compare", action="store_true", help="Generate and save a model-versus-ERCOT comparison on 24 matching future hours.")
     args = parser.parse_args(argv)
     try:
         payload = fetch_forecast_report()
@@ -337,11 +338,26 @@ def main(argv: list[str] | None = None) -> None:
             "text": f"ERCOT Load Forecast unavailable\n\n{exc}\nNo estimates were substituted.\nSource: {PRODUCT_URL}",
             "source_product_url": PRODUCT_URL,
         }
-    if args.chart and payload["ok"]:
+    if args.compare and payload["ok"]:
         try:
-            from ERCOTAPI.load_forecast_chart import render_load_forecast_chart
+            from ERCOTAPI.comparison_report import attach_model_comparison
 
-            payload["chart"] = render_load_forecast_chart(payload)
+            payload = attach_model_comparison(payload)
+        except (ImportError, ValueError, OSError, RuntimeError) as exc:
+            logging.getLogger(__name__).error("ERCOT comparison unavailable (%s)", type(exc).__name__)
+            payload["comparison_error"] = "comparison_unavailable"
+            payload["chart_error"] = "comparison_unavailable"
+            payload["text"] += "\n\nModel comparison unavailable for this run. The official ERCOT forecast remains available above; no comparison image was substituted. Please retry /ercot_load."
+    if args.chart and payload["ok"] and not (args.compare and "comparison" not in payload):
+        try:
+            if args.compare:
+                from ERCOTAPI.forecast_comparison_chart import render_forecast_comparison_chart
+
+                payload["chart"] = render_forecast_comparison_chart(payload)
+            else:
+                from ERCOTAPI.load_forecast_chart import render_load_forecast_chart
+
+                payload["chart"] = render_load_forecast_chart(payload)
         except (ImportError, ValueError, OSError, RuntimeError) as exc:
             logging.getLogger(__name__).error("ERCOT load chart unavailable (%s)", type(exc).__name__)
             payload["chart_error"] = "chart_unavailable"
