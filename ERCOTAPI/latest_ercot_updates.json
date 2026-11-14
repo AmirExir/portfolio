@@ -2,6 +2,247 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "f2011110d31b736f75d52f18ea7589c0596cb871cfb8802010a9b2ae0e6a6944",
+      "title": "1344NPRR-10 PUCT Report 110526",
+      "document_number": "NPRR1344",
+      "source": "NPRR",
+      "published_date": "Nov 9, 2026",
+      "downloaded_at": "2026-11-14T21:00:49Z",
+      "observed_at": "2026-11-14T21:00:49Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/11/09/1344NPRR-10-PUCT-Report-110526.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1344",
+      "revision_family": "NPRR",
+      "explanation": "This NPRR incorporates the Other Binding Document “Texas Market Test Plan” into the Protocols to standardize the approval process.",
+      "issue_title": "Move OBD to Section 19 – Texas Market Test Plan",
+      "affected_sections": "19.8, 19.9 (new), 19.9.1 (new), 19.9.1.1 (new), 19.9.1.2 (new), 19.9.1.3 (new), 19.9.2 (new), 19.9.3 (new), 19.9.3.1 (new), 19.9.3.1.1 (new), 19.9.3.1.2 (new), 19.9.3.1.3 (new), 19.9.4 (new), 19.9.5 (new), 19.9.6 (new), 19.9.6.1 (new), 19.9.6.1.1 (new), 19.9.6.1.2 (new), 19.9.6.1.3, (new), 19.9.6.2 (new), 19.9.7 (new), 19.9.7.1 (new), 19.9.7.1.1 (new), 19.9.7.1.2 (new), 19.9.7.1.3 (new), 19.9.7.1.4 (new), 19.9.7.1.5 (new), 19.9.7.1.6 (new), 19.9.7.2.1 (new), 19.9.7.2.2 (new), 19.9.7.3 (new), 19.9.7.4, (new), 19.9.7.5 (new), and 19.9.7.6 (new)",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "7fb1990203230c2c181ad29769532cfecfc924a44b5eb2a81dc955a9e9fa3004",
+      "title": "1342NPRR-12 PUCT Report 110526",
+      "document_number": "NPRR1342",
+      "source": "NPRR",
+      "published_date": "Nov 10, 2026",
+      "downloaded_at": "2026-11-14T21:00:49Z",
+      "observed_at": "2026-11-14T21:00:49Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/11/10/1342NPRR-12-PUCT-Report-110526.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1342",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) creates a new process for determining the Mitigated Offer Cap (MOC) for Contract for Capacity (C4C) Resources procured through Section 6.5.1.1, ERCOT Control Area Authority. This NPRR proposes using market design principles to allow the C4C Resource to be Dispatched but still be above other Resources that solve the same constraint. This NPRR uses the “last-in-line” principle from NPRR826, Mitigated Offer Caps for RMR Resources, to set the MOC for C4C Resources and minimize their effect on market competition. This NPRR sets clear requirements for using this method. If those requirements aren't fulfilled, mitigation of the C4C Resource is determined by cost. The C4C MOC methodology in this NPRR will only be applied to an active constraint when all of the following three conditions are true: 1) The C4C Resource has an unloading Shift Factor more than 2% on the Transmission Facility; 2) The C4C Resource has a greater than 5% unloading impact* on the Transmission Facility; and 3) At least one other non-C4C Resource has a 5% or more unloading Shift Factor on the Transmission Facility. Unloading impact is reduction of flow on the Transmission Facility and is used in ERCOT’s evaluation of whether the unit would be an effective C4C Resource. The MOC methodology in this NPRR is similar to the NPRR826 approach and works as follows to create the line: 1) Identify all non-Reliability Must-Run (RMR) and non-C4C Resources that have a greater than 5%* unloading Shift Factor on the Transmission Facility; 2) Collect the highest energy offer point (mitigated if applicable) for each Resource in step 1 and convert to a Shadow Price equivalent; 3) Select the highest value from step 2 and ensure it is less than the Shadow Price cap for the constraint by $1; 4) Add $0.01 to the value from step 3, multiply by the Shift Factor of the C4C Resource to convert back to an energy offer equivalent, and set as the C4C MOC; and 5) If there are multiple constraints, use the lowest value from step 4. Finally, if possible, ERCOT should implement this NPRR with NPRR826, stop manual MOC calculations for RMR and C4C, and remove related Protocol language.",
+      "issue_title": "Mitigated Offer Caps for Contract for Capacity Resources",
+      "affected_sections": "2.1, 2.2, 4.4.9.4.3",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "dfabc64f55ce67b9ddb6c1c629256a49909961c876440e5efbbdb8bccf9e56e8",
+      "title": "1341NPRR-12 PUCT Report 110526",
+      "document_number": "NPRR1341",
+      "source": "NPRR",
+      "published_date": "Nov 9, 2026",
+      "downloaded_at": "2026-11-14T21:00:49Z",
+      "observed_at": "2026-11-14T21:00:49Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/11/09/1341NPRR-12-PUCT-Report-110526.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1341",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) relocates select terms from Load Profiling Guide Section 19.1, Definitions, to Protocol Section 2.1, Definitions, removes the term ‘Time of Use Schedule (TOUS)’, and updates section references related to the Profile Decision Tree.",
+      "issue_title": "Related to LPGRR077, Profile Decision Tree Excel-to-Word Conversion",
+      "affected_sections": "2.1, 2.2, 11.4.2, 11.4.4.2, 11.4.4.3, 18.4.2",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "8d18fb36f0c699a46c4e9503cb001aea2d8d41d5f674677f601d9084f2ceb8e0",
+      "title": "1319NPRR-20 Board Report 091526",
+      "document_number": "NPRR1319",
+      "source": "NPRR",
+      "published_date": "Sep 17, 2026",
+      "downloaded_at": "2026-11-14T21:00:48Z",
+      "observed_at": "2026-11-14T21:00:48Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/09/17/1319NPRR-20-Board-Report-091526.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1319",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) clarifies ERCOT’s next steps after a Generation Resource proposal to be placed on seasonal mothball status has been evaluated. The current language in some cases requires ERCOT to prepare and post a Must-Run Alternative (MRA) “Request for Proposal” (RFP). Given that a request to seasonally mothball a Resource can be submitted as little as 90 days before the season begins, if ERCOT studies indicate a reliability concern of the seasonal mothball request, in most cases there is not enough time to effectively go through the MRA process and receive operational alternatives in a timely manner. This NPRR clarifies that ERCOT may, but is not required to, go through the MRA RFP process when it receives notice to place a unit on seasonal mothball status.",
+      "issue_title": "Clarification to Seasonal Mothball Evaluation Process",
+      "affected_sections": "3.14.1.2, 3.14.1.2.1 (new), 3.14.1.2.1, and 22E",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "a74fcf4441a766cbcaa15b03005cbf14ec5d23ad360a3caa90aebfb8f2d10124",
+      "title": "NPRR1340",
+      "document_number": "NPRR1340",
+      "source": "NPRR",
+      "published_date": "May 29, 2026",
+      "downloaded_at": "2026-11-14T21:00:46Z",
+      "observed_at": "2026-11-14T21:00:46Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1340",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1340",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
+      "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "244a744704d0aad3504a051b7f616a60c728bace3c91a8ac1e1ae1642e05ca83",
+      "title": "NPRR1339",
+      "document_number": "NPRR1339",
+      "source": "NPRR",
+      "published_date": "May 29, 2026",
+      "downloaded_at": "2026-11-14T21:00:46Z",
+      "observed_at": "2026-11-14T21:00:46Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1339",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1339",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) corrects misalignment of Protocol language with the Real-Time Co-optimization plus Batteries (RTC+B) implementation. The proposed changes are summarized below: 1. Corrects the duration requirement of ERCOT Contingency Reserve Service (ECRS). NPRR1282, Ancillary Service Duration under Real-Time Co-Optimization, set the duration requirement for ECRS to one hour, but certain sections were inadvertently omitted from NPRR1282 and still reflect the previous two-hour duration. This NPRR corrects those references to align with the as-built one-hour duration for ECRS. 2. Removes Fast-Responding Regulation Service (FRRS) reference in Section 4.4.7.3, Ancillary Service Trades, since FRRS was deleted with the RTC+B implementation. 3. Removes the requirement for Energy Storage Resources (ESRs) to telemeter the next Operating Hour Ancillary Service Responsibilities, which is no longer applicable following the removal of Ancillary Service Responsibilities under RTC+B. 4. Removes references to Ancillary Service Responsibility and Ancillary Service Schedule, as well language that is no longer applicable under RTC+B, in several sections. Replaces the Ancillary Service Responsibilities with Ancillary Service awards wherever applicable.",
+      "issue_title": "Protocol Clean Up and Alignment with RTC+B Implementation",
+      "affected_sections": "2.1, 3.9, 3.17.4, 4.4.7.3, 6.3.2, 6.5.7.6.2.3, 8.1.1.2.1.1, 8.1.1.2.1.2, and 8.1.1.3",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "1976c792d8f8ae6f14c7e3694e47b1280fec342acec96889e37f8264b8bf9cc7",
+      "title": "NPRR1319",
+      "document_number": "NPRR1319",
+      "source": "NPRR",
+      "published_date": "Dec 29, 2025",
+      "downloaded_at": "2026-11-14T21:00:46Z",
+      "observed_at": "2026-11-14T21:00:46Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1319",
+      "sources": [
+        "NPRR",
+        "TAC"
+      ],
+      "revision_id": "NPRR1319",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) clarifies ERCOT’s next steps after a Generation Resource proposal to be placed on seasonal mothball status has been evaluated. The current language in some cases requires ERCOT to prepare and post a Must-Run Alternative (MRA) “Request for Proposal” (RFP). Given that a request to seasonally mothball a Resource can be submitted as little as 90 days before the season begins, if ERCOT studies indicate a reliability concern of the seasonal mothball request, in most cases there is not enough time to effectively go through the MRA process and receive operational alternatives in a timely manner. This NPRR clarifies that ERCOT may, but is not required to, go through the MRA RFP process when it receives notice to place a unit on seasonal mothball status.",
+      "issue_title": "Clarification to Seasonal Mothball Evaluation Process",
+      "affected_sections": "3.14.1.2, 3.14.1.2.1 (new), 3.14.1.2.1, and 22E",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "7d3ffbf71b9c72ce03e8bd47ed60cccee4e7065c8076341722f32e92692bcff1",
+      "title": "NPRR1344",
+      "document_number": "NPRR1344",
+      "source": "NPRR",
+      "published_date": "Jul 28, 2026",
+      "downloaded_at": "2026-11-14T21:00:45Z",
+      "observed_at": "2026-11-14T21:00:45Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1344",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1344",
+      "revision_family": "NPRR",
+      "explanation": "This NPRR incorporates the Other Binding Document “Texas Market Test Plan” into the Protocols to standardize the approval process.",
+      "issue_title": "Move OBD to Section 19 – Texas Market Test Plan",
+      "affected_sections": "19.8, 19.9 (new), 19.9.1 (new), 19.9.1.1 (new), 19.9.1.2 (new), 19.9.1.3 (new), 19.9.2 (new), 19.9.3 (new), 19.9.3.1 (new), 19.9.3.1.1 (new), 19.9.3.1.2 (new), 19.9.3.1.3 (new), 19.9.4 (new), 19.9.5 (new), 19.9.6 (new), 19.9.6.1 (new), 19.9.6.1.1 (new), 19.9.6.1.2 (new), 19.9.6.1.3, (new), 19.9.6.2 (new), 19.9.7 (new), 19.9.7.1 (new), 19.9.7.1.1 (new), 19.9.7.1.2 (new), 19.9.7.1.3 (new), 19.9.7.1.4 (new), 19.9.7.1.5 (new), 19.9.7.1.6 (new), 19.9.7.2.1 (new), 19.9.7.2.2 (new), 19.9.7.3 (new), 19.9.7.4, (new), 19.9.7.5 (new), and 19.9.7.6 (new)",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "8ef9901f489210feb985fc012c3450d1b7b2630d6f4c3de236b72be831ab435f",
+      "title": "NPRR1343",
+      "document_number": "NPRR1343",
+      "source": "NPRR",
+      "published_date": "Jun 30, 2026",
+      "downloaded_at": "2026-11-14T21:00:45Z",
+      "observed_at": "2026-11-14T21:00:45Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1343",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1343",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) proposes the introduction of a bid fee for each inefficient hourly Point-to-Point (PTP) Obligation bid in the Day-Ahead Market (DAM). The fee will be assessed per inefficient PTP hourly bid and will be modifiable. Changes to the fee will be recommended by WMS, approved by TAC, and communicated to Market Participants in advance of the DAM run in which the change will take effect.",
+      "issue_title": "Introduction of PTP Obligation Bid Fee in DAM",
+      "affected_sections": "4.6.3., 7.9.3.1, 9.2.3, and 16.11.4.3.1",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "b4b1114ec5ba04e26925fb7ed3bac43dca1efb3a24e0d2525ae3b7db99c0278d",
+      "title": "NPRR1342",
+      "document_number": "NPRR1342",
+      "source": "NPRR",
+      "published_date": "Jun 30, 2026",
+      "downloaded_at": "2026-11-14T21:00:45Z",
+      "observed_at": "2026-11-14T21:00:45Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1342",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1342",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) creates a new process for determining the Mitigated Offer Cap (MOC) for Contract for Capacity (C4C) Resources procured through Section 6.5.1.1, ERCOT Control Area Authority. This NPRR proposes using market design principles to allow the C4C Resource to be Dispatched but still be above other Resources that solve the same constraint. This NPRR uses the “last-in-line” principle from NPRR826, Mitigated Offer Caps for RMR Resources, to set the MOC for C4C Resources and minimize their effect on market competition. This NPRR sets clear requirements for using this method. If those requirements aren't fulfilled, mitigation of the C4C Resource is determined by cost. The C4C MOC methodology in this NPRR will only be applied to an active constraint when all of the following three conditions are true: 1) The C4C Resource has an unloading Shift Factor more than 2% on the Transmission Facility; 2) The C4C Resource has a greater than 5% unloading impact* on the Transmission Facility; and 3) At least one other non-C4C Resource has a 5% or more unloading Shift Factor on the Transmission Facility. Unloading impact is reduction of flow on the Transmission Facility and is used in ERCOT’s evaluation of whether the unit would be an effective C4C Resource. The MOC methodology in this NPRR is similar to the NPRR826 approach and works as follows to create the line: 1) Identify all non-Reliability Must-Run (RMR) and non-C4C Resources that have a greater than 5%* unloading Shift Factor on the Transmission Facility; 2) Collect the highest energy offer point (mitigated if applicable) for each Resource in step 1 and convert to a Shadow Price equivalent; 3) Select the highest value from step 2 and ensure it is less than the Shadow Price cap for the constraint by $1; 4) Add $0.01 to the value from step 3, multiply by the Shift Factor of the C4C Resource to convert back to an energy offer equivalent, and set as the C4C MOC; and 5) If there are multiple constraints, use the lowest value from step 4. Finally, if possible, ERCOT should implement this NPRR with NPRR826, stop manual MOC calculations for RMR and C4C, and remove related Protocol language.",
+      "issue_title": "Mitigated Offer Caps for Contract for Capacity Resources",
+      "affected_sections": "2.1, 2.2, 4.4.9.4.3",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "7407bb055f2a5e3f1836649ce6718cfb0e3bcd74bf4e9e683a0958a16eff3ecf",
+      "title": "NPRR1341",
+      "document_number": "NPRR1341",
+      "source": "NPRR",
+      "published_date": "Jun 23, 2026",
+      "downloaded_at": "2026-11-14T21:00:45Z",
+      "observed_at": "2026-11-14T21:00:45Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1341",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1341",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) relocates select terms from Load Profiling Guide Section 19.1, Definitions, to Protocol Section 2.1, Definitions, removes the term ‘Time of Use Schedule (TOUS)’, and updates section references related to the Profile Decision Tree.",
+      "issue_title": "Related to LPGRR077, Profile Decision Tree Excel-to-Word Conversion",
+      "affected_sections": "2.1, 2.2, 11.4.2, 11.4.4.2, 11.4.4.3, 18.4.2",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "0b13e984a2abddb2f5140f89c09aebf213f33710b8e963d04c69c3578d353f20",
+      "title": "NPRR1348",
+      "document_number": "NPRR1348",
+      "source": "NPRR",
+      "published_date": "Sep 29, 2026",
+      "downloaded_at": "2026-11-14T21:00:44Z",
+      "observed_at": "2026-11-14T21:00:44Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1348",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1348",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) introduces a Telemetry Offset framework to bridge the attributability gap between co-located Load and generation. It permits a Qualified Scheduling Entity (QSE) to dynamically raise the telemetered Low Power Consumption (LPC) limit of a Provisional Controllable Load Resource (PCLR) to match the Real-Time Market (RTM) availability of a paired, equivalent mitigating Resource (e.g., Energy Storage System (ESR) or natural gas) on a separate meter. This dynamic telemetry pairing temporarily firms the Load from Security-Constrained Economic Dispatch (SCED) curtailment while the offsetting capacity is actively offered on an equivalent, offsetting basis. To clear uninstructed Resource deviation flags resulting from this shielded operation, a post-Operating Day Settlement is run, proving the shielded megawatts (MW) were physically backed by the paired Resource. The paired Resource is subjected to the same automatic bid capping methodology as the paired PCLR, ensuring economic equivalency. Finally, it establishes deterministic yielding Protocols requiring the telemetry shield to drop, exposing the Load to curtailment, during system-wide macro-scarcity events.",
+      "issue_title": "Telemetry Offsetting for Provisional Controllable Load Resources",
+      "affected_sections": "2.1, 3.8.9 (new), 3.9.1, 4.4.9.4.4, 6.6.5.6, 8.1.1.2, 8.1.1.5 (new), 8.1.2, 16.5.6 (new), 23W, and 23AA (new)",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
       "content_sha256": "e02c3802418ea22af23e04ed2a800523070f6ee344e9af71b9a8ffcefac54ef5",
       "title": "128PGRR-11 TEBA Comments 033026",
       "document_number": "PGRR128",
@@ -622,26 +863,6 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
-      "content_sha256": "a3d9a20dcfbeeb814695e18ea486f4f5a9ef58c081d37ca2c37c60b69cc177f6",
-      "title": "NPRR1343",
-      "document_number": "NPRR1343",
-      "source": "NPRR",
-      "published_date": "Jun 30, 2026",
-      "downloaded_at": "2026-11-07T12:00:43Z",
-      "observed_at": "2026-11-07T12:00:43Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1343",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1343",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) proposes the introduction of a bid fee for each inefficient hourly Point-to-Point (PTP) Obligation bid in the Day-Ahead Market (DAM). The fee will be assessed per inefficient PTP hourly bid and will be modifiable. Changes to the fee will be recommended by WMS, approved by TAC, and communicated to Market Participants in advance of the DAM run in which the change will take effect.",
-      "issue_title": "Introduction of PTP Obligation Bid Fee in DAM",
-      "affected_sections": "4.6.3., 7.9.3.1, 9.2.3, and 16.11.4.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
       "content_sha256": "d9e0ebfd697da3c02bcbd023e77b4ad68a335e3d50a8c1b61d4054deb6ff15fc",
       "title": "NOGRR288",
       "document_number": "NOGRR288",
@@ -862,26 +1083,6 @@
       "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
-      "content_sha256": "3116bd09653aeb1ee699778b121beeafea209ed3f574c69a512b5a7fd6e8d2ee",
-      "title": "NPRR1348",
-      "document_number": "NPRR1348",
-      "source": "NPRR",
-      "published_date": "Sep 29, 2026",
-      "downloaded_at": "2026-10-31T20:11:17Z",
-      "observed_at": "2026-10-31T20:11:17Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1348",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1348",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) introduces a Telemetry Offset framework to bridge the attributability gap between co-located Load and generation. It permits a Qualified Scheduling Entity (QSE) to dynamically raise the telemetered Low Power Consumption (LPC) limit of a Provisional Controllable Load Resource (PCLR) to match the Real-Time Market (RTM) availability of a paired, equivalent mitigating Resource (e.g., Energy Storage System (ESR) or natural gas) on a separate meter. This dynamic telemetry pairing temporarily firms the Load from Security-Constrained Economic Dispatch (SCED) curtailment while the offsetting capacity is actively offered on an equivalent, offsetting basis. To clear uninstructed Resource deviation flags resulting from this shielded operation, a post-Operating Day Settlement is run, proving the shielded megawatts (MW) were physically backed by the paired Resource. The paired Resource is subjected to the same automatic bid capping methodology as the paired PCLR, ensuring economic equivalency. Finally, it establishes deterministic yielding Protocols requiring the telemetry shield to drop, exposing the Load to curtailment, during system-wide macro-scarcity events.",
-      "issue_title": "Telemetry Offsetting for Provisional Controllable Load Resources",
-      "affected_sections": "2.1, 3.8.9 (new), 3.9.1, 4.4.9.4.4, 6.6.5.6, 8.1.1.2, 8.1.1.5 (new), 8.1.2, 16.5.6 (new), 23W, and 23AA (new)",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
       "content_sha256": "0fa110db3156c6614c604ceb6b2941348be2e8993cf83ac8984f14961ae75716",
       "title": "1340NPRR-23 Revised Impact Analysis 101326",
       "document_number": "NPRR1340",
@@ -1028,8 +1229,8 @@
       "source": "NPRR",
       "published_date": "Sep 17, 2026",
       "downloaded_at": "2026-10-24T11:00:47Z",
-      "observed_at": "2026-10-24T11:00:47Z",
-      "status": "Pending",
+      "observed_at": "2026-11-14T21:00:47Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/09/17/1342NPRR-11-Board-Report-091526.docx",
       "sources": [
         "NPRR"
@@ -1039,7 +1240,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) creates a new process for determining the Mitigated Offer Cap (MOC) for Contract for Capacity (C4C) Resources procured through Section 6.5.1.1, ERCOT Control Area Authority. This NPRR proposes using market design principles to allow the C4C Resource to be Dispatched but still be above other Resources that solve the same constraint. This NPRR uses the “last-in-line” principle from NPRR826, Mitigated Offer Caps for RMR Resources, to set the MOC for C4C Resources and minimize their effect on market competition. This NPRR sets clear requirements for using this method. If those requirements aren't fulfilled, mitigation of the C4C Resource is determined by cost. The C4C MOC methodology in this NPRR will only be applied to an active constraint when all of the following three conditions are true: 1) The C4C Resource has an unloading Shift Factor more than 2% on the Transmission Facility; 2) The C4C Resource has a greater than 5% unloading impact* on the Transmission Facility; and 3) At least one other non-C4C Resource has a 5% or more unloading Shift Factor on the Transmission Facility. Unloading impact is reduction of flow on the Transmission Facility and is used in ERCOT’s evaluation of whether the unit would be an effective C4C Resource. The MOC methodology in this NPRR is similar to the NPRR826 approach and works as follows to create the line: 1) Identify all non-Reliability Must-Run (RMR) and non-C4C Resources that have a greater than 5%* unloading Shift Factor on the Transmission Facility; 2) Collect the highest energy offer point (mitigated if applicable) for each Resource in step 1 and convert to a Shadow Price equivalent; 3) Select the highest value from step 2 and ensure it is less than the Shadow Price cap for the constraint by $1; 4) Add $0.01 to the value from step 3, multiply by the Shift Factor of the C4C Resource to convert back to an energy offer equivalent, and set as the C4C MOC; and 5) If there are multiple constraints, use the lowest value from step 4. Finally, if possible, ERCOT should implement this NPRR with NPRR826, stop manual MOC calculations for RMR and C4C, and remove related Protocol language.",
       "issue_title": "Mitigated Offer Caps for Contract for Capacity Resources",
       "affected_sections": "2.1, 2.2, 4.4.9.4.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "ee72d7767b2c49d3035856bc806722781df93161c34626678d338537c127b3bb",
@@ -1048,8 +1249,8 @@
       "source": "NPRR",
       "published_date": "Sep 17, 2026",
       "downloaded_at": "2026-10-24T11:00:47Z",
-      "observed_at": "2026-10-24T11:00:47Z",
-      "status": "Pending",
+      "observed_at": "2026-11-14T21:00:47Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/09/17/1341NPRR-11-Board-Report-091526.docx",
       "sources": [
         "NPRR"
@@ -1059,7 +1260,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) relocates select terms from Load Profiling Guide Section 19.1, Definitions, to Protocol Section 2.1, Definitions, removes the term ‘Time of Use Schedule (TOUS)’, and updates section references related to the Profile Decision Tree.",
       "issue_title": "Related to LPGRR077, Profile Decision Tree Excel-to-Word Conversion",
       "affected_sections": "2.1, 2.2, 11.4.2, 11.4.4.2, 11.4.4.3, 18.4.2",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "38adb05c4dcfdb95a95028e40f1328ded48baf032656d5d37e3a6c28c52c143e",
@@ -1079,26 +1280,6 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) revises the transportation-cost allowance incorporated into the Fuel Oil Price (FOP) by increasing the adder from $0.05 per gallon to $0.10 per gallon. The NPRR updates the FOP definition in Section 2.1, Definitions. The revision maintains the existing fuel oil index methodology and conversion factor while updating a transportation-cost assumption that has remained substantially unchanged since implementation of the Nodal market more than 15 years ago. The proposed change improves the accuracy of fuel oil pricing assumptions used for reliability services and cost recovery calculations by better reflecting current transportation costs associated with the delivery and replenishment of fuel oil inventories.",
       "issue_title": "Updates to the Fuel Oil Price (FOP)",
       "affected_sections": "2.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "9f3ad5c95234568d5c41ab268fa2396809d0e095e5f13b8ee492180fc19e9b6d",
-      "title": "NPRR1340",
-      "document_number": "NPRR1340",
-      "source": "NPRR",
-      "published_date": "May 29, 2026",
-      "downloaded_at": "2026-10-24T11:00:43Z",
-      "observed_at": "2026-10-24T11:00:43Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1340",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1340",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
-      "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -2076,7 +2257,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) corrects misalignment of Protocol language with the Real-Time Co-optimization plus Batteries (RTC+B) implementation. The proposed changes are summarized below: 1. Corrects the duration requirement of ERCOT Contingency Reserve Service (ECRS). NPRR1282, Ancillary Service Duration under Real-Time Co-Optimization, set the duration requirement for ECRS to one hour, but certain sections were inadvertently omitted from NPRR1282 and still reflect the previous two-hour duration. This NPRR corrects those references to align with the as-built one-hour duration for ECRS. 2. Removes Fast-Responding Regulation Service (FRRS) reference in Section 4.4.7.3, Ancillary Service Trades, since FRRS was deleted with the RTC+B implementation. 3. Removes the requirement for Energy Storage Resources (ESRs) to telemeter the next Operating Hour Ancillary Service Responsibilities, which is no longer applicable following the removal of Ancillary Service Responsibilities under RTC+B. 4. Removes references to Ancillary Service Responsibility and Ancillary Service Schedule, as well language that is no longer applicable under RTC+B, in several sections. Replaces the Ancillary Service Responsibilities with Ancillary Service awards wherever applicable.",
       "issue_title": "Protocol Clean Up and Alignment with RTC+B Implementation",
       "affected_sections": "2.1, 3.9, 3.17.4, 4.4.7.3, 6.3.2, 6.5.7.6.2.3, 8.1.1.2.1.1, 8.1.1.2.1.2, and 8.1.1.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "d0f769edc78ba7021bce8a803271d0c77361c06aebded5eeceac63e1108c2633",
@@ -2156,86 +2337,6 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) implements an Alternate Baseline Test to determine if an Emergency Response Service (ERS) Resource can qualify to have its performance based on the alternate baseline and changes the availability performance metric from a Qualified Scheduling Entity (QSE) Portfolio Factor combining all ERS Time Periods to having an individual QSE Portfolio Factor for each ERS Time Period.",
       "issue_title": "ERS Enhancements",
       "affected_sections": "2.1, 6.6.11.1, 8.1.3.1.1, 8.1.3.1.3, 8.1.3.1.3.1, 8.1.3.1.3.3, 8.1.3.1.4, 8.1.3.2, 8.1.3.3.1, and 8.1.3.3.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "25455cba59236d308c7c6a951bc4b8863efa3ab2ab61efe6f3764148d5a4c74a",
-      "title": "NPRR1339",
-      "document_number": "NPRR1339",
-      "source": "NPRR",
-      "published_date": "May 29, 2026",
-      "downloaded_at": "2026-10-09T20:00:49Z",
-      "observed_at": "2026-10-09T20:00:49Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1339",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1339",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) corrects misalignment of Protocol language with the Real-Time Co-optimization plus Batteries (RTC+B) implementation. The proposed changes are summarized below: 1. Corrects the duration requirement of ERCOT Contingency Reserve Service (ECRS). NPRR1282, Ancillary Service Duration under Real-Time Co-Optimization, set the duration requirement for ECRS to one hour, but certain sections were inadvertently omitted from NPRR1282 and still reflect the previous two-hour duration. This NPRR corrects those references to align with the as-built one-hour duration for ECRS. 2. Removes Fast-Responding Regulation Service (FRRS) reference in Section 4.4.7.3, Ancillary Service Trades, since FRRS was deleted with the RTC+B implementation. 3. Removes the requirement for Energy Storage Resources (ESRs) to telemeter the next Operating Hour Ancillary Service Responsibilities, which is no longer applicable following the removal of Ancillary Service Responsibilities under RTC+B. 4. Removes references to Ancillary Service Responsibility and Ancillary Service Schedule, as well language that is no longer applicable under RTC+B, in several sections. Replaces the Ancillary Service Responsibilities with Ancillary Service awards wherever applicable.",
-      "issue_title": "Protocol Clean Up and Alignment with RTC+B Implementation",
-      "affected_sections": "2.1, 3.9, 3.17.4, 4.4.7.3, 6.3.2, 6.5.7.6.2.3, 8.1.1.2.1.1, 8.1.1.2.1.2, and 8.1.1.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "c81f295da60ced4cbf7747d6c38cab901a4e08d0d4b841cae3e368971b052635",
-      "title": "NPRR1342",
-      "document_number": "NPRR1342",
-      "source": "NPRR",
-      "published_date": "Jun 30, 2026",
-      "downloaded_at": "2026-10-09T20:00:48Z",
-      "observed_at": "2026-10-09T20:00:48Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1342",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1342",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) creates a new process for determining the Mitigated Offer Cap (MOC) for Contract for Capacity (C4C) Resources procured through Section 6.5.1.1, ERCOT Control Area Authority. This NPRR proposes using market design principles to allow the C4C Resource to be Dispatched but still be above other Resources that solve the same constraint. This NPRR uses the “last-in-line” principle from NPRR826, Mitigated Offer Caps for RMR Resources, to set the MOC for C4C Resources and minimize their effect on market competition. This NPRR sets clear requirements for using this method. If those requirements aren't fulfilled, mitigation of the C4C Resource is determined by cost. The C4C MOC methodology in this NPRR will only be applied to an active constraint when all of the following three conditions are true: 1) The C4C Resource has an unloading Shift Factor more than 2% on the Transmission Facility; 2) The C4C Resource has a greater than 5% unloading impact* on the Transmission Facility; and 3) At least one other non-C4C Resource has a 5% or more unloading Shift Factor on the Transmission Facility. Unloading impact is reduction of flow on the Transmission Facility and is used in ERCOT’s evaluation of whether the unit would be an effective C4C Resource. The MOC methodology in this NPRR is similar to the NPRR826 approach and works as follows to create the line: 1) Identify all non-Reliability Must-Run (RMR) and non-C4C Resources that have a greater than 5%* unloading Shift Factor on the Transmission Facility; 2) Collect the highest energy offer point (mitigated if applicable) for each Resource in step 1 and convert to a Shadow Price equivalent; 3) Select the highest value from step 2 and ensure it is less than the Shadow Price cap for the constraint by $1; 4) Add $0.01 to the value from step 3, multiply by the Shift Factor of the C4C Resource to convert back to an energy offer equivalent, and set as the C4C MOC; and 5) If there are multiple constraints, use the lowest value from step 4. Finally, if possible, ERCOT should implement this NPRR with NPRR826, stop manual MOC calculations for RMR and C4C, and remove related Protocol language.",
-      "issue_title": "Mitigated Offer Caps for Contract for Capacity Resources",
-      "affected_sections": "2.1, 2.2, 4.4.9.4.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "25fb09b6fb7ffd5550516fad9a515d079c395ab0225b6b73bab04392215684dd",
-      "title": "NPRR1341",
-      "document_number": "NPRR1341",
-      "source": "NPRR",
-      "published_date": "Jun 23, 2026",
-      "downloaded_at": "2026-10-09T20:00:48Z",
-      "observed_at": "2026-10-09T20:00:48Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1341",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1341",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) relocates select terms from Load Profiling Guide Section 19.1, Definitions, to Protocol Section 2.1, Definitions, removes the term ‘Time of Use Schedule (TOUS)’, and updates section references related to the Profile Decision Tree.",
-      "issue_title": "Related to LPGRR077, Profile Decision Tree Excel-to-Word Conversion",
-      "affected_sections": "2.1, 2.2, 11.4.2, 11.4.4.2, 11.4.4.3, 18.4.2",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "6f43c2083ed9a9ad32018a7c019a0770b5664bcdac7edee5597388db37cada6e",
-      "title": "NPRR1344",
-      "document_number": "NPRR1344",
-      "source": "NPRR",
-      "published_date": "Jul 28, 2026",
-      "downloaded_at": "2026-10-09T20:00:46Z",
-      "observed_at": "2026-10-09T20:00:46Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1344",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1344",
-      "revision_family": "NPRR",
-      "explanation": "This NPRR incorporates the Other Binding Document “Texas Market Test Plan” into the Protocols to standardize the approval process.",
-      "issue_title": "Move OBD to Section 19 – Texas Market Test Plan",
-      "affected_sections": "19.8, 19.9 (new), 19.9.1 (new), 19.9.1.1 (new), 19.9.1.2 (new), 19.9.1.3 (new), 19.9.2 (new), 19.9.3 (new), 19.9.3.1 (new), 19.9.3.1.1 (new), 19.9.3.1.2 (new), 19.9.3.1.3 (new), 19.9.4 (new), 19.9.5 (new), 19.9.6 (new), 19.9.6.1 (new), 19.9.6.1.1 (new), 19.9.6.1.2 (new), 19.9.6.1.3, (new), 19.9.6.2 (new), 19.9.7 (new), 19.9.7.1 (new), 19.9.7.1.1 (new), 19.9.7.1.2 (new), 19.9.7.1.3 (new), 19.9.7.1.4 (new), 19.9.7.1.5 (new), 19.9.7.1.6 (new), 19.9.7.2.1 (new), 19.9.7.2.2 (new), 19.9.7.3 (new), 19.9.7.4, (new), 19.9.7.5 (new), and 19.9.7.6 (new)",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -2565,8 +2666,8 @@
       "source": "NPRR",
       "published_date": "Sep 17, 2026",
       "downloaded_at": "2026-10-01T20:00:49Z",
-      "observed_at": "2026-10-01T20:00:49Z",
-      "status": "Pending",
+      "observed_at": "2026-11-14T21:00:48Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/09/17/1339NPRR-10-Board-Report-091526.docx",
       "sources": [
         "NPRR"
@@ -2576,7 +2677,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) corrects misalignment of Protocol language with the Real-Time Co-optimization plus Batteries (RTC+B) implementation. The proposed changes are summarized below: 1. Corrects the duration requirement of ERCOT Contingency Reserve Service (ECRS). NPRR1282, Ancillary Service Duration under Real-Time Co-Optimization, set the duration requirement for ECRS to one hour, but certain sections were inadvertently omitted from NPRR1282 and still reflect the previous two-hour duration. This NPRR corrects those references to align with the as-built one-hour duration for ECRS. 2. Removes Fast-Responding Regulation Service (FRRS) reference in Section 4.4.7.3, Ancillary Service Trades, since FRRS was deleted with the RTC+B implementation. 3. Removes the requirement for Energy Storage Resources (ESRs) to telemeter the next Operating Hour Ancillary Service Responsibilities, which is no longer applicable following the removal of Ancillary Service Responsibilities under RTC+B. 4. Removes references to Ancillary Service Responsibility and Ancillary Service Schedule, as well language that is no longer applicable under RTC+B, in several sections. Replaces the Ancillary Service Responsibilities with Ancillary Service awards wherever applicable.",
       "issue_title": "Protocol Clean Up and Alignment with RTC+B Implementation",
       "affected_sections": "2.1, 3.9, 3.17.4, 4.4.7.3, 6.3.2, 6.5.7.6.2.3, 8.1.1.2.1.1, 8.1.1.2.1.2, and 8.1.1.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "398eaebd5957b04e8ca10aed902e5861275c36babf4c67526ea6a13e5ab868cb",
@@ -2916,7 +3017,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) corrects misalignment of Protocol language with the Real-Time Co-optimization plus Batteries (RTC+B) implementation. The proposed changes are summarized below: 1. Corrects the duration requirement of ERCOT Contingency Reserve Service (ECRS). NPRR1282, Ancillary Service Duration under Real-Time Co-Optimization, set the duration requirement for ECRS to one hour, but certain sections were inadvertently omitted from NPRR1282 and still reflect the previous two-hour duration. This NPRR corrects those references to align with the as-built one-hour duration for ECRS. 2. Removes Fast-Responding Regulation Service (FRRS) reference in Section 4.4.7.3, Ancillary Service Trades, since FRRS was deleted with the RTC+B implementation. 3. Removes the requirement for Energy Storage Resources (ESRs) to telemeter the next Operating Hour Ancillary Service Responsibilities, which is no longer applicable following the removal of Ancillary Service Responsibilities under RTC+B. 4. Removes references to Ancillary Service Responsibility and Ancillary Service Schedule, as well language that is no longer applicable under RTC+B, in several sections. Replaces the Ancillary Service Responsibilities with Ancillary Service awards wherever applicable.",
       "issue_title": "Protocol Clean Up and Alignment with RTC+B Implementation",
       "affected_sections": "2.1, 3.9, 3.17.4, 4.4.7.3, 6.3.2, 6.5.7.6.2.3, 8.1.1.2.1.1, 8.1.1.2.1.2, and 8.1.1.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "f88609198b2f33cc2ecc379243c2ce677f439ec53acceeb24be7377fb929886e",
@@ -3016,7 +3117,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) relocates select terms from Load Profiling Guide Section 19.1, Definitions, to Protocol Section 2.1, Definitions, removes the term ‘Time of Use Schedule (TOUS)’, and updates section references related to the Profile Decision Tree.",
       "issue_title": "Related to LPGRR077, Profile Decision Tree Excel-to-Word Conversion",
       "affected_sections": "2.1, 2.2, 11.4.2, 11.4.4.2, 11.4.4.3, 18.4.2",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "e35dff1d177601c4f2800d3db576c2a18e141afa89eef41b2795a01614aee4ec",
@@ -3036,7 +3137,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) corrects misalignment of Protocol language with the Real-Time Co-optimization plus Batteries (RTC+B) implementation. The proposed changes are summarized below: 1. Corrects the duration requirement of ERCOT Contingency Reserve Service (ECRS). NPRR1282, Ancillary Service Duration under Real-Time Co-Optimization, set the duration requirement for ECRS to one hour, but certain sections were inadvertently omitted from NPRR1282 and still reflect the previous two-hour duration. This NPRR corrects those references to align with the as-built one-hour duration for ECRS. 2. Removes Fast-Responding Regulation Service (FRRS) reference in Section 4.4.7.3, Ancillary Service Trades, since FRRS was deleted with the RTC+B implementation. 3. Removes the requirement for Energy Storage Resources (ESRs) to telemeter the next Operating Hour Ancillary Service Responsibilities, which is no longer applicable following the removal of Ancillary Service Responsibilities under RTC+B. 4. Removes references to Ancillary Service Responsibility and Ancillary Service Schedule, as well language that is no longer applicable under RTC+B, in several sections. Replaces the Ancillary Service Responsibilities with Ancillary Service awards wherever applicable.",
       "issue_title": "Protocol Clean Up and Alignment with RTC+B Implementation",
       "affected_sections": "2.1, 3.9, 3.17.4, 4.4.7.3, 6.3.2, 6.5.7.6.2.3, 8.1.1.2.1.1, 8.1.1.2.1.2, and 8.1.1.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "ee029629f578aeccfa34267ac70549f47c8426ba7ac4f33e59c1a547e6f550d8",
@@ -3182,8 +3283,8 @@
       "source": "NPRR",
       "published_date": "Sep 18, 2026",
       "downloaded_at": "2026-09-18T20:00:46Z",
-      "observed_at": "2026-09-18T20:00:46Z",
-      "status": "Pending",
+      "observed_at": "2026-11-14T21:00:47Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/09/18/1344NPRR-09-Board-Report-091526.docx",
       "sources": [
         "NPRR"
@@ -3193,7 +3294,7 @@
       "explanation": "This NPRR incorporates the Other Binding Document “Texas Market Test Plan” into the Protocols to standardize the approval process.",
       "issue_title": "Move OBD to Section 19 – Texas Market Test Plan",
       "affected_sections": "19.8, 19.9 (new), 19.9.1 (new), 19.9.1.1 (new), 19.9.1.2 (new), 19.9.1.3 (new), 19.9.2 (new), 19.9.3 (new), 19.9.3.1 (new), 19.9.3.1.1 (new), 19.9.3.1.2 (new), 19.9.3.1.3 (new), 19.9.4 (new), 19.9.5 (new), 19.9.6 (new), 19.9.6.1 (new), 19.9.6.1.1 (new), 19.9.6.1.2 (new), 19.9.6.1.3, (new), 19.9.6.2 (new), 19.9.7 (new), 19.9.7.1 (new), 19.9.7.1.1 (new), 19.9.7.1.2 (new), 19.9.7.1.3 (new), 19.9.7.1.4 (new), 19.9.7.1.5 (new), 19.9.7.1.6 (new), 19.9.7.2.1 (new), 19.9.7.2.2 (new), 19.9.7.3 (new), 19.9.7.4, (new), 19.9.7.5 (new), and 19.9.7.6 (new)",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "7eb0261d4075e28c68e19130b471338983ce6e65f5dc5d1e748c62b39ce272cc",
@@ -3490,7 +3591,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) relocates select terms from Load Profiling Guide Section 19.1, Definitions, to Protocol Section 2.1, Definitions, removes the term ‘Time of Use Schedule (TOUS)’, and updates section references related to the Profile Decision Tree.",
       "issue_title": "Related to LPGRR077, Profile Decision Tree Excel-to-Word Conversion",
       "affected_sections": "2.1, 2.2, 11.4.2, 11.4.4.2, 11.4.4.3, 18.4.2",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "b9171a080b6e131fd585d2bb941c2ae77c770d319fafb04423eedde56c26dc8e",
@@ -3530,7 +3631,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) corrects misalignment of Protocol language with the Real-Time Co-optimization plus Batteries (RTC+B) implementation. The proposed changes are summarized below: 1. Corrects the duration requirement of ERCOT Contingency Reserve Service (ECRS). NPRR1282, Ancillary Service Duration under Real-Time Co-Optimization, set the duration requirement for ECRS to one hour, but certain sections were inadvertently omitted from NPRR1282 and still reflect the previous two-hour duration. This NPRR corrects those references to align with the as-built one-hour duration for ECRS. 2. Removes Fast-Responding Regulation Service (FRRS) reference in Section 4.4.7.3, Ancillary Service Trades, since FRRS was deleted with the RTC+B implementation. 3. Removes the requirement for Energy Storage Resources (ESRs) to telemeter the next Operating Hour Ancillary Service Responsibilities, which is no longer applicable following the removal of Ancillary Service Responsibilities under RTC+B. 4. Removes references to Ancillary Service Responsibility and Ancillary Service Schedule, as well language that is no longer applicable under RTC+B, in several sections. Replaces the Ancillary Service Responsibilities with Ancillary Service awards wherever applicable.",
       "issue_title": "Protocol Clean Up and Alignment with RTC+B Implementation",
       "affected_sections": "2.1, 3.9, 3.17.4, 4.4.7.3, 6.3.2, 6.5.7.6.2.3, 8.1.1.2.1.1, 8.1.1.2.1.2, and 8.1.1.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "4a4068d3703aa305711ee5839c5f6c55f8c799795d3a67c4b4ede33f365f112a",
@@ -3807,26 +3908,6 @@
       "explanation": "This NPRR clarifies the term “Distributed Generation” (DG) and, introduces the categories of “Distributed Generation,” which include: Unregistered Distributed Generator; Distribution Generation Resource; Settlement Only Distribution Energy Storage System; Settlement Only Distribution Generator; and Non-Settled Distribution Generator. This NPRR also clarifies the Resource registration process for Resource Entities. Additionally, this NPRR updates DG interconnection, registration, and reporting requirements to ensure consistency throughout the ERCOT System as it relates to DG.",
       "issue_title": "Creation of Non-Settled Generator (NSG) and Clarification of the Types, Usage, and Registration of Distributed Generation",
       "affected_sections": "1.6, 1.6.5, 2.1, 2.2, 3.1.4.3, 3.1.5.1, 3.6.2, 3.8.1, 3.8.7, 3.8.9, 3.10.7.2, 3.14.1, 3.14.1.8, 3.14.1.9, 3.14.1.10, 3.14.1.19, 3.14.4.1, 3.15, 6.5.5.2, 10.2.2, 10.2.3, 10.3.2.1, 16.5, 16.5.1, 16.5.1.1, 16.5.2, 16.5.3, 23C, and 23U (new)",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "b4bfb2b96ab190891337dfc23ad7337acc8ec3699cbd2993abb90047004d89ac",
-      "title": "NPRR1319",
-      "document_number": "NPRR1319",
-      "source": "TAC",
-      "published_date": "Dec 29, 2025",
-      "downloaded_at": "2026-09-10T20:02:00Z",
-      "observed_at": "2026-09-10T20:02:00Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1319",
-      "sources": [
-        "TAC"
-      ],
-      "revision_id": "NPRR1319",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) clarifies ERCOT’s next steps after a Generation Resource proposal to be placed on seasonal mothball status has been evaluated. The current language in some cases requires ERCOT to prepare and post a Must-Run Alternative (MRA) “Request for Proposal” (RFP). Given that a request to seasonally mothball a Resource can be submitted as little as 90 days before the season begins, if ERCOT studies indicate a reliability concern of the seasonal mothball request, in most cases there is not enough time to effectively go through the MRA process and receive operational alternatives in a timely manner. This NPRR clarifies that ERCOT may, but is not required to, go through the MRA RFP process when it receives notice to place a unit on seasonal mothball status.",
-      "issue_title": "Clarification to Seasonal Mothball Evaluation Process",
-      "affected_sections": "3.14.1.2, 3.14.1.2.1 (new), 3.14.1.2.1, and 22E",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -4318,7 +4399,7 @@
       "explanation": "This NPRR incorporates the Other Binding Document “Texas Market Test Plan” into the Protocols to standardize the approval process.",
       "issue_title": "Move OBD to Section 19 – Texas Market Test Plan",
       "affected_sections": "19.8, 19.9 (new), 19.9.1 (new), 19.9.1.1 (new), 19.9.1.2 (new), 19.9.1.3 (new), 19.9.2 (new), 19.9.3 (new), 19.9.3.1 (new), 19.9.3.1.1 (new), 19.9.3.1.2 (new), 19.9.3.1.3 (new), 19.9.4 (new), 19.9.5 (new), 19.9.6 (new), 19.9.6.1 (new), 19.9.6.1.1 (new), 19.9.6.1.2 (new), 19.9.6.1.3, (new), 19.9.6.2 (new), 19.9.7 (new), 19.9.7.1 (new), 19.9.7.1.1 (new), 19.9.7.1.2 (new), 19.9.7.1.3 (new), 19.9.7.1.4 (new), 19.9.7.1.5 (new), 19.9.7.1.6 (new), 19.9.7.2.1 (new), 19.9.7.2.2 (new), 19.9.7.3 (new), 19.9.7.4, (new), 19.9.7.5 (new), and 19.9.7.6 (new)",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "14e27c169efd5b241d0c8e56f0063b2d55d456eb4bdea53389e7796d6b323c46",
@@ -4358,7 +4439,7 @@
       "explanation": "This NPRR incorporates the Other Binding Document “Texas Market Test Plan” into the Protocols to standardize the approval process.",
       "issue_title": "Move OBD to Section 19 – Texas Market Test Plan",
       "affected_sections": "19.8, 19.9 (new), 19.9.1 (new), 19.9.1.1 (new), 19.9.1.2 (new), 19.9.1.3 (new), 19.9.2 (new), 19.9.3 (new), 19.9.3.1 (new), 19.9.3.1.1 (new), 19.9.3.1.2 (new), 19.9.3.1.3 (new), 19.9.4 (new), 19.9.5 (new), 19.9.6 (new), 19.9.6.1 (new), 19.9.6.1.1 (new), 19.9.6.1.2 (new), 19.9.6.1.3, (new), 19.9.6.2 (new), 19.9.7 (new), 19.9.7.1 (new), 19.9.7.1.1 (new), 19.9.7.1.2 (new), 19.9.7.1.3 (new), 19.9.7.1.4 (new), 19.9.7.1.5 (new), 19.9.7.1.6 (new), 19.9.7.2.1 (new), 19.9.7.2.2 (new), 19.9.7.3 (new), 19.9.7.4, (new), 19.9.7.5 (new), and 19.9.7.6 (new)",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "b65d025e83d654f82d1890d52a6e0d97028b7fee4a250dd797437280c2fb576c",
@@ -4398,7 +4479,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) creates a new process for determining the Mitigated Offer Cap (MOC) for Contract for Capacity (C4C) Resources procured through Section 6.5.1.1, ERCOT Control Area Authority. This NPRR proposes using market design principles to allow the C4C Resource to be Dispatched but still be above other Resources that solve the same constraint. This NPRR uses the “last-in-line” principle from NPRR826, Mitigated Offer Caps for RMR Resources, to set the MOC for C4C Resources and minimize their effect on market competition. This NPRR sets clear requirements for using this method. If those requirements aren't fulfilled, mitigation of the C4C Resource is determined by cost. The C4C MOC methodology in this NPRR will only be applied to an active constraint when all of the following three conditions are true: 1) The C4C Resource has an unloading Shift Factor more than 2% on the Transmission Facility; 2) The C4C Resource has a greater than 5% unloading impact* on the Transmission Facility; and 3) At least one other non-C4C Resource has a 5% or more unloading Shift Factor on the Transmission Facility. Unloading impact is reduction of flow on the Transmission Facility and is used in ERCOT’s evaluation of whether the unit would be an effective C4C Resource. The MOC methodology in this NPRR is similar to the NPRR826 approach and works as follows to create the line: 1) Identify all non-Reliability Must-Run (RMR) and non-C4C Resources that have a greater than 5%* unloading Shift Factor on the Transmission Facility; 2) Collect the highest energy offer point (mitigated if applicable) for each Resource in step 1 and convert to a Shadow Price equivalent; 3) Select the highest value from step 2 and ensure it is less than the Shadow Price cap for the constraint by $1; 4) Add $0.01 to the value from step 3, multiply by the Shift Factor of the C4C Resource to convert back to an energy offer equivalent, and set as the C4C MOC; and 5) If there are multiple constraints, use the lowest value from step 4. Finally, if possible, ERCOT should implement this NPRR with NPRR826, stop manual MOC calculations for RMR and C4C, and remove related Protocol language.",
       "issue_title": "Mitigated Offer Caps for Contract for Capacity Resources",
       "affected_sections": "2.1, 2.2, 4.4.9.4.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "4dc29560e3b9533f34f2d5b845f30924990f6d64c2d076ccf49ae54337bf48de",
@@ -4738,7 +4819,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) corrects misalignment of Protocol language with the Real-Time Co-optimization plus Batteries (RTC+B) implementation. The proposed changes are summarized below: 1. Corrects the duration requirement of ERCOT Contingency Reserve Service (ECRS). NPRR1282, Ancillary Service Duration under Real-Time Co-Optimization, set the duration requirement for ECRS to one hour, but certain sections were inadvertently omitted from NPRR1282 and still reflect the previous two-hour duration. This NPRR corrects those references to align with the as-built one-hour duration for ECRS. 2. Removes Fast-Responding Regulation Service (FRRS) reference in Section 4.4.7.3, Ancillary Service Trades, since FRRS was deleted with the RTC+B implementation. 3. Removes the requirement for Energy Storage Resources (ESRs) to telemeter the next Operating Hour Ancillary Service Responsibilities, which is no longer applicable following the removal of Ancillary Service Responsibilities under RTC+B. 4. Removes references to Ancillary Service Responsibility and Ancillary Service Schedule, as well language that is no longer applicable under RTC+B, in several sections. Replaces the Ancillary Service Responsibilities with Ancillary Service awards wherever applicable.",
       "issue_title": "Protocol Clean Up and Alignment with RTC+B Implementation",
       "affected_sections": "2.1, 3.9, 3.17.4, 4.4.7.3, 6.3.2, 6.5.7.6.2.3, 8.1.1.2.1.1, 8.1.1.2.1.2, and 8.1.1.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "1ad64e0890ddd3a2ecdfe83271d45261baed8cdf528c4192948fdc404a93c8e1",
@@ -4878,7 +4959,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) creates a new process for determining the Mitigated Offer Cap (MOC) for Contract for Capacity (C4C) Resources procured through Section 6.5.1.1, ERCOT Control Area Authority. This NPRR proposes using market design principles to allow the C4C Resource to be Dispatched but still be above other Resources that solve the same constraint. This NPRR uses the “last-in-line” principle from NPRR826, Mitigated Offer Caps for RMR Resources, to set the MOC for C4C Resources and minimize their effect on market competition. This NPRR sets clear requirements for using this method. If those requirements aren't fulfilled, mitigation of the C4C Resource is determined by cost. The C4C MOC methodology in this NPRR will only be applied to an active constraint when all of the following three conditions are true: 1) The C4C Resource has an unloading Shift Factor more than 2% on the Transmission Facility; 2) The C4C Resource has a greater than 5% unloading impact* on the Transmission Facility; and 3) At least one other non-C4C Resource has a 5% or more unloading Shift Factor on the Transmission Facility. Unloading impact is reduction of flow on the Transmission Facility and is used in ERCOT’s evaluation of whether the unit would be an effective C4C Resource. The MOC methodology in this NPRR is similar to the NPRR826 approach and works as follows to create the line: 1) Identify all non-Reliability Must-Run (RMR) and non-C4C Resources that have a greater than 5%* unloading Shift Factor on the Transmission Facility; 2) Collect the highest energy offer point (mitigated if applicable) for each Resource in step 1 and convert to a Shadow Price equivalent; 3) Select the highest value from step 2 and ensure it is less than the Shadow Price cap for the constraint by $1; 4) Add $0.01 to the value from step 3, multiply by the Shift Factor of the C4C Resource to convert back to an energy offer equivalent, and set as the C4C MOC; and 5) If there are multiple constraints, use the lowest value from step 4. Finally, if possible, ERCOT should implement this NPRR with NPRR826, stop manual MOC calculations for RMR and C4C, and remove related Protocol language.",
       "issue_title": "Mitigated Offer Caps for Contract for Capacity Resources",
       "affected_sections": "2.1, 2.2, 4.4.9.4.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "8bfb77660d5fbcc2deb4796330bc352f89e4311bad5cbea506f7ba148f78a13b",
@@ -5258,7 +5339,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) relocates select terms from Load Profiling Guide Section 19.1, Definitions, to Protocol Section 2.1, Definitions, removes the term ‘Time of Use Schedule (TOUS)’, and updates section references related to the Profile Decision Tree.",
       "issue_title": "Related to LPGRR077, Profile Decision Tree Excel-to-Word Conversion",
       "affected_sections": "2.1, 2.2, 11.4.2, 11.4.4.2, 11.4.4.3, 18.4.2",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "864a84d783691e385472015fb2725372a7fcbf1af2d438a6ea2fc9af5ba602f3",
@@ -5458,7 +5539,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) creates a new process for determining the Mitigated Offer Cap (MOC) for Contract for Capacity (C4C) Resources procured through Section 6.5.1.1, ERCOT Control Area Authority. This NPRR proposes using market design principles to allow the C4C Resource to be Dispatched but still be above other Resources that solve the same constraint. This NPRR uses the “last-in-line” principle from NPRR826, Mitigated Offer Caps for RMR Resources, to set the MOC for C4C Resources and minimize their effect on market competition. This NPRR sets clear requirements for using this method. If those requirements aren't fulfilled, mitigation of the C4C Resource is determined by cost. The C4C MOC methodology in this NPRR will only be applied to an active constraint when all of the following three conditions are true: 1) The C4C Resource has an unloading Shift Factor more than 2% on the Transmission Facility; 2) The C4C Resource has a greater than 5% unloading impact* on the Transmission Facility; and 3) At least one other non-C4C Resource has a 5% or more unloading Shift Factor on the Transmission Facility. Unloading impact is reduction of flow on the Transmission Facility and is used in ERCOT’s evaluation of whether the unit would be an effective C4C Resource. The MOC methodology in this NPRR is similar to the NPRR826 approach and works as follows to create the line: 1) Identify all non-Reliability Must-Run (RMR) and non-C4C Resources that have a greater than 5%* unloading Shift Factor on the Transmission Facility; 2) Collect the highest energy offer point (mitigated if applicable) for each Resource in step 1 and convert to a Shadow Price equivalent; 3) Select the highest value from step 2 and ensure it is less than the Shadow Price cap for the constraint by $1; 4) Add $0.01 to the value from step 3, multiply by the Shift Factor of the C4C Resource to convert back to an energy offer equivalent, and set as the C4C MOC; and 5) If there are multiple constraints, use the lowest value from step 4. Finally, if possible, ERCOT should implement this NPRR with NPRR826, stop manual MOC calculations for RMR and C4C, and remove related Protocol language.",
       "issue_title": "Mitigated Offer Caps for Contract for Capacity Resources",
       "affected_sections": "2.1, 2.2, 4.4.9.4.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "8545ee6775ebfcb262c53bc767b2f8ca89f943dec16e47577ff53c0ec400818a",
@@ -5578,7 +5659,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) creates a new process for determining the Mitigated Offer Cap (MOC) for Contract for Capacity (C4C) Resources procured through Section 6.5.1.1, ERCOT Control Area Authority. This NPRR proposes using market design principles to allow the C4C Resource to be Dispatched but still be above other Resources that solve the same constraint. This NPRR uses the “last-in-line” principle from NPRR826, Mitigated Offer Caps for RMR Resources, to set the MOC for C4C Resources and minimize their effect on market competition. This NPRR sets clear requirements for using this method. If those requirements aren't fulfilled, mitigation of the C4C Resource is determined by cost. The C4C MOC methodology in this NPRR will only be applied to an active constraint when all of the following three conditions are true: 1) The C4C Resource has an unloading Shift Factor more than 2% on the Transmission Facility; 2) The C4C Resource has a greater than 5% unloading impact* on the Transmission Facility; and 3) At least one other non-C4C Resource has a 5% or more unloading Shift Factor on the Transmission Facility. Unloading impact is reduction of flow on the Transmission Facility and is used in ERCOT’s evaluation of whether the unit would be an effective C4C Resource. The MOC methodology in this NPRR is similar to the NPRR826 approach and works as follows to create the line: 1) Identify all non-Reliability Must-Run (RMR) and non-C4C Resources that have a greater than 5%* unloading Shift Factor on the Transmission Facility; 2) Collect the highest energy offer point (mitigated if applicable) for each Resource in step 1 and convert to a Shadow Price equivalent; 3) Select the highest value from step 2 and ensure it is less than the Shadow Price cap for the constraint by $1; 4) Add $0.01 to the value from step 3, multiply by the Shift Factor of the C4C Resource to convert back to an energy offer equivalent, and set as the C4C MOC; and 5) If there are multiple constraints, use the lowest value from step 4. Finally, if possible, ERCOT should implement this NPRR with NPRR826, stop manual MOC calculations for RMR and C4C, and remove related Protocol language.",
       "issue_title": "Mitigated Offer Caps for Contract for Capacity Resources",
       "affected_sections": "2.1, 2.2, 4.4.9.4.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "07f3e1693efff73b4f0a62c57f7d9698f9694dee749c1e8da624fd99a9984414",
@@ -5655,7 +5736,7 @@
       "explanation": "This NPRR incorporates the Other Binding Document “Texas Market Test Plan” into the Protocols to standardize the approval process.",
       "issue_title": "Move OBD to Section 19 – Texas Market Test Plan",
       "affected_sections": "19.8, 19.9 (new), 19.9.1 (new), 19.9.1.1 (new), 19.9.1.2 (new), 19.9.1.3 (new), 19.9.2 (new), 19.9.3 (new), 19.9.3.1 (new), 19.9.3.1.1 (new), 19.9.3.1.2 (new), 19.9.3.1.3 (new), 19.9.4 (new), 19.9.5 (new), 19.9.6 (new), 19.9.6.1 (new), 19.9.6.1.1 (new), 19.9.6.1.2 (new), 19.9.6.1.3, (new), 19.9.6.2 (new), 19.9.7 (new), 19.9.7.1 (new), 19.9.7.1.1 (new), 19.9.7.1.2 (new), 19.9.7.1.3 (new), 19.9.7.1.4 (new), 19.9.7.1.5 (new), 19.9.7.1.6 (new), 19.9.7.2.1 (new), 19.9.7.2.2 (new), 19.9.7.3 (new), 19.9.7.4, (new), 19.9.7.5 (new), and 19.9.7.6 (new)",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "d39d2686d0b60e31e43273f4db6b277f3d93bb5244746de468e5b9fa89160738",
@@ -5735,7 +5816,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) creates a new process for determining the Mitigated Offer Cap (MOC) for Contract for Capacity (C4C) Resources procured through Section 6.5.1.1, ERCOT Control Area Authority. This NPRR proposes using market design principles to allow the C4C Resource to be Dispatched but still be above other Resources that solve the same constraint. This NPRR uses the “last-in-line” principle from NPRR826, Mitigated Offer Caps for RMR Resources, to set the MOC for C4C Resources and minimize their effect on market competition. This NPRR sets clear requirements for using this method. If those requirements aren't fulfilled, mitigation of the C4C Resource is determined by cost. The C4C MOC methodology in this NPRR will only be applied to an active constraint when all of the following three conditions are true: 1) The C4C Resource has an unloading Shift Factor more than 2% on the Transmission Facility; 2) The C4C Resource has a greater than 5% unloading impact* on the Transmission Facility; and 3) At least one other non-C4C Resource has a 5% or more unloading Shift Factor on the Transmission Facility. Unloading impact is reduction of flow on the Transmission Facility and is used in ERCOT’s evaluation of whether the unit would be an effective C4C Resource. The MOC methodology in this NPRR is similar to the NPRR826 approach and works as follows to create the line: 1) Identify all non-Reliability Must-Run (RMR) and non-C4C Resources that have a greater than 5%* unloading Shift Factor on the Transmission Facility; 2) Collect the highest energy offer point (mitigated if applicable) for each Resource in step 1 and convert to a Shadow Price equivalent; 3) Select the highest value from step 2 and ensure it is less than the Shadow Price cap for the constraint by $1; 4) Add $0.01 to the value from step 3, multiply by the Shift Factor of the C4C Resource to convert back to an energy offer equivalent, and set as the C4C MOC; and 5) If there are multiple constraints, use the lowest value from step 4. Finally, if possible, ERCOT should implement this NPRR with NPRR826, stop manual MOC calculations for RMR and C4C, and remove related Protocol language.",
       "issue_title": "Mitigated Offer Caps for Contract for Capacity Resources",
       "affected_sections": "2.1, 2.2, 4.4.9.4.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "34d3075128c288e6c402385e6e360d41624ab7ed0f14a4182837112c201607e2",
@@ -5755,7 +5836,7 @@
       "explanation": "This NPRR incorporates the Other Binding Document “Texas Market Test Plan” into the Protocols to standardize the approval process.",
       "issue_title": "Move OBD to Section 19 – Texas Market Test Plan",
       "affected_sections": "19.8, 19.9 (new), 19.9.1 (new), 19.9.1.1 (new), 19.9.1.2 (new), 19.9.1.3 (new), 19.9.2 (new), 19.9.3 (new), 19.9.3.1 (new), 19.9.3.1.1 (new), 19.9.3.1.2 (new), 19.9.3.1.3 (new), 19.9.4 (new), 19.9.5 (new), 19.9.6 (new), 19.9.6.1 (new), 19.9.6.1.1 (new), 19.9.6.1.2 (new), 19.9.6.1.3, (new), 19.9.6.2 (new), 19.9.7 (new), 19.9.7.1 (new), 19.9.7.1.1 (new), 19.9.7.1.2 (new), 19.9.7.1.3 (new), 19.9.7.1.4 (new), 19.9.7.1.5 (new), 19.9.7.1.6 (new), 19.9.7.2.1 (new), 19.9.7.2.2 (new), 19.9.7.3 (new), 19.9.7.4, (new), 19.9.7.5 (new), and 19.9.7.6 (new)",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "653a130c35df3b151becdd81fc73064131a0e48c5c78badc75dfcf705f95eb20",
@@ -6895,7 +6976,7 @@
       "explanation": "This NPRR incorporates the Other Binding Document “Texas Market Test Plan” into the Protocols to standardize the approval process.",
       "issue_title": "Move OBD to Section 19 – Texas Market Test Plan",
       "affected_sections": "19.8, 19.9 (new), 19.9.1 (new), 19.9.1.1 (new), 19.9.1.2 (new), 19.9.1.3 (new), 19.9.2 (new), 19.9.3 (new), 19.9.3.1 (new), 19.9.3.1.1 (new), 19.9.3.1.2 (new), 19.9.3.1.3 (new), 19.9.4 (new), 19.9.5 (new), 19.9.6 (new), 19.9.6.1 (new), 19.9.6.1.1 (new), 19.9.6.1.2 (new), 19.9.6.1.3, (new), 19.9.6.2 (new), 19.9.7 (new), 19.9.7.1 (new), 19.9.7.1.1 (new), 19.9.7.1.2 (new), 19.9.7.1.3 (new), 19.9.7.1.4 (new), 19.9.7.1.5 (new), 19.9.7.1.6 (new), 19.9.7.2.1 (new), 19.9.7.2.2 (new), 19.9.7.3 (new), 19.9.7.4, (new), 19.9.7.5 (new), and 19.9.7.6 (new)",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "9077326a070195331921fc5700bcf573c622d8120dd7d93446abb65c81f91eed",
@@ -6915,7 +6996,7 @@
       "explanation": "This NPRR incorporates the Other Binding Document “Texas Market Test Plan” into the Protocols to standardize the approval process.",
       "issue_title": "Move OBD to Section 19 – Texas Market Test Plan",
       "affected_sections": "19.8, 19.9 (new), 19.9.1 (new), 19.9.1.1 (new), 19.9.1.2 (new), 19.9.1.3 (new), 19.9.2 (new), 19.9.3 (new), 19.9.3.1 (new), 19.9.3.1.1 (new), 19.9.3.1.2 (new), 19.9.3.1.3 (new), 19.9.4 (new), 19.9.5 (new), 19.9.6 (new), 19.9.6.1 (new), 19.9.6.1.1 (new), 19.9.6.1.2 (new), 19.9.6.1.3, (new), 19.9.6.2 (new), 19.9.7 (new), 19.9.7.1 (new), 19.9.7.1.1 (new), 19.9.7.1.2 (new), 19.9.7.1.3 (new), 19.9.7.1.4 (new), 19.9.7.1.5 (new), 19.9.7.1.6 (new), 19.9.7.2.1 (new), 19.9.7.2.2 (new), 19.9.7.3 (new), 19.9.7.4, (new), 19.9.7.5 (new), and 19.9.7.6 (new)",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "54b0aa233203aa0da5be12020353aaf7db03c76f0c595be6e4615f4f9d62754c",
@@ -8135,7 +8216,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) creates a new process for determining the Mitigated Offer Cap (MOC) for Contract for Capacity (C4C) Resources procured through Section 6.5.1.1, ERCOT Control Area Authority. This NPRR proposes using market design principles to allow the C4C Resource to be Dispatched but still be above other Resources that solve the same constraint. This NPRR uses the “last-in-line” principle from NPRR826, Mitigated Offer Caps for RMR Resources, to set the MOC for C4C Resources and minimize their effect on market competition. This NPRR sets clear requirements for using this method. If those requirements aren't fulfilled, mitigation of the C4C Resource is determined by cost. The C4C MOC methodology in this NPRR will only be applied to an active constraint when all of the following three conditions are true: 1) The C4C Resource has an unloading Shift Factor more than 2% on the Transmission Facility; 2) The C4C Resource has a greater than 5% unloading impact* on the Transmission Facility; and 3) At least one other non-C4C Resource has a 5% or more unloading Shift Factor on the Transmission Facility. Unloading impact is reduction of flow on the Transmission Facility and is used in ERCOT’s evaluation of whether the unit would be an effective C4C Resource. The MOC methodology in this NPRR is similar to the NPRR826 approach and works as follows to create the line: 1) Identify all non-Reliability Must-Run (RMR) and non-C4C Resources that have a greater than 5%* unloading Shift Factor on the Transmission Facility; 2) Collect the highest energy offer point (mitigated if applicable) for each Resource in step 1 and convert to a Shadow Price equivalent; 3) Select the highest value from step 2 and ensure it is less than the Shadow Price cap for the constraint by $1; 4) Add $0.01 to the value from step 3, multiply by the Shift Factor of the C4C Resource to convert back to an energy offer equivalent, and set as the C4C MOC; and 5) If there are multiple constraints, use the lowest value from step 4. Finally, if possible, ERCOT should implement this NPRR with NPRR826, stop manual MOC calculations for RMR and C4C, and remove related Protocol language.",
       "issue_title": "Mitigated Offer Caps for Contract for Capacity Resources",
       "affected_sections": "2.1, 2.2, 4.4.9.4.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "9785b5ffb64d2d545b6dd31013ff96ae252402b3feec70bf28dadd5561d35958",
@@ -8155,7 +8236,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) creates a new process for determining the Mitigated Offer Cap (MOC) for Contract for Capacity (C4C) Resources procured through Section 6.5.1.1, ERCOT Control Area Authority. This NPRR proposes using market design principles to allow the C4C Resource to be Dispatched but still be above other Resources that solve the same constraint. This NPRR uses the “last-in-line” principle from NPRR826, Mitigated Offer Caps for RMR Resources, to set the MOC for C4C Resources and minimize their effect on market competition. This NPRR sets clear requirements for using this method. If those requirements aren't fulfilled, mitigation of the C4C Resource is determined by cost. The C4C MOC methodology in this NPRR will only be applied to an active constraint when all of the following three conditions are true: 1) The C4C Resource has an unloading Shift Factor more than 2% on the Transmission Facility; 2) The C4C Resource has a greater than 5% unloading impact* on the Transmission Facility; and 3) At least one other non-C4C Resource has a 5% or more unloading Shift Factor on the Transmission Facility. Unloading impact is reduction of flow on the Transmission Facility and is used in ERCOT’s evaluation of whether the unit would be an effective C4C Resource. The MOC methodology in this NPRR is similar to the NPRR826 approach and works as follows to create the line: 1) Identify all non-Reliability Must-Run (RMR) and non-C4C Resources that have a greater than 5%* unloading Shift Factor on the Transmission Facility; 2) Collect the highest energy offer point (mitigated if applicable) for each Resource in step 1 and convert to a Shadow Price equivalent; 3) Select the highest value from step 2 and ensure it is less than the Shadow Price cap for the constraint by $1; 4) Add $0.01 to the value from step 3, multiply by the Shift Factor of the C4C Resource to convert back to an energy offer equivalent, and set as the C4C MOC; and 5) If there are multiple constraints, use the lowest value from step 4. Finally, if possible, ERCOT should implement this NPRR with NPRR826, stop manual MOC calculations for RMR and C4C, and remove related Protocol language.",
       "issue_title": "Mitigated Offer Caps for Contract for Capacity Resources",
       "affected_sections": "2.1, 2.2, 4.4.9.4.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "14292d8a72564bfbdd5fd93a9c6784a2d965552c46664300b8d2f1a8e2c53878",
@@ -10011,7 +10092,7 @@
       "explanation": "This NPRR incorporates the Other Binding Document “Texas Market Test Plan” into the Protocols to standardize the approval process.",
       "issue_title": "Move OBD to Section 19 – Texas Market Test Plan",
       "affected_sections": "19.8, 19.9 (new), 19.9.1 (new), 19.9.1.1 (new), 19.9.1.2 (new), 19.9.1.3 (new), 19.9.2 (new), 19.9.3 (new), 19.9.3.1 (new), 19.9.3.1.1 (new), 19.9.3.1.2 (new), 19.9.3.1.3 (new), 19.9.4 (new), 19.9.5 (new), 19.9.6 (new), 19.9.6.1 (new), 19.9.6.1.1 (new), 19.9.6.1.2 (new), 19.9.6.1.3, (new), 19.9.6.2 (new), 19.9.7 (new), 19.9.7.1 (new), 19.9.7.1.1 (new), 19.9.7.1.2 (new), 19.9.7.1.3 (new), 19.9.7.1.4 (new), 19.9.7.1.5 (new), 19.9.7.1.6 (new), 19.9.7.2.1 (new), 19.9.7.2.2 (new), 19.9.7.3 (new), 19.9.7.4, (new), 19.9.7.5 (new), and 19.9.7.6 (new)",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "b0a5f36cfaed97b039eaf0bf2d95270e60b2aed4768115d65a327e4a9d90d45d",
@@ -10031,7 +10112,7 @@
       "explanation": "This NPRR incorporates the Other Binding Document “Texas Market Test Plan” into the Protocols to standardize the approval process.",
       "issue_title": "Move OBD to Section 19 – Texas Market Test Plan",
       "affected_sections": "19.8, 19.9 (new), 19.9.1 (new), 19.9.1.1 (new), 19.9.1.2 (new), 19.9.1.3 (new), 19.9.2 (new), 19.9.3 (new), 19.9.3.1 (new), 19.9.3.1.1 (new), 19.9.3.1.2 (new), 19.9.3.1.3 (new), 19.9.4 (new), 19.9.5 (new), 19.9.6 (new), 19.9.6.1 (new), 19.9.6.1.1 (new), 19.9.6.1.2 (new), 19.9.6.1.3, (new), 19.9.6.2 (new), 19.9.7 (new), 19.9.7.1 (new), 19.9.7.1.1 (new), 19.9.7.1.2 (new), 19.9.7.1.3 (new), 19.9.7.1.4 (new), 19.9.7.1.5 (new), 19.9.7.1.6 (new), 19.9.7.2.1 (new), 19.9.7.2.2 (new), 19.9.7.3 (new), 19.9.7.4, (new), 19.9.7.5 (new), and 19.9.7.6 (new)",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "d2864253f0c7aff023ad542bbe0c547e6fba0f30ddf9ce14695a4c1b5fbe585f",
@@ -14155,7 +14236,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) relocates select terms from Load Profiling Guide Section 19.1, Definitions, to Protocol Section 2.1, Definitions, removes the term ‘Time of Use Schedule (TOUS)’, and updates section references related to the Profile Decision Tree.",
       "issue_title": "Related to LPGRR077, Profile Decision Tree Excel-to-Word Conversion",
       "affected_sections": "2.1, 2.2, 11.4.2, 11.4.4.2, 11.4.4.3, 18.4.2",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "5e9337d4314b9a12dd36e400477e8556d043bc3e7c219822c9f95966611bf3e0",
@@ -14528,7 +14609,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) creates a new process for determining the Mitigated Offer Cap (MOC) for Contract for Capacity (C4C) Resources procured through Section 6.5.1.1, ERCOT Control Area Authority. This NPRR proposes using market design principles to allow the C4C Resource to be Dispatched but still be above other Resources that solve the same constraint. This NPRR uses the “last-in-line” principle from NPRR826, Mitigated Offer Caps for RMR Resources, to set the MOC for C4C Resources and minimize their effect on market competition. This NPRR sets clear requirements for using this method. If those requirements aren't fulfilled, mitigation of the C4C Resource is determined by cost. The C4C MOC methodology in this NPRR will only be applied to an active constraint when all of the following three conditions are true: 1) The C4C Resource has an unloading Shift Factor more than 2% on the Transmission Facility; 2) The C4C Resource has a greater than 5% unloading impact* on the Transmission Facility; and 3) At least one other non-C4C Resource has a 5% or more unloading Shift Factor on the Transmission Facility. Unloading impact is reduction of flow on the Transmission Facility and is used in ERCOT’s evaluation of whether the unit would be an effective C4C Resource. The MOC methodology in this NPRR is similar to the NPRR826 approach and works as follows to create the line: 1) Identify all non-Reliability Must-Run (RMR) and non-C4C Resources that have a greater than 5%* unloading Shift Factor on the Transmission Facility; 2) Collect the highest energy offer point (mitigated if applicable) for each Resource in step 1 and convert to a Shadow Price equivalent; 3) Select the highest value from step 2 and ensure it is less than the Shadow Price cap for the constraint by $1; 4) Add $0.01 to the value from step 3, multiply by the Shift Factor of the C4C Resource to convert back to an energy offer equivalent, and set as the C4C MOC; and 5) If there are multiple constraints, use the lowest value from step 4. Finally, if possible, ERCOT should implement this NPRR with NPRR826, stop manual MOC calculations for RMR and C4C, and remove related Protocol language.",
       "issue_title": "Mitigated Offer Caps for Contract for Capacity Resources",
       "affected_sections": "2.1, 2.2, 4.4.9.4.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "2119d1e97fa3b608f4c03b18470de33aaeb23ade053b73ae6eb3ce09c08abbf1",
@@ -14548,7 +14629,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) corrects misalignment of Protocol language with the Real-Time Co-optimization plus Batteries (RTC+B) implementation. The proposed changes are summarized below: 1. Corrects the duration requirement of ERCOT Contingency Reserve Service (ECRS). NPRR1282, Ancillary Service Duration under Real-Time Co-Optimization, set the duration requirement for ECRS to one hour, but certain sections were inadvertently omitted from NPRR1282 and still reflect the previous two-hour duration. This NPRR corrects those references to align with the as-built one-hour duration for ECRS. 2. Removes Fast-Responding Regulation Service (FRRS) reference in Section 4.4.7.3, Ancillary Service Trades, since FRRS was deleted with the RTC+B implementation. 3. Removes the requirement for Energy Storage Resources (ESRs) to telemeter the next Operating Hour Ancillary Service Responsibilities, which is no longer applicable following the removal of Ancillary Service Responsibilities under RTC+B. 4. Removes references to Ancillary Service Responsibility and Ancillary Service Schedule, as well language that is no longer applicable under RTC+B, in several sections. Replaces the Ancillary Service Responsibilities with Ancillary Service awards wherever applicable.",
       "issue_title": "Protocol Clean Up and Alignment with RTC+B Implementation",
       "affected_sections": "2.1, 3.9, 3.17.4, 4.4.7.3, 6.3.2, 6.5.7.6.2.3, 8.1.1.2.1.1, 8.1.1.2.1.2, and 8.1.1.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "0edeae962b7b3b9c21f72916fddb3dfe998caa58a6b23d47b64154aa88ac4d36",
@@ -14645,7 +14726,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) creates a new process for determining the Mitigated Offer Cap (MOC) for Contract for Capacity (C4C) Resources procured through Section 6.5.1.1, ERCOT Control Area Authority. This NPRR proposes using market design principles to allow the C4C Resource to be Dispatched but still be above other Resources that solve the same constraint. This NPRR uses the “last-in-line” principle from NPRR826, Mitigated Offer Caps for RMR Resources, to set the MOC for C4C Resources and minimize their effect on market competition. This NPRR sets clear requirements for using this method. If those requirements aren't fulfilled, mitigation of the C4C Resource is determined by cost. The C4C MOC methodology in this NPRR will only be applied to an active constraint when all of the following three conditions are true: 1) The C4C Resource has an unloading Shift Factor more than 2% on the Transmission Facility; 2) The C4C Resource has a greater than 5% unloading impact* on the Transmission Facility; and 3) At least one other non-C4C Resource has a 5% or more unloading Shift Factor on the Transmission Facility. Unloading impact is reduction of flow on the Transmission Facility and is used in ERCOT’s evaluation of whether the unit would be an effective C4C Resource. The MOC methodology in this NPRR is similar to the NPRR826 approach and works as follows to create the line: 1) Identify all non-Reliability Must-Run (RMR) and non-C4C Resources that have a greater than 5%* unloading Shift Factor on the Transmission Facility; 2) Collect the highest energy offer point (mitigated if applicable) for each Resource in step 1 and convert to a Shadow Price equivalent; 3) Select the highest value from step 2 and ensure it is less than the Shadow Price cap for the constraint by $1; 4) Add $0.01 to the value from step 3, multiply by the Shift Factor of the C4C Resource to convert back to an energy offer equivalent, and set as the C4C MOC; and 5) If there are multiple constraints, use the lowest value from step 4. Finally, if possible, ERCOT should implement this NPRR with NPRR826, stop manual MOC calculations for RMR and C4C, and remove related Protocol language.",
       "issue_title": "Mitigated Offer Caps for Contract for Capacity Resources",
       "affected_sections": "2.1, 2.2, 4.4.9.4.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "089eb838c90603c3cc022cdefaad617fb391f74c3a13c2e6bf0c2ab5688734bf",
@@ -14685,7 +14766,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) creates a new process for determining the Mitigated Offer Cap (MOC) for Contract for Capacity (C4C) Resources procured through Section 6.5.1.1, ERCOT Control Area Authority. This NPRR proposes using market design principles to allow the C4C Resource to be Dispatched but still be above other Resources that solve the same constraint. This NPRR uses the “last-in-line” principle from NPRR826, Mitigated Offer Caps for RMR Resources, to set the MOC for C4C Resources and minimize their effect on market competition. This NPRR sets clear requirements for using this method. If those requirements aren't fulfilled, mitigation of the C4C Resource is determined by cost. The C4C MOC methodology in this NPRR will only be applied to an active constraint when all of the following three conditions are true: 1) The C4C Resource has an unloading Shift Factor more than 2% on the Transmission Facility; 2) The C4C Resource has a greater than 5% unloading impact* on the Transmission Facility; and 3) At least one other non-C4C Resource has a 5% or more unloading Shift Factor on the Transmission Facility. Unloading impact is reduction of flow on the Transmission Facility and is used in ERCOT’s evaluation of whether the unit would be an effective C4C Resource. The MOC methodology in this NPRR is similar to the NPRR826 approach and works as follows to create the line: 1) Identify all non-Reliability Must-Run (RMR) and non-C4C Resources that have a greater than 5%* unloading Shift Factor on the Transmission Facility; 2) Collect the highest energy offer point (mitigated if applicable) for each Resource in step 1 and convert to a Shadow Price equivalent; 3) Select the highest value from step 2 and ensure it is less than the Shadow Price cap for the constraint by $1; 4) Add $0.01 to the value from step 3, multiply by the Shift Factor of the C4C Resource to convert back to an energy offer equivalent, and set as the C4C MOC; and 5) If there are multiple constraints, use the lowest value from step 4. Finally, if possible, ERCOT should implement this NPRR with NPRR826, stop manual MOC calculations for RMR and C4C, and remove related Protocol language.",
       "issue_title": "Mitigated Offer Caps for Contract for Capacity Resources",
       "affected_sections": "2.1, 2.2, 4.4.9.4.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "11863da7b5fddfa9c14358081a8022aa136971e45214129f97d210347e02cc59",
@@ -15315,7 +15396,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) relocates select terms from Load Profiling Guide Section 19.1, Definitions, to Protocol Section 2.1, Definitions, removes the term ‘Time of Use Schedule (TOUS)’, and updates section references related to the Profile Decision Tree.",
       "issue_title": "Related to LPGRR077, Profile Decision Tree Excel-to-Word Conversion",
       "affected_sections": "2.1, 2.2, 11.4.2, 11.4.4.2, 11.4.4.3, 18.4.2",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "a404e40c3bc929a779cf9dbaf872d151f50269d4ab3203f422fa54a4eea96dde",
@@ -15702,7 +15783,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) relocates select terms from Load Profiling Guide Section 19.1, Definitions, to Protocol Section 2.1, Definitions, removes the term ‘Time of Use Schedule (TOUS)’, and updates section references related to the Profile Decision Tree.",
       "issue_title": "Related to LPGRR077, Profile Decision Tree Excel-to-Word Conversion",
       "affected_sections": "2.1, 2.2, 11.4.2, 11.4.4.2, 11.4.4.3, 18.4.2",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "ae62d57fad38ee2225b929c5f6d69d8a0f489f4b2e886a5d8889cf89934e9a06",
@@ -15742,7 +15823,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) relocates select terms from Load Profiling Guide Section 19.1, Definitions, to Protocol Section 2.1, Definitions, removes the term ‘Time of Use Schedule (TOUS)’, and updates section references related to the Profile Decision Tree.",
       "issue_title": "Related to LPGRR077, Profile Decision Tree Excel-to-Word Conversion",
       "affected_sections": "2.1, 2.2, 11.4.2, 11.4.4.2, 11.4.4.3, 18.4.2",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "854982b1fd323f6ff2c85e989eb01b19ee053a17fbd1c43c2280d511a86b0ce2",
@@ -15782,7 +15863,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) corrects misalignment of Protocol language with the Real-Time Co-optimization plus Batteries (RTC+B) implementation. The proposed changes are summarized below: 1. Corrects the duration requirement of ERCOT Contingency Reserve Service (ECRS). NPRR1282, Ancillary Service Duration under Real-Time Co-Optimization, set the duration requirement for ECRS to one hour, but certain sections were inadvertently omitted from NPRR1282 and still reflect the previous two-hour duration. This NPRR corrects those references to align with the as-built one-hour duration for ECRS. 2. Removes Fast-Responding Regulation Service (FRRS) reference in Section 4.4.7.3, Ancillary Service Trades, since FRRS was deleted with the RTC+B implementation. 3. Removes the requirement for Energy Storage Resources (ESRs) to telemeter the next Operating Hour Ancillary Service Responsibilities, which is no longer applicable following the removal of Ancillary Service Responsibilities under RTC+B. 4. Removes references to Ancillary Service Responsibility and Ancillary Service Schedule, as well language that is no longer applicable under RTC+B, in several sections. Replaces the Ancillary Service Responsibilities with Ancillary Service awards wherever applicable.",
       "issue_title": "Protocol Clean Up and Alignment with RTC+B Implementation",
       "affected_sections": "2.1, 3.9, 3.17.4, 4.4.7.3, 6.3.2, 6.5.7.6.2.3, 8.1.1.2.1.1, 8.1.1.2.1.2, and 8.1.1.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "7b943dc62a188d859433e50b58bb7268c0ad024f5ef2d3edf60498c64867dfd2",
@@ -16515,7 +16596,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) relocates select terms from Load Profiling Guide Section 19.1, Definitions, to Protocol Section 2.1, Definitions, removes the term ‘Time of Use Schedule (TOUS)’, and updates section references related to the Profile Decision Tree.",
       "issue_title": "Related to LPGRR077, Profile Decision Tree Excel-to-Word Conversion",
       "affected_sections": "2.1, 2.2, 11.4.2, 11.4.4.2, 11.4.4.3, 18.4.2",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "ecbe0c501092f4b17442357b246216dcc97de9e4c8e3a8f1f868289ea0be2ef8",
@@ -16535,7 +16616,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) corrects misalignment of Protocol language with the Real-Time Co-optimization plus Batteries (RTC+B) implementation. The proposed changes are summarized below: 1. Corrects the duration requirement of ERCOT Contingency Reserve Service (ECRS). NPRR1282, Ancillary Service Duration under Real-Time Co-Optimization, set the duration requirement for ECRS to one hour, but certain sections were inadvertently omitted from NPRR1282 and still reflect the previous two-hour duration. This NPRR corrects those references to align with the as-built one-hour duration for ECRS. 2. Removes Fast-Responding Regulation Service (FRRS) reference in Section 4.4.7.3, Ancillary Service Trades, since FRRS was deleted with the RTC+B implementation. 3. Removes the requirement for Energy Storage Resources (ESRs) to telemeter the next Operating Hour Ancillary Service Responsibilities, which is no longer applicable following the removal of Ancillary Service Responsibilities under RTC+B. 4. Removes references to Ancillary Service Responsibility and Ancillary Service Schedule, as well language that is no longer applicable under RTC+B, in several sections. Replaces the Ancillary Service Responsibilities with Ancillary Service awards wherever applicable.",
       "issue_title": "Protocol Clean Up and Alignment with RTC+B Implementation",
       "affected_sections": "2.1, 3.9, 3.17.4, 4.4.7.3, 6.3.2, 6.5.7.6.2.3, 8.1.1.2.1.1, 8.1.1.2.1.2, and 8.1.1.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "75c140de5ae53e111b3fb8b72fc6ca3a40065cfc5a3f242d1d0933597d8e3b48",
@@ -16555,7 +16636,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) creates a new process for determining the Mitigated Offer Cap (MOC) for Contract for Capacity (C4C) Resources procured through Section 6.5.1.1, ERCOT Control Area Authority. This NPRR proposes using market design principles to allow the C4C Resource to be Dispatched but still be above other Resources that solve the same constraint. This NPRR uses the “last-in-line” principle from NPRR826, Mitigated Offer Caps for RMR Resources, to set the MOC for C4C Resources and minimize their effect on market competition. This NPRR sets clear requirements for using this method. If those requirements aren't fulfilled, mitigation of the C4C Resource is determined by cost. The C4C MOC methodology in this NPRR will only be applied to an active constraint when all of the following three conditions are true: 1) The C4C Resource has an unloading Shift Factor more than 2% on the Transmission Facility; 2) The C4C Resource has a greater than 5% unloading impact* on the Transmission Facility; and 3) At least one other non-C4C Resource has a 5% or more unloading Shift Factor on the Transmission Facility. Unloading impact is reduction of flow on the Transmission Facility and is used in ERCOT’s evaluation of whether the unit would be an effective C4C Resource. The MOC methodology in this NPRR is similar to the NPRR826 approach and works as follows to create the line: 1) Identify all non-Reliability Must-Run (RMR) and non-C4C Resources that have a greater than 5%* unloading Shift Factor on the Transmission Facility; 2) Collect the highest energy offer point (mitigated if applicable) for each Resource in step 1 and convert to a Shadow Price equivalent; 3) Select the highest value from step 2 and ensure it is less than the Shadow Price cap for the constraint by $1; 4) Add $0.01 to the value from step 3, multiply by the Shift Factor of the C4C Resource to convert back to an energy offer equivalent, and set as the C4C MOC; and 5) If there are multiple constraints, use the lowest value from step 4. Finally, if possible, ERCOT should implement this NPRR with NPRR826, stop manual MOC calculations for RMR and C4C, and remove related Protocol language.",
       "issue_title": "Mitigated Offer Caps for Contract for Capacity Resources",
       "affected_sections": "2.1, 2.2, 4.4.9.4.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "1eb39941af44fe3da204dc78b69d1d9e5e163e0035c3d1419d3e01aef03ce68a",
@@ -16575,7 +16656,7 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) relocates select terms from Load Profiling Guide Section 19.1, Definitions, to Protocol Section 2.1, Definitions, removes the term ‘Time of Use Schedule (TOUS)’, and updates section references related to the Profile Decision Tree.",
       "issue_title": "Related to LPGRR077, Profile Decision Tree Excel-to-Word Conversion",
       "affected_sections": "2.1, 2.2, 11.4.2, 11.4.4.2, 11.4.4.3, 18.4.2",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
       "content_sha256": "4959c040e2f3f5db19a72725a842fb2d9a96c9c463c7163f859483a2b0f5b615",
@@ -16595,11 +16676,11 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) corrects misalignment of Protocol language with the Real-Time Co-optimization plus Batteries (RTC+B) implementation. The proposed changes are summarized below: 1. Corrects the duration requirement of ERCOT Contingency Reserve Service (ECRS). NPRR1282, Ancillary Service Duration under Real-Time Co-Optimization, set the duration requirement for ECRS to one hour, but certain sections were inadvertently omitted from NPRR1282 and still reflect the previous two-hour duration. This NPRR corrects those references to align with the as-built one-hour duration for ECRS. 2. Removes Fast-Responding Regulation Service (FRRS) reference in Section 4.4.7.3, Ancillary Service Trades, since FRRS was deleted with the RTC+B implementation. 3. Removes the requirement for Energy Storage Resources (ESRs) to telemeter the next Operating Hour Ancillary Service Responsibilities, which is no longer applicable following the removal of Ancillary Service Responsibilities under RTC+B. 4. Removes references to Ancillary Service Responsibility and Ancillary Service Schedule, as well language that is no longer applicable under RTC+B, in several sections. Replaces the Ancillary Service Responsibilities with Ancillary Service awards wherever applicable.",
       "issue_title": "Protocol Clean Up and Alignment with RTC+B Implementation",
       "affected_sections": "2.1, 3.9, 3.17.4, 4.4.7.3, 6.3.2, 6.5.7.6.2.3, 8.1.1.2.1.1, 8.1.1.2.1.2, and 8.1.1.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     }
   ],
-  "count": 846,
-  "generated_at": "2026-11-14T12:02:09.365889+00:00",
+  "count": 850,
+  "generated_at": "2026-11-14T21:01:52.397045+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",
@@ -18014,26 +18095,23 @@
       "revision_family": "NPRR",
       "issue_title": "Clarification to Seasonal Mothball Evaluation Process",
       "official_description": "This Nodal Protocol Revision Request (NPRR) clarifies ERCOT’s next steps after a Generation Resource proposal to be placed on seasonal mothball status has been evaluated. The current language in some cases requires ERCOT to prepare and post a Must-Run Alternative (MRA) “Request for Proposal” (RFP). Given that a request to seasonally mothball a Resource can be submitted as little as 90 days before the season begins, if ERCOT studies indicate a reliability concern of the seasonal mothball request, in most cases there is not enough time to effectively go through the MRA process and receive operational alternatives in a timely manner. This NPRR clarifies that ERCOT may, but is not required to, go through the MRA RFP process when it receives notice to place a unit on seasonal mothball status.",
-      "status": "Pending",
+      "status": "Approved",
       "date_posted": "Dec 29, 2025",
       "sponsor": "ERCOT",
       "urgent": "No",
       "affected_sections": "3.14.1.2, 3.14.1.2.1 (new), 3.14.1.2.1, and 22E",
       "reason": "Strategic Plan Objective 1",
       "issue_url": "https://www.ercot.com/mktrules/issues/NPRR1319",
-      "effective_state": "pending_proposal",
-      "effectiveness_note": "Pending proposal; it is not current governing text.",
+      "effective_state": "approved_not_independently_governing",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "BOARD",
-      "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "07/29/2026",
-        "governing_body": "TAC",
-        "action": "Recommended for Approval",
-        "next_step": "Revision Request Consideration"
+        "date": "11/05/2026",
+        "governing_body": "PUCT",
+        "action": "Approved"
       },
-      "source_downloaded_at": "2026-09-10T20:02:00Z",
-      "source_observed_at": "2026-09-10T20:02:00Z"
+      "source_downloaded_at": "2026-11-14T21:00:46Z",
+      "source_observed_at": "2026-11-14T21:00:46Z"
     },
     "NPRR1320": {
       "revision_id": "NPRR1320",
@@ -18514,26 +18592,23 @@
       "revision_family": "NPRR",
       "issue_title": "Protocol Clean Up and Alignment with RTC+B Implementation",
       "official_description": "This Nodal Protocol Revision Request (NPRR) corrects misalignment of Protocol language with the Real-Time Co-optimization plus Batteries (RTC+B) implementation. The proposed changes are summarized below: 1. Corrects the duration requirement of ERCOT Contingency Reserve Service (ECRS). NPRR1282, Ancillary Service Duration under Real-Time Co-Optimization, set the duration requirement for ECRS to one hour, but certain sections were inadvertently omitted from NPRR1282 and still reflect the previous two-hour duration. This NPRR corrects those references to align with the as-built one-hour duration for ECRS. 2. Removes Fast-Responding Regulation Service (FRRS) reference in Section 4.4.7.3, Ancillary Service Trades, since FRRS was deleted with the RTC+B implementation. 3. Removes the requirement for Energy Storage Resources (ESRs) to telemeter the next Operating Hour Ancillary Service Responsibilities, which is no longer applicable following the removal of Ancillary Service Responsibilities under RTC+B. 4. Removes references to Ancillary Service Responsibility and Ancillary Service Schedule, as well language that is no longer applicable under RTC+B, in several sections. Replaces the Ancillary Service Responsibilities with Ancillary Service awards wherever applicable.",
-      "status": "Pending",
+      "status": "Approved",
       "date_posted": "May 29, 2026",
       "sponsor": "ERCOT",
       "urgent": "No",
       "affected_sections": "2.1, 3.9, 3.17.4, 4.4.7.3, 6.3.2, 6.5.7.6.2.3, 8.1.1.2.1.1, 8.1.1.2.1.2, and 8.1.1.3",
       "reason": "General system and/or process improvement(s)",
       "issue_url": "https://www.ercot.com/mktrules/issues/NPRR1339",
-      "effective_state": "pending_proposal",
-      "effectiveness_note": "Pending proposal; it is not current governing text.",
+      "effective_state": "approved_not_independently_governing",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "PUCT",
-      "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "09/15/2026",
-        "governing_body": "BOARD",
-        "action": "Recommended for Approval",
-        "next_step": "Revision Request Consideration"
+        "date": "11/05/2026",
+        "governing_body": "PUCT",
+        "action": "Approved"
       },
-      "source_downloaded_at": "2026-10-09T20:00:49Z",
-      "source_observed_at": "2026-10-09T20:00:49Z"
+      "source_downloaded_at": "2026-11-14T21:00:46Z",
+      "source_observed_at": "2026-11-14T21:00:46Z"
     },
     "NPRR1340": {
       "revision_id": "NPRR1340",
@@ -18550,68 +18625,62 @@
       "effective_state": "pending_proposal",
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "PRS",
-      "next_step": "PRS for Impact Analysis consideration",
+      "next_group": "TAC",
+      "next_step": "TAC for consideration",
       "latest_action": {
-        "date": "10/14/2026",
+        "date": "11/11/2026",
         "governing_body": "PRS",
         "action": "Recommended for Approval",
-        "next_step": "PRS for Impact Analysis consideration"
+        "next_step": "TAC for consideration"
       },
-      "source_downloaded_at": "2026-10-31T11:00:43Z",
-      "source_observed_at": "2026-10-31T11:00:43Z"
+      "source_downloaded_at": "2026-11-14T21:00:46Z",
+      "source_observed_at": "2026-11-14T21:00:46Z"
     },
     "NPRR1341": {
       "revision_id": "NPRR1341",
       "revision_family": "NPRR",
       "issue_title": "Related to LPGRR077, Profile Decision Tree Excel-to-Word Conversion",
       "official_description": "This Nodal Protocol Revision Request (NPRR) relocates select terms from Load Profiling Guide Section 19.1, Definitions, to Protocol Section 2.1, Definitions, removes the term ‘Time of Use Schedule (TOUS)’, and updates section references related to the Profile Decision Tree.",
-      "status": "Pending",
+      "status": "Approved",
       "date_posted": "Jun 23, 2026",
       "sponsor": "ERCOT",
       "urgent": "No",
       "affected_sections": "2.1, 2.2, 11.4.2, 11.4.4.2, 11.4.4.3, 18.4.2",
       "reason": "General system and/or process improvement(s)",
       "issue_url": "https://www.ercot.com/mktrules/issues/NPRR1341",
-      "effective_state": "pending_proposal",
-      "effectiveness_note": "Pending proposal; it is not current governing text.",
+      "effective_state": "approved_not_independently_governing",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "PUCT",
-      "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "09/15/2026",
-        "governing_body": "BOARD",
-        "action": "Recommended for Approval",
-        "next_step": "Revision Request Consideration"
+        "date": "11/05/2026",
+        "governing_body": "PUCT",
+        "action": "Approved"
       },
-      "source_downloaded_at": "2026-10-24T11:00:43Z",
-      "source_observed_at": "2026-10-24T11:00:43Z"
+      "source_downloaded_at": "2026-11-14T21:00:45Z",
+      "source_observed_at": "2026-11-14T21:00:45Z"
     },
     "NPRR1342": {
       "revision_id": "NPRR1342",
       "revision_family": "NPRR",
       "issue_title": "Mitigated Offer Caps for Contract for Capacity Resources",
       "official_description": "This Nodal Protocol Revision Request (NPRR) creates a new process for determining the Mitigated Offer Cap (MOC) for Contract for Capacity (C4C) Resources procured through Section 6.5.1.1, ERCOT Control Area Authority. This NPRR proposes using market design principles to allow the C4C Resource to be Dispatched but still be above other Resources that solve the same constraint. This NPRR uses the “last-in-line” principle from NPRR826, Mitigated Offer Caps for RMR Resources, to set the MOC for C4C Resources and minimize their effect on market competition. This NPRR sets clear requirements for using this method. If those requirements aren't fulfilled, mitigation of the C4C Resource is determined by cost. The C4C MOC methodology in this NPRR will only be applied to an active constraint when all of the following three conditions are true: 1) The C4C Resource has an unloading Shift Factor more than 2% on the Transmission Facility; 2) The C4C Resource has a greater than 5% unloading impact* on the Transmission Facility; and 3) At least one other non-C4C Resource has a 5% or more unloading Shift Factor on the Transmission Facility. Unloading impact is reduction of flow on the Transmission Facility and is used in ERCOT’s evaluation of whether the unit would be an effective C4C Resource. The MOC methodology in this NPRR is similar to the NPRR826 approach and works as follows to create the line: 1) Identify all non-Reliability Must-Run (RMR) and non-C4C Resources that have a greater than 5%* unloading Shift Factor on the Transmission Facility; 2) Collect the highest energy offer point (mitigated if applicable) for each Resource in step 1 and convert to a Shadow Price equivalent; 3) Select the highest value from step 2 and ensure it is less than the Shadow Price cap for the constraint by $1; 4) Add $0.01 to the value from step 3, multiply by the Shift Factor of the C4C Resource to convert back to an energy offer equivalent, and set as the C4C MOC; and 5) If there are multiple constraints, use the lowest value from step 4. Finally, if possible, ERCOT should implement this NPRR with NPRR826, stop manual MOC calculations for RMR and C4C, and remove related Protocol language.",
-      "status": "Pending",
+      "status": "Approved",
       "date_posted": "Jun 30, 2026",
       "sponsor": "ERCOT",
       "urgent": "Yes",
       "affected_sections": "2.1, 2.2, 4.4.9.4.3",
       "reason": "General system and/or process improvement(s)",
       "issue_url": "https://www.ercot.com/mktrules/issues/NPRR1342",
-      "effective_state": "pending_proposal",
-      "effectiveness_note": "Pending proposal; it is not current governing text.",
+      "effective_state": "approved_not_independently_governing",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "PUCT",
-      "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "09/15/2026",
-        "governing_body": "BOARD",
-        "action": "Recommended for Approval",
-        "next_step": "Revision Request Consideration"
+        "date": "11/05/2026",
+        "governing_body": "PUCT",
+        "action": "Approved"
       },
-      "source_downloaded_at": "2026-10-24T11:00:43Z",
-      "source_observed_at": "2026-10-24T11:00:43Z"
+      "source_downloaded_at": "2026-11-14T21:00:45Z",
+      "source_observed_at": "2026-11-14T21:00:45Z"
     },
     "NPRR1343": {
       "revision_id": "NPRR1343",
@@ -18628,42 +18697,39 @@
       "effective_state": "pending_proposal",
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "PRS",
-      "next_step": "Impact Analysis Consideration",
+      "next_group": "TAC",
+      "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "10/14/2026",
+        "date": "11/11/2026",
         "governing_body": "PRS",
         "action": "Recommended for Approval",
-        "next_step": "Impact Analysis Consideration"
+        "next_step": "Revision Request Consideration"
       },
-      "source_downloaded_at": "2026-11-07T12:00:43Z",
-      "source_observed_at": "2026-11-07T12:00:43Z"
+      "source_downloaded_at": "2026-11-14T21:00:45Z",
+      "source_observed_at": "2026-11-14T21:00:45Z"
     },
     "NPRR1344": {
       "revision_id": "NPRR1344",
       "revision_family": "NPRR",
       "issue_title": "Move OBD to Section 19 – Texas Market Test Plan",
       "official_description": "This NPRR incorporates the Other Binding Document “Texas Market Test Plan” into the Protocols to standardize the approval process.",
-      "status": "Pending",
+      "status": "Approved",
       "date_posted": "Jul 28, 2026",
       "sponsor": "ERCOT",
       "urgent": "Yes",
       "affected_sections": "19.8, 19.9 (new), 19.9.1 (new), 19.9.1.1 (new), 19.9.1.2 (new), 19.9.1.3 (new), 19.9.2 (new), 19.9.3 (new), 19.9.3.1 (new), 19.9.3.1.1 (new), 19.9.3.1.2 (new), 19.9.3.1.3 (new), 19.9.4 (new), 19.9.5 (new), 19.9.6 (new), 19.9.6.1 (new), 19.9.6.1.1 (new), 19.9.6.1.2 (new), 19.9.6.1.3, (new), 19.9.6.2 (new), 19.9.7 (new), 19.9.7.1 (new), 19.9.7.1.1 (new), 19.9.7.1.2 (new), 19.9.7.1.3 (new), 19.9.7.1.4 (new), 19.9.7.1.5 (new), 19.9.7.1.6 (new), 19.9.7.2.1 (new), 19.9.7.2.2 (new), 19.9.7.3 (new), 19.9.7.4, (new), 19.9.7.5 (new), and 19.9.7.6 (new)",
       "reason": "General system and/or process improvement(s)",
       "issue_url": "https://www.ercot.com/mktrules/issues/NPRR1344",
-      "effective_state": "pending_proposal",
-      "effectiveness_note": "Pending proposal; it is not current governing text.",
+      "effective_state": "approved_not_independently_governing",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "PUCT",
-      "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "09/15/2026",
-        "governing_body": "BOARD",
-        "action": "Recommended for Approval",
-        "next_step": "Revision Request Consideration"
+        "date": "11/05/2026",
+        "governing_body": "PUCT",
+        "action": "Approved"
       },
-      "source_downloaded_at": "2026-10-09T20:00:46Z",
-      "source_observed_at": "2026-10-09T20:00:46Z"
+      "source_downloaded_at": "2026-11-14T21:00:45Z",
+      "source_observed_at": "2026-11-14T21:00:45Z"
     },
     "NPRR1345": {
       "revision_id": "NPRR1345",
@@ -18761,8 +18827,8 @@
         "action": "Deferred/Tabled",
         "next_step": "PRS for consideration"
       },
-      "source_downloaded_at": "2026-11-01T21:04:27Z",
-      "source_observed_at": "2026-11-01T21:04:27Z"
+      "source_downloaded_at": "2026-11-14T21:00:44Z",
+      "source_observed_at": "2026-11-14T21:00:44Z"
     },
     "NPRR1349": {
       "revision_id": "NPRR1349",
