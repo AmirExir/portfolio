@@ -138,9 +138,56 @@ six-value `train_load_forecast_model` return interface are preserved.
   evaluation JSON records source-data hash, time ranges, row counts, features,
   seed, model settings, library versions, baseline scores, and forecast origin.
 
-The selected 1–7 day window is a small exploratory sample, especially at the
-48-hour minimum (only five holdout rows). No weather features, calibrated
+The comparison offers 7, 14, or 30 days of public actual-load history. This is
+still a small exploratory sample. No weather features, calibrated
 uncertainty intervals, or seasonal/operational validation are provided.
+
+### Official ERCOT versus your model
+
+Open **Load Forecast Comparison**, or append `?view=forecasts` to the dashboard
+URL. This view uses public ERCOT sources and does not require API credentials.
+The operations **Load & Forecast** tab uses the same component.
+
+- **Official 7-day outlook** plots every hourly `SystemTotal` value from one
+  identified NP3-561-CD archive, with publication/retrieval time and source link.
+- **Run my model vs ERCOT** trains the existing model on continuous NP6-345-CD
+  actual-load archives, augmented with completed current-day hours from ERCOT's
+  GEN-527-UI display. It predicts any short unobserved bridge recursively and
+  compares the next 24 complete future intervals. Actuals more than four hours
+  old and official forecasts more than three hours old block the comparison.
+- Each run freezes both forecasts before the target hours start. The comparison
+  chart always uses that run's saved official vintage; refreshing the current
+  official outlook cannot silently replace it. Mean/maximum forecast differences
+  measure disagreement, **not accuracy**.
+- **Update accuracy scores** retrieves available actuals and scores both saved
+  forecasts on identical observed hours. MAE, RMSE and signed bias are MW.
+  Future and missing actual hours are reported separately. Actual revisions
+  are appended, while scoring keeps the first recorded actual observation.
+  Scores are per run; overlapping runs are not pooled, and different forecast
+  issue times/lead times remain visible in the JSON export.
+
+Domain logic is isolated in `forecast_comparison.py`; source loading in
+`actual_load_report.py`; orchestration in `forecast_comparison_service.py`;
+and Streamlit presentation in `forecast_comparison_panel.py`. The actual-data
+loader preserves Central-time DST intervals and never interpolates missing
+observations. Source hashes, model parameters, library versions, training/test
+ranges and timestamps are saved with each comparison.
+
+The append-only SQLite ledger defaults to
+`~/.cache/ercot-grid-dashboard/forecast-comparisons.sqlite` (or `XDG_CACHE_HOME`).
+Set **`ERCOT_COMPARISON_STORE`** to a persistent writable path for retained
+history. `ERCOT_ACTUAL_LOAD_CACHE_DIR` configures the bounded daily-archive
+cache. Streamlit hosting may reset local storage on redeployment; download
+comparison JSON to retain evidence. The dashboard creates runs on request.
+Model comparisons appear only in the dashboard; Telegram continues to publish
+the official forecast and chart. No winner is claimed before actuals are available.
+
+```sh
+python -m unittest ERCOTAPI.tests.test_actual_load_report \
+  ERCOTAPI.tests.test_forecast_comparison \
+  ERCOTAPI.tests.test_forecast_comparison_service \
+  ERCOTAPI.tests.test_forecast_comparison_panel -v
+```
 
 Offline regression checks (no credentials or API requests):
 
@@ -151,7 +198,8 @@ python -m unittest ERCOTAPI.tests.test_load_forecast -v
 
 ## Dashboard Controls
 
-- **Historical Days Slider**: Select 1-7 days of historical data to load
+- **Historical Days Slider**: Select 1–90 days for API operations; the load
+  comparison has its own 7/14/30-day model-history selector
 - **Tabs**: Navigate between Load Analysis, Renewables, Pricing, and Outages
 - **Interactive Charts**: Hover for details, zoom, pan, and download plots
 
@@ -165,8 +213,9 @@ python -m unittest ERCOTAPI.tests.test_load_forecast -v
 
 ## Performance Tips
 
-- Start with 1-2 days of historical data for faster initial load
-- ML model trains automatically when sufficient data is available
+- The first 30-day actual-load download can take about a minute; immutable
+  daily archives are reused on later requests
+- Run the load comparison with its explicit button; unchanged model fits are cached
 - Large date ranges may take longer to fetch and process
 
 ## Future Enhancements
@@ -199,8 +248,8 @@ JSON; displayed intervals use readable bounds such as **6–7 PM CT** for HE 19.
 
 The forecast source is ERCOT's public **NP3-561-CD, Seven-Day Load Forecast by
 Weather Zone**, including its `SystemTotal` field. The report links the exact
-downloaded archive and records its hash. This is separate from the dashboard's
-experimental ML forecast and does not train a model or claim model accuracy.
+downloaded archive and records its hash. Telegram remains official-only;
+the experimental model comparison and accuracy history appear in the dashboard.
 
 The load workflow has its own schedule trigger, copied from the existing ERCOT
 news schedule. It runs independently so a news or document-monitor error cannot

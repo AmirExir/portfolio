@@ -463,7 +463,7 @@ def make_arrow_safe_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     return safe_df
 
 
-APP_BUILD = "2026-08-03 document-contrast-v6"
+APP_BUILD = "2026-11-14 forecast-comparison-v1"
 DASHBOARD_TITLE = "ERCOT Grid Intelligence Dashboard"
 ERCOT_API_MARKET_URL = "https://apimarket.ercot.com/"
 LOVABLE_ERCOT_DASHBOARD_URL = "https://ercot-news-watch.lovable.app/"
@@ -3561,11 +3561,13 @@ def main():
         default_view = "ERCOT Documents & Changes"
     elif requested_view in {"atlas", "grid-atlas", "texas-grid"}:
         default_view = "Grid Atlas"
+    elif requested_view in {"forecasts", "forecast", "load-comparison"}:
+        default_view = "Load Forecast Comparison"
     else:
         default_view = "Grid Operations & Analytics"
     dashboard_view = st.pills(
         "Dashboard view",
-        ["Grid Operations & Analytics", "Grid Atlas", "ERCOT Documents & Changes"],
+        ["Grid Operations & Analytics", "Load Forecast Comparison", "Grid Atlas", "ERCOT Documents & Changes"],
         default=default_view,
         selection_mode="single",
         label_visibility="collapsed",
@@ -3576,6 +3578,13 @@ def main():
         return
     if dashboard_view == "Grid Atlas":
         render_north_american_grid_atlas()
+        return
+    if dashboard_view == "Load Forecast Comparison":
+        if __package__:
+            from .forecast_comparison_panel import render_forecast_comparison
+        else:
+            from forecast_comparison_panel import render_forecast_comparison
+        render_forecast_comparison()
         return
 
     # Unified news prefixes (ERCOT + regulatory updates in one panel)
@@ -3810,40 +3819,6 @@ def main():
     # Debug mode
     debug_mode = st.sidebar.checkbox("Debug mode", value=False, help="Show detailed API request/response info")
 
-    # Load model tuning controls
-    if "load_model_auto_tune" not in st.session_state:
-        st.session_state.load_model_auto_tune = True
-
-    st.sidebar.subheader("Load Forecast Model")
-    mode_col_1, mode_col_2 = st.sidebar.columns(2)
-    with mode_col_1:
-        if st.button("Auto-optimize"):
-            st.session_state.load_model_auto_tune = True
-    with mode_col_2:
-        if st.button("Manual"):
-            st.session_state.load_model_auto_tune = False
-
-    manual_load_params = {}
-    if st.session_state.load_model_auto_tune:
-        st.sidebar.success("Automatic tuning enabled")
-        st.sidebar.caption("Uses time-series cross validation to select model settings from the current data window.")
-        tuning_mode = "auto"
-    else:
-        st.sidebar.info("Manual tuning enabled")
-        tuning_mode = "manual"
-        if HAS_XGBOOST:
-            manual_load_params["n_estimators"] = st.sidebar.slider("n_estimators", 50, 500, 200, 10)
-            manual_load_params["max_depth"] = st.sidebar.slider("max_depth", 3, 12, 6, 1)
-            manual_load_params["learning_rate"] = st.sidebar.slider("learning_rate", 0.01, 0.3, 0.1, 0.01)
-            manual_load_params["subsample"] = st.sidebar.slider("subsample", 0.5, 1.0, 0.8, 0.05)
-            manual_load_params["colsample_bytree"] = st.sidebar.slider("colsample_bytree", 0.5, 1.0, 0.8, 0.05)
-            manual_load_params["min_child_weight"] = st.sidebar.slider("min_child_weight", 1, 10, 1, 1)
-        else:
-            manual_load_params["n_estimators"] = st.sidebar.slider("n_estimators", 50, 500, 200, 10)
-            manual_load_params["max_depth"] = st.sidebar.slider("max_depth", 5, 30, 15, 1)
-            manual_load_params["min_samples_split"] = st.sidebar.slider("min_samples_split", 2, 20, 5, 1)
-            manual_load_params["min_samples_leaf"] = st.sidebar.slider("min_samples_leaf", 1, 10, 1, 1)
-    
     st.sidebar.info("Smart caching is enabled to reduce ERCOT API rate-limit pressure. Use the top Refresh data button to clear cached API/news calls.")
     
     end_date = datetime.now()
@@ -3857,305 +3832,15 @@ def main():
         "Resource Outages",
     ])
     
-    # TAB 1: LOAD ANALYSIS & FORECAST
+    # The same public-source comparison is available without API credentials
+    # from the dedicated dashboard view. Other operations retain their API flow.
     with tab1:
-        render_section_header(
-            "System Load and Forecast",
-            "Actual ERCOT system load, available ERCOT forecast data, and a local machine-learning 24-hour forecast.",
-        )
-        
-        try:
-            with st.spinner("📥 Fetching load data..."):
-                # Fetch actual load data using correct parameters: operatingDayFrom/To
-                load_params = {
-                    "operatingDayFrom": start_date.strftime("%Y-%m-%d"),
-                    "operatingDayTo": end_date.strftime("%Y-%m-%d"),
-                    "page": 1,
-                    "size": 5000
-                }
-                
-                import json
-                actual_load_data = fetch_ercot_data_cached(
-                    "np6-345-cd/act_sys_load_by_wzn",
-                    json.dumps(load_params),
-                    api.bearer_token,
-                    api.subscription_key
-                )
-                if debug_mode:
-                    st.json({"params_used": load_params, "response_keys": list(actual_load_data.keys()) if isinstance(actual_load_data, dict) else "N/A"})
-                
-                try:
-                    forecast_data = fetch_ercot_data_cached(
-                        "np3-565-cd/lf_by_model_weather_zone",
-                        json.dumps(load_params),
-                        api.bearer_token,
-                        api.subscription_key
-                    )
-                except Exception:
-                    forecast_data = {"data": []}
-                
-                if "data" in actual_load_data and len(actual_load_data["data"]) > 0:
-                    actual_df = dataframe_from_payload(actual_load_data)
-                    forecast_df = dataframe_from_payload(forecast_data)
-                    
-                    # Debug: Show first few rows
-                    if debug_mode:
-                        st.write("**Load Data Sample:**")
-                        render_dataframe(actual_df.head(), height=180)
-                        st.write(f"Columns: {list(actual_df.columns)}")
-                        if "fields" in actual_load_data:
-                            st.write("**Fields metadata:**")
-                            st.json(actual_load_data["fields"])
-                    
-                    actual_df = add_ercot_timestamp(actual_df)
-                    forecast_df = add_ercot_timestamp(forecast_df)
+        if __package__:
+            from .forecast_comparison_panel import render_forecast_comparison
+        else:
+            from forecast_comparison_panel import render_forecast_comparison
+        render_forecast_comparison()
 
-                    # ERCOT uses operatingDay + hourEnding; resample after parsing one timestamp per hour.
-                    if 'timestamp' in actual_df.columns:
-                        actual_df = (
-                            actual_df.dropna(subset=['timestamp'])
-                                    .sort_values('timestamp')
-                                    .drop_duplicates(subset=['timestamp'])
-                                    .set_index('timestamp')
-                        )
-
-                        # Interpolate only numeric columns; string/bool columns are filled by nearest known values.
-                        numeric_cols = actual_df.select_dtypes(include=['number']).columns
-                        non_numeric_cols = actual_df.columns.difference(numeric_cols)
-
-                        actual_df = actual_df.resample('h').asfreq()
-
-                        if len(numeric_cols) > 0:
-                            actual_df[numeric_cols] = actual_df[numeric_cols].apply(pd.to_numeric, errors='coerce')
-                            actual_df[numeric_cols] = actual_df[numeric_cols].interpolate(method='linear', limit_direction='both')
-
-                        if len(non_numeric_cols) > 0:
-                            actual_df[non_numeric_cols] = actual_df[non_numeric_cols].ffill().bfill()
-
-                        actual_df = actual_df.reset_index()
-                        actual_df['timestamp'] = normalize_timestamps(actual_df['timestamp'])
-                        actual_df = actual_df.dropna(subset=['timestamp'])
-                                                                
-                    # Display metrics - use total/system-wide load when available.
-                    load_col = find_column(
-                        actual_df,
-                        exact=["total", "ercot", "system_wide", "systemwide", "systemTotal"],
-                        contains=["total"],
-                    )
-                    
-                    if load_col and not actual_df.empty:
-                        load_series = coerce_numeric(actual_df[load_col]).dropna()
-                        latest_load, latest_load_note = latest_non_null_reading(
-                            actual_df,
-                            load_col,
-                            as_of=current_interval_cutoff(),
-                            note_prefix="As of",
-                            stale_after_hours=4,
-                        )
-                        if latest_load is None:
-                            latest_load, latest_load_note = latest_non_null_reading(
-                                actual_df,
-                                load_col,
-                                note_prefix="Latest returned",
-                            )
-                        avg_load = load_series.mean()
-                        max_load = load_series.max()
-                        min_load = load_series.min()
-                        load_factor = (avg_load / max_load * 100) if max_load else np.nan
-
-                        col1, col2, col3, col4 = st.columns(4)
-                        with col1:
-                            render_metric_card("Latest Actual Load", format_mw(latest_load), latest_load_note, ERCOT_CYAN)
-                        with col2:
-                            render_metric_card("Average Load", format_mw(avg_load), f"{date_range}-day window", ERCOT_BLUE)
-                        with col3:
-                            render_metric_card("Peak Load", format_mw(max_load), "Observed in selected window", ERCOT_ORANGE)
-                        with col4:
-                            render_metric_card("Load Factor", format_percent(load_factor), f"Minimum {format_mw(min_load)}", ERCOT_GREEN)
-                    
-                    # Plot actual vs forecast
-                    fig = make_subplots(specs=[[{"secondary_y": False}]])
-                    
-                    if load_col and not actual_df.empty:
-                        x_axis = actual_df['timestamp'] if 'timestamp' in actual_df.columns else actual_df.index
-                        fig.add_trace(
-                            go.Scatter(
-                                x=x_axis,
-                                y=actual_df[load_col],
-                                mode='lines',
-                                name='Actual Load',
-                                line=dict(color=ERCOT_BLUE, width=2.7),
-                                fill="tozeroy",
-                                fillcolor="rgba(11, 47, 79, 0.08)",
-                            )
-                        )
-                    
-                    if not forecast_df.empty:
-                        x_axis_forecast = forecast_df['timestamp'] if 'timestamp' in forecast_df.columns else forecast_df.index
-                        forecast_load_col = find_column(
-                            forecast_df,
-                            exact=["SystemTotal", "systemTotal", "total", "ercot"],
-                            contains=["system"],
-                        )
-                        fig.add_trace(
-                            go.Scatter(
-                                x=x_axis_forecast,
-                                y=forecast_df[forecast_load_col] if forecast_load_col else forecast_df.iloc[:, -1],
-                                mode='lines',
-                                name='Forecast Load',
-                                line=dict(color=ERCOT_ORANGE, width=2.4, dash='dash')
-                            )
-                        )
-                    
-                    fig = apply_professional_layout(
-                        fig,
-                        "ERCOT System Load: Actual vs Forecast",
-                        "Load (MW)",
-                        height=520,
-                    )
-                    
-                    render_chart(fig)
-                    
-                    # ML Forecast Section
-                    render_section_header(
-                        "Machine Learning Load Forecast",
-                        "Next 24-hour forecast trained on the selected historical load window.",
-                    )
-                    
-                    if load_col and not actual_df.empty:
-                        model = None
-                        try:
-                            if 'timestamp' not in actual_df.columns:
-                                raise ValueError("Source timestamps are missing; a forecast cannot be dated reliably.")
-                            ml_df = pd.DataFrame(
-                                {'load': actual_df[load_col].to_numpy()},
-                                index=pd.DatetimeIndex(actual_df['timestamp']),
-                            )
-                            model, scaler, training_df, split_data, preds, metrics = cached_load_forecast_model(
-                                ml_df, tuning_mode=tuning_mode, manual_params=manual_load_params,
-                                core_fingerprint=hashlib.sha256(
-                                    Path(__file__).with_name("load_forecast.py").read_bytes()
-                                ).hexdigest(),
-                            )
-                            if model is None:
-                                st.warning("Select at least 48 consecutive hours of actual load to train the model.")
-                        except ValueError as exc:
-                            st.warning(f"ML forecast unavailable: {exc}")
-
-                        if model is not None:
-                            # --- ML Model Performance Metrics and Diagnostics ---
-                            if split_data is not None and preds is not None and metrics is not None:
-                                X_train, X_test, y_train, y_test = split_data
-                                y_train_pred, y_test_pred = preds
-
-                                score_col_1, score_col_2, score_col_3, score_col_4 = st.columns(4)
-                                with score_col_1:
-                                    render_metric_card("1-hour Holdout MAE", format_mw(metrics["test_mae"]), "Chronological holdout", ERCOT_CYAN)
-                                with score_col_2:
-                                    render_metric_card("1-hour Holdout RMSE", format_mw(metrics["test_rmse"]), "Root mean squared error", ERCOT_ORANGE)
-                                with score_col_3:
-                                    render_metric_card("1-hour Holdout R2", f"{metrics['test_r2']:.3f}", "Explained variance", ERCOT_GREEN)
-                                with score_col_4:
-                                    render_metric_card("Training MAE", format_mw(metrics["train_mae"]), "In-sample fit", ERCOT_BLUE)
-
-                                st.caption(
-                                    "Holdout scores use observed preceding loads at each hour. "
-                                    "They do not establish the accuracy of the recursive 24-hour forecast. "
-                                    "The future model is refitted on all eligible observations."
-                                )
-                                st.write(
-                                    f"Same-hour holdout baselines — previous hour MAE: {format_mw(metrics['persistence_mae'])}; "
-                                    f"24-hour lag MAE: {format_mw(metrics['seasonal_mae'])}."
-                                )
-                                st.download_button(
-                                    "Download evaluation details",
-                                    json.dumps(metrics, indent=2, allow_nan=False),
-                                    "ercot_load_evaluation.json", "application/json",
-                                )
-
-                                if metrics.get("best_params"):
-                                    with st.expander("Selected model settings", expanded=False):
-                                        st.write(f"Mode: {'Automatic' if metrics.get('tuning_mode') == 'auto' else 'Manual'}")
-                                        if metrics.get("cv_mae") is not None:
-                                            st.write(f"Cross-validated MAE: {format_mw(metrics['cv_mae'])}")
-                                        st.json(metrics["best_params"])
-
-                                fig_diag = go.Figure()
-                                train_idx = y_train.index if hasattr(y_train, "index") else None
-                                test_idx = y_test.index if hasattr(y_test, "index") else None
-                                fig_diag.add_trace(go.Scatter(
-                                    x=train_idx,
-                                    y=y_train,
-                                    mode='lines',
-                                    name='Train Actual',
-                                    line=dict(color=ERCOT_BLUE, width=2, dash='solid')
-                                ))
-                                fig_diag.add_trace(go.Scatter(
-                                    x=train_idx,
-                                    y=y_train_pred,
-                                    mode='lines',
-                                    name='Train Predicted',
-                                    line=dict(color=ERCOT_CYAN, width=2, dash='dot')
-                                ))
-                                fig_diag.add_trace(go.Scatter(
-                                    x=test_idx,
-                                    y=y_test,
-                                    mode='lines',
-                                    name='Holdout Actual',
-                                    line=dict(color=ERCOT_RED, width=2, dash='solid')
-                                ))
-                                fig_diag.add_trace(go.Scatter(
-                                    x=test_idx,
-                                    y=y_test_pred,
-                                    mode='lines',
-                                    name='One-hour Holdout Predicted',
-                                    line=dict(color=ERCOT_ORANGE, width=2, dash='dot')
-                                ))
-                                fig_diag = apply_professional_layout(
-                                    fig_diag,
-                                    "Training Fit vs One-hour Holdout",
-                                    "Load (MW)",
-                                    height=430,
-                                )
-                                render_chart(fig_diag)
-
-                            forecast = forecast_load(model, scaler, ml_df, hours=24)
-                            future_hours = forecast.index
-                            future_load = forecast['predicted_load_mw'].to_numpy()
-
-                            fig_ml = go.Figure()
-                            fig_ml.add_trace(
-                                go.Scatter(
-                                    x=future_hours,
-                                    y=future_load,
-                                    mode='lines+markers',
-                                    name='ML Forecast',
-                                    line=dict(color=ERCOT_GREEN, width=3.2),
-                                    marker=dict(size=7, color=ERCOT_GREEN)
-                                )
-                            )
-                            
-                            model_name = "XGBoost" if HAS_XGBOOST else "Random Forest"
-                            fig_ml = apply_professional_layout(
-                                fig_ml,
-                                f"{model_name} Load Forecast: Next 24 Hours",
-                                "Predicted Load (MW)",
-                                height=430,
-                            )
-                            render_chart(fig_ml)
-                            
-                            forecast_table = pd.DataFrame({
-                                'Timestamp': [pd.Timestamp(h).strftime("%b %d %H:%M") for h in future_hours],
-                                'Predicted Load': [format_mw(load) for load in future_load]
-                            })
-                            render_dataframe(forecast_table, height=250)
-                    
-                else:
-                    st.warning("📭 No load data available for the selected period.")
-                    
-        except Exception as e:
-            st.error(f"❌ Error fetching load data: {e}")
-    
     # TAB 2: RENEWABLE GENERATION
     with tab2:
         render_section_header(
