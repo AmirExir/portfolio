@@ -1,0 +1,69 @@
+Market Outlook & Trade Watchlist
+Generated: Nov 13, 2026 at 8:19 PM CST (UTC-06:00)
+As of: Nov 13, 2026
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+Coverage: 80 symbols evaluated; 0 data/run issues.
+General news is not included in these forecast scores.
+The forecast is an end-date return, not a prediction of the path each day.
+
+RESULT
+Passed model checks: 4 buy, 0 sell/avoid.
+Allocation blocked: unverified holdings.
+Position sizes are research-only.
+Holdings verification affects sizing, not which forecasts pass model checks.
+
+BUY SIGNALS - PASSED MODEL CHECKS
+Showing 4 of 4; ranked by model/policy score.
+
+1. SLB: forecast +14.54% by Dec 29, 2026
+  Reliability: high; model-estimated chance of a rise: 80%; estimated error: 11.5 percentage points.
+
+2. USO: forecast +12.43% by Dec 29, 2026
+  Reliability: high; model-estimated chance of a rise: 83%; estimated error: 10.8 percentage points.
+
+3. SLV: forecast +16.11% by Dec 29, 2026
+  Reliability: high; model-estimated chance of a rise: 83%; estimated error: 11.4 percentage points.
+
+4. GLD: forecast +5.49% by Dec 29, 2026
+  Reliability: high; model-estimated chance of a rise: 77%; estimated error: 6.4 percentage points.
+
+RESEARCH WATCHLIST - NOT QUALIFIED
+Research only. These are not buy or sell signals.
+
+Buy candidates: 5 of 16; ranked by model/policy score.
+
+1. COP: forecast +14.09% by Dec 29, 2026
+  Not qualified: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+2. XOM: forecast +8.98% by Dec 29, 2026
+  Not qualified: up/down predictions failed accuracy checks.
+
+3. XLE: forecast +7.92% by Dec 29, 2026
+  Not qualified: up/down predictions failed accuracy checks.
+
+4. MSFT: forecast +11.70% by Dec 29, 2026
+  Not qualified: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+5. V: forecast +3.87% by Dec 29, 2026
+  Not qualified: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+Sell/avoid candidates: 4 of 4; ranked by predicted decline.
+
+1. ORCA: forecast -16.19% by Dec 13, 2026
+  Not qualified: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+2. UNH: forecast -9.44% by Dec 29, 2026
+  Not qualified: probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+3. PEP: forecast -5.20% by Dec 29, 2026
+  Not qualified: up/down predictions failed accuracy checks; probability estimates failed reliability checks; return predictions did not beat a no-change forecast.
+
+4. TLT: forecast -4.32% by Dec 29, 2026
+  Not qualified: up/down predictions failed accuracy checks; return predictions did not beat a no-change forecast; probability estimates failed reliability checks.
+
+NEXT CHECK
+More price history can address sample shortages where available. Failed accuracy or probability checks need better results on unseen data before promotion.
+
+Full details saved to the market dashboard and GitHub report.
+Model output only. Not financial advice.
