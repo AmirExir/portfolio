@@ -55,8 +55,12 @@ def execute_js(code: str, payload: dict, context: dict | None = None,
     """Run n8n-style JavaScript without browser globals, network or messaging."""
     script = r"""const vm = require('node:vm');
 const data = JSON.parse(require('fs').readFileSync(0, 'utf8'));
-const env = {Buffer, $binary: data.binary, $json: data.payload, $: () => ({first: () => ({json: data.context})}),
-  $input: {first: () => ({json: data.payload, binary: data.binary}), all: () => [{json: data.payload}]}};
+// n8n's $binary exposes metadata only: inline image bytes are deliberately omitted.
+const metadata = Object.fromEntries(Object.entries(data.binary || {}).map(([name, value]) =>
+  [name, Object.fromEntries(Object.entries(value).filter(([key]) => key !== 'data'))]));
+const input = {json: data.payload, binary: data.binary};
+const env = {Buffer, $binary: metadata, $json: data.payload, $: () => ({first: () => ({json: data.context})}),
+  $input: {item: input, first: () => input, all: () => [input]}};
 process.stdout.write(JSON.stringify(vm.runInNewContext('(function(){' + data.code + '\n})()', env)));"""
     result = subprocess.run(["node", "-e", script], text=True,
                             input=json.dumps({"code": code, "payload": payload, "context": context, "binary": binary}),

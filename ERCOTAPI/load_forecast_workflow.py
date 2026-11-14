@@ -70,9 +70,11 @@ return [{json: {chat_id: item.reply_chat_id, text: item.text, report_ok: item.re
   has_chart: item.has_chart, disable_web_page_preview: true, send_direct: true},
   ...(source.binary ? {binary: source.binary} : {})}];"""
 
-LOAD_CHANNEL_JS = r"""return {json: {chat_id: $json.channel_chat_id, text: $json.text,
+LOAD_CHANNEL_JS = r"""// n8n's $binary exposes metadata only; use the full input item for image bytes.
+const source = $input.item;
+return {json: {chat_id: $json.channel_chat_id, text: $json.text,
   report_ok: $json.report_ok, has_chart: $json.has_chart, disable_web_page_preview: true},
-  ...($json.has_chart ? {binary: $binary} : {})};"""
+  ...($json.has_chart ? {binary: source.binary} : {})};"""
 
 
 def restore_text_js(payload_node: str) -> str:
