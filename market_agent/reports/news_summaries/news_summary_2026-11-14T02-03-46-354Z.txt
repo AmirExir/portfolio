@@ -1,0 +1,24 @@
+Market brief — Nov 13, 2026, 8:03 PM CST
+
+What matters:
+1. Nvidia leadership crisis becomes a governance and Washington-risk event. Multiple outlets in this evidence set report that Nvidia’s founder-CEO Jensen Huang resigned, with sources tying the departure to allegations about extramarital relationships, including one allegedly involving a suspected Chinese intelligence asset. Separately, Reuters-reported coverage says Senate Banking Committee Chairman Tim Scott asked Huang and Commerce Secretary Howard Lutnick to testify. The market mechanism is broader than reputational damage: a sudden founder exit can disrupt strategy, customer confidence, and hiring, while congressional scrutiny could raise compliance, export-control, and national-security pressure around the AI-chip leader. These are reported allegations and a reported testimony request, not proof of wrongdoing.
+Yahoo Entertainment, Nov 12, 2026, 7:12 PM CST, https://www.yahoo.com/news/politics/articles/us-senate-banking-committee-chair-001522643.html
+BBC News, Nov 12, 2026, 5:34 PM CST, https://www.bbc.co.uk/news/articles/cmq5vd1wdgz6o
+
+2. Nvidia’s shock appears large enough to spill into the AI complex and index sentiment. Several reports say Nvidia’s slide weighed on U.S. stocks, with the Nasdaq and broader benchmarks closing lower, though losses moderated by the end of the session; another report says Asian stocks later rose as investors assessed fallout from the Nvidia upheaval. The mechanism is index concentration and AI supply-chain dependence: when a market bellwether faces leadership instability, investors may reprice semiconductor peers, hyperscaler capex assumptions, and passive index exposure.
+The Times of India, Nov 12, 2026, 3:15 PM CST, https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-stocks-us-market-ends-lower-as-energy-gains-offset-nvidia-slide/articleshow/135782290.cms
+The Times of India, Nov 12, 2026, 6:45 PM CST, https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-today-asian-stocks-gain-after-nvidia-shakeup-oil-steady/articleshow/135785602.cms
+
+3. Reddit (RDDT) is framing AI as both distribution risk and monetization opportunity after earnings pressure. Yahoo Finance reports CEO Steve Huffman said Reddit is heavily cited in AI-generated answers even as Google AI Overviews hurt Reddit’s search traffic in its latest earnings report. The mechanism is important for internet-platform valuations: AI can cannibalize referral traffic and ad impressions while also increasing the value of Reddit’s data, licensing, and direct user engagement if the company can capture that demand.
+Yahoo Entertainment, Nov 12, 2026, 10:26 AM CST, https://finance.yahoo.com/markets/stocks/article/reddit-ceo-steve-huffman-explains-the-paradox-of-ai-for-his-company-162654170.html
+
+4. Crypto risk appetite also appears sensitive to the tech-led shock. Cointelegraph reports Bitcoin slid toward $71,000 as Nvidia’s turmoil sparked fresh tech-stock selling. The mechanism is cross-asset sentiment: crypto can trade like a high-beta risk asset when major growth/AI names destabilize, even without crypto-specific news.
+Cointelegraph, Nov 12, 2026, 9:46 AM CST, https://cointelegraph.com/markets/bitcoin-price-drops-71k-stocks-nvidia-huang-resignation
+
+Watch actions:
+- NVDA — mixed: monitor board succession, interim leadership credibility, and any formal company response to congressional scrutiny; bearish if operational disruption, customer hesitation, or export-control consequences are confirmed, but that view would soften if a strong permanent CEO plan and stable demand commentary emerge.
+- AI semis / Nasdaq-heavy megacap complex — mixed: reassess concentration risk if Nvidia’s governance event triggers order-timing changes or capex caution across customers; concern would ease if peers explicitly reaffirm procurement and deployment plans.
+- RDDT — mixed to bearish near term because AI Overviews reportedly pressure search traffic; this would improve if Reddit shows evidence that licensing, product changes, or direct usage offsets referral losses.
+- BTC / crypto beta — mixed: watch whether weakness remains tied to broader tech-risk sentiment rather than crypto-specific stress; implication improves if crypto stabilizes even as AI equities remain volatile.
+
+Coverage: From a 36-hour window ending Nov 13, 2026, 8:03 PM CST, the provider returned only a sample of matching coverage: 96 fetched articles, 88 eligible unique articles, 24 selected articles, and 17 selected sources.
