@@ -68,7 +68,8 @@ def hourly_figure(rows: list[dict[str, Any]], series: list[tuple[str, str, str]]
             plot_labels.append(label)
             # End the step at its actual interval boundary. A missing hour
             # must be a visible gap, not an extension of the previous MW.
-            if index == len(starts) - 1 or end != starts[index + 1]:
+            next_value_missing = index + 1 < len(values) and values[index + 1] is None
+            if index == len(starts) - 1 or end != starts[index + 1] or (value is not None and next_value_missing):
                 plot_times.append(end)
                 plot_values.append(value)
                 plot_labels.append(label)

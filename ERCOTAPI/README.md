@@ -170,7 +170,9 @@ Domain logic is isolated in `forecast_comparison.py`; source loading in
 `actual_load_report.py`; orchestration in `forecast_comparison_service.py`;
 and Streamlit presentation in `forecast_comparison_panel.py`. The actual-data
 loader preserves Central-time DST intervals and never interpolates missing
-observations. Source hashes, model parameters, library versions, training/test
+observations. Transient actual-source failures receive at most three download
+attempts; persistent errors identify the failed source and safe HTTP status.
+Source hashes, model parameters, library versions, training/test
 ranges and timestamps are saved with each comparison.
 
 The append-only SQLite ledger defaults to

@@ -52,6 +52,30 @@ def display(day: date, *, hours: int = 11, published_hour: int | None = None) ->
 
 
 class ActualLoadReportTests(unittest.TestCase):
+    def test_transient_source_failure_retries_then_uses_verified_download(self) -> None:
+        response = report.requests.Response()
+        response.status_code = 503
+        failure = report.ForecastReportError("source_unavailable", "Source unavailable")
+        failure.__cause__ = report.requests.HTTPError(response=response)
+        with patch.object(report, "_download", side_effect=[failure, b"source bytes"]) as download, patch.object(report.time, "sleep") as sleep:
+            self.assertEqual(report._fetch(report.DEFAULT_INDEX_URL), b"source bytes")
+        self.assertEqual(download.call_count, 2)
+        sleep.assert_called_once_with(0.5)
+
+    def test_source_errors_are_bounded_and_identify_the_failed_source(self) -> None:
+        for status, attempts, retry_after in [(403, 1, None), (503, 3, None), (429, 1, "120")]:
+            with self.subTest(status=status):
+                response = report.requests.Response()
+                response.status_code = status
+                if retry_after:
+                    response.headers["Retry-After"] = retry_after
+                failure = report.ForecastReportError("source_unavailable", "Source unavailable")
+                failure.__cause__ = report.requests.HTTPError(response=response)
+                with patch.object(report, "_download", side_effect=failure) as download, patch.object(report.time, "sleep"):
+                    with self.assertRaisesRegex(report.ActualLoadReportError, f"actual-load report index.*HTTP {status}"):
+                        report._fetch(report.DEFAULT_INDEX_URL)
+                self.assertEqual(download.call_count, attempts)
+
     def setUp(self) -> None:
         self.now = datetime(2026, 11, 14, 11, 30, tzinfo=report.CENTRAL)
         self.temp = tempfile.TemporaryDirectory()

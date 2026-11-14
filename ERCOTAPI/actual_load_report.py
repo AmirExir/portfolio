@@ -25,11 +25,13 @@ import os
 from pathlib import Path
 import re
 import tempfile
+import time
 from typing import Any
 from urllib.parse import parse_qs, urljoin, urlparse
 from zipfile import BadZipFile, ZipFile
 
 import pandas as pd
+import requests
 
 if __package__:
     from .load_forecast_report import (
@@ -62,10 +64,28 @@ class ActualLoadReportError(ValueError):
 
 
 def _fetch(url: str) -> bytes:
-    try:
-        return _download(url)
-    except ForecastReportError as exc:
-        raise ActualLoadReportError(exc.code, "ERCOT's official actual-load source could not be read. Try again later.") from exc
+    """Retry transient source failures while retaining a safe, useful cause."""
+    path = urlparse(url).path
+    source = "report index" if path.endswith("GetReports.do") else "daily archive" if path.endswith("mirDownload") else "current-day display"
+    for attempt in range(3):
+        try:
+            return _download(url)
+        except ForecastReportError as exc:
+            cause = exc.__cause__
+            response = getattr(cause, "response", None)
+            status = response.status_code if response is not None else None
+            transient = isinstance(cause, (requests.Timeout, requests.ConnectionError)) or status in {429, 500, 502, 503, 504}
+            delay = 0.5 * (attempt + 1)
+            if status == 429 and response is not None:
+                try:
+                    delay = max(delay, float(response.headers.get("Retry-After", "1")))
+                except ValueError:
+                    transient = False
+            if transient and attempt < 2 and delay <= 5:
+                time.sleep(delay)
+                continue
+            reason = f"HTTP {status}" if status else "request timed out" if isinstance(cause, requests.Timeout) else exc.code.replace("_", " ")
+            raise ActualLoadReportError(exc.code, f"ERCOT's actual-load {source} could not be read ({reason}). Try again later.") from exc
 
 
 def _official_url(url: str, *, display: bool = False) -> str:
