@@ -7,8 +7,10 @@ import csv
 from datetime import date, datetime, timedelta, timezone
 from io import BytesIO, StringIO
 import json
+import sys
+from types import ModuleType
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 from zipfile import ZipFile
 
 from ERCOTAPI import load_forecast_report as report
@@ -53,16 +55,55 @@ class LoadForecastReportTests(unittest.TestCase):
         self.assertEqual(len(payload["daily_peaks"]), 7)
         self.assertEqual(payload["daily_peaks"][0]["peak_load_mw"], 10024)
         self.assertEqual(payload["daily_peaks"][0]["hour_ending"], 24)
+        self.assertEqual(payload["week_peak"]["peak_load_mw"], 10624)
+        self.assertEqual(payload["week_peak"]["delivery_date"], "2026-11-19")
         # Next full intervals start at13:00 today through12:00 tomorrow.
         self.assertEqual(payload["next_24_hour_peak"]["peak_load_mw"], 10113)
         self.assertEqual(payload["next_24_hour_peak"]["hour_ending"], 13)
         self.assertIn("Fri, Nov 13, 2026", payload["text"])
         self.assertIn("12:00 PM CST", payload["text"])
         self.assertIn("10,024 MW", payload["text"])
+        self.assertIn("each day's highest forecast hour", payload["text"])
+        self.assertIn("11 PM–12 AM CT (next day)", payload["text"])
+        self.assertNotIn("hour ending", payload["text"])
         self.assertIn("Official ERCOT forecast", payload["text"])
         self.assertIn(vintage().url, payload["text"])
         self.assertEqual(len(payload["source_sha256"]), 64)
         self.assertLess(len(payload["text"]), 3900)
+
+    def test_hourly_series_preserves_all_values_and_elapsed_hour_bounds(self) -> None:
+        payload = report.build_forecast_report(vintage(), forecast_csv(), now=self.now)
+        series = payload["hourly_series"]
+        self.assertEqual(len(series), 168)
+        self.assertEqual(series[0], {
+            "interval_start_utc": "2026-11-13T06:00:00+00:00",
+            "interval_end_utc": "2026-11-13T07:00:00+00:00",
+            "load_mw": 10001.0,
+        })
+        self.assertEqual(series[-1]["interval_end_utc"], "2026-11-20T06:00:00+00:00")
+        self.assertEqual([row["load_mw"] for row in series], [10000 + day * 100 + hour for day in range(7) for hour in range(1, 25)])
+        for index, row in enumerate(series):
+            start = datetime.fromisoformat(row["interval_start_utc"])
+            end = datetime.fromisoformat(row["interval_end_utc"])
+            self.assertEqual(end - start, timedelta(hours=1))
+            if index:
+                self.assertEqual(series[index - 1]["interval_end_utc"], row["interval_start_utc"])
+        # Input ordering must never change a peak, tie break or plotted path.
+        lines = forecast_csv().splitlines()
+        reversed_csv = "\n".join([lines[0], *reversed(lines[1:])])
+        reordered = report.build_forecast_report(vintage(), reversed_csv, now=self.now)
+        self.assertEqual(reordered["hourly_series"], series)
+        self.assertEqual(reordered["daily_peaks"], payload["daily_peaks"])
+
+    def test_evening_peak_is_a_readable_actual_interval(self) -> None:
+        text = forecast_csv().replace("11/13/2026,19:00,10019,N", "11/13/2026,19:00,20000,N")
+        payload = report.build_forecast_report(vintage(), text, now=self.now)
+        peak = payload["daily_peaks"][0]
+        self.assertEqual(peak["hour_ending"], 19)
+        self.assertEqual(peak["interval_label"], "6–7 PM CT")
+        self.assertEqual(peak["interval_start_utc"], "2026-11-14T00:00:00+00:00")
+        self.assertEqual(peak["interval_end_utc"], "2026-11-14T01:00:00+00:00")
+        self.assertIn("20,000 MW · 6–7 PM CT", payload["text"])
 
     def test_latest_csv_archive_is_selected_independent_of_order(self) -> None:
         def row(clock: str, doc: int, suffix: str = "csv") -> str:
@@ -131,8 +172,21 @@ class LoadForecastReportTests(unittest.TestCase):
             payload = report.build_forecast_report(vintage(now), csv_text, now=now)
             self.assertEqual(len(rows), expected_rows)
             self.assertTrue(payload["ok"])
+            self.assertEqual(len(payload["hourly_series"]), 6 * 24 + expected_rows)
             starts = sorted(row["interval_start"] for row in rows)
             self.assertTrue(all(second - first == timedelta(hours=1) for first, second in zip(starts, starts[1:])))
+
+    def test_peak_intervals_show_clock_changes_without_losing_elapsed_hour(self) -> None:
+        for day, flag, expected_label in (
+            (date(2026, 3, 8), "N", "1 AM CST–3 AM CDT"),
+            (date(2026, 11, 1), "N", "1 AM CDT–1 AM CST"),
+            (date(2026, 11, 1), "Y", "1 AM CST–2 AM CST"),
+        ):
+            rows = report.parse_forecast_csv(forecast_csv(day))[day]
+            row = next(row for row in rows if row["hour_ending"] == 2 and row["dst_flag"] == flag)
+            peak = report._peak_record(day, row)
+            self.assertEqual(peak["interval_label"], expected_label)
+            self.assertEqual(datetime.fromisoformat(peak["interval_end_utc"]) - datetime.fromisoformat(peak["interval_start_utc"]), timedelta(hours=1))
 
     def test_unsupported_dst_labels_are_not_silently_repaired(self) -> None:
         csv_text = forecast_csv(date(2026, 11, 1)).replace("11/01/2026,2:00,10002,Y", "11/01/2026,25:00,10002,Y")
@@ -151,11 +205,45 @@ class LoadForecastReportTests(unittest.TestCase):
     def test_expected_failure_prints_only_sanitized_json(self) -> None:
         stream = StringIO()
         with patch.object(report, "fetch_forecast_report", side_effect=report.ForecastReportError("stale_report", "Latest report is stale.")), redirect_stdout(stream):
-            report.main()
+            report.main([])
         payload = json.loads(stream.getvalue())
         self.assertFalse(payload["ok"])
         self.assertEqual(payload["error_code"], "stale_report")
         self.assertIn("No estimates were substituted", payload["text"])
+
+    def test_chart_is_opt_in_and_attached_to_the_same_validated_report(self) -> None:
+        image = {"base64": "cG5n", "mime_type": "image/png", "file_name": "ercot-load-forecast.png"}
+        chart_module = ModuleType("ERCOTAPI.load_forecast_chart")
+        chart_module.render_load_forecast_chart = Mock(return_value=image)
+        for arguments, chart_expected in (([], False), (["--chart"], True)):
+            payload = report.build_forecast_report(vintage(), forecast_csv(), now=self.now)
+            stream = StringIO()
+            with patch.dict(sys.modules, {"ERCOTAPI.load_forecast_chart": chart_module}), patch.object(report, "fetch_forecast_report", return_value=payload), redirect_stdout(stream):
+                report.main(arguments)
+            rendered = json.loads(stream.getvalue())
+            self.assertEqual("chart" in rendered, chart_expected)
+            if chart_expected:
+                self.assertEqual(rendered["chart"], image)
+                chart_module.render_load_forecast_chart.assert_called_once_with(payload)
+                self.assertEqual(rendered["hourly_series"], payload["hourly_series"])
+            else:
+                chart_module.render_load_forecast_chart.assert_not_called()
+
+    def test_chart_failure_keeps_forecast_and_does_not_expose_renderer_error(self) -> None:
+        chart_module = ModuleType("ERCOTAPI.load_forecast_chart")
+        chart_module.render_load_forecast_chart = Mock(side_effect=ValueError("private renderer diagnostics"))
+        payload = report.build_forecast_report(vintage(), forecast_csv(), now=self.now)
+        stream = StringIO()
+        with patch.dict(sys.modules, {"ERCOTAPI.load_forecast_chart": chart_module}), patch.object(report, "fetch_forecast_report", return_value=payload), redirect_stdout(stream), self.assertLogs(report.__name__, level="ERROR") as logs:
+            report.main(["--chart"])
+        rendered = json.loads(stream.getvalue())
+        self.assertTrue(rendered["ok"])
+        self.assertEqual(rendered["chart_error"], "chart_unavailable")
+        self.assertEqual(len(rendered["hourly_series"]), 168)
+        self.assertNotIn("chart", rendered)
+        self.assertIn("Chart unavailable", rendered["text"])
+        self.assertNotIn("private renderer diagnostics", stream.getvalue())
+        self.assertNotIn("private renderer diagnostics", " ".join(logs.output))
 
     def test_external_source_override_is_rejected_before_network(self) -> None:
         with patch.object(report.requests, "get") as get, self.assertRaises(report.ForecastReportError):

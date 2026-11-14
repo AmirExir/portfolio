@@ -2,6 +2,126 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "e02c3802418ea22af23e04ed2a800523070f6ee344e9af71b9a8ffcefac54ef5",
+      "title": "128PGRR-11 TEBA Comments 033026",
+      "document_number": "PGRR128",
+      "source": "PGRR",
+      "published_date": "Mar 30, 2026",
+      "downloaded_at": "2026-11-14T12:00:58Z",
+      "observed_at": "2026-11-14T12:00:58Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/03/30/128PGRR-11-TEBA-Comments-033026.docx",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR128",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) suggests ERCOT should host an annual forum to discuss advanced transmission technologies, commonly referred to as grid enhancing technologies (“GETs”) and high performance conductors (“HPCs”).",
+      "issue_title": "Regional Planning Group Discussion of Grid Enhancing Technologies",
+      "affected_sections": "3.1.1.2, 3.1.2.1, and 3.1.10 (new)",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "6aea3671a062edecab68aab02d0265c78fe55d11360aa83b76d46349e9223aba",
+      "title": "128PGRR-12 TEBA Comments 050826",
+      "document_number": "PGRR128",
+      "source": "PGRR",
+      "published_date": "May 11, 2026",
+      "downloaded_at": "2026-11-14T12:00:56Z",
+      "observed_at": "2026-11-14T12:00:56Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/05/11/128PGRR-12-TEBA-Comments-050826.docx",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR128",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) suggests ERCOT should host an annual forum to discuss advanced transmission technologies, commonly referred to as grid enhancing technologies (“GETs”) and high performance conductors (“HPCs”).",
+      "issue_title": "Regional Planning Group Discussion of Grid Enhancing Technologies",
+      "affected_sections": "3.1.1.2, 3.1.2.1, and 3.1.10 (new)",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "1c7635b1f2c070be8ed789c3d687ca155686d4081530be51ba416d34233e86a6",
+      "title": "123PGRR-07 Impact Analysis 052626",
+      "document_number": "PGRR123",
+      "source": "PGRR",
+      "published_date": "May 26, 2026",
+      "downloaded_at": "2026-11-14T12:00:56Z",
+      "observed_at": "2026-11-14T12:00:56Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/05/26/123PGRR-07-Impact-Analysis-052626.docx",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR123",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) modifies what an Entity may be affected by in order to qualify to submit PGRRs, in alignment with Protocol changes made by NPRR1264.",
+      "issue_title": "Related to NPRR1264, Creation of a New Energy Attribute Certificate Program",
+      "affected_sections": "1.2.2",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "bf90c9bc1b245ad4e2bc42ac600932e14cd89f5966e8df6c5580ae8a550ac827",
+      "title": "123PGRR-04 ERCOT Comments 050626",
+      "document_number": "PGRR123",
+      "source": "PGRR",
+      "published_date": "May 6, 2026",
+      "downloaded_at": "2026-11-14T12:00:54Z",
+      "observed_at": "2026-11-14T12:00:54Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/05/06/123PGRR-04-ERCOT-Comments-050626.docx",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR123",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) modifies what an Entity may be affected by in order to qualify to submit PGRRs, in alignment with Protocol changes made by NPRR1264.",
+      "issue_title": "Related to NPRR1264, Creation of a New Energy Attribute Certificate Program",
+      "affected_sections": "1.2.2",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "16c4e3b3ee1c4f3a231427af34602e1acbdc6b95927f2c7030aca6790bf59d05",
+      "title": "1350NPRR-06 PRS Report 111126",
+      "document_number": "NPRR1350",
+      "source": "NPRR",
+      "published_date": "Nov 13, 2026",
+      "downloaded_at": "2026-11-14T12:00:44Z",
+      "observed_at": "2026-11-14T12:00:44Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/11/13/1350NPRR-06-PRS-Report-111126.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1350",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) continues the automation of outdated email-based form submissions by Market Participants to ERCOT, facilitating streamlined digital processing of these submissions via the Market Participant Service Portal (MPSP). These previously emailed forms will now be entered by MPs directly into the new portal. The forms themselves will remain in the Protocols so that stakeholders can see a visual of the information they will be prompted to enter into the portal and make revisions to the forms as needed. This NPRR also adds a yes/no checkbox and response line to Form 22E, Notification of Suspension of Operations, and Form 22H, Notification of Change of Resource Designation, to indicate a change in Pre-Assigned Congestion Revenue Rights (PCRR) eligibility.",
+      "issue_title": "Revisions to Section 22 Attachments A through N for the Market Participant Service Portal (MPSP)",
+      "affected_sections": "22A, 22B, 22C, 22D, 22E, 22G, 22H, 22I, 22J, 22K, 22L, 22M, and 22N",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "77d995312c66e0ab25ec516de202b7272a65e3039708e12a8be8095b877c63a1",
+      "title": "NPRR1350",
+      "document_number": "NPRR1350",
+      "source": "NPRR",
+      "published_date": "Sep 29, 2026",
+      "downloaded_at": "2026-11-14T12:00:42Z",
+      "observed_at": "2026-11-14T12:00:42Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1350",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1350",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) continues the automation of outdated email-based form submissions by Market Participants to ERCOT, facilitating streamlined digital processing of these submissions via the Market Participant Service Portal (MPSP). These previously emailed forms will now be entered by MPs directly into the new portal. The forms themselves will remain in the Protocols so that stakeholders can see a visual of the information they will be prompted to enter into the portal and make revisions to the forms as needed. This NPRR also adds a yes/no checkbox and response line to Form 22E, Notification of Suspension of Operations, and Form 22H, Notification of Change of Resource Designation, to indicate a change in Pre-Assigned Congestion Revenue Rights (PCRR) eligibility.",
+      "issue_title": "Revisions to Section 22 Attachments A through N for the Market Participant Service Portal (MPSP)",
+      "affected_sections": "22A, 22B, 22C, 22D, 22E, 22G, 22H, 22I, 22J, 22K, 22L, 22M, and 22N",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
       "content_sha256": "4a053d9c4686dc7be1f8d6cac6c39e2d0d29d6ce10a2b63f534bab2ae0f002ab",
       "title": "128PGRR-13 PLWG Comments 051226",
       "document_number": "PGRR128",
@@ -1039,26 +1159,6 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) establishes timelines for the modeling of new 765kV and its supporting transmission in the ERCOT Network Operations Model and allows ERCOT to give priority to transmission Outages in support of 765kV transmission construction, commissioning, and energization.",
       "issue_title": "765kV Transmission Outage Priority and Modeling Timelines",
       "affected_sections": "3.1.5.8 and 3.10.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "978c57c940e6ba9184429ded2b483118c11607ae8b93a7ebf2bfcb0409a10fc8",
-      "title": "NPRR1350",
-      "document_number": "NPRR1350",
-      "source": "NPRR",
-      "published_date": "Sep 29, 2026",
-      "downloaded_at": "2026-10-20T11:00:42Z",
-      "observed_at": "2026-10-20T11:00:42Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1350",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1350",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) continues the automation of outdated email-based form submissions by Market Participants to ERCOT, facilitating streamlined digital processing of these submissions via the Market Participant Service Portal (MPSP). These previously emailed forms will now be entered by MPs directly into the new portal. The forms themselves will remain in the Protocols so that stakeholders can see a visual of the information they will be prompted to enter into the portal and make revisions to the forms as needed. This NPRR also adds a yes/no checkbox and response line to Form 22E, Notification of Suspension of Operations, and Form 22H, Notification of Change of Resource Designation, to indicate a change in Pre-Assigned Congestion Revenue Rights (PCRR) eligibility.",
-      "issue_title": "Revisions to Section 22 Attachments A through N for the Market Participant Service Portal (MPSP)",
-      "affected_sections": "22A, 22B, 22C, 22D, 22E, 22G, 22H, 22I, 22J, 22K, 22L, 22M, and 22N",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -16498,8 +16598,8 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     }
   ],
-  "count": 841,
-  "generated_at": "2026-11-13T12:02:40.588222+00:00",
+  "count": 846,
+  "generated_at": "2026-11-14T12:02:09.365889+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",
@@ -18705,16 +18805,16 @@
       "effective_state": "pending_proposal",
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "PRS",
-      "next_step": "Impact Analysis Consideration",
+      "next_group": "TAC",
+      "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "10/14/2026",
+        "date": "11/11/2026",
         "governing_body": "PRS",
         "action": "Recommended for Approval",
-        "next_step": "Impact Analysis Consideration"
+        "next_step": "Revision Request Consideration"
       },
-      "source_downloaded_at": "2026-10-20T11:00:42Z",
-      "source_observed_at": "2026-10-20T11:00:42Z"
+      "source_downloaded_at": "2026-11-14T12:00:42Z",
+      "source_observed_at": "2026-11-14T12:00:42Z"
     },
     "NPRR1351": {
       "revision_id": "NPRR1351",
@@ -18906,8 +19006,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-11-13T12:01:22Z",
-      "source_observed_at": "2026-11-13T12:01:22Z"
+      "source_downloaded_at": "2026-11-14T12:00:54Z",
+      "source_observed_at": "2026-11-14T12:00:54Z"
     },
     "PGRR127": {
       "revision_id": "PGRR127",
@@ -18952,8 +19052,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-11-13T12:01:21Z",
-      "source_observed_at": "2026-11-13T12:01:21Z"
+      "source_downloaded_at": "2026-11-14T12:00:54Z",
+      "source_observed_at": "2026-11-14T12:00:54Z"
     },
     "PGRR131": {
       "revision_id": "PGRR131",

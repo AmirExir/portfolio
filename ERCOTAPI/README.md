@@ -187,11 +187,15 @@ reopen the keyboard. News requests return the existing digest directly;
 scheduled news publication retains its new-item filtering.
 
 The load command returns a current **official ERCOT** system-wide load forecast
-and posts it to the configured ERCOT channel (currently `@ERCOTNEWS`). It shows
-the publication and retrieval times in Central time, the next 24 complete
-hourly intervals' peak, and seven operating days' forecast peaks in MW. Whole-day
-peaks include earlier hours on the current operating day. Hour-ending labels
-are preserved; HE 24 means midnight at the end of the operating day.
+and posts it to the configured ERCOT channel (currently `@ERCOTNEWS`). Both
+destinations receive a PNG chart with the next 48 complete hourly intervals
+and the seven-day hourly outlook, followed by the text summary. The chart uses
+the original hourly MW values without smoothing; earlier hours on the current
+operating day are distinguished from upcoming intervals. The summary includes
+publication/retrieval times in Central time, the next 24-hour peak, the seven-day
+peak, and each day's highest forecast hour. Whole-day peaks include earlier
+hours on the current operating day. Source hour-ending labels remain in the
+JSON; displayed intervals use readable bounds such as **6–7 PM CT** for HE 19.
 
 The forecast source is ERCOT's public **NP3-561-CD, Seven-Day Load Forecast by
 Weather Zone**, including its `SystemTotal` field. The report links the exact
@@ -209,7 +213,8 @@ chat help times to match. Runs require the host and n8n to be running.
 The report rejects stale vintages (over three hours by default), missing hourly
 coverage, duplicate intervals, invalid MW values and unsupported DST labels.
 An unavailable notice is delivered instead of substituting old or invented
-values. The current daylight-saving convention is checked with 23/25-hour
+values. Chart generation/upload failures retain the valid text forecast and
+show a visible notice. The current daylight-saving convention is checked with 23/25-hour
 calendar fixtures; unsupported source conventions fail visibly. Telegram output
 is split without discarding the final days.
 
@@ -217,8 +222,12 @@ is split without discarding the final days.
 # Fetch and inspect JSON locally; this command sends no messages:
 scripts/run_ercot_load_forecast.sh
 
+# Include the in-memory PNG as base64 JSON, as the scheduled workflow does:
+scripts/run_ercot_load_forecast.sh --chart
+
 # Offline regression checks:
 python -m unittest ERCOTAPI.tests.test_load_forecast_report \
+  ERCOTAPI.tests.test_load_forecast_chart \
   ERCOTAPI.tests.test_load_forecast_workflow market_agent.tests.test_chat_commands
 ```
 

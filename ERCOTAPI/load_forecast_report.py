@@ -8,6 +8,7 @@ This module prints JSON only and never sends a message or writes a report.
 
 from __future__ import annotations
 
+import argparse
 import csv
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
@@ -15,6 +16,7 @@ import hashlib
 from html.parser import HTMLParser
 from io import BytesIO, StringIO
 import json
+import logging
 import math
 import os
 import re
@@ -172,16 +174,38 @@ def _clock_label(timestamp: datetime) -> str:
     return f"{_date_label(local.date())} at {local:%I:%M %p %Z}".replace(" at 0", " at ")
 
 
+def _interval_label(start: datetime, end: datetime) -> str:
+    """Describe actual interval bounds, retaining offsets across DST changes."""
+
+    local_start, local_end = start.astimezone(CENTRAL), end.astimezone(CENTRAL)
+    start_hour = f"{local_start.hour % 12 or 12}"
+    end_hour = f"{local_end.hour % 12 or 12}"
+    start_period = "AM" if local_start.hour < 12 else "PM"
+    end_period = "AM" if local_end.hour < 12 else "PM"
+    if local_start.fold or local_start.utcoffset() != local_end.utcoffset():
+        return (
+            f"{start_hour} {start_period} {local_start:%Z}–"
+            f"{end_hour} {end_period} {local_end:%Z}"
+        )
+    if start_period == end_period:
+        label = f"{start_hour}–{end_hour} {end_period} CT"
+    else:
+        label = f"{start_hour} {start_period}–{end_hour} {end_period} CT"
+    if local_end.date() != local_start.date():
+        label += " (next day)"
+    return label
+
+
 def _peak_record(day: date, row: dict[str, Any]) -> dict[str, Any]:
-    hour = row["hour_ending"]
-    clock = "midnight (end of day)" if hour == 24 else f"{hour % 12 or 12} {'AM' if hour < 12 else 'PM'} CT"
-    if row["dst_flag"] == "Y":
-        clock += " (repeated hour)"
+    start = row["interval_start"]
+    end = start + timedelta(hours=1)
+    interval_label = _interval_label(start, end)
     return {
         "delivery_date": day.isoformat(), "peak_load_mw": row["load_mw"],
-        "hour_ending": hour, "dst_flag": row["dst_flag"],
-        "interval_start_utc": row["interval_start"].isoformat(),
-        "time_label": f"{_date_label(day)}, hour ending {clock}",
+        "hour_ending": row["hour_ending"], "dst_flag": row["dst_flag"],
+        "interval_start_utc": start.isoformat(), "interval_end_utc": end.isoformat(),
+        "interval_label": interval_label,
+        "time_label": f"{_date_label(day)}, {interval_label}",
     }
 
 
@@ -202,36 +226,46 @@ def build_forecast_report(
     today = now.astimezone(CENTRAL).date()
     peaks = []
     upcoming = []
+    hourly_series = []
     for offset in range(7):
         day = today + timedelta(days=offset)
         rows = days.get(day, [])
         expected = _day_intervals(day)
         if {(row["hour_ending"], row["dst_flag"]) for row in rows} != set(expected):
             raise ForecastReportError("incomplete_forecast", f"ERCOT's forecast is missing complete hourly coverage for {_date_label(day)}.")
-        peak = max(sorted(rows, key=lambda row: row["interval_start"]), key=lambda row: row["load_mw"])
+        ordered_rows = sorted(rows, key=lambda row: row["interval_start"])
+        peak = max(ordered_rows, key=lambda row: row["load_mw"])
         peaks.append(_peak_record(day, peak))
+        hourly_series.extend({
+            "interval_start_utc": row["interval_start"].isoformat(),
+            "interval_end_utc": (row["interval_start"] + timedelta(hours=1)).isoformat(),
+            "load_mw": row["load_mw"],
+        } for row in ordered_rows)
         upcoming.extend(
-            (day, row) for row in rows
+            (day, row) for row in ordered_rows
             if now.astimezone(UTC) <= row["interval_start"] < now.astimezone(UTC) + timedelta(hours=24)
         )
     if len(upcoming) != 24:
         raise ForecastReportError("incomplete_forecast", "ERCOT's forecast does not cover the next 24 complete hourly intervals.")
     next_day, next_row = max(upcoming, key=lambda item: item[1]["load_mw"])
     next_peak = _peak_record(next_day, next_row)
+    week_peak = max(peaks, key=lambda peak: peak["peak_load_mw"])
     lines = [
         "ERCOT Load Forecast", "Official ERCOT forecast · system-wide demand · MW",
         f"Report published: {_clock_label(source.published_at)}",
         f"Retrieved: {_clock_label(now)}", "",
         f"Next 24 hourly intervals: peak {next_peak['peak_load_mw']:,.0f} MW",
         next_peak["time_label"], "",
-        "Daily forecast peaks (whole operating days):",
+        f"Seven-day peak (whole operating days): {week_peak['peak_load_mw']:,.0f} MW",
+        week_peak["time_label"], "",
+        "Daily peaks — each day's highest forecast hour:",
     ]
     for peak in peaks:
         day = date.fromisoformat(peak["delivery_date"])
-        clock = peak["time_label"].split(", hour ending ", 1)[1]
-        lines.append(f"• {_date_label(day)}: {peak['peak_load_mw']:,.0f} MW · hour ending {clock}")
+        lines.append(f"• {day:%a, %b} {day.day}: {peak['peak_load_mw']:,.0f} MW · {peak['interval_label']}")
     lines.extend([
-        "", "Forecasts are estimates, not actual load or a grid-emergency prediction.",
+        "", "Demand varies throughout the day; the daily list highlights only the highest hour.",
+        "Forecasts are estimates, not actual load or a grid-emergency prediction.",
         "The next 24 intervals start at the next hourly boundary; a partial current hour is excluded.",
         f"Source: {PRODUCT_URL}", f"Source file: {source.url}",
     ])
@@ -243,6 +277,7 @@ def build_forecast_report(
         "generated_at": now.astimezone(UTC).isoformat(),
         "source_sha256": hashlib.sha256(csv_text.encode("utf-8")).hexdigest(),
         "daily_peaks": peaks, "next_24_hour_peak": next_peak,
+        "week_peak": week_peak, "hourly_series": hourly_series,
     }
 
 
@@ -288,9 +323,12 @@ def fetch_forecast_report(*, now: datetime | None = None) -> dict[str, Any]:
     return build_forecast_report(source, csv_text, now=now or datetime.now(UTC), max_age_hours=max_age)
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
     """Emit one JSON result for workflow delivery; expected failures remain data."""
 
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--chart", action="store_true", help="Include a PNG chart as base64 in the JSON result.")
+    args = parser.parse_args(argv)
     try:
         payload = fetch_forecast_report()
     except ForecastReportError as exc:
@@ -299,6 +337,15 @@ def main() -> None:
             "text": f"ERCOT Load Forecast unavailable\n\n{exc}\nNo estimates were substituted.\nSource: {PRODUCT_URL}",
             "source_product_url": PRODUCT_URL,
         }
+    if args.chart and payload["ok"]:
+        try:
+            from ERCOTAPI.load_forecast_chart import render_load_forecast_chart
+
+            payload["chart"] = render_load_forecast_chart(payload)
+        except (ImportError, ValueError, OSError, RuntimeError) as exc:
+            logging.getLogger(__name__).error("ERCOT load chart unavailable (%s)", type(exc).__name__)
+            payload["chart_error"] = "chart_unavailable"
+            payload["text"] += "\nChart unavailable for this run; the validated forecast summary is shown above."
     print(json.dumps(payload, allow_nan=False))
 
 

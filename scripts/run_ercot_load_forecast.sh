@@ -11,4 +11,4 @@ if [[ ! -x "$FORECAST_PYTHON" ]]; then
 fi
 export PYTHONPATH="$FORECAST_REPO${PYTHONPATH:+:$PYTHONPATH}"
 cd "$FORECAST_REPO"
-exec "$FORECAST_PYTHON" -m ERCOTAPI.load_forecast_report
+exec "$FORECAST_PYTHON" -m ERCOTAPI.load_forecast_report "$@"
