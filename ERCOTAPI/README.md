@@ -179,6 +179,59 @@ python -m unittest ERCOTAPI.tests.test_load_forecast -v
 
 ## ERCOT News Workflow
 
+### Telegram commands and scheduled load forecasts
+
+The combined agent's private-chat keyboard includes **ERCOT news**
+(`/ercot_news`) and **ERCOT load forecast** (`/ercot_load`). Type `/help` to
+reopen the keyboard. News requests return the existing digest directly;
+scheduled news publication retains its new-item filtering.
+
+The load command returns a current **official ERCOT** system-wide load forecast
+and posts it to the configured ERCOT channel (currently `@ERCOTNEWS`). It shows
+the publication and retrieval times in Central time, the next 24 complete
+hourly intervals' peak, and seven operating days' forecast peaks in MW. Whole-day
+peaks include earlier hours on the current operating day. Hour-ending labels
+are preserved; HE 24 means midnight at the end of the operating day.
+
+The forecast source is ERCOT's public **NP3-561-CD, Seven-Day Load Forecast by
+Weather Zone**, including its `SystemTotal` field. The report links the exact
+downloaded archive and records its hash. This is separate from the dashboard's
+experimental ML forecast and does not train a model or claim model accuracy.
+
+The load workflow has its own schedule trigger, copied from the existing ERCOT
+news schedule. It runs independently so a news or document-monitor error cannot
+prevent a forecast run. On the current installation, the shared schedule is
+**6:00 AM and 3:00 PM America/Chicago** (7:00 AM and 4:00 PM in n8n's existing
+America/New_York timezone). No market/news times or workflow timezone are
+changed. If moving the workflow, verify the instance timezone and update the
+chat help times to match. Runs require the host and n8n to be running.
+
+The report rejects stale vintages (over three hours by default), missing hourly
+coverage, duplicate intervals, invalid MW values and unsupported DST labels.
+An unavailable notice is delivered instead of substituting old or invented
+values. The current daylight-saving convention is checked with 23/25-hour
+calendar fixtures; unsupported source conventions fail visibly. Telegram output
+is split without discarding the final days.
+
+```sh
+# Fetch and inspect JSON locally; this command sends no messages:
+scripts/run_ercot_load_forecast.sh
+
+# Offline regression checks:
+python -m unittest ERCOTAPI.tests.test_load_forecast_report \
+  ERCOTAPI.tests.test_load_forecast_workflow market_agent.tests.test_chat_commands
+```
+
+The launcher uses the repository's `.venv/bin/python`; override it with
+`ERCOT_FORECAST_PYTHON`, and set `ERCOT_REPO_ROOT` for a relocated checkout.
+`ERCOT_LOAD_FORECAST_MAX_AGE_HOURS` controls the freshness limit.
+`ERCOT_LOAD_FORECAST_INDEX_URL` may override the index URL but must remain on
+the official HTTPS ERCOT host. No ERCOT API credentials are needed for this
+public report. The versioned n8n repair incorporates
+`load_forecast_workflow.py`; use the existing stopped-service/backup procedure
+in `scripts/repair_n8n_market_optimization.py`, then register the updated
+Telegram menu with `scripts/configure_market_telegram_commands.py`.
+
 This repo also supports a news pipeline for:
 
 - ERCOT announcements

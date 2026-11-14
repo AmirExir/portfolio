@@ -74,10 +74,12 @@ return {json: {request_text: text, run_news: newsRequested,
         node(CLASSIFIER_NODE, "return {json: {...$json, intent: 'existing-classifier'}};"),
         node(CONTEXT_NODE, context_code),
         node("Build Market Acknowledgement", acknowledgement),
+        node("Build ERCOT Acknowledgement", "const text = 'I will send the digest back here and post it to @ERCOTNEWS when it finishes.';"),
         node("Build Optimization Telegram Payload", "const title = 'Market Optimization';"),
         node("Build Optimization Channel Payload", "const title = 'Market Optimization';"),
         node("Build Calendar Event Payload", "const summary = `Market model signals: Buy ${buyLabel} | Sell ${sellLabel}`;"),
         node("Send Market Acknowledgement"),
+        node("Send ERCOT Acknowledgement"),
         node(DIRECT_SENDER_NODE),
         node("Send Assistant Telegram"),
         node("Is ERCOT Request"), node("Is Market Request"),
@@ -117,6 +119,7 @@ class MarketCommandExecutionTests(unittest.TestCase):
                 self.assertEqual(resolved["text"], expected)
                 self.assertEqual(resolved["market_original_text"], original)
                 self.assertFalse(resolved["market_help_requested"])
+                self.assertFalse(resolved["ercot_load_requested"])
 
     def test_full_briefing_runs_both_sections_and_preserves_original_request(self) -> None:
         repaired, _ = repair_market_chat_workflow(workflow_fixture())
@@ -142,6 +145,7 @@ class MarketCommandExecutionTests(unittest.TestCase):
                 self.assertTrue(result["market_help_requested"])
                 self.assertFalse(result["run_news"])
                 self.assertFalse(result["run_optimization"])
+                self.assertFalse(result["ercot_load_requested"])
                 self.assertIsNone(result["optimization_command"])
                 help_payload = run_js(MARKET_HELP_JS, result)["json"]
                 self.assertEqual(help_payload["text"], MARKET_HELP_TEXT)
@@ -162,9 +166,50 @@ class MarketCommandExecutionTests(unittest.TestCase):
             result = self.resolve(text)
             self.assertEqual(result["text"], text)
             self.assertFalse(result["market_help_requested"])
+            self.assertFalse(result["ercot_load_requested"])
         scheduled = self.resolve("/help", source="schedule")
         self.assertFalse(scheduled["market_help_requested"])
+        self.assertFalse(scheduled["ercot_load_requested"])
         self.assertEqual(scheduled["text"], "/help")
+
+    def test_ercot_news_aliases_keep_the_existing_news_route(self) -> None:
+        for original in ("ERCOT news", "Run ERCOT news", "/ercot_news", "/ercot_news@grid_bot"):
+            with self.subTest(original=original):
+                result = self.resolve(original)
+                self.assertEqual(result["text"], "Run ERCOT news")
+                self.assertEqual(result["market_original_text"], original)
+                self.assertEqual(result["market_chat_command"], "ercot_news")
+                self.assertFalse(result["market_help_requested"])
+                self.assertFalse(result["ercot_load_requested"])
+
+    def test_explicit_ercot_load_requests_set_the_load_route_flag(self) -> None:
+        for original in ("ERCOT load forecast", "Run ERCOT load forecast", "ERCOT demand forecast",
+                         "Show me the ERCOT load forecast", "Can you please show ERCOT demand forecast?",
+                         "What is the ERCOT load forecast for tomorrow?", "Load forecast for ERCOT",
+                         "Forecast ERCOT demand", "/ercot_load", "/ercot_load@grid_bot"):
+            with self.subTest(original=original):
+                result = self.resolve(original)
+                self.assertEqual(result["text"], "ERCOT load forecast")
+                self.assertEqual(result["market_original_text"], original)
+                self.assertEqual(result["market_chat_command"], "ercot_load")
+                self.assertTrue(result["ercot_load_requested"])
+                self.assertFalse(result["market_help_requested"])
+        slash_with_modifier = self.resolve("/ercot_load tomorrow")
+        self.assertEqual(slash_with_modifier["text"], "ERCOT load forecast tomorrow")
+        self.assertTrue(slash_with_modifier["ercot_load_requested"])
+
+    def test_load_routing_does_not_hijack_engineering_questions_or_keep_old_flags(self) -> None:
+        for text in ("Explain how ERCOT load forecasting works", "What does ERCOT require for a load forecast?",
+                     "Is an ERCOT demand forecast an operating limit?", "ERCOT load forecast methodology",
+                     "Don't run ERCOT load forecast", "Load forecast", "Run market analysis"):
+            with self.subTest(text=text):
+                result = run_js(MARKET_COMMAND_RESOLVER_JS, {
+                    "text": text, "source": "telegram", "reply_chat_id": "123",
+                    "ercot_load_requested": True,
+                })["json"]
+                self.assertFalse(result["ercot_load_requested"])
+        scheduled = self.resolve("ERCOT load forecast", source="schedule")
+        self.assertFalse(scheduled["ercot_load_requested"])
 
     def test_menu_is_shown_only_in_private_chats(self) -> None:
         expression = PRIVATE_REPLY_MARKUP_EXPRESSION[3:-2].strip()
@@ -209,13 +254,14 @@ class MarketChatWorkflowTests(unittest.TestCase):
     def test_buttons_and_user_facing_titles_are_consistent(self) -> None:
         repaired, _ = repair_market_chat_workflow(workflow_fixture())
         nodes = {n["name"]: n for n in repaired["nodes"]}
-        for name in ("Send Market Acknowledgement", DIRECT_SENDER_NODE, "Send Assistant Telegram"):
+        for name in ("Send Market Acknowledgement", "Send ERCOT Acknowledgement", DIRECT_SENDER_NODE, "Send Assistant Telegram"):
             parameters = nodes[name]["parameters"]
             self.assertEqual(parameters["replyKeyboard"], MARKET_REPLY_KEYBOARD)
             self.assertEqual(parameters["replyMarkup"], PRIVATE_REPLY_MARKUP_EXPRESSION)
             self.assertFalse(parameters["replyKeyboardOptions"]["one_time_keyboard"])
         labels = [button["text"] for row in MARKET_REPLY_KEYBOARD["rows"] for button in row["row"]["buttons"]]
-        self.assertEqual(labels, ["Run market analysis", "Run full market briefing", "Market news", "Market help"])
+        self.assertEqual(labels, ["Run market analysis", "Run full market briefing", "Market news", "Market help",
+                                  "ERCOT news", "ERCOT load forecast"])
         for name in ("Build Market Acknowledgement", "Build Optimization Telegram Payload",
                      "Build Optimization Channel Payload", "Build Calendar Event Payload"):
             code = nodes[name]["parameters"]["jsCode"]
@@ -223,7 +269,13 @@ class MarketChatWorkflowTests(unittest.TestCase):
             self.assertNotIn("Market Optimization", code)
             self.assertNotIn("running market news and optimization", code)
         self.assertEqual([c["command"] for c in TELEGRAM_BOT_COMMANDS],
-                         ["analysis", "briefing", "news", "market", "help"])
+                         ["analysis", "briefing", "news", "ercot_news", "ercot_load", "market", "help"])
+        self.assertIn("@ERCOTNEWS", MARKET_HELP_TEXT)
+        self.assertIn("existing twice-daily ERCOT news schedule", MARKET_HELP_TEXT)
+        self.assertIn("6:00 AM and 3:00 PM Central", MARKET_HELP_TEXT)
+        ercot_ack = nodes["Build ERCOT Acknowledgement"]["parameters"]["jsCode"]
+        self.assertIn("I will send the digest back here. Scheduled updates post new items to @ERCOTNEWS.", ercot_ack)
+        self.assertNotIn("post it to @ERCOTNEWS when it finishes", ercot_ack)
 
     def test_optimization_only_workflow_is_unchanged_and_partial_chat_fails(self) -> None:
         fixture = {"nodes": [node(CONTEXT_NODE), node(DIRECT_SENDER_NODE)], "connections": {}}

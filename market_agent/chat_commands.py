@@ -1,4 +1,4 @@
-"""Deterministic Telegram market commands, help routing and presentation.
+"""Deterministic Telegram market/ERCOT commands, help routing and presentation.
 
 The internal optimization schema remains unchanged. New command names normalize
 to the existing parser, and help bypasses every research/publication branch.
@@ -25,17 +25,21 @@ TELEGRAM_BOT_COMMANDS = [
     {"command": "analysis", "description": "Price forecasts and trade watchlist"},
     {"command": "briefing", "description": "Market news plus forecasts and watchlist"},
     {"command": "news", "description": "Market news and event watchlist"},
+    {"command": "ercot_news", "description": "ERCOT and Texas grid news"},
+    {"command": "ercot_load", "description": "ERCOT load forecast report"},
     {"command": "market", "description": "Show market commands and examples"},
-    {"command": "help", "description": "Show available market options"},
+    {"command": "help", "description": "Show market and ERCOT options"},
 ]
 
-MARKET_HELP_TEXT = """Market agent options
+MARKET_HELP_TEXT = """Market & ERCOT agent options
 
 Tap a button below or type a command:
 
 Run market analysis — price forecasts, qualified buy/sell signals and research watchlists.
 Run full market briefing — market news plus the same analysis.
 Market news — headline brief and event watchlist.
+ERCOT news — Texas grid news and ERCOT updates.
+ERCOT load forecast — the load/demand forecast report.
 Market help — these options only; no analysis runs.
 
 Examples:
@@ -43,8 +47,12 @@ Run market analysis for NVDA, MSFT next week
 /analysis NVDA MSFT next week
 /briefing
 /news
+/ercot_news
+/ercot_load
 
-The default horizon is 30 sessions. Add “next week” for 5, “tomorrow” for 1, or “long term” for 60. Stocks count trading days; crypto counts calendar days.
+For market analysis, the default horizon is 30 sessions. Add “next week” for 5, “tomorrow” for 1, or “long term” for 60. Stocks count trading days; crypto counts calendar days.
+
+ERCOT load forecasts also post to @ERCOTNEWS and accompany the existing twice-daily ERCOT news schedule (6:00 AM and 3:00 PM Central).
 
 “Run market optimization” and other existing requests still work. Reports are forecasts and watchlists; they do not optimize your portfolio or place trades.
 
@@ -52,16 +60,17 @@ Use /market, /help, /start or /menu to reopen these options."""
 
 MARKET_COMMAND_RESOLVER_JS = r"""const input = $json;
 if (input.source !== 'telegram') {
-  return {json: {...input, market_help_requested: false}};
+  return {json: {...input, market_help_requested: false, ercot_load_requested: false}};
 }
 const original = String(input.market_original_text ?? input.text ?? '').trim();
-const slash = original.match(/^\/(start|help|menu|market|analysis|briefing|news)(?:@[a-z0-9_]+)?(?:\s+([\s\S]*))?$/i);
+const slash = original.match(/^\/(start|help|menu|market|analysis|briefing|news|ercot_news|ercot_load)(?:@[a-z0-9_]+)?(?:\s+([\s\S]*))?$/i);
 const helpText = original.replace(/[?!.]+$/, '').trim();
 const naturalHelp = /^(?:please\s+)?(?:help|menu|options|commands|market\s+(?:help|menu|options|commands)|(?:show|list)(?:\s+me)?(?:\s+the)?\s+(?:market\s+)?(?:options|commands|menu)|what\s+can\s+(?:i\s+ask(?:\s+you)?|you\s+do)|how\s+(?:do|can)\s+i\s+use\s+(?:this\s+)?(?:market\s+)?(?:agent|bot)|help(?:\s+me)?\s+(?:with\s+)?(?:the\s+)?market)(?:\s+please)?$/i.test(helpText);
 const slashName = slash ? slash[1].toLowerCase() : '';
 if (naturalHelp || ['start', 'help', 'menu', 'market'].includes(slashName)) {
   return {json: {...input, text: original, market_original_text: original,
     market_chat_command: 'help', market_help_requested: true,
+    ercot_load_requested: false,
     run_news: false, run_optimization: false, optimization_command: null}};
 }
 let command = '';
@@ -75,19 +84,28 @@ if (slash) {
   const analysis = candidate.match(/^(?:stock\s+)?market\s+analysis\b([\s\S]*)$/i);
   const briefing = candidate.match(/^full\s+market\s+briefing\b([\s\S]*)$/i);
   const news = candidate.match(/^(?:stock\s+)?market\s+news\b([\s\S]*)$/i);
+  const ercotNews = candidate.match(/^ercot\s+news\b([\s\S]*)$/i);
+  const ercotCandidate = original.replace(/^(?:(?:can|could|would)\s+you\s+)?(?:please\s+)?(?:(?:run|get|fetch|show|generate|give)(?:\s+me)?\s+|what(?:'s|\s+is)\s+)?(?:the\s+)?/i, '').replace(/[?!.]+$/, '').trim();
+  // Match a request for a forecast, not an engineering question about how one is made.
+  const ercotLoad = /^(?:ercot\s+(?:load|demand)\s+forecasts?|(?:load|demand)\s+forecasts?\s+(?:for\s+)?ercot|forecast\s+ercot\s+(?:load|demand))(?:\s+(?:(?:for\s+)?(?:today|tomorrow)|now|please))?$/i.test(ercotCandidate);
   if (analysis) { command = 'analysis'; suffix = analysis[1]; }
   else if (briefing) { command = 'briefing'; suffix = briefing[1]; }
   else if (news) { command = 'news'; suffix = news[1]; }
+  else if (ercotNews) { command = 'ercot_news'; suffix = ercotNews[1]; }
+  else if (ercotLoad) { command = 'ercot_load'; }
 }
 const legacyPrefix = {
   analysis: 'Run market optimization',
   briefing: 'Run market news and optimization',
   news: 'Market news',
+  ercot_news: 'Run ERCOT news',
+  ercot_load: 'ERCOT load forecast',
 }[command];
 return {json: {...input,
   text: legacyPrefix ? `${legacyPrefix}${suffix.trim() ? ' ' + suffix.trim() : ''}` : original,
   market_original_text: original, market_chat_command: command || null,
   market_help_requested: false,
+  ercot_load_requested: command === 'ercot_load',
 }};"""
 
 MARKET_HELP_JS = (
@@ -114,6 +132,10 @@ MARKET_REPLY_KEYBOARD = {
         {"row": {"buttons": [
             {"text": "Market news", "additionalFields": {}},
             {"text": "Market help", "additionalFields": {}},
+        ]}},
+        {"row": {"buttons": [
+            {"text": "ERCOT news", "additionalFields": {}},
+            {"text": "ERCOT load forecast", "additionalFields": {}},
         ]}},
     ]
 }
@@ -173,7 +195,7 @@ def repair_market_chat_workflow(
     if CLASSIFIER_NODE not in present:
         return repaired, ()
 
-    for name in ("Send Market Acknowledgement", DIRECT_SENDER_NODE, "Send Assistant Telegram"):
+    for name in ("Send Market Acknowledgement", "Send ERCOT Acknowledgement", DIRECT_SENDER_NODE, "Send Assistant Telegram"):
         if name not in present:
             continue
         parameters = _node(nodes, name).setdefault("parameters", {})
@@ -196,8 +218,10 @@ def repair_market_chat_workflow(
         ("add the buy/sell event to Calendar", "add the forecast review to Calendar"),
         ("No optimized recommendation generated.", "No market outlook generated."),
         ("Market model signals: Buy", f"{MARKET_REPORT_TITLE} | Buy"),
+        ("I will send the digest back here and post it to @ERCOTNEWS when it finishes.",
+         "I will send the digest back here. Scheduled updates post new items to @ERCOTNEWS."),
     )
-    for name in ("Build Market Acknowledgement", "Build Optimization Telegram Payload",
+    for name in ("Build Market Acknowledgement", "Build ERCOT Acknowledgement", "Build Optimization Telegram Payload",
                  "Build Optimization Channel Payload", "Build Calendar Event Payload"):
         if name not in present:
             continue

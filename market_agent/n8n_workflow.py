@@ -9,6 +9,7 @@ from typing import Any
 
 from market_agent.news_workflow import repair_market_news_workflow
 from market_agent.chat_commands import repair_market_chat_workflow
+from ERCOTAPI.load_forecast_workflow import repair_ercot_load_forecast_workflow
 
 RUN_NODE = "Run Optimization Scripts"
 REQUEST_CONTEXT_NODE = "Market Request Context"
@@ -748,6 +749,8 @@ def repair_market_optimization_workflow(
     changes.extend(news_changes)
     repaired, chat_changes = repair_market_chat_workflow(repaired)
     changes.extend(chat_changes)
+    repaired, load_changes = repair_ercot_load_forecast_workflow(repaired)
+    changes.extend(load_changes)
 
     issues = audit_market_optimization_workflow(
         repaired, credential_source_node=credential_source_node

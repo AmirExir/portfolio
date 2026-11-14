@@ -10,6 +10,8 @@ bot accepts the commands below as typed text or private-chat keyboard buttons.
 | Run market analysis | `/analysis` | Price forecasts, qualified signals and research watchlists |
 | Run full market briefing | `/briefing` | Market news plus the outlook/watchlist report |
 | Market news | `/news` | News and conditional event watch actions |
+| ERCOT news | `/ercot_news` | Texas grid news and ERCOT updates |
+| ERCOT load forecast | `/ercot_load` | ERCOT load/demand forecast report |
 | Market help | `/market` or `/help` | Available choices and examples; no analysis run |
 
 `/start` and `/menu` also show help. Users can add symbols and supported time
@@ -22,6 +24,17 @@ The private-chat reply keyboard remains available after acknowledgements and
 direct replies. It is not attached to channel or group messages. The help
 branch bypasses analysis, news retrieval, calendar creation and publication.
 The normal analysis and briefing publication behavior is unchanged.
+
+ERCOT load forecasts also post to the existing `@ERCOTNEWS` channel and
+accompany its existing twice-daily news schedule at **6:00 AM and 3:00 PM
+Central**. The **ERCOT news** button
+uses the existing news route. **ERCOT load forecast**, `/ercot_load`, and
+explicit requests such as `Show me the ERCOT demand forecast` select the
+load-forecast route. Engineering questions about forecast methods or
+requirements continue through the existing ERCOT question-answering route.
+The keyboard also appears on private-chat ERCOT acknowledgements.
+Manual ERCOT news requests reply directly; scheduled news updates post new
+items to the channel under the existing deduplication rules.
 
 After installing the repaired workflow, register the native Telegram `/`
 command suggestions using the same bot's credential:
