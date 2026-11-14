@@ -1,0 +1,25 @@
+Market brief — Nov 13, 2026, 8:01 PM CST
+
+What matters:
+1) Nvidia (NVDA) is facing the most consequential event in this set: a sudden CEO transition layered with U.S. political scrutiny. Multiple outlets report Jensen Huang resigned as chief executive, while Senate Banking Committee Chairman Tim Scott called on Huang and Commerce Secretary Howard Lutnick to testify over recent developments at the company. Separately, several reports describe allegations involving Huang and an alleged Chinese intelligence asset; those are allegations and not proof of wrongdoing in the supplied evidence. The business mechanism is direct: leadership disruption at the center of the AI chip supply chain can affect customer confidence, succession stability, regulatory posture, and the valuation premium attached to founder-led execution. Sources here do not provide a detailed Nvidia board statement, but The Verge reports the company is being led by its CFO on an interim basis.
+Source: Yahoo Entertainment, Nov 12, 2026, 7:12 PM CST, https://www.yahoo.com/news/politics/articles/us-senate-banking-committee-chair-001522643.html
+Source: BBC News, Nov 12, 2026, 5:34 PM CST, https://www.bbc.co.uk/news/articles/cmq5vd1wdgz6o
+Source: The Verge, Nov 12, 2026, 6:46 PM CST, https://www.theverge.com/tech/1032774/president-donald-trump-tim-cook-nvidia-jensen-huang
+
+2) Broader markets were reported to absorb, but not ignore, the Nvidia shock. AP/HuffPost said Wall Street saw big swings tied to Nvidia and oil but finished with relatively modest losses, while Times of India reported U.S. indexes closed lower as Nvidia’s decline outweighed an energy rally. The mechanism is cross-market concentration risk: when a core AI bellwether is destabilized, index-level performance, semiconductor sentiment, and adjacent risk assets can all be pressured even if losses later moderate.
+Source: HuffPost, Nov 12, 2026, 4:49 PM CST, https://www.huffpost.com/entry/financial-markets-nvidia_n_6af641bbe4b0476a159ad820
+Source: The Times of India, Nov 12, 2026, 3:15 PM CST, https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-stocks-us-market-ends-lower-as-energy-gains-offset-nvidia-slide/articleshow/135782290.cms
+
+3) Crypto appeared to trade in sympathy with the tech selloff. Cointelegraph reported Bitcoin slid toward $71,000 as Nvidia stock tumbled after Huang stepped down. That does not prove causation, but the mechanism is plausible risk-off transmission: leveraged and sentiment-sensitive assets often weaken when mega-cap tech leadership breaks.
+Source: Cointelegraph, Nov 12, 2026, 9:46 AM CST, https://cointelegraph.com/markets/bitcoin-price-drops-71k-stocks-nvidia-huang-resignation
+
+4) Reddit (RDDT) highlighted a separate AI-era operating risk: Yahoo Finance reports CEO Steve Huffman said Google’s AI Overviews have undermined Reddit’s search traffic, even as Reddit remains heavily cited in AI-generated answers. The mechanism is important for internet platforms: AI can increase content relevance while simultaneously reducing referral traffic, pressuring ad growth and monetization unless licensing or direct usage offsets the loss.
+Source: Yahoo Entertainment, Nov 12, 2026, 10:26 AM CST, https://finance.yahoo.com/markets/stocks/article/reddit-ceo-steve-huffman-explains-the-paradox-of-ai-for-his-company-162654170.html
+
+Watch actions:
+- NVDA — mixed/bearish near term; monitor board succession, any formal company response, and whether Senate testimony requests escalate into broader regulatory or national-security action. A clearly credible permanent CEO plan and evidence of unchanged customer demand would improve the view.
+- SOX/AI supply chain — bearish if customers, hyperscalers, or major chip peers signal order, roadmap, or procurement disruption tied to Nvidia leadership instability; otherwise contagion may fade if operations appear insulated.
+- BTC/crypto beta — mixed; reassess downside risk only if tech-led risk aversion broadens beyond one session. Evidence that would change this: sustained cross-asset deleveraging rather than a one-day sympathy move.
+- RDDT — mixed/bearish; watch for management evidence that licensing, product changes, or direct audience growth can offset AI-overview traffic leakage. Without updated operating metrics, evidence does not support a stronger action.
+
+Coverage: Over the last 36 hours, the provider returned 96 fetched articles, 88 eligible unique items, and 24 selected articles from 17 sources; sample_limited is true, so the provider returned only a sample of matching coverage.
