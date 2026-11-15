@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import copy
 import json
+import re
 import shutil
 import subprocess
 import unittest
@@ -24,7 +25,7 @@ from market_agent.n8n_workflow import (
 from market_agent.tests.test_n8n_workflow import _workflow_fixture
 
 
-def run_javascript(code: str, payload: dict, now: str = "2026-11-11T06:00:00Z") -> dict | list:
+def run_javascript(code: str, payload: dict, now: str = "2026-11-11T06:00:00Z") -> dict | list | str:
     """Run production JS locally without provider, model or messaging calls."""
     script = """const fs = require('fs');
 const vm = require('node:vm');
@@ -123,6 +124,28 @@ class NewsEvidenceTests(unittest.TestCase):
         result = run_javascript(NEWS_EVIDENCE_JS, {"status": "ok", "articles": []})["json"]
         self.assertEqual(result["news_coverage"]["selected_count"], 0)
 
+    def test_model_input_omits_operational_counts_but_keeps_sources(self) -> None:
+        evidence = run_javascript(NEWS_EVIDENCE_JS, {
+            "status": "ok", "articles": [article("Fixture company earnings")],
+            "totalResults": 471,
+        })["json"]
+        original = copy.deepcopy(evidence)
+        inputs = [run_javascript(f"return {expression};", evidence)
+                  for expression in re.findall(r"{{(.*?)}}", NEWS_PROMPT)]
+
+        # Evaluate the actual n8n prompt expressions, not a duplicate projection.
+        self.assertEqual(inputs[0], evidence["news_coverage"]["generated_display"])
+        self.assertEqual(json.loads(inputs[1]), evidence["articles"])
+        self.assertEqual(len(inputs), 2)
+        for field in evidence["news_coverage"]:
+            self.assertNotIn(f'"{field}"', json.dumps(inputs))
+        self.assertIn("https://publisher.example/story", inputs[1])
+        self.assertIn("not independently verified", inputs[1])
+        self.assertEqual(evidence, original)
+        self.assertEqual(evidence["news_coverage"]["provider_total_results"], 471)
+        self.assertEqual(evidence["news_coverage"]["fetched_count"], 1)
+        self.assertTrue(evidence["news_coverage"]["sample_limited"])
+
     def test_all_delivery_paths_preserve_the_final_sell_row(self) -> None:
         workflow = delivery_fixture()
         _repair_market_delivery(workflow)
@@ -200,6 +223,14 @@ class NewsWorkflowTests(unittest.TestCase):
         self.assertIn("cannot promote a failed quantitative model signal", NEWS_PROMPT)
         self.assertIn("published_display (verbatim)", NEWS_PROMPT)
         self.assertIn("direct article URL", NEWS_PROMPT)
+
+    def test_model_contract_keeps_brief_audience_focused(self) -> None:
+        self.assertIn("Do not include a Coverage section", NEWS_PROMPT)
+        self.assertIn("Preserve uncertainty about the story itself", NEWS_PROMPT)
+        self.assertIn("cite each supporting report", NEWS_PROMPT)
+        self.assertIn("No news update is available right now.", NEWS_PROMPT)
+        self.assertNotIn("JSON.stringify($json.news_coverage)", NEWS_PROMPT)
+        self.assertNotIn("report coverage", NEWS_PROMPT)
 
     def test_missing_model_fails_instead_of_leaving_partial_news_repair(self) -> None:
         fixture = workflow_fixture()

@@ -2910,7 +2910,12 @@ def build_telegram_text(
     timings: dict | None = None,
     short_horizon_reports: list[dict] | None = None,
 ) -> str:
-    """Build a decision-first summary using the existing qualification rules."""
+    """Render qualified forecasts for readers, leaving diagnostics in the full report.
+
+    Forecast qualification and ranking use the existing rules. Rejected model
+    candidates and policy-only signals remain in ``build_market_report`` and
+    structured output, along with allocation checks and detailed data errors.
+    """
 
     generated_at = format_report_timestamp(dt.datetime.now(dt.timezone.utc))
     sorted_rows = sorted(rows, key=ranking_score, reverse=True)
@@ -2921,27 +2926,6 @@ def build_telegram_text(
     )
     model_buys = cap_signal_rows(all_model_buys, args)
     model_sells = cap_signal_rows(all_model_sells, args)
-    watch_buys = cap_signal_rows(
-        [row for row in sorted_rows if is_policy_watch_buy(row, args)],
-        args,
-    )
-    watch_sells = cap_signal_rows(
-        sorted(
-            [row for row in rows if is_policy_watch_sell(row, args)],
-            key=ranking_score,
-        ),
-        args,
-    )
-    candidate_limit = max_signal_rows_from_args(args) or 5
-    all_candidate_buys = [
-        row for row in sorted_rows if is_unqualified_model_buy(row, args)
-    ]
-    all_candidate_sells = sorted(
-        [row for row in rows if is_unqualified_model_sell(row, args)],
-        key=forecast_return_pct,
-    )
-    candidate_buys = all_candidate_buys[:candidate_limit]
-    candidate_sells = all_candidate_sells[:candidate_limit]
 
     as_of_sessions = as_of_sessions_from_rows(rows)
     if len(as_of_sessions) == 1:
@@ -2954,28 +2938,6 @@ def build_telegram_text(
     else:
         data_as_of_text = "As of: unavailable"
 
-    unverified_checks = [
-        label
-        for field, label in (
-            ("Portfolio State Verified", "holdings"),
-            ("Portfolio Covariance Verified", "portfolio risk estimates"),
-            ("Portfolio Classification Verified", "asset classifications"),
-        )
-        if not all(row_value(row, field, default=False) is True for row in rows)
-    ]
-    if not rows:
-        allocation_text = "Allocation blocked: portfolio verification is unavailable."
-    elif unverified_checks:
-        allocation_text = "Allocation blocked: unverified " + ", ".join(unverified_checks) + "."
-    else:
-        allocation_text = "Portfolio checks passed; position sizes remain subject to allocation limits."
-
-    if not rows:
-        result_text = "No forecasts could be evaluated."
-    elif model_buys or model_sells:
-        result_text = f"Passed model checks: {len(all_model_buys)} buy, {len(all_model_sells)} sell/avoid."
-    else:
-        result_text = "No buy or sell signals passed the checks."
     session_label = "session" if args.horizon == 1 else "sessions"
     lines = [
         "Market Outlook & Trade Watchlist",
@@ -2983,75 +2945,34 @@ def build_telegram_text(
         data_as_of_text,
         f"Horizon: {args.horizon} {session_label} per asset",
         "Stocks count trading days; crypto counts calendar days.",
-        f"Coverage: {len(rows)} symbols evaluated; {len(errors)} data/run issues.",
-        "General news is not included in these forecast scores.",
-        "The forecast is an end-date return, not a prediction of the path each day.",
-        "",
-        "RESULT",
-        result_text,
-        allocation_text,
     ]
-    if unverified_checks or not rows:
-        lines.append("Position sizes are research-only.")
-    if rows and unverified_checks:
-        lines.append("Holdings verification affects sizing, not which forecasts pass model checks.")
-    if model_buys:
-        lines.extend(["", "BUY SIGNALS - PASSED MODEL CHECKS"])
-        lines.append(f"Showing {len(model_buys)} of {len(all_model_buys)}; ranked by model/policy score.")
-        for rank, row in enumerate(model_buys, 1):
+    if not rows:
+        lines.extend(["", "Forecast update unavailable."])
+    elif not (model_buys or model_sells):
+        lines.extend(["", "No qualifying forecast setups today."])
+
+    for heading, displayed, qualified in (
+        ("UPSIDE WATCHLIST", model_buys, all_model_buys),
+        ("DOWNSIDE WATCHLIST", model_sells, all_model_sells),
+    ):
+        if not displayed:
+            continue
+        lines.extend(["", heading])
+        if len(displayed) < len(qualified):
+            lines.append(f"Showing {len(displayed)} of {len(qualified)} forecasts.")
+        for rank, row in enumerate(displayed, 1):
             lines.extend(["", f"{rank}. " + format_telegram_signal_row(row)])
-    if model_sells:
-        lines.extend(["", "SELL / AVOID SIGNALS - PASSED MODEL CHECKS"])
-        lines.append(f"Showing {len(model_sells)} of {len(all_model_sells)}; ranked by model/policy score.")
-        for rank, row in enumerate(model_sells, 1):
-            lines.extend(["", f"{rank}. " + format_telegram_signal_row(row)])
 
-    if watch_buys or watch_sells:
-        lines.extend(["", "WATCHLIST - POLICY SIGNALS ONLY"])
-        if watch_buys:
-            lines.append("Buy watch:")
-            for row in watch_buys:
-                lines.extend(["", format_telegram_signal_row(row)])
-        if watch_sells:
-            lines.append("Sell/avoid watch:")
-            for row in watch_sells:
-                lines.extend(["", format_telegram_signal_row(row)])
+    if errors and rows:
+        lines.extend(["", "Some forecasts could not be updated."])
 
-    if candidate_buys or candidate_sells:
+    if model_buys or model_sells:
         lines.extend([
-            "", "RESEARCH WATCHLIST - NOT QUALIFIED",
-            "Research only. These are not buy or sell signals.",
-        ])
-    if candidate_buys:
-        lines.extend(["", f"Buy candidates: {len(candidate_buys)} of {len(all_candidate_buys)}; ranked by model/policy score."])
-        for rank, row in enumerate(candidate_buys, 1):
-            lines.extend(["", f"{rank}. " + format_telegram_candidate_row(row, args, side="buy")])
-    if candidate_sells:
-        lines.extend(["", f"Sell/avoid candidates: {len(candidate_sells)} of {len(all_candidate_sells)}; ranked by predicted decline."])
-        for rank, row in enumerate(candidate_sells, 1):
-            lines.extend(["", f"{rank}. " + format_telegram_candidate_row(row, args, side="sell")])
-    if candidate_buys or candidate_sells:
-        lines.extend([
-            "", "NEXT CHECK",
-            "More price history can address sample shortages where available. "
-            "Failed accuracy or probability checks need better results on unseen data before promotion.",
-        ])
-
-    if errors:
-        lines.extend(["", "SKIPPED - DATA ISSUES"])
-        lines.extend("- " + format_telegram_data_issue(error) for error in errors[:3])
-        if len(errors) > 3:
-            remaining = len(errors) - 3
-            issue_label = "issue" if remaining == 1 else "issues"
-            lines.append(f"- {remaining} additional data {issue_label} in the full report.")
-
-    lines.extend(
-        [
             "",
-            "Full details saved to the market dashboard and GitHub report.",
-            "Model output only. Not financial advice.",
-        ]
-    )
+            "Returns are estimates for the target date; prices may move against "
+            "the forecast before then.",
+        ])
+    lines.extend(["", "Model forecasts, not trade instructions. Not financial advice."])
     return "\n".join(lines)
 
 

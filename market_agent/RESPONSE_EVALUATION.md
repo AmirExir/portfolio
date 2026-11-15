@@ -1,5 +1,12 @@
 # Market-agent response evaluation — November 11, 2026
 
+The evaluation below records the November 11 behavior. The November 15
+presentation update supersedes its public coverage-count footer and rejected
+candidate lists: channel posts now focus on news, qualified forecasts, source
+links and relevant uncertainty. Operational counts remain in n8n execution
+data; forecast diagnostics remain in the detailed report/JSON. See
+[Market news and report delivery](NEWS_WORKFLOW.md) for the current contract.
+
 ## Findings
 
 The supplied responses show a real input/configuration defect and several

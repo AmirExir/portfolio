@@ -415,7 +415,7 @@ class DailyReportOutputTests(unittest.TestCase):
             rendered["report_text"],
         )
 
-    def test_telegram_text_prioritizes_action_sections(self) -> None:
+    def test_telegram_text_prioritizes_forecasts_without_operational_details(self) -> None:
         row = _research_buy_row()
 
         telegram_text = report.build_telegram_text([row], [], self.args)
@@ -423,21 +423,26 @@ class DailyReportOutputTests(unittest.TestCase):
         self.assertEqual(
             telegram_text.splitlines()[0], "Market Outlook & Trade Watchlist"
         )
-        self.assertIn("Passed model checks: 1 buy, 0 sell/avoid.", telegram_text)
-        self.assertIn("BUY SIGNALS - PASSED MODEL CHECKS", telegram_text)
+        self.assertIn("UPSIDE WATCHLIST", telegram_text)
         self.assertIn("SNDK: forecast +12.50% by Sep 17, 2026", telegram_text)
-        self.assertIn("Allocation blocked: unverified holdings.", telegram_text)
-        self.assertIn("Position sizes are research-only.", telegram_text)
+        self.assertIn("As of: Aug 5, 2026", telegram_text)
+        self.assertIn("Horizon: 30 sessions per asset", telegram_text)
         self.assertIn("model-estimated chance of a rise: 82%", telegram_text)
-        self.assertLess(telegram_text.index("RESULT"), telegram_text.index("SNDK:"))
+        self.assertIn("estimated error: 8.0 percentage points", telegram_text)
+        self.assertIn("prices may move against the forecast", telegram_text)
+        self.assertIn("Model forecasts, not trade instructions.", telegram_text)
         self.assertNotIn("Strong Buy", telegram_text)
-        self.assertIn("Full details saved to the market dashboard", telegram_text)
-        self.assertNotIn("Primary signal rule:", telegram_text)
-        self.assertNotIn("Pattern windows:", telegram_text)
-        self.assertNotIn("Slowest symbols:", telegram_text)
-        self.assertNotIn("Threshold: absolute forecast return", telegram_text)
+        for operational_detail in (
+            "Coverage:", "RESULT", "Passed model checks:", "Allocation blocked:",
+            "Position sizes", "Holdings verification", "Full details saved",
+            "Primary signal rule:", "Pattern windows:", "Slowest symbols:",
+            "Threshold: absolute forecast return", "General news is not included",
+            "ranked by model/policy score", "NEXT CHECK",
+        ):
+            with self.subTest(operational_detail=operational_detail):
+                self.assertNotIn(operational_detail, telegram_text)
 
-    def test_telegram_text_shows_unqualified_candidates_when_no_qualified_signal(
+    def test_telegram_omits_failed_candidates_but_full_report_retains_evidence(
         self,
     ) -> None:
         row = report.enrich_rows_with_signal_metadata(
@@ -457,17 +462,21 @@ class DailyReportOutputTests(unittest.TestCase):
 
         telegram_text = report.build_telegram_text([row], [], self.args)
 
-        self.assertIn("No buy or sell signals passed the checks.", telegram_text)
-        self.assertIn("RESEARCH WATCHLIST - NOT QUALIFIED", telegram_text)
-        self.assertIn("These are not buy or sell signals.", telegram_text)
-        self.assertIn("Buy candidates:", telegram_text)
-        self.assertIn("SNDK: forecast +12.50% by Sep 17, 2026", telegram_text)
-        self.assertIn("Not qualified: up/down predictions failed accuracy checks", telegram_text)
-        self.assertIn("probability estimates failed reliability checks", telegram_text)
+        self.assertIn("No qualifying forecast setups today.", telegram_text)
+        self.assertNotIn("Forecast update unavailable", telegram_text)
+        self.assertNotIn("SNDK", telegram_text)
+        self.assertNotIn("RESEARCH WATCHLIST", telegram_text)
+        self.assertNotIn("failed accuracy checks", telegram_text)
+        self.assertNotIn("failed reliability checks", telegram_text)
         self.assertNotIn("direction_hit_rate_below_minimum", telegram_text)
         self.assertNotIn("Strong Buy", telegram_text)
         self.assertNotIn("Hold / Watch", telegram_text)
         self.assertNotIn("82%", telegram_text)
+        full_report = report.build_market_report([row], [], self.args)
+        self.assertEqual(full_report["unqualified_candidate_buys"], ["SNDK"])
+        self.assertIn("Unqualified Model Candidates", full_report["report_text"])
+        self.assertIn("SNDK: +12.50% through 2026-09-17", full_report["report_text"])
+        self.assertIn("direction_hit_rate_below_minimum", full_report["report_text"])
 
     def test_telegram_rejected_forecast_groups_related_reasons(self) -> None:
         row = _research_buy_row(**{
@@ -502,7 +511,7 @@ class DailyReportOutputTests(unittest.TestCase):
         self.assertNotIn("up/down predictions failed", rendered)
         self.assertNotIn("probability estimates failed", rendered)
 
-    def test_telegram_rejected_sells_keep_their_dates_and_direction(self) -> None:
+    def test_telegram_rejected_sells_stay_in_the_full_report(self) -> None:
         row = _research_buy_row(**{
             "Symbol": "DOT",
             "Model Call": "Sell",
@@ -513,28 +522,29 @@ class DailyReportOutputTests(unittest.TestCase):
 
         rendered = report.build_telegram_text([row], [], self.args)
 
-        self.assertIn("Sell/avoid candidates:", rendered)
-        self.assertIn("DOT: forecast -15.32% by Oct 9, 2026", rendered)
-        self.assertNotIn("SELL / AVOID SIGNALS - PASSED MODEL CHECKS", rendered)
+        self.assertIn("No qualifying forecast setups today.", rendered)
+        self.assertNotIn("DOT", rendered)
+        self.assertNotIn("DOWNSIDE WATCHLIST", rendered)
+        full_report = report.build_market_report([row], [], self.args)
+        self.assertEqual(full_report["unqualified_candidate_sells"], ["DOT"])
+        self.assertIn("DOT: -15.32% through 2026-10-09", full_report["report_text"])
 
-    def test_telegram_portfolio_checks_do_not_imply_trade_approval(self) -> None:
+    def test_telegram_forecasts_are_independent_of_portfolio_settings(self) -> None:
         verified = _research_buy_row(**{"Portfolio State Verified": True})
-        rendered = report.build_telegram_text([verified], [], self.args)
-
-        self.assertIn("Portfolio checks passed; position sizes remain subject to allocation limits.", rendered)
-        self.assertNotIn("Allocation blocked", rendered)
-
-        for field, label in (
-            ("Portfolio State Verified", "holdings"),
-            ("Portfolio Covariance Verified", "portfolio risk estimates"),
-            ("Portfolio Classification Verified", "asset classifications"),
-        ):
-            with self.subTest(field=field):
-                rendered = report.build_telegram_text(
-                    [{**verified, field: None}], [], self.args,
-                )
-                self.assertIn(f"Allocation blocked: unverified {label}.", rendered)
-                self.assertNotIn("Portfolio checks passed", rendered)
+        with patch.object(report, "format_report_timestamp", return_value="fixed time"):
+            baseline = report.build_telegram_text([verified], [], self.args)
+            for field in (
+                "Portfolio State Verified", "Portfolio Covariance Verified",
+                "Portfolio Classification Verified",
+            ):
+                with self.subTest(field=field):
+                    row = {**verified, field: None}
+                    rendered = report.build_telegram_text([row], [], self.args)
+                    self.assertEqual(rendered, baseline)
+                    full_report = report.build_market_report([row], [], self.args)
+                    self.assertIn("Portfolio allocation authorization: blocked", full_report["report_text"])
+        self.assertIn("Model forecasts, not trade instructions.", baseline)
+        self.assertNotIn("Portfolio checks passed", baseline)
 
     def test_telegram_empty_run_and_data_issues_are_explicit(self) -> None:
         errors = [
@@ -547,15 +557,25 @@ class DailyReportOutputTests(unittest.TestCase):
 
         rendered = report.build_telegram_text([], errors, self.args)
 
-        self.assertIn("No forecasts could be evaluated.", rendered)
-        self.assertIn("Allocation blocked: portfolio verification is unavailable.", rendered)
-        self.assertIn("SPCX: not enough price history (needs 71 valid closing prices).", rendered)
-        self.assertIn("PEPE-USD: outdated price data (latest Dec 11, 2022; needed Sep 9, 2026).", rendered)
-        self.assertIn(errors[2], rendered)
-        self.assertIn("1 additional data issue in the full report.", rendered)
-        self.assertNotIn("No buy or sell signals passed", rendered)
+        self.assertIn("Forecast update unavailable.", rendered)
+        self.assertNotIn("No qualifying forecast setups", rendered)
+        for error in errors:
+            self.assertNotIn(error, rendered)
+        full_report = report.build_market_report([], errors, self.args)
+        for error in errors:
+            self.assertIn(error, full_report["report_text"])
 
-    def test_telegram_qualified_sell_and_policy_watch_stay_distinct(self) -> None:
+    def test_telegram_partial_data_failure_keeps_a_short_availability_note(self) -> None:
+        errors = ["ABC: provider timeout"]
+        rendered = report.build_telegram_text([_research_buy_row()], errors, self.args)
+
+        self.assertIn("SNDK: forecast +12.50%", rendered)
+        self.assertIn("Some forecasts could not be updated.", rendered)
+        self.assertNotIn("ABC", rendered)
+        self.assertNotIn("provider timeout", rendered)
+        self.assertNotIn("Coverage:", rendered)
+
+    def test_telegram_shows_qualified_sell_and_omits_policy_only_watch(self) -> None:
         sell = _research_buy_row(**{
             "Symbol": "SELL",
             "Model Call": "Sell",
@@ -572,11 +592,13 @@ class DailyReportOutputTests(unittest.TestCase):
 
         rendered = report.build_telegram_text([sell, watch], [], self.args)
 
-        self.assertIn("Passed model checks: 0 buy, 1 sell/avoid.", rendered)
-        self.assertIn("SELL / AVOID SIGNALS - PASSED MODEL CHECKS", rendered)
-        self.assertIn("WATCHLIST - POLICY SIGNALS ONLY", rendered)
-        self.assertLess(rendered.index("WATCHLIST"), rendered.index("WATCH: forecast"))
-        self.assertNotIn("BUY SIGNALS - PASSED MODEL CHECKS", rendered)
+        self.assertIn("DOWNSIDE WATCHLIST", rendered)
+        self.assertIn("SELL: forecast -12.50% by Sep 17, 2026", rendered)
+        self.assertNotIn("WATCH: forecast", rendered)
+        self.assertNotIn("POLICY SIGNALS", rendered)
+        self.assertNotIn("UPSIDE WATCHLIST", rendered)
+        full_report = report.build_market_report([sell, watch], [], self.args)
+        self.assertIn("WATCH", full_report["policy_watch_buys"])
 
     def test_rl_policy_cannot_reenter_the_published_buy_list(self) -> None:
         row = _research_buy_row(**{"Selected Model": "RL Policy"})
@@ -870,7 +892,7 @@ class DailyReportOutputTests(unittest.TestCase):
         )
         self.assertIn("Horizon: 30 sessions per asset", payload["telegram_text"])
         self.assertIn("As of: Aug 5, 2026", payload["telegram_text"])
-        self.assertIn("BUY", payload["telegram_text"])
+        self.assertIn("UPSIDE WATCHLIST", payload["telegram_text"])
         self.assertNotIn("Primary signal rule:", payload["telegram_text"])
 
     def test_incomplete_runtime_budget_run_is_not_published(self) -> None:

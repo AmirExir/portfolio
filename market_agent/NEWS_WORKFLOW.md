@@ -28,8 +28,25 @@ implications. A reported investigation and its company response must be
 distinguished from proof of an allegation. Each development includes a source,
 readable date and direct URL. The event watchlist identifies what to monitor
 and what would change the assessment. It cannot invent probabilities, price
-moves or buy/sell instructions. A brief ends with actual retrieval counts and
-any sample limitation instead of a blanket claim that news is quiet.
+moves or buy/sell instructions. The channel brief contains short news items,
+conditional watch actions, source links and dates. It omits retrieval counts,
+provider limits, settings and workflow commentary. Each distinct claim in a
+combined item needs its own supporting source. Material uncertainty stays
+with the affected story; the brief must not claim exhaustive market coverage.
+
+Retrieval diagnostics remain in the evidence node's `news_coverage` output for
+operator inspection in n8n execution data. Only its readable generation time
+is passed to the news model, along with the selected articles; the counts are
+not supplied for publication. The news text archive uses the same audience
+brief. Empty results produce a short unavailable-update notice, while provider
+errors still fail the branch instead of producing an apparently valid brief.
+
+The forecast Telegram summary likewise shows only forecasts passing the
+existing qualification rules, with forecast dates, probabilities and error
+estimates. Failed candidates, policy-only signals, holdings/allocation checks,
+run settings and raw errors remain in the detailed report and JSON. A short
+availability note appears if some forecasts could not be updated. This is a
+presentation change; forecast calculations and qualification gates are unchanged.
 
 The normalization node runs before the news model in both the exported
 workflow and the repair helper. The existing news GitHub publication branch
@@ -81,17 +98,15 @@ NewsAPI authentication before repairing an installation with a literal key:
 repairing an inline key replaces it with the environment expression and does
 not create or populate the environment variable.
 
-For offline export validation (no calls to external services):
+For targeted offline news-export validation (no calls to external services):
 
 ```python
 import json
 from pathlib import Path
-from market_agent.n8n_workflow import repair_market_optimization_workflow
+from market_agent.news_workflow import repair_market_news_workflow
 
 workflow = json.loads(Path("n8n_market_telegram_calendar_combined.workflow.json").read_text())
-repaired, changes = repair_market_optimization_workflow(
-    workflow, credential_source_node="Save Optimization To GitHub"
-)
+repaired, changes = repair_market_news_workflow(workflow)
 assert repaired == workflow and not changes
 ```
 
@@ -100,20 +115,23 @@ assert repaired == workflow and not changes
 ```bash
 .venv/bin/python -m unittest \
   market_agent.tests.test_n8n_workflow \
-  market_agent.tests.test_news_workflow -v
+  market_agent.tests.test_news_workflow \
+  market_agent.tests.test_daily_report_output \
+  market_agent.tests.test_report_presentation -v
 ```
 
 The tests execute the actual JavaScript using Node.js VM isolation (without
 browser URL globals, matching the n8n Code-node environment) and synthetic fixtures.
 They cover date freshness, Chicago date rollover/DST, duplicate removal,
 provider errors, preservation of an older governance event amid newer feed
-items, graph/repair idempotence, and complete long-message delivery through
-the last sell row. They do not call NewsAPI, the language model, GitHub or
+items, exclusion of operational metadata from model inputs while preserving
+source evidence, graph/repair idempotence, and complete long-message delivery
+through the last sell row. They do not call NewsAPI, the language model, GitHub or
 Telegram. Prompt assertions verify the written contract, not model obedience.
 
 Retrieval still uses one provider page, so matching stories can be missed.
-The brief explicitly reports this when the provider's `totalResults` exceeds
-the fetched count. NewsAPI supplies snippets, not verified full articles.
+The internal `sample_limited` flag records when the provider's `totalResults`
+exceeds the fetched count. NewsAPI supplies snippets, not verified full articles.
 The workflow cannot independently confirm allegations or establish complete
 market coverage. Live model prose must still be checked against its links.
 No historical news panel was added to forecast training.

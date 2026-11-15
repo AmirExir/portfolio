@@ -1,4 +1,4 @@
-"""Regressions for readable dates, complete candidate lists, and delivery."""
+"""Regressions for readable dates, audience-facing forecasts, and delivery."""
 
 import datetime as dt
 import unittest
@@ -48,25 +48,27 @@ class ReportPresentationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "MARKET_REPORT_TIMEZONE"):
                 format_report_timestamp(dt.datetime.now(dt.timezone.utc))
 
-    def test_existing_qualified_buy_does_not_hide_other_buy_candidates(self) -> None:
+    def test_public_watchlist_excludes_candidates_that_failed_validation(self) -> None:
         args = report.build_parser().parse_args(["--run-profile", "quick"])
         qualified = _research_buy_row()
         candidate = _research_buy_row(**{
             "Symbol": "MSFT", "Nonoverlapping Validation Samples": 5,
         })
         rendered = report.build_telegram_text([qualified, candidate], [], args)
-        self.assertIn("Passed model checks: 1 buy, 0 sell/avoid.", rendered)
-        self.assertIn("Buy candidates: 1 of 1", rendered)
-        self.assertIn("MSFT: forecast", rendered)
-        self.assertIn("(5/8 required)", rendered)
-        self.assertIn("General news is not included in these forecast scores.", rendered)
-        self.assertLess(rendered.index("BUY SIGNALS"), rendered.index("RESEARCH WATCHLIST"))
+        self.assertIn("UPSIDE WATCHLIST", rendered)
+        self.assertIn("SNDK: forecast", rendered)
+        self.assertNotIn("MSFT", rendered)
+        self.assertNotIn("(5/8 required)", rendered)
+        self.assertNotIn("RESEARCH WATCHLIST", rendered)
+        self.assertNotIn("NEXT CHECK", rendered)
+        full_report = report.build_market_report([qualified, candidate], [], args)
+        self.assertEqual(full_report["top_buys"], ["SNDK"])
+        self.assertEqual(full_report["unqualified_candidate_buys"], ["MSFT"])
 
     def test_capped_display_counts_all_qualified_signals(self) -> None:
         args = report.build_parser().parse_args(["--max-signal-rows", "1"])
         rows = [_research_buy_row(**{"Symbol": symbol}) for symbol in ("AAA", "BBB")]
         rendered = report.build_telegram_text(rows, [], args)
-        self.assertIn("Passed model checks: 2 buy, 0 sell/avoid.", rendered)
         self.assertIn("Showing 1 of 2", rendered)
         self.assertEqual(rendered.count(": forecast"), 1)
 
