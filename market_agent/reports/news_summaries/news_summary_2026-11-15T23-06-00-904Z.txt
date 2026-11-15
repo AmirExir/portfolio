@@ -1,0 +1,26 @@
+Market brief — Nov 15, 2026, 5:05 PM CST
+
+What matters:
+1) NVIDIA (NVDA) faces an acute leadership and governance shock after multiple outlets in this evidence set reported CEO Jensen Huang resigned on Nov. 12 and CFO Colette Kress became interim CEO. Several reports also describe allegations involving an affair and suspected Chinese intelligence ties, but those allegations remain unverified here and are not proof of wrongdoing. The business mechanism is clearer than the facts: a sudden founder exit can disrupt customer relationships, product roadmaps, recruiting and investor confidence, especially with earnings reportedly approaching on Nov. 17. The evidence set also reports a large petition campaign calling for Huang’s return, underscoring stakeholder unrest rather than operational resolution. Company/board response in the evidence set is limited to the reported leadership change.
+Business Insider, Nov 14, 2026, 2:00 PM CST
+https://www.businessinsider.com/intelligence-jensen-huang-downfall-shaky-nvidia-china-spy-gpus-2026-11
+
+2) U.S. semiconductor export-control oversight is under scrutiny, with NPR reporting the Commerce Department is facing pressure for delaying controls on Nvidia chips and for clearing Chinese companies to handle them despite national-security concerns. That matters beyond NVDA: tighter or newly enforced controls could affect chip volumes, customer mix, compliance costs and the broader AI hardware supply chain. This is a reported policy scrutiny event, not evidence of corporate misconduct by Nvidia.
+NPR, Nov 14, 2026, 4:21 PM CST
+https://www.npr.org/2026/11/14/nx-s1-6040379/commerce-department-under-pressure-for-delaying-export-controls-on-nvidia-chips
+
+3) India’s corporate earnings backdrop looks comparatively strong. BusinessLine reports 2,864 companies’ Q2FY27 results showed solid revenue and profit growth across sectors, with steel and refineries leading, helped by demand and inflation pass-through. The market mechanism is support for Indian equities, cyclicals and credit quality if margin resilience persists, though the report is broad macro/corporate commentary rather than a single-company surprise.
+BusinessLine, Nov 14, 2026, 10:33 AM CST
+https://www.thehindubusinessline.com/portfolio/india-inc-flexes-its-strength-in-q2/article71702255.ece
+
+4) Macro and consumer energy pressure remain in focus. CNBC reports heating-oil prices are up 59% from last winter, straining household budgets before winter. Separately, Boston Fed President Susan Collins said gradual rate hikes are best to manage economic risks. Together, the mechanism points to persistent inflation stress for consumers and a rate path that may stay restrictive, affecting discretionary demand, regional credit stress and energy-sensitive sectors.
+CNBC, Nov 14, 2026, 8:30 AM CST
+https://www.cnbc.com/2026/11/14/heating-oil-price-spike-household-budgets.html
+
+Watch actions:
+- NVDA — mixed: monitor board and interim-CEO communication, especially any evidence on customer retention, roadmap continuity and timing of earnings; bearish if material operational disruption is confirmed, less negative if the board stabilizes leadership and guidance.
+- U.S. AI chip supply chain — bearish risk: watch for formal export-control action or Entity List changes; the implication worsens if restrictions broaden from scrutiny to enforceable limits affecting shipments or counterparties.
+- India equities/cyclicals — bullish if the Q2FY27 strength broadens beyond steel/refineries and cash-flow quality holds; reassess if demand or pass-through fades in subsequent results.
+- U.S. consumer/energy-sensitive names — mixed to bearish: watch whether heating-oil inflation spills into delinquency or weaker discretionary spending; this view would soften if energy costs retreat or support programs offset the burden.
+
+Coverage: Within the last 36 hours, the provider returned only a sample of matching coverage: 100 fetched articles out of 471 total results, with 85 eligible unique items; 24 were selected from 20 sources.
