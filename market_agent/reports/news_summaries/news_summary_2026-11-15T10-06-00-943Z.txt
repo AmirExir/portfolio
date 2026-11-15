@@ -1,0 +1,34 @@
+Market brief — Nov 15, 2026, 4:05 AM CST
+
+What matters:
+1) Nvidia (NVDA) leadership crisis is the most consequential item in this set. Multiple outlets report allegations around former CEO/chair Jensen Huang, including affair and suspected-spy claims, and one report says Wall Street is assessing Nvidia’s future without him as a key-person risk. Fortune says Huang has “lost his job” and board seat; Crypto Briefing says investors are bracing for Nvidia without its longtime CEO. These are reported allegations and downstream consequences, not proof of wrongdoing. No Nvidia or board response is provided in the supplied evidence. If accurate, the market mechanism is governance and execution risk at a company central to AI capex, which could affect customer confidence, valuation multiples, and sector sentiment.
+Source: Fortune, Nov 14, 2026, 3:37 AM CST
+https://fortune.com/2026/11/14/jensen-huang-divorce-lori-huang-nvidia-fortune-community-property/
+Source: Crypto Briefing, Nov 14, 2026, 3:04 AM CST
+https://cryptobriefing.com/wall-street-braces-for-nvidias-future-without-ceo-jensen-huang/
+
+2) Nvidia also faces reported export-control and geopolitical pressure. Crypto Briefing reports that a blacklisted Chinese university reportedly bought two Nvidia H200 chips despite U.S. restrictions, and BusinessLine says the broader Nvidia scandal is intensifying U.S.-China AI rivalry ahead of a Trump-Xi meeting, with lawmakers pressing for tighter controls. These reports do not establish Nvidia misconduct, but if corroborated they could raise compliance, licensing, and policy risk for advanced-chip sales to China-linked buyers.
+Source: Crypto Briefing, Nov 14, 2026, 1:05 AM CST
+https://cryptobriefing.com/blacklisted-chinese-university-reportedly-purchased-nvidia-h200s-despite-export/
+Source: BusinessLine, Nov 14, 2026, 3:21 AM CST
+https://www.thehindubusinessline.com/info-tech/nvidia-scandal-heightening-americas-ai-rivalry-with-china-ahead-of-trumps-visit/article71701056.ece
+
+3) Microsoft (MSFT) said Outlook, Teams, and other services had fully recovered after a global outage that Reuters, via Yahoo, says disrupted businesses and governments for more than 24 hours. Microsoft’s stated recovery matters because the mechanism is operational resilience: the immediate risk is customer disruption and possible SLA/reputation fallout; the offset is that restoration may cap longer-tail damage if no further incidents emerge.
+Source: Yahoo Entertainment, Nov 14, 2026, 1:23 AM CST
+https://tech.yahoo.com/ai/copilot/articles/microsoft-outage-drags-hours-disrupting-233132005.html
+
+4) Macro pressure in this sample is dollar- and rate-driven. Times of India reports the dollar near a 19-month high as inflation reinforces bets on a bigger Fed hike, while another report says Bitcoin is near $67,000 as a stronger dollar, Fed-tightening fears, and ETF outflows weigh on crypto. Cointelegraph separately reports $2.35 billion of net outflows from U.S. spot Bitcoin ETFs over two weeks. The mechanism is tighter financial conditions: pressure on duration-sensitive equities, commodities, and risk assets, with direct sentiment and flow effects on crypto.
+Source: The Times of India, Nov 14, 2026, 1:18 AM CST
+https://timesofindia.indiatimes.com/business/international-business/dollar-nears-19-month-high-as-inflation-fuels-bets-on-bigger-fed-rate-hike-next-month/articleshow/135825650.cms
+Source: The Times of India, Nov 14, 2026, 2:45 AM CST
+https://economictimes.indiatimes.com/markets/cryptocurrency/bitcoin-near-67000-stronger-dollar-fed-tightening-fears-and-etf-outflows-weigh-on-crypto-markets/articleshow/135827677.cms
+Source: Cointelegraph, Nov 14, 2026, 12:33 AM CST
+https://cointelegraph.com/markets/bitcoin-etf-outflows-2-35-billion-blackrock-11-session-streak
+
+Watch actions:
+- NVDA — mixed: monitor formal board/company disclosure on leadership, succession, and any regulator involvement; bearish if a confirmed management vacuum or customer disruption emerges, but this would change with a credible successor plan and clear operating continuity evidence.
+- NVDA/U.S.-China chip policy — bearish: watch for new export-control tightening or enforcement actions tied to reported H200 sales; implication would change if authorities clarify no Nvidia breach or if compliance safeguards are strengthened.
+- MSFT — mixed to bullish if stable: monitor whether Microsoft discloses root cause, compensation, or unusual churn after the outage; concern rises if another material incident follows, while confidence improves with a clean postmortem and no repeat disruption.
+- Bitcoin/spot BTC ETFs — bearish near term: watch whether ETF outflows persist alongside a stronger dollar and higher hike odds; implication would improve if flows stabilize or macro rate expectations ease.
+
+Coverage: From a 36-hour window ending Nov 15, 2026, 4:05 AM CST, the provider returned only a sample of matching coverage: 99 fetched articles out of 508 total results, with 82 eligible unique articles; 24 were selected from 14 sources.
