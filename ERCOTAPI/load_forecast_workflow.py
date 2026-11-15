@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import copy
 import json
+import re
 from collections.abc import Mapping
 from typing import Any
 
@@ -67,16 +68,20 @@ return {json: {...context, text, chart_caption: caption, report_ok: report.ok, h
 
 LOAD_DIRECT_JS = r"""const source = $input.first();
 const item = source.json;
-if (item.source !== 'telegram' || !item.reply_chat_id || item.reply_chat_id === item.channel_chat_id) return [];
-return [{json: {chat_id: item.reply_chat_id, text: item.text, report_ok: item.report_ok,
+const destination = item.source === 'telegram' ? item.reply_chat_id : item.owner_chat_id;
+if (!destination || destination === item.channel_chat_id) return [];
+return [{json: {chat_id: destination, text: item.text, report_ok: item.report_ok,
   chart_caption: item.chart_caption, has_chart: item.has_chart, disable_web_page_preview: true, send_direct: true},
   ...(source.binary ? {binary: source.binary} : {})}];"""
 
 LOAD_CHANNEL_JS = r"""// n8n's $binary exposes metadata only; use the full input item for image bytes.
-const source = $input.item;
-return {json: {chat_id: $json.channel_chat_id, text: $json.text,
-  chart_caption: $json.chart_caption, report_ok: $json.report_ok, has_chart: $json.has_chart, disable_web_page_preview: true},
-  ...($json.has_chart ? {binary: source.binary} : {})};"""
+const source = $input.first();
+const item = source.json;
+// Private commands never broadcast, including when scheduled publishing is enabled.
+if (item.source !== 'schedule' || item.publish_scheduled !== true) return [];
+return [{json: {chat_id: item.channel_chat_id, text: item.text,
+  chart_caption: item.chart_caption, report_ok: item.report_ok, has_chart: item.has_chart, disable_web_page_preview: true},
+  ...(item.has_chart ? {binary: source.binary} : {})}];"""
 
 
 def restore_text_js(payload_node: str) -> str:
@@ -95,13 +100,17 @@ def _edge(name: str) -> dict[str, Any]:
 
 def repair_ercot_load_forecast_workflow(
     workflow: Mapping[str, Any], *, channel_chat_id: str = "@ERCOTNEWS",
+    owner_chat_id: str = "", publish_scheduled: bool = False,
 ) -> tuple[dict[str, Any], tuple[str, ...]]:
-    """Reuse the ERCOT schedule and Telegram destinations without changing models.
+    """Keep forecast collection scheduled, with private delivery by default.
 
     A separate trigger creates an independent execution at the news schedule's
     times, so a news/retriever failure cannot block the forecast. The workflow's
     existing timezone is preserved. All commands are fixed; chat text never
-    becomes a shell argument. This function only edits an in-memory copy.
+    becomes a shell argument. An explicit positive Telegram user id enables owner
+    delivery. Without it scheduled runs only archive, unless public delivery is
+    explicitly enabled. Private commands never broadcast. This function only
+    edits an in-memory copy.
     """
     repaired = copy.deepcopy(dict(workflow))
     nodes = repaired.get("nodes")
@@ -118,6 +127,10 @@ def repair_ercot_load_forecast_workflow(
             raise ValueError(f"Missing required ERCOT forecast integration node: {name}")
     if not channel_chat_id.strip():
         raise ValueError("ERCOT forecast channel must be configured")
+    if not isinstance(owner_chat_id, str) or (owner_chat_id and not re.fullmatch(r"[1-9][0-9]*", owner_chat_id)):
+        raise ValueError("ERCOT forecast owner must be a positive private Telegram chat id")
+    if not isinstance(publish_scheduled, bool):
+        raise ValueError("Scheduled forecast publication must be a boolean")
     channel_sender = by_name["Telegram ERCOT News"]
     if not channel_sender.get("credentials", {}).get("telegramApi"):
         raise ValueError("ERCOT channel sender must have a Telegram credential binding")
@@ -158,7 +171,8 @@ def repair_ercot_load_forecast_workflow(
         "const replyId = String($json.reply_chat_id ?? '').trim();\n"
         "if (source === 'telegram' && !replyId) throw new Error('Forecast request has no reply chat');\n"
         "return {json: {source, reply_chat_id: replyId, channel_chat_id: "
-        + json.dumps(channel_chat_id) + "}};"
+        + json.dumps(channel_chat_id) + ", owner_chat_id: " + json.dumps(owner_chat_id)
+        + ", publish_scheduled: " + json.dumps(publish_scheduled) + "}};"
     )
     install(LOAD_CONTEXT, "n8n-nodes-base.code", 2,
             {"mode": "runOnceForEachItem", "jsCode": context_js}, [-2800, 1200])
@@ -167,7 +181,7 @@ def repair_ercot_load_forecast_workflow(
     for name, code, mode, position in (
         (LOAD_REPORT, LOAD_REPORT_JS, "runOnceForEachItem", [-2360, 1200]),
         (LOAD_DIRECT, LOAD_DIRECT_JS, "runOnceForAllItems", [-2140, 1400]),
-        (LOAD_CHANNEL, LOAD_CHANNEL_JS, "runOnceForEachItem", [-2140, 1100]),
+        (LOAD_CHANNEL, LOAD_CHANNEL_JS, "runOnceForAllItems", [-2140, 1100]),
         (LOAD_SPLITTER, by_name["Split Direct Telegram Message"]["parameters"]["jsCode"],
          "runOnceForAllItems", [-1920, 1100]),
     ):

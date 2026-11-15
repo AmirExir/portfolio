@@ -10,5 +10,9 @@ if [[ ! -x "$FORECAST_PYTHON" ]]; then
   exit 78
 fi
 export PYTHONPATH="$FORECAST_REPO${PYTHONPATH:+:$PYTHONPATH}"
+# Build real forecast-vintage history without changing the active load model.
+# Explicit off/model settings and a custom NWS identity remain configurable.
+export ERCOT_WEATHER_MODE="${ERCOT_WEATHER_MODE:-collect}"
+export ERCOT_WEATHER_USER_AGENT="${ERCOT_WEATHER_USER_AGENT:-ercot-load-forecast/1.0}"
 cd "$FORECAST_REPO"
 exec "$FORECAST_PYTHON" -m ERCOTAPI.load_forecast_report "$@"

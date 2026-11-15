@@ -13,7 +13,7 @@ import shutil
 import subprocess
 import unittest
 
-from ERCOTAPI.load_forecast_workflow import LOAD_CHANNEL_JS
+from ERCOTAPI.load_forecast_workflow import LOAD_CHANNEL_JS, LOAD_DIRECT_JS
 
 
 def installed_n8n_root() -> Path | None:
@@ -59,7 +59,9 @@ const proxy = new WorkflowDataProxy(workflow, null, 0, input.item_index,
 const sandbox = new JavaScriptSandbox({$json: proxy.$json, $binary: proxy.$binary,
   $input: proxy.$input}, input.code, {normalizeItems});
 (async () => {
-  const output = await sandbox.runCodeEachItem(input.item_index);
+  const output = input.mode === 'each'
+    ? await sandbox.runCodeEachItem(input.item_index)
+    : await sandbox.runCodeAllItems();
   process.stdout.write(JSON.stringify({output,
     metadata_keys: Object.keys(proxy.$binary.data ?? {}),
     input_keys: Object.keys(proxy.$input.item.binary?.data ?? {})}));
@@ -71,15 +73,16 @@ const sandbox = new JavaScriptSandbox({$json: proxy.$json, $binary: proxy.$binar
 
 @unittest.skipUnless(N8N_ROOT and shutil.which("node"), "Installed n8n and Node.js are required")
 class LoadForecastBinaryRuntimeTests(unittest.TestCase):
-    """Exercise actual n8n getters and each-item Code validation, not mocks."""
+    """Exercise actual n8n getters and each/all-item Code validation, not mocks."""
 
-    def execute(self, code: str, items: list[dict], *, item_index: int = 0) -> dict:
-        """Run one Code item using the locally installed n8n implementation."""
+    def execute(self, code: str, items: list[dict], *, item_index: int = 0,
+                mode: str = "all") -> dict:
+        """Run Code with the configured mode using the installed n8n implementation."""
 
         result = subprocess.run(
             ["node", "-e", RUNTIME_SCRIPT],
             input=json.dumps({"n8n_root": str(N8N_ROOT), "code": code,
-                              "items": items, "item_index": item_index}),
+                              "items": items, "item_index": item_index, "mode": mode}),
             text=True, capture_output=True, check=True, timeout=30,
         )
         return json.loads(result.stdout)
@@ -90,7 +93,8 @@ class LoadForecastBinaryRuntimeTests(unittest.TestCase):
 
         return {
             "json": {"channel_chat_id": chat_id, "text": "Forecast 50,001 MW",
-                     "report_ok": True, "has_chart": True},
+                     "report_ok": True, "has_chart": True,
+                     "source": "schedule", "publish_scheduled": True},
             "binary": {"data": binary_data or {
                 "data": PNG_BASE64, "mimeType": "image/png", "fileName": "chart.png",
             }},
@@ -98,29 +102,45 @@ class LoadForecastBinaryRuntimeTests(unittest.TestCase):
 
     def test_actual_metadata_proxy_loses_bytes_but_channel_code_preserves_them(self) -> None:
         # Negative control reproduces the production failure with the old code.
-        legacy = self.execute("return {json: $json, binary: $binary};", [self.item()])
+        legacy = self.execute("return {json: $json, binary: $binary};", [self.item()], mode="each")
         self.assertNotIn("data", legacy["output"]["binary"]["data"])
         self.assertNotIn("data", legacy["metadata_keys"])
         self.assertIn("data", legacy["input_keys"])
 
-        actual = self.execute(LOAD_CHANNEL_JS, [self.item()])["output"]
+        actual = self.execute(LOAD_CHANNEL_JS, [self.item()])["output"][0]
         self.assertEqual(actual["binary"]["data"]["data"], PNG_BASE64)
         self.assertEqual(actual["json"]["chat_id"], "@fixture")
 
-    def test_each_item_preserves_its_own_binary_including_storage_reference(self) -> None:
+    def test_all_item_mode_preserves_single_report_binary_storage_reference(self) -> None:
         stored = {"id": "filesystem-v2:fixture", "data": "filesystem-v2",
                   "mimeType": "image/png", "fileName": "second.png"}
-        items = [self.item(), self.item("@second", binary_data=stored)]
-        actual = self.execute(LOAD_CHANNEL_JS, items, item_index=1)["output"]
+        actual = self.execute(LOAD_CHANNEL_JS, [self.item("@second", binary_data=stored)])["output"][0]
         self.assertEqual(actual["json"]["chat_id"], "@second")
         self.assertEqual(actual["binary"]["data"], stored)
 
     def test_text_only_failure_does_not_require_binary(self) -> None:
         item = {"json": {"channel_chat_id": "@fixture", "text": "Forecast unavailable",
-                         "report_ok": False, "has_chart": False}}
-        actual = self.execute(LOAD_CHANNEL_JS, [item])["output"]
+                         "report_ok": False, "has_chart": False,
+                         "source": "schedule", "publish_scheduled": True}}
+        actual = self.execute(LOAD_CHANNEL_JS, [item])["output"][0]
         self.assertNotIn("binary", actual)
         self.assertEqual(actual["json"]["text"], "Forecast unavailable")
+
+    def test_scheduled_default_suppresses_public_delivery_and_preserves_private_chart(self) -> None:
+        item = self.item()
+        item["json"].update(publish_scheduled=False, owner_chat_id="123")
+        self.assertEqual(self.execute(LOAD_CHANNEL_JS, [item])["output"], [])
+        private = self.execute(LOAD_DIRECT_JS, [item])["output"][0]
+        self.assertEqual(private["json"]["chat_id"], "123")
+        self.assertEqual(private["binary"]["data"]["data"], PNG_BASE64)
+
+    def test_private_command_never_broadcasts_when_public_schedule_is_enabled(self) -> None:
+        item = self.item()
+        item["json"].update(source="telegram", reply_chat_id="123")
+        self.assertEqual(self.execute(LOAD_CHANNEL_JS, [item])["output"], [])
+        private = self.execute(LOAD_DIRECT_JS, [item])["output"][0]
+        self.assertEqual(private["json"]["chat_id"], "123")
+        self.assertEqual(private["binary"]["data"]["data"], PNG_BASE64)
 
 
 if __name__ == "__main__":

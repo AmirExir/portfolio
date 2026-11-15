@@ -143,8 +143,91 @@ six-value `train_load_forecast_model` return interface are preserved.
   seed, model settings, library versions, baseline scores, and forecast origin.
 
 The comparison offers 7, 14, or 30 days of public actual-load history. This is
-still a small exploratory sample. No weather features, calibrated
-uncertainty intervals, or seasonal/operational validation are provided.
+still a small exploratory sample. Optional forecast-weather inputs are described
+below; model weather inputs are disabled by default. No calibrated uncertainty intervals or
+seasonal/operational validation are provided.
+
+### Weather forecasts and learning from actual load
+
+Each new run refits on updated actual load. Saved prospective runs are scored
+against later actuals, but those errors **do not automatically correct, tune, or
+promote a model**. Telegram reactions and regulatory/news documents are not
+training data. The private report includes the latest fully observed 24-hour run
+among the five most recent saved runs, when available. It reports model and ERCOT
+MAE on identical hours, with the original issue time and weather mode; overlapping
+runs are not pooled.
+
+[`weather_forecast.py`](weather_forecast.py) captures hourly temperature forecasts
+from the [NWS API](https://www.weather.gov/documentation/services-web-api).
+[`weather_locations.json`](weather_locations.json) configures separate Houston,
+Dallas, Austin, San Antonio, Corpus Christi, and Midland point predictors. These
+are experimental geographic proxies, **not ERCOT weather-zone centroids or
+load-weighted temperatures**. No regional weights are invented. The adapter
+converts Fahrenheit to Celsius and preserves UTC instants through DST.
+
+The scheduled shell launcher defaults to `collect`, using the identifying
+User-Agent `ercot-load-forecast/1.0`, so subsequent scheduled runs build weather
+history while retaining the load/calendar model. Direct Python and dashboard
+calls default to `off`. Override these in the **forecast runner's environment**
+(and in the dashboard environment if it should use the same mode):
+
+```sh
+export ERCOT_WEATHER_MODE=collect
+export ERCOT_WEATHER_USER_AGENT='ercot-load-research/1.0 (your contact website or email)'
+# Optional persistent paths, outside the repository:
+export ERCOT_WEATHER_STORE=/path/to/persistent/weather-forecasts.sqlite
+# Optional location override; same schema as the versioned JSON:
+export ERCOT_WEATHER_LOCATIONS_FILE=/path/to/weather_locations.json
+```
+
+- `off` (Python/dashboard default): existing load/calendar model; no weather requests.
+- `collect` (shell launcher default): archive real forecast vintages while the load/calendar model runs.
+  Collection failures are visible in saved metadata and report text. Partial
+  successful captures remain archived; missing sites are never filled.
+- `model`: require forecast-weather inputs during training and every recursive
+  prediction step. Missing/stale weather or insufficient history fails the model
+  comparison explicitly; the report retains valid official ERCOT text. It does
+  not silently switch back to a different model.
+
+Run `scripts/run_ercot_load_forecast.sh --compare` to collect and inspect JSON
+without sending Telegram messages. The default weather store is
+`~/.cache/ercot-grid-dashboard/weather-forecasts.sqlite` (or `XDG_CACHE_HOME`).
+`ERCOT_WEATHER_MAX_AGE_HOURS` defaults to 18 and must be positive and at most 48.
+The NWS API requires an identifying User-Agent; no API key is used. Its linked
+`forecastHourly` endpoints, source bytes, SHA-256 hashes, provider update and
+generation times, and actual first retrieval times are preserved in an append-only
+SQLite archive. Requests have timeouts, size limits, and an official-host allowlist.
+
+The archive starts empty. It never backdates availability, downloads observations
+as a substitute for forecast vintages, or claims historical forecasts were known
+before this collector retrieved them. Training selects the latest available
+forecast at one hour before each load target. Recursive predictions freeze one
+weather information cutoff for the entire horizon. Already-started bridge hours
+require weather captured before those hours began. Missing weather excludes
+training rows without moving the original load-history 80/20 time boundary.
+Weather mode requires at least 48 eligible hours, including 24 before that
+boundary and two within the holdout. With the default 30-day history, initial
+collection normally takes more than a week to reach that training partition;
+outages or missing coverage can extend this. Meeting these minimums does not
+establish model quality.
+
+Enable `model` only for an experiment after adequate archive coverage. Evaluate
+saved forecasts prospectively against actual MW, ERCOT, and load/calendar and
+seasonal baselines on comparable windows before changing audience-facing claims.
+Weather integration has **not** demonstrated better accuracy. One-hour holdout
+scores do not establish 24-hour skill, and geographic coverage, humidity, extreme
+weather, holidays, and longer seasonal training remain limitations.
+
+Offline validation, including captured-vintage availability, source integrity,
+missing bridge hours, and the real archive-to-model-to-ledger path:
+
+```sh
+python -m unittest ERCOTAPI.tests.test_weather_forecast \
+  ERCOTAPI.tests.test_load_forecast_weather \
+  ERCOTAPI.tests.test_load_forecast_launcher \
+  ERCOTAPI.tests.test_weather_comparison_service \
+  ERCOTAPI.tests.test_comparison_report -v
+```
 
 ### Official ERCOT versus the experimental model
 
@@ -243,10 +326,14 @@ The combined agent's private-chat keyboard includes **ERCOT news**
 reopen the keyboard. News requests return the existing digest directly;
 scheduled news publication retains its new-item filtering.
 
-The load command compares a current **official ERCOT** system-wide load forecast
-with the experimental model and posts to the configured ERCOT channel (currently
-`@ERCOTNEWS`). Both destinations receive **one PNG graph with both forecast
-curves on the same axes**, covering the same 24 complete future hourly intervals.
+The repaired load workflow compares a current **official ERCOT** system-wide load
+forecast with the experimental model. `/ercot_load` replies only to its requester;
+it never broadcasts to the public channel. Scheduled forecasts continue computing
+and saving comparisons, with public delivery disabled by default. Set an explicit
+private owner chat ID when installing the repair to receive the scheduled reports.
+Without an owner destination, scheduled runs archive without sending. Delivered
+reports contain **one PNG graph with both forecast curves on the same axes**,
+covering the same 24 complete future hourly intervals.
 The legend names the recorded method, such as **XGBoost · experimental** or
 **Random Forest · experimental**; it does not say “my model.” The chart uses
 hourly MW values without smoothing, with Central-time interval labels and
@@ -262,7 +349,7 @@ The forecast source is ERCOT's public **NP3-561-CD, Seven-Day Load Forecast by
 Weather Zone**, including its `SystemTotal` field. The report links the exact
 downloaded archive and records its hash. The experimental forecast uses the
 same existing load-model service as the dashboard, with 30 days of actual-load
-history by default and no weather inputs. Its separately generated predictions
+history by default, with optional weather modes described above. Its separately generated predictions
 are saved before the target hours begin.
 
 The load workflow has its own schedule trigger, copied from the existing ERCOT
@@ -272,6 +359,17 @@ prevent a forecast run. On the current installation, the shared schedule is
 America/New_York timezone). No market/news times or workflow timezone are
 changed. If moving the workflow, verify the instance timezone and update the
 chat help times to match. Runs require the host and n8n to be running.
+
+Publication policy and computation cadence are separate. This avoids notifying
+channel subscribers for every diagnostic run while retaining evidence for model
+evaluation. To configure the stopped-service repair, pass
+`--ercot-forecast-owner-chat-id YOUR_PRIVATE_NUMERIC_CHAT_ID` to
+`scripts/repair_n8n_market_optimization.py`, or set `ERCOT_FORECAST_OWNER_CHAT_ID`
+in the **repair command's** environment. The ID must identify a private user chat.
+Keep this setting when rerunning the repair; omitting it restores archive-only
+scheduled runs. `--publish-scheduled-ercot-forecasts` explicitly opts back into
+the existing twice-daily public schedule; it never makes private requests public.
+Repository changes do not update an already installed n8n workflow automatically.
 
 The report rejects stale vintages (over three hours by default), missing hourly
 coverage, duplicate intervals, invalid MW values and unsupported DST labels.
@@ -377,6 +475,18 @@ text, and attachment changes. Summaries retain the available proposal status;
 a changed page alone does not establish filing, approval, or effectiveness.
 The dashboard reports the age of the latest brief; this is not a service health
 check, because healthy scheduled runs can intentionally publish nothing.
+
+The repaired scheduled filing parser withholds metadata-only extraction notices
+(including unsupported `.xls` ballots) and newly discovered attachments whose
+source date is more than seven days old. A discovery date is not a publication
+date. Substantive changes to a known document remain eligible even if its
+original date is old. Unknown source dates remain eligible when content exists;
+this is a noise filter, not a verified regulatory-materiality classifier. Private
+news requests retain the full notices, and all documents continue through the
+existing archive/ingestion path. Suppressed counts/reasons remain in execution
+data. Install `repair_n8n_ercot_publication.py` for these filing filters and
+`repair_n8n_market_optimization.py` for forecast delivery routing; both use the
+existing stopped-service/backup procedure. Neither repair sends a message.
 
 To install these workflow changes, stop n8n while no executions are running or
 waiting, then run from the repository root:

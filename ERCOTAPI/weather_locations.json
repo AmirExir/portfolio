@@ -1,0 +1,11 @@
+{
+  "description": "Experimental city temperature predictors; these are not ERCOT weather-zone centroids or load weights.",
+  "locations": [
+    {"id": "houston", "latitude": 29.7604, "longitude": -95.3698},
+    {"id": "dallas", "latitude": 32.7767, "longitude": -96.7970},
+    {"id": "austin", "latitude": 30.2672, "longitude": -97.7431},
+    {"id": "san_antonio", "latitude": 29.4241, "longitude": -98.4936},
+    {"id": "corpus_christi", "latitude": 27.8006, "longitude": -97.3964},
+    {"id": "midland", "latitude": 31.9973, "longitude": -102.0779}
+  ]
+}

@@ -97,6 +97,53 @@ class ComparisonReportTests(unittest.TestCase):
             self.assertEqual(comparison_report.attach_model_comparison(report), report)
         run.assert_not_called()
 
+    def test_weather_status_is_explained_from_saved_run(self) -> None:
+        for status, expected in (("collecting", "not yet model inputs"),
+                                 ("collection_failed", "Weather collection failed"),
+                                 ("used", "archived NWS temperature forecasts")):
+            with self.subTest(status=status):
+                report, comparison = comparison_fixture()
+                comparison["snapshot"]["model_metadata"]["weather"] = {"status": status}
+                text, _ = comparison_report.format_comparison_report(report, comparison)
+                self.assertIn(expected, text)
+                if status == "used":
+                    self.assertNotIn("does not use weather", text)
+                    self.assertIn("not been established to improve", text)
+
+    def test_weather_unavailability_explains_the_action_without_substituting_model(self) -> None:
+        report, _ = comparison_fixture()
+        for error in (comparison_report.WeatherInputError("Insufficient archived forecast weather: need at least 48 eligible hours."),
+                      comparison_report.WeatherError("NWS weather forecast is stale; no previous source is substituted.")):
+            with self.subTest(error=type(error).__name__), patch.object(comparison_report, "run_and_save_comparison", side_effect=error), self.assertLogs(comparison_report.__name__, "WARNING"):
+                result = comparison_report.attach_model_comparison(report)
+            self.assertEqual(result["comparison_error"], "weather_unavailable")
+            self.assertIn(str(error), result["text"])
+            self.assertIn("collection mode", result["text"])
+            self.assertIn("no alternate model", result["text"])
+            self.assertNotIn("comparison", result)
+            self.assertNotIn("chart", result)
+
+    def test_only_latest_fully_observed_run_is_reported_without_large_rows(self) -> None:
+        report, comparison = comparison_fixture()
+        complete = {"snapshot_id": "c" * 64, "status": "complete", "matched_count": 24,
+                    "pending_count": 0, "missing_actual_count": 0,
+                    "model_issued_at": "2026-11-12T12:00:00+00:00",
+                    "model_metadata": {"model_type": "RandomForestRegressor", "weather": {"status": "used"}},
+                    "model_metrics": {"mae_mw": 300}, "ercot_metrics": {"mae_mw": 200},
+                    "rows": ["large evidence" * 10000]}
+        partial = {**complete, "status": "partial", "matched_count": 23, "pending_count": 1,
+                   "model_issued_at": "2026-11-14T12:00:00+00:00"}
+        older = {**complete, "model_issued_at": "2026-11-11T12:00:00+00:00"}
+        comparison["recent_evaluations"] = [partial, older, complete]
+        with patch.object(comparison_report, "run_and_save_comparison", return_value=comparison):
+            result = comparison_report.attach_model_comparison(report)
+        self.assertIn("Random Forest (with weather) MAE: 300 MW", result["text"])
+        self.assertIn("ERCOT MAE: 200 MW", result["text"])
+        self.assertIn("do not automatically tune", result["text"])
+        self.assertNotIn("rows", result["comparison"]["latest_completed_evaluation"])
+        self.assertEqual(result["comparison"]["latest_completed_evaluation"]["model_issued_at"], complete["model_issued_at"])
+        self.assertLess(len(result["text"]), 3900)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -611,6 +611,8 @@ def repair_market_optimization_workflow(
     workflow: Mapping[str, Any],
     *,
     credential_source_node: str = DEFAULT_CREDENTIAL_SOURCE_NODE,
+    ercot_forecast_owner_chat_id: str = "",
+    ercot_forecast_publish_scheduled: bool = False,
 ) -> tuple[dict[str, Any], tuple[str, ...]]:
     """Return an idempotently repaired workflow and a change description.
 
@@ -749,7 +751,10 @@ def repair_market_optimization_workflow(
     changes.extend(news_changes)
     repaired, chat_changes = repair_market_chat_workflow(repaired)
     changes.extend(chat_changes)
-    repaired, load_changes = repair_ercot_load_forecast_workflow(repaired)
+    repaired, load_changes = repair_ercot_load_forecast_workflow(
+        repaired, owner_chat_id=ercot_forecast_owner_chat_id,
+        publish_scheduled=ercot_forecast_publish_scheduled,
+    )
     changes.extend(load_changes)
 
     issues = audit_market_optimization_workflow(

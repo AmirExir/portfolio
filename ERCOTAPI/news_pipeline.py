@@ -46,21 +46,69 @@ ERCOT changes:
 {{ JSON.stringify($json.changes || []) }}
 """
 
-ERCOT_FILE_PARSER_JS = """const raw = String($json.stdout || '');
+ERCOT_FILE_PARSER_JS = r"""const raw = String($json.stdout || '');
 if (Number($json.exitCode || 0) !== 0) throw new Error('ERCOT file monitor failed');
 const start = raw.indexOf('{');
 if (start === -1) throw new Error('ERCOT file monitor returned no JSON');
 const payload = JSON.parse(raw.slice(start));
 if (!Array.isArray(payload.changes)) throw new Error('Invalid ERCOT monitor changes');
-const changes = payload.changes.filter(item => ['new', 'updated'].includes(item.status));
+const detected = payload.changes.filter(item => ['new', 'updated'].includes(item.status));
 const errors = payload.changes.filter(item => !['new', 'updated'].includes(item.status));
 if (errors.length) console.warn('ERCOT monitor reported ' + errors.length + ' collection errors');
-if (errors.length && !changes.length) throw new Error('ERCOT collection failed; see monitor output');
+if (errors.length && !detected.length) throw new Error('ERCOT collection failed; see monitor output');
+const context = $('ERCOT Request Context').first().json;
+const scheduled = context.source !== 'telegram';
+const maxDiscoveryAgeDays = 7;
+const today = Math.floor(Date.now() / 86400000) * 86400000;
+
+function publicationDay(item) {
+  const hint = String(item.published_hint || '').trim();
+  let parts = /^(\d{4})-(\d{2})-(\d{2})(?:$|[T ])/.exec(hint);
+  if (!parts) parts = /\/files\/docs\/(\d{4})\/(\d{2})\/(\d{2})\//i.exec(String(item.url || ''));
+  if (!parts) {
+    const named = /^(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\.?\s+(\d{1,2}),?\s+(\d{4})$/i.exec(hint);
+    if (named) {
+      const month = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'].indexOf(named[1].slice(0, 3).toLowerCase()) + 1;
+      parts = ['', named[3], String(month).padStart(2, '0'), named[2].padStart(2, '0')];
+    }
+  }
+  if (!parts) return null;
+  const iso = parts[1] + '-' + parts[2] + '-' + parts[3];
+  const value = Date.parse(iso + 'T00:00:00Z');
+  return Number.isFinite(value) && new Date(value).toISOString().slice(0, 10) === iso ? value : null;
+}
+
+function suppressionReason(item) {
+  // Context contains surrounding link metadata, not extracted attachment text.
+  const summary = String(item.summary || '').split(/\nContext:/i)[0].trim();
+  if (!summary || /^(?:No readable text could be extracted\.|New \S+ detected, but no extractor|Official document archived, but summary extraction failed|(?:PDF|DOCX|XLSX|JSON|CSV) (?:file )?detected(?:[.,]|$)|Spreadsheet detected\. Sheet names:|CSV file is empty\.)/i.test(summary)) {
+    return 'content_unavailable';
+  }
+  // A new discovery is not a new posting. Real changes to known documents/pages
+  // remain eligible even if their original publication date is old.
+  const day = publicationDay(item);
+  if (item.status === 'new' && day !== null) {
+    if (day > today) return 'future_source_date';
+    if (day < today - maxDiscoveryAgeDays * 86400000) return 'old_discovery';
+  }
+  return null;
+}
+
+const suppressionCounts = {};
+const changes = detected.filter(item => {
+  const reason = scheduled ? suppressionReason(item) : null;
+  if (!reason) return true;
+  suppressionCounts[reason] = (suppressionCounts[reason] || 0) + 1;
+  return false;
+});
 return { json: { articles: [], changes, has_updates: changes.length > 0,
+  suppressed_changes: detected.length - changes.length, suppression_counts: suppressionCounts,
   telegram_text: payload.telegram_text || '' } };
 """
 
-ERCOT_PUBLICATION_GATE_JS = """return $input.all().filter(item => {
+ERCOT_PUBLICATION_GATE_JS = """// Model responses may omit producer flags; check the actual request context too.
+if ($('ERCOT Request Context').first().json.source === 'telegram') return [];
+return $input.all().filter(item => {
   if (item.json.publish_to_channel === false) return false;
   const summary = String(item.json.message?.content || item.json.content || '').trim();
   return summary && !/^(No ERCOT news available\\.?|No (?:new|current) ERCOT.*)$/i.test(summary);
@@ -230,7 +278,7 @@ def repair_ercot_publication_workflow(
             parser_parameters.update(
                 jsCode=ERCOT_FILE_PARSER_JS, mode="runOnceForEachItem"
             )
-            changes.append("keep collection errors out of filing summaries")
+            changes.append("withhold metadata-only and old discoveries from scheduled filing summaries")
 
     payload_parameters = payload_node.setdefault("parameters", {})
     javascript = str(payload_parameters.get("jsCode", ""))

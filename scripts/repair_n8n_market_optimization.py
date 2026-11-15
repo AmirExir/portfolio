@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import errno
 import json
+import os
 import socket
 import sqlite3
 import sys
@@ -49,6 +50,8 @@ def repair_database(
     workflow_id: str,
     *,
     credential_source_node: str = DEFAULT_CREDENTIAL_SOURCE_NODE,
+    ercot_forecast_owner_chat_id: str = "",
+    ercot_forecast_publish_scheduled: bool = False,
 ) -> tuple[str, ...]:
     """Patch the draft and every active/published version in one transaction."""
 
@@ -78,6 +81,8 @@ def repair_database(
                 "connections": json.loads(row["connections"]),
             },
             credential_source_node=credential_source_node,
+            ercot_forecast_owner_chat_id=ercot_forecast_owner_chat_id,
+            ercot_forecast_publish_scheduled=ercot_forecast_publish_scheduled,
         )
         if not changes:
             return ()
@@ -146,6 +151,15 @@ def main() -> None:
         "--credential-source-node",
         default=DEFAULT_CREDENTIAL_SOURCE_NODE,
     )
+    parser.add_argument(
+        "--ercot-forecast-owner-chat-id",
+        default=os.getenv("ERCOT_FORECAST_OWNER_CHAT_ID", ""),
+        help="Private Telegram chat id for scheduled reports; empty archives without private delivery.",
+    )
+    parser.add_argument(
+        "--publish-scheduled-ercot-forecasts", action="store_true",
+        help="Explicitly enable public forecasts on the existing schedule (private commands never broadcast).",
+    )
     args = parser.parse_args()
 
     changes = repair_database(
@@ -153,6 +167,8 @@ def main() -> None:
         args.backup,
         args.workflow_id,
         credential_source_node=args.credential_source_node,
+        ercot_forecast_owner_chat_id=args.ercot_forecast_owner_chat_id,
+        ercot_forecast_publish_scheduled=args.publish_scheduled_ercot_forecasts,
     )
     if not changes:
         print("Market optimization workflow already satisfies the contract.")

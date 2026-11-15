@@ -52,7 +52,7 @@ Run market analysis for NVDA, MSFT next week
 
 For market analysis, the default horizon is 30 sessions. Add “next week” for 5, “tomorrow” for 1, or “long term” for 60. Stocks count trading days; crypto counts calendar days.
 
-ERCOT load forecasts also post to @ERCOTNEWS and accompany the existing twice-daily ERCOT news schedule (6:00 AM and 3:00 PM Central).
+ERCOT load commands reply here without broadcasting to @ERCOTNEWS. Forecasts are collected twice daily (6:00 AM and 3:00 PM Central); scheduled private delivery requires a configured owner chat. Public forecast posts are off by default. Scheduled ERCOT news still posts new items to @ERCOTNEWS.
 
 “Run market optimization” and other existing requests still work. Reports are forecasts and watchlists; they do not optimize your portfolio or place trades.
 

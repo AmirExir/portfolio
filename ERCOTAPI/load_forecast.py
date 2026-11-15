@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import re
 from datetime import datetime, timezone
 from importlib.metadata import version
 from typing import Any
@@ -28,6 +29,42 @@ FEATURES = [
     "load_lag_1h", "load_lag_24h", "rolling_mean_3h",
     "rolling_mean_24h", "rolling_std_24h",
 ]
+
+_TEMPERATURE_FEATURE = re.compile(r"temperature_c_[a-z][a-z0-9_]*\Z")
+
+
+class WeatherInputError(ValueError):
+    """An actionable, safe-to-display weather feature or coverage failure."""
+
+
+def _weather_features(weather: pd.DataFrame, targets: pd.DatetimeIndex) -> pd.DataFrame:
+    """Validate target-aligned Celsius inputs without filling absent forecasts.
+
+    Forecast-vintage selection and availability cutoffs belong to the caller.
+    Requiring aware timestamps here preserves ERCOT's elapsed-hour/DST axis.
+    Missing cells are allowed for historical coverage accounting; the inference
+    caller separately requires complete coverage before making any prediction.
+    """
+    if not isinstance(weather, pd.DataFrame) or not len(weather.columns):
+        raise WeatherInputError("Weather inputs require a dataframe of named temperature features in Celsius.")
+    if weather.columns.duplicated().any() or any(
+        not isinstance(column, str) or not _TEMPERATURE_FEATURE.fullmatch(column)
+        for column in weather.columns
+    ):
+        raise WeatherInputError("Weather columns must be unique temperature_c_<location> features.")
+    if (not isinstance(weather.index, pd.DatetimeIndex) or weather.index.hasnans
+            or weather.index.has_duplicates or weather.index.tz is None or targets.tz is None):
+        raise WeatherInputError("Weather and load targets require unique, timezone-aware timestamps.")
+    if not (weather.index.tz_convert("UTC") == weather.index.tz_convert("UTC").floor("h")).all():
+        raise WeatherInputError("Weather timestamps must identify exact hourly interval starts.")
+    frame = weather.copy().sort_index().reindex(columns=sorted(weather.columns))
+    for column in frame:
+        if not pd.api.types.is_numeric_dtype(frame[column]) or pd.api.types.is_bool_dtype(frame[column]):
+            raise WeatherInputError("Weather temperatures must be numeric Celsius values, not text or booleans.")
+    frame = frame.astype(float)
+    if np.isinf(frame.to_numpy()).any():
+        raise WeatherInputError("Weather temperatures cannot contain infinite values.")
+    return frame.reindex(targets)
 
 
 def validate_hourly_load(data: pd.DataFrame) -> pd.DataFrame:
@@ -71,8 +108,17 @@ def build_load_features(data: pd.DataFrame) -> pd.DataFrame:
     return frame
 
 
-def forecast_load(model: Any, scaler: Any, history: pd.DataFrame, hours: int = 24) -> pd.DataFrame:
-    """Predict recursively, updating every lag/window with prior predictions."""
+def forecast_load(
+    model: Any, scaler: Any, history: pd.DataFrame, hours: int = 24, *,
+    future_weather: pd.DataFrame | None = None,
+) -> pd.DataFrame:
+    """Predict recursively, updating every lag/window with prior predictions.
+
+    A weather-trained model requires target-aligned forecast temperatures for
+    every recursive step, including any unobserved bridge before future hours.
+    The caller must freeze weather availability at the forecast origin. Weather
+    is never fabricated or silently dropped to use a different model.
+    """
     if isinstance(hours, bool) or not isinstance(hours, int) or hours < 1:
         raise ValueError("Forecast hours must be a positive integer.")
     frame = validate_hourly_load(history)
@@ -80,6 +126,24 @@ def forecast_load(model: Any, scaler: Any, history: pd.DataFrame, hours: int = 2
         raise ValueError("Recursive forecasts require at least 24 consecutive hourly observations.")
     values = frame["load"].tolist()
     times = pd.date_range(frame.index[-1] + pd.Timedelta(hours=1), periods=hours, freq="h")
+    feature_names = list(getattr(scaler, "feature_names_in_", FEATURES))
+    if (feature_names[:len(FEATURES)] != FEATURES or len(set(feature_names)) != len(feature_names)
+            or any(not isinstance(name, str) or not _TEMPERATURE_FEATURE.fullmatch(name)
+                   for name in feature_names[len(FEATURES):])):
+        raise WeatherInputError("The fitted load-model feature schema is unsupported.")
+    weather_names = feature_names[len(FEATURES):]
+    weather = None
+    if weather_names:
+        if future_weather is None:
+            raise WeatherInputError("The fitted weather model requires forecast temperatures for the full horizon.")
+        weather = _weather_features(future_weather, times)
+        if set(weather.columns) != set(weather_names):
+            raise WeatherInputError("Forecast weather columns must match the fitted model's location features.")
+        weather = weather[weather_names]
+        if weather.isna().any().any():
+            raise WeatherInputError("Forecast weather is missing for the full recursive horizon, including bridge hours.")
+    elif future_weather is not None:
+        raise WeatherInputError("Forecast weather was supplied to a model fitted without weather features.")
     predictions = []
     for timestamp in times:
         row = pd.DataFrame([[
@@ -89,6 +153,9 @@ def forecast_load(model: Any, scaler: Any, history: pd.DataFrame, hours: int = 2
             values[-1], values[-24], float(np.mean(values[-3:])),
             float(np.mean(values[-24:])), float(np.std(values[-24:], ddof=1)),
         ]], columns=FEATURES)
+        if weather is not None:
+            for column in weather_names:
+                row[column] = weather.at[timestamp, column]
         prediction = float(np.asarray(model.predict(scaler.transform(row))).reshape(-1)[0])
         if not np.isfinite(prediction) or prediction < 0:
             raise ValueError("The model produced invalid load; the forecast was not published.")
@@ -124,6 +191,7 @@ def train_load_forecast_model(
     historical_data: pd.DataFrame,
     tuning_mode: str = "auto",
     manual_params: dict[str, Any] | None = None,
+    *, training_weather: pd.DataFrame | None = None,
 ) -> tuple:
     """Evaluate chronological one-step predictions, then refit for future use.
 
@@ -131,6 +199,9 @@ def train_load_forecast_model(
     use all eligible rows; reported metrics come from the earlier 80/20 split.
     Hyperparameter search and scaling see only training folds. Holdout lags use
     actual preceding observations: these scores do not measure 24-hour skill.
+    Optional Celsius weather inputs must already be selected from forecast
+    vintages available at each historical origin. Missing weather excludes that
+    row without changing the original load-history train/test time boundary.
     """
     if tuning_mode not in {"auto", "manual"}:
         raise ValueError("Tuning mode must be 'auto' or 'manual'.")
@@ -139,9 +210,36 @@ def train_load_forecast_model(
         return (None,) * 6
     frame = build_load_features(raw).dropna(subset=FEATURES)
     split_at = int(len(frame) * 0.8)
-    train, test = frame.iloc[:split_at], frame.iloc[split_at:]
-    x_train, y_train = train[FEATURES], train["load"]
-    x_test, y_test = test[FEATURES], test["load"]
+    test_start = frame.index[split_at]
+    features = list(FEATURES)
+    weather_metadata: dict[str, Any] = {}
+    if training_weather is not None:
+        weather = _weather_features(training_weather, frame.index)
+        features.extend(weather.columns)
+        frame = frame.join(weather)
+        eligible = frame.dropna(subset=features)
+        train_rows = int((eligible.index < test_start).sum())
+        test_rows = int((eligible.index >= test_start).sum())
+        if len(eligible) < 48 or train_rows < 24 or test_rows < 2:
+            raise WeatherInputError(
+                "Insufficient archived forecast weather: need at least 48 eligible hours, "
+                "including 24 before the chronological holdout and 2 within it "
+                f"(available: {len(eligible)} total, {train_rows} train, {test_rows} test)."
+            )
+        weather_metadata = {
+            "weather_features": list(weather.columns),
+            "weather_units": "degrees_Celsius",
+            "weather_eligible_rows": len(eligible),
+            "weather_missing_rows": len(frame) - len(eligible),
+            "weather_training_rows": train_rows,
+            "weather_test_rows": test_rows,
+            "weather_holdout_boundary": str(test_start),
+            "weather_features_sha256": hashlib.sha256(weather.to_csv().encode("utf-8")).hexdigest(),
+        }
+        frame = eligible
+    train, test = frame.loc[frame.index < test_start], frame.loc[frame.index >= test_start]
+    x_train, y_train = train[features], train["load"]
+    x_test, y_test = test[features], test["load"]
     model, distributions, iterations = _model_and_parameters(tuning_mode, manual_params or {})
     pipeline = Pipeline([("scale", StandardScaler()), ("model", model)])
     cv_mae = None
@@ -176,16 +274,17 @@ def train_load_forecast_model(
         "test_start": str(test.index[0]), "test_end": str(test.index[-1]),
         "train_rows": len(train), "test_rows": len(test), "random_seed": 42,
         "forecast_refit_rows": len(frame), "forecast_origin": str(raw.index[-1]),
-        "features": list(FEATURES), "units": "MW",
+        "features": features, "units": "MW",
         "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "dataset_sha256": hashlib.sha256(raw.to_csv().encode("utf-8")).hexdigest(),
-        "method_version": "causal-hourly-v1",
+        "method_version": "causal-hourly-weather-v1" if training_weather is not None else "causal-hourly-v1",
         "model_type": type(model).__name__,
         "library_versions": {name: version(name) for name in (
             "numpy", "pandas", "scikit-learn", *(('xgboost',) if HAS_XGBOOST else ()),
         )},
+        **weather_metadata,
     })
     # Freeze evaluation above before incorporating the holdout into future fits.
-    production = clone(pipeline).fit(frame[FEATURES], frame["load"])
+    production = clone(pipeline).fit(frame[features], frame["load"])
     return (production.named_steps["model"], production.named_steps["scale"], frame,
             (x_train, x_test, y_train, y_test), (train_prediction, test_prediction), metrics)

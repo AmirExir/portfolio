@@ -46,9 +46,11 @@ def actual_history(days: int) -> dict[str, Any]:
 
 
 @st.cache_resource(ttl=3600, max_entries=3, show_spinner=False)
-def fitted_model(history: pd.DataFrame, tuning_mode: str, manual_params: dict[str, Any] | None) -> tuple:
+def fitted_model(history: pd.DataFrame, tuning_mode: str, manual_params: dict[str, Any] | None,
+                 *, training_weather: pd.DataFrame | None = None) -> tuple:
     """Reuse the existing model fit for identical observations and settings."""
-    return train_load_forecast_model(history, tuning_mode=tuning_mode, manual_params=manual_params)
+    kwargs = {"training_weather": training_weather} if training_weather is not None else {}
+    return train_load_forecast_model(history, tuning_mode=tuning_mode, manual_params=manual_params, **kwargs)
 
 
 def hourly_figure(rows: list[dict[str, Any]], series: list[tuple[str, str, str]]) -> go.Figure:
@@ -104,6 +106,7 @@ def accuracy_table(evaluations: list[dict[str, Any]]) -> pd.DataFrame:
         model, official = result["model_metrics"] or {}, result["ercot_metrics"] or {}
         rows.append({
             "Model method": model_display_name(result["model_metadata"].get("model_type", "")),
+            "Inputs": "Load/calendar + weather" if result["model_metadata"].get("weather", {}).get("status") == "used" else "Load/calendar",
             "Model issued (Central)": local_time(result["model_issued_at"]),
             "ERCOT published (Central)": local_time(result["ercot_published_at"]),
             "Scored hours": result["matched_count"], "Future hours": result["pending_count"],
@@ -133,7 +136,7 @@ def _model_settings() -> tuple[int, str, dict[str, Any]]:
             else:
                 params["min_samples_split"] = left.slider("Minimum split samples", 2, 20, 5)
                 params["min_samples_leaf"] = right.slider("Minimum leaf samples", 1, 10, 1)
-        st.caption("The existing model uses calendar features and past load. Weather is not an input. Missing actual hours are never filled.")
+        st.caption("Default inputs are calendar features and past load. Optional forecast weather is configured on the server; saved runs identify their inputs. Missing actual hours are never filled.")
     return days, mode, params
 
 
@@ -227,6 +230,13 @@ def render_forecast_comparison() -> None:
             metadata, summary = selected["model_metadata"], selected["summary"]
             model_name = model_display_name(metadata.get("model_type", ""))
             st.caption(f"{model_name} forecast issued {local_time(selected['model_issued_at'])}")
+            weather = metadata.get("weather", {})
+            if weather.get("status") == "used":
+                st.caption("Inputs include archived NWS temperature forecasts. Improvement over the load/calendar model has not been established.")
+            elif weather.get("status") == "collecting":
+                st.caption("Weather forecasts are being archived. This saved run uses load/calendar inputs only.")
+            elif weather.get("status") == "collection_failed":
+                st.warning("Weather collection failed for this run. The load/calendar model remains active in collection mode; inspect local logs.")
             st.caption(f"Paired ERCOT forecast published {local_time(selected['ercot_published_at'])} · Actual inputs complete through {local_time(selected['model_data_cutoff_utc'])}")
             st.caption("The chart uses the saved ERCOT vintage from this run. The separate official outlook tab shows the latest available vintage.")
             one, two, three = st.columns(3)
@@ -268,7 +278,8 @@ def render_forecast_comparison() -> None:
 
     with method_tab:
         st.markdown("**Official forecast:** ERCOT NP3-561-CD, one identified publication. **Model target:** hourly system-wide load in MW. **Actual observations:** NP6-345-CD daily archives plus the completed hours in ERCOT’s GEN-527-UI current-day display.")
-        st.write("The experimental forecast uses XGBoost when installed, with Random Forest as the fallback. Each saved run is labeled by the estimator that actually produced it. Inputs are Central-time calendar features, lagged load and rolling statistics; weather is not an input. The recursive forecast predicts each next hour using previous predictions. A short gap after the latest completed observation is predicted as a bridge and excluded from the scored future window.")
+        st.write("The experimental forecast uses XGBoost when installed, with Random Forest as the fallback. Each saved run is labeled by the estimator that actually produced it. Default inputs are Central-time calendar features, lagged load and rolling statistics. Optional weather mode adds archived NWS temperature forecasts available before each prediction origin; collection mode only builds that archive. Saved metadata identifies which inputs were used. The recursive forecast predicts each next hour using previous predictions. A short gap after the latest completed observation is predicted as a bridge and excluded from the scored future window.")
+        st.write("Models refit on updated actual load. Saved accuracy scores and Telegram reactions do not automatically tune the model. A weather model needs independent prospective evaluation before any claim of improvement.")
         st.write("Training requires continuous, finite hourly observations. No missing hours are interpolated. Time is matched in UTC to preserve daylight-saving transitions. Forecasts and source hashes are saved before target hours begin, preventing hindsight comparisons.")
         st.markdown("[Forecast product](https://www.ercot.com/mp/data-products/data-product-details?id=NP3-561-CD) · [Actual-load product](https://www.ercot.com/mp/data-products/data-product-details?id=NP6-345-CD) · [Current-day actuals](https://www.ercot.com/content/cdr/html/actual_loads_of_weather_zones.html)")
         if selected:

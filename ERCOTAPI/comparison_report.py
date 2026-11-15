@@ -12,6 +12,8 @@ from zoneinfo import ZoneInfo
 from .forecast_comparison import validate_comparison_snapshot
 from .forecast_comparison_service import run_and_save_comparison
 from .forecast_labels import model_display_name
+from .load_forecast import WeatherInputError
+from .weather_forecast import WeatherError
 
 
 CENTRAL = ZoneInfo("America/Chicago")
@@ -39,6 +41,35 @@ def _score_summary(evaluation: dict[str, Any]) -> dict[str, Any]:
     return {key: copy.deepcopy(evaluation[key]) for key in fields if key in evaluation}
 
 
+def _method_note(method: str, metadata: dict[str, Any]) -> str:
+    weather = metadata.get("weather", {})
+    if weather.get("status") == "used":
+        return (f"{method} is an experimental recursive forecast using past load, calendar features, "
+                "and archived NWS temperature forecasts. Weather has not been established to improve accuracy.")
+    note = f"{method} is an experimental recursive forecast using past load and calendar features; it does not use weather inputs."
+    if weather.get("status") == "collecting":
+        note += " Weather forecasts are being archived for evaluation; they are not yet model inputs."
+    elif weather.get("status") == "collection_failed":
+        note += " Weather collection failed this run; check the local logs."
+    return note
+
+
+def _completed_score(evaluations: list[dict[str, Any]]) -> dict[str, Any] | None:
+    """Select one fully observed run without pooling overlapping forecasts."""
+    completed = [row for row in evaluations if row.get("status") == "complete"
+                 and row.get("matched_count") == 24 and row.get("pending_count") == 0
+                 and row.get("missing_actual_count") == 0
+                 and row.get("model_metrics") and row.get("ercot_metrics")]
+    if not completed:
+        return None
+    latest = max(completed, key=lambda row: datetime.fromisoformat(row["model_issued_at"]))
+    summary = _score_summary(latest)
+    metadata = latest.get("model_metadata", {})
+    summary["model_name"] = model_display_name(metadata.get("model_type", ""))
+    summary["uses_weather"] = metadata.get("weather", {}).get("status") == "used"
+    return summary
+
+
 def format_comparison_report(report: dict[str, Any], comparison: dict[str, Any]) -> tuple[str, str]:
     """Return readable report text and a caption for one matched-hour chart."""
     snapshot = validate_comparison_snapshot(comparison["snapshot"])
@@ -62,11 +93,20 @@ def format_comparison_report(report: dict[str, Any], comparison: dict[str, Any])
         f"Largest absolute hourly difference: {summary['maximum_absolute_difference_mw']:,.0f} MW",
         "",
         "Forecast differences show disagreement, not accuracy. This run awaits actual load.",
-        f"{method} is an experimental recursive forecast using past load and calendar features; it does not use weather inputs.",
+        _method_note(method, snapshot["model_metadata"]),
         "Forecasts are estimates, not actual load or a grid-emergency prediction.",
         f"Source: {report['source_product_url']}",
         f"Exact ERCOT archive: {report['source_url']}",
     ]
+    score = comparison.get("latest_completed_evaluation")
+    if score:
+        feature_label = "with weather" if score["uses_weather"] else "load/calendar"
+        text.extend([
+            "", f"Recent completed run · issued {_local_time(score['model_issued_at'])}",
+            f"24 observed hours · {score['model_name']} ({feature_label}) MAE: {score['model_metrics']['mae_mw']:,.0f} MW "
+            f"· ERCOT MAE: {score['ercot_metrics']['mae_mw']:,.0f} MW",
+            "One run only; forecast issue times differ. Saved scores do not automatically tune the model.",
+        ])
     caption = f"Official ERCOT + {method}\n24 matching hourly intervals · system demand (MW) · Central time"
     return "\n".join(text), caption
 
@@ -89,7 +129,22 @@ def attach_model_comparison(report: dict[str, Any]) -> dict[str, Any]:
             "snapshot": generated["snapshot"],
             "evaluation": _score_summary(generated["evaluation"]),
         }
+        score = _completed_score(generated.get("recent_evaluations", []))
+        if score is not None:
+            comparison["latest_completed_evaluation"] = score
         text, caption = format_comparison_report(result, comparison)
+    except (WeatherInputError, WeatherError) as exc:
+        # These classes contain controlled, actionable messages; never expose
+        # arbitrary database/source exception text through the generic handler.
+        logging.getLogger(__name__).warning("ERCOT weather comparison unavailable: %s", exc)
+        result["comparison_error"] = "weather_unavailable"
+        result["chart_error"] = "comparison_unavailable"
+        result["text"] += (
+            f"\n\nWeather model comparison unavailable: {exc}\n"
+            "Use weather collection mode to build forecast history; model mode requires complete archived coverage. "
+            "The official ERCOT forecast remains available above; no alternate model or comparison image was substituted."
+        )
+        return result
     except (ValueError, OSError, RuntimeError, sqlite3.Error) as exc:
         logging.getLogger(__name__).error("ERCOT comparison unavailable (%s)", type(exc).__name__)
         result["comparison_error"] = "comparison_unavailable"

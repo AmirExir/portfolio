@@ -130,6 +130,15 @@ class ForecastWorkflowTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "credential binding"):
             repair_ercot_load_forecast_workflow(changed)
 
+    def test_owner_configuration_is_explicit_and_rejects_public_destinations(self) -> None:
+        for owner in ("@channel", "-123456", "0", "bad", "123; command"):
+            with self.subTest(owner=owner), self.assertRaisesRegex(ValueError, "private Telegram"):
+                repair_ercot_load_forecast_workflow(fixture(), owner_chat_id=owner)
+        with self.assertRaisesRegex(ValueError, "boolean"):
+            repair_ercot_load_forecast_workflow(fixture(), publish_scheduled="true")
+        configured, _ = repair_ercot_load_forecast_workflow(fixture(), owner_chat_id="123")
+        self.assertEqual(repair_ercot_load_forecast_workflow(configured, owner_chat_id="123"), (configured, ()))
+
 
 @unittest.skipUnless(shutil.which("node"), "Node.js is required to test n8n snippets")
 class ForecastDeliveryTests(unittest.TestCase):
@@ -162,6 +171,23 @@ class ForecastDeliveryTests(unittest.TestCase):
                 self.assertEqual(actual[0]["json"]["chat_id"], chat)
                 self.assertTrue(actual[0]["json"]["send_direct"])
 
+    def test_scheduled_reports_go_only_to_configured_owner_by_default(self) -> None:
+        configured, _ = repair_ercot_load_forecast_workflow(fixture(), owner_chat_id="123")
+        node = next(node for node in configured["nodes"] if node["name"] == LOAD_CONTEXT)
+        context = execute_js(node["parameters"]["jsCode"], {})["json"]
+        self.assertEqual(context["source"], "schedule")
+        self.assertFalse(context["publish_scheduled"])
+        direct = execute_js(LOAD_DIRECT_JS, {**context, "text": "Forecast"})
+        self.assertEqual(direct[0]["json"]["chat_id"], "123")
+        self.assertEqual(execute_js(LOAD_CHANNEL_JS, context), [])
+        self.assertEqual(execute_js(LOAD_DIRECT_JS, {**context, "owner_chat_id": ""}), [])
+
+    def test_commands_never_broadcast_even_with_public_schedule_enabled(self) -> None:
+        base = {"channel_chat_id": "@test", "publish_scheduled": True, "text": "Forecast"}
+        for source in ("telegram", "invalid", None):
+            self.assertEqual(execute_js(LOAD_CHANNEL_JS, {**base, "source": source}), [])
+        self.assertEqual(execute_js(LOAD_CHANNEL_JS, {**base, "source": "schedule"})[0]["json"]["chat_id"], "@test")
+
     def test_long_channel_report_keeps_final_day_and_unicode(self) -> None:
         text = "Forecast ⚡\n" * 600 + "Final day: 50,001 MW"
         result = execute_js(TELEGRAM_SPLIT_JS, {"text": text, "chat_id": "@test"})
@@ -179,7 +205,7 @@ class ForecastDeliveryTests(unittest.TestCase):
         self.assertEqual(parsed["binary"]["data"]["data"], PNG_BASE64)
         self.assertEqual(parsed["binary"]["data"]["fileName"], "ercot-load-forecast.png")
         direct = execute_js(LOAD_DIRECT_JS, parsed["json"], binary=parsed["binary"])[0]
-        channel = execute_js(LOAD_CHANNEL_JS, parsed["json"], binary=parsed["binary"])
+        channel = execute_js(LOAD_CHANNEL_JS, {**parsed["json"], "source": "schedule", "publish_scheduled": True}, binary=parsed["binary"])[0]
         self.assertEqual(direct["binary"], parsed["binary"])
         self.assertEqual(channel["binary"], parsed["binary"])
         self.assertEqual(channel["json"]["chat_id"], "@test")

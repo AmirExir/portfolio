@@ -216,7 +216,7 @@ class NewsPipelineTests(unittest.TestCase):
 
 @unittest.skipUnless(shutil.which("node"), "Node.js is required to test n8n code")
 class PublicationCodeTests(unittest.TestCase):
-    def run_code(self, code: str, payload: dict) -> dict:
+    def run_code(self, code: str, payload: dict, *, source: str = "schedule") -> dict:
         """Evaluate n8n code with offline inputs and no publication services."""
 
         runner = """const vm = require('node:vm');
@@ -224,13 +224,15 @@ const data = JSON.parse(require('node:fs').readFileSync(0, 'utf8'));
 try {
   const result = vm.runInNewContext('(function(){' + data.code + '\\n})()', {
     $json: data.payload, $input: { all: () => data.payload.items || [] },
+    $: () => ({first: () => ({json: {source: data.source}})}),
+    Date: class extends Date { static now() { return Date.parse('2026-11-15T12:00:00Z'); } },
     console: { warn: () => {} }
   });
   process.stdout.write(JSON.stringify({ result }));
 } catch (error) { process.stdout.write(JSON.stringify({ error: error.message })); }
 """
         result = subprocess.run(
-            ["node", "-e", runner], input=json.dumps({"code": code, "payload": payload}),
+            ["node", "-e", runner], input=json.dumps({"code": code, "payload": payload, "source": source}),
             text=True, capture_output=True, check=True,
         )
         return json.loads(result.stdout)
@@ -246,12 +248,46 @@ try {
         self.assertEqual(result, {"result": [fresh]})
 
     def test_monitor_errors_are_excluded_from_filing_evidence(self) -> None:
-        change = {"status": "updated", "title": "NPRR update"}
+        change = {"status": "updated", "title": "NPRR update", "summary": "Official status changed to approved."}
         result = self.run_code(ERCOT_FILE_PARSER_JS, {"stdout": json.dumps({
             "has_updates": False, "changes": [change, {"status": "error"}]
         })})
         self.assertEqual(result["result"]["json"]["changes"], [change])
         self.assertTrue(result["result"]["json"]["has_updates"])
+
+    def test_metadata_only_ballots_never_reach_scheduled_summary(self) -> None:
+        summaries = [
+            "New xls detected, but no extractor is configured for this format.\nContext: PGRR128 ROS ballot July 13, 2026",
+            "Spreadsheet detected. Sheet names: Votes, Results.",
+            "PDF detected, but no text was extracted.",
+            "Official document archived, but summary extraction failed: invalid file",
+            "No readable text could be extracted.",
+            "",
+        ]
+        changes = [{"status": "new", "title": "Ballot", "summary": summary} for summary in summaries]
+        actual = self.run_code(ERCOT_FILE_PARSER_JS, {"stdout": json.dumps({"changes": changes})})["result"]["json"]
+        self.assertFalse(actual["has_updates"])
+        self.assertEqual(actual["suppression_counts"], {"content_unavailable": len(changes)})
+        direct = self.run_code(ERCOT_FILE_PARSER_JS, {"stdout": json.dumps({"changes": changes})}, source="telegram")["result"]["json"]
+        self.assertEqual(direct["changes"], changes)
+        self.assertEqual(direct["suppressed_changes"], 0)
+
+    def test_stale_new_discoveries_suppressed_but_substantive_updates_preserved(self) -> None:
+        old = {"status": "new", "title": "PGRR128", "summary": "Official description and requirements text.",
+               "url": "https://www.ercot.com/files/docs/2026/07/13/ballot.pdf"}
+        changed = {**old, "status": "updated"}
+        current = {**old, "url": "https://www.ercot.com/files/docs/2026/11/14/current.pdf"}
+        named = {**old, "url": "https://www.ercot.com/proposal", "published_hint": "Aug 3, 2026"}
+        future = {**old, "url": "https://www.ercot.com/files/docs/2026/11/16/future.pdf"}
+        actual = self.run_code(ERCOT_FILE_PARSER_JS, {"stdout": json.dumps({"changes": [old, changed, current, named, future]})})["result"]["json"]
+        self.assertEqual(actual["changes"], [changed, current])
+        self.assertEqual(actual["suppression_counts"], {"old_discovery": 2, "future_source_date": 1})
+
+    def test_private_file_requests_cannot_publish_model_reply_without_flags(self) -> None:
+        actual = self.run_code(ERCOT_PUBLICATION_GATE_JS,
+                               {"items": [{"json": {"content": "Only the posting can be confirmed."}}]},
+                               source="telegram")
+        self.assertEqual(actual, {"result": []})
 
     def test_failed_collection_is_not_reported_as_no_news(self) -> None:
         for payload in (

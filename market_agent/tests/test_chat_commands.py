@@ -271,7 +271,8 @@ class MarketChatWorkflowTests(unittest.TestCase):
         self.assertEqual([c["command"] for c in TELEGRAM_BOT_COMMANDS],
                          ["analysis", "briefing", "news", "ercot_news", "ercot_load", "market", "help"])
         self.assertIn("@ERCOTNEWS", MARKET_HELP_TEXT)
-        self.assertIn("existing twice-daily ERCOT news schedule", MARKET_HELP_TEXT)
+        self.assertIn("Public forecast posts are off by default", MARKET_HELP_TEXT)
+        self.assertIn("without broadcasting", MARKET_HELP_TEXT)
         self.assertIn("6:00 AM and 3:00 PM Central", MARKET_HELP_TEXT)
         ercot_ack = nodes["Build ERCOT Acknowledgement"]["parameters"]["jsCode"]
         self.assertIn("I will send the digest back here. Scheduled updates post new items to @ERCOTNEWS.", ercot_ack)

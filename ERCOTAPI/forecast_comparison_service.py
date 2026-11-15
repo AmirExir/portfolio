@@ -6,6 +6,8 @@ import copy
 from datetime import datetime, timezone
 import math
 import os
+import logging
+import sqlite3
 from pathlib import Path
 from typing import Any, Callable
 
@@ -15,10 +17,14 @@ if __package__:
     from .actual_load_report import fetch_actual_load_history
     from .forecast_comparison import ForecastComparisonStore, compare_forecasts
     from .load_forecast import forecast_load, train_load_forecast_model, validate_hourly_load
+    from .weather_forecast import (WeatherArchive, WeatherConfig, WeatherError, WeatherForecastStore,
+                                   collect_weather_forecasts, load_weather_config)
 else:  # Direct Streamlit entry-point imports.
     from actual_load_report import fetch_actual_load_history
     from forecast_comparison import ForecastComparisonStore, compare_forecasts
     from load_forecast import forecast_load, train_load_forecast_model, validate_hourly_load
+    from weather_forecast import (WeatherArchive, WeatherConfig, WeatherError, WeatherForecastStore,
+                                  collect_weather_forecasts, load_weather_config)
 
 
 CENTRAL = "America/Chicago"
@@ -102,6 +108,8 @@ def build_current_comparison(
     official_report: dict[str, Any], actual_bundle: dict[str, Any], *,
     tuning_mode: str = "auto", manual_params: dict[str, Any] | None = None,
     trainer: Callable[..., tuple] = train_load_forecast_model,
+    weather_archive: WeatherArchive | None = None,
+    weather_status: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Fit existing models and align only upcoming hours from one saved vintage.
 
@@ -112,7 +120,15 @@ def build_current_comparison(
     initial = utc_now()
     history = prepare_model_history(actual_bundle, now=initial)
     _check_official_vintage(official_report, now=initial)
-    fitted = trainer(history, tuning_mode=tuning_mode, manual_params=manual_params)
+    weather_kwargs: dict[str, Any] = {}
+    if weather_archive is not None:
+        # One-step diagnostics use forecasts available before each target.
+        # The actual-load lags retain the existing observed-update contract.
+        weather_kwargs["training_weather"] = weather_archive.at_origins(
+            history.index, history.index - pd.Timedelta(hours=1),
+        )
+    fitted = trainer(history, tuning_mode=tuning_mode, manual_params=manual_params,
+                     **weather_kwargs)
     model, scaler, _, _, _, metrics = fitted
     if model is None or scaler is None or not isinstance(metrics, dict):
         raise ValueError("The selected history did not produce a fitted load model.")
@@ -125,7 +141,13 @@ def build_current_comparison(
     future_start = _aware_timestamp(prediction_started, "Prediction start").floor("h") + pd.Timedelta(hours=1)
     future_end = future_start + pd.Timedelta(hours=24)
     steps = math.ceil((future_end - cutoff).total_seconds() / 3600)
-    prediction = forecast_load(model, scaler, history, hours=steps)
+    prediction_kwargs: dict[str, Any] = {}
+    if weather_archive is not None:
+        targets = pd.date_range(history.index[-1] + pd.Timedelta(hours=1), periods=steps, freq="h")
+        # Freeze the weather information set once for every recursive step.
+        # The archive also excludes post-target captures for bridge hours.
+        prediction_kwargs["future_weather"] = weather_archive.at_origins(targets, prediction_started)
+    prediction = forecast_load(model, scaler, history, hours=steps, **prediction_kwargs)
     prediction = prediction.loc[(prediction.index >= future_start) & (prediction.index < future_end)]
     if len(prediction) != 24:
         raise ValueError("The model did not produce the 24 requested future hourly intervals.")
@@ -137,6 +159,14 @@ def build_current_comparison(
     prepare_model_history(actual_bundle, now=issued)
     _check_official_vintage(official_report, now=issued)
     metadata = copy.deepcopy(metrics)
+    metadata["weather"] = copy.deepcopy(weather_status or {"mode": "off", "status": "disabled"})
+    if weather_archive is not None:
+        metadata["weather"].update({
+            "mode": "model", "status": "used", "archive": copy.deepcopy(weather_archive.report),
+            "prediction_weather_cutoff_utc": _aware_timestamp(prediction_started, "Prediction start").isoformat(),
+            "training_weather_origin": "one hour before each target interval start",
+            "bridge_weather_policy": "captured before target start; no post-target weather",
+        })
     metadata.update({
         "model_data_cutoff_utc": cutoff.isoformat(),
         "source_metadata": copy.deepcopy(actual_bundle["metadata"]),
@@ -162,11 +192,40 @@ def run_and_save_comparison(
     manual_params: dict[str, Any] | None = None,
     store: ForecastComparisonStore | None = None,
     trainer: Callable[..., tuple] = train_load_forecast_model,
+    weather_config: WeatherConfig | None = None,
 ) -> dict[str, Any]:
     """Record a prospective run and evaluate saved runs on observed actual load."""
     bundle = actual_bundle or fetch_actual_load_history(history_days=history_days)
+    config = weather_config or load_weather_config()
+    weather_archive = None
+    weather_status: dict[str, Any] = {"mode": config.mode, "status": "disabled"}
+    if config.mode != "off":
+        try:
+            weather_store = WeatherForecastStore(config.store_path)
+            collected = collect_weather_forecasts(config, store=weather_store)
+            weather_status = {"mode": config.mode, "status": "collecting", "collection": collected}
+            if config.mode == "model":
+                # Bound each training run to its data window; the append-only
+                # archive itself retains all original evidence across runs.
+                weather_archive = weather_store.load_archive(
+                    config.locations, max_age_hours=config.max_age_hours,
+                    target_start=bundle["history"].index.min(),
+                    target_end=utc_now() + pd.Timedelta(hours=30),
+                )
+        except (ValueError, OSError, RuntimeError, sqlite3.Error) as exc:
+            if config.mode == "model":
+                raise
+            # Collection is explicitly separate from load-only forecasting.
+            # An outage is visible in the saved run and private report.
+            weather_status = {"mode": "collect", "status": "collection_failed", "error_type": type(exc).__name__}
+            if isinstance(exc, WeatherError):
+                logging.getLogger(__name__).warning("Weather collection failed: %s", exc)
+                weather_status["error_message"] = str(exc)
+            else:
+                logging.getLogger(__name__).warning("Weather collection failed (%s)", type(exc).__name__)
     snapshot = build_current_comparison(official_report, bundle, tuning_mode=tuning_mode,
-                                        manual_params=manual_params, trainer=trainer)
+                                        manual_params=manual_params, trainer=trainer,
+                                        weather_archive=weather_archive, weather_status=weather_status)
     ledger = store or ForecastComparisonStore(comparison_store_path())
     observed_at = bundle["metadata"].get("retrieved_at") or bundle["metadata"].get("generated_at")
     ledger.append_actuals(bundle["history"], observed_at=observed_at,
