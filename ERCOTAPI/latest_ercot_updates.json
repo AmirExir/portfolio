@@ -2,6 +2,307 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "874c379d778a6151587e0d8ef2e5c8f7b61ce8e106913f3f151a69e511ea3129",
+      "title": "128PGRR-19 Treaty Oak Comments 072826",
+      "document_number": "PGRR128",
+      "source": "PGRR",
+      "published_date": "Jul 28, 2026",
+      "downloaded_at": "2026-11-15T12:00:57Z",
+      "observed_at": "2026-11-15T12:00:57Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/07/28/128PGRR-19-Treaty-Oak-Comments-072826.docx",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR128",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) suggests ERCOT should host an annual forum to discuss advanced transmission technologies, commonly referred to as grid enhancing technologies (“GETs”) and high performance conductors (“HPCs”).",
+      "issue_title": "Regional Planning Group Discussion of Grid Enhancing Technologies",
+      "affected_sections": "3.1.1.2, 3.1.2.1, and 3.1.10 (new)",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "d843347fa03117abfd6a063d039f3c5e0ac5f7195a81f7608a1912c780e62626",
+      "title": "128PGRR-16 Impact Analysis 063026",
+      "document_number": "PGRR128",
+      "source": "PGRR",
+      "published_date": "Jun 30, 2026",
+      "downloaded_at": "2026-11-15T12:00:56Z",
+      "observed_at": "2026-11-15T12:00:56Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/06/30/128PGRR-16-Impact-Analysis-063026.docx",
+      "sources": [
+        "PGRR"
+      ],
+      "revision_id": "PGRR128",
+      "revision_family": "PGRR",
+      "explanation": "This Planning Guide Revision Request (PGRR) suggests ERCOT should host an annual forum to discuss advanced transmission technologies, commonly referred to as grid enhancing technologies (“GETs”) and high performance conductors (“HPCs”).",
+      "issue_title": "Regional Planning Group Discussion of Grid Enhancing Technologies",
+      "affected_sections": "3.1.1.2, 3.1.2.1, and 3.1.10 (new)",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "5efe9feaa943230d0285e34d7123d6461a33517970091066ff84bc31cc9e4f44",
+      "title": "273NOGRR-07 Impact Analysis 052626",
+      "document_number": "NOGRR273",
+      "source": "NOGRR",
+      "published_date": "May 26, 2026",
+      "downloaded_at": "2026-11-15T12:00:52Z",
+      "observed_at": "2026-11-15T12:00:52Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/05/26/273NOGRR-07-Impact-Analysis-052626.docx",
+      "sources": [
+        "NOGRR"
+      ],
+      "revision_id": "NOGRR273",
+      "revision_family": "NOGRR",
+      "explanation": "This Nodal Operating Guide Revision Request (NOGRR) modifies what an Entity may be affected by in order to qualify to submit NOGRRs, in alignment with Protocol changes made by NPRR1264.",
+      "issue_title": "Related to NPRR1264, Creation of a New Energy Attribute Certificate Program",
+      "affected_sections": "1.3.2",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "17a34b7aa59fa1bab90326f6a9d68b976daf3dc2bbdc770908046360563acc93",
+      "title": "273NOGRR-04 ERCOT Comments 050626",
+      "document_number": "NOGRR273",
+      "source": "NOGRR",
+      "published_date": "May 6, 2026",
+      "downloaded_at": "2026-11-15T12:00:51Z",
+      "observed_at": "2026-11-15T12:00:51Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/05/06/273NOGRR-04-ERCOT-Comments-050626.docx",
+      "sources": [
+        "NOGRR"
+      ],
+      "revision_id": "NOGRR273",
+      "revision_family": "NOGRR",
+      "explanation": "This Nodal Operating Guide Revision Request (NOGRR) modifies what an Entity may be affected by in order to qualify to submit NOGRRs, in alignment with Protocol changes made by NPRR1264.",
+      "issue_title": "Related to NPRR1264, Creation of a New Energy Attribute Certificate Program",
+      "affected_sections": "1.3.2",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "043942c7fc66290015a62fe9be17a05b506aea5e178a536e4d7060de53964565",
+      "title": "1314NPRR-06 PRS Report 021126",
+      "document_number": "NPRR1314",
+      "source": "NPRR",
+      "published_date": "Feb 16, 2026",
+      "downloaded_at": "2026-11-15T12:00:46Z",
+      "observed_at": "2026-11-15T12:00:46Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/02/16/1314NPRR-06-PRS-Report-021126.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1314",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) relocates each term and acronym from Planning Guide Section 2, Definitions and Acronyms, to Protocol Section 2, Definitions and Acronyms, and aligns related defined acronym usage. This NPRR also eliminates the overly-general defined acronyms ‘Current Year (CY)’ and ‘Future Year (FY)’ in effort to avoid potential future confusion.",
+      "issue_title": "Planning Guide Glossary Transition",
+      "affected_sections": "2.1, 2.2, 3.14.1.10, 16.12",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "b2d097289ce11d2a01a282638d528fa019ad4ce9db7eeef66e99ce52d374bfb0",
+      "title": "1313NPRR-10 PRS Report 031126",
+      "document_number": "NPRR1313",
+      "source": "NPRR",
+      "published_date": "Mar 13, 2026",
+      "downloaded_at": "2026-11-15T12:00:46Z",
+      "observed_at": "2026-11-15T12:00:46Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/03/13/1313NPRR-10-PRS-Report-031126.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1313",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) changes the calculation of the Initial Standby Cost for Reliability Must Run (RMR) Resources from a constant hourly value over the term of the RMR Contract to an hourly value that could vary monthly during the term of the Agreement based on a monthly budget.",
+      "issue_title": "Adjustment to the Calculation of the Initial Standby Cost for RMR Resources",
+      "affected_sections": "3.14.1.12",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "e71fd964c650bda09a6e59d4447b8a9a6cd09f409d2156d8370dd2ff1da6ecf9",
+      "title": "1308NPRR-09 Data Center Coalition Comments 020926",
+      "document_number": "NPRR1308",
+      "source": "NPRR",
+      "published_date": "Feb 9, 2026",
+      "downloaded_at": "2026-11-15T12:00:46Z",
+      "observed_at": "2026-11-15T12:00:46Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/02/09/1308NPRR-09-Data-Center-Coalition-Comments-020926.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1308",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) defines Large Computational Load (LCL).",
+      "issue_title": "Board Priority - Related to NOGRR282, Large Computational Load Ride-Through Requirements",
+      "affected_sections": "2.1 and 2.2",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "0c26610debd38e41ca792d2cc9136f55fa8494c191e7cf37b1ef2e2787e912b1",
+      "title": "1306NPRR-09 PRS Report 041526",
+      "document_number": "NPRR1306",
+      "source": "NPRR",
+      "published_date": "Apr 20, 2026",
+      "downloaded_at": "2026-11-15T12:00:46Z",
+      "observed_at": "2026-11-15T12:00:46Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/04/20/1306NPRR-09-PRS-Report-041526.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1306",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) replaces the concept of “Digital Certificates” throughout the Protocols with references to more technology-neutral means whereby restricted Market Information System (MIS) access is granted to certain Market Participant users by each individual Market Participant’s User Security Administrator (USA).",
+      "issue_title": "Removal of Digital Certificate References for Market Participants with ERCOT MIS Access",
+      "affected_sections": "2.1, 2.2, 12.1, 15.2.1, 15.2.2, 15.2.3, 16.2.6.1, 16.12, 16.12.1, 16.12.2, 16.12.3, 16.12.4, 16.15, 19.6.1, 23C, 23E, 23L",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "7af21cec1794b1cf7eea5b651badfc79d44c453d0ce452557833fc5aed5eeaca",
+      "title": "1308NPRR-08 ROS Comments 010826",
+      "document_number": "NPRR1308",
+      "source": "NPRR",
+      "published_date": "Jan 8, 2026",
+      "downloaded_at": "2026-11-15T12:00:45Z",
+      "observed_at": "2026-11-15T12:00:45Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/01/08/1308NPRR-08-ROS-Comments-010826.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1308",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) defines Large Computational Load (LCL).",
+      "issue_title": "Board Priority - Related to NOGRR282, Large Computational Load Ride-Through Requirements",
+      "affected_sections": "2.1 and 2.2",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "18ece1e5eec07c1b90b7dbf5af6c9739d44a0ed4b60f17d50f2145a60f95f1f8",
+      "title": "1306NPRR-15 PUCT Report 070926",
+      "document_number": "NPRR1306",
+      "source": "NPRR",
+      "published_date": "Jul 13, 2026",
+      "downloaded_at": "2026-11-15T12:00:45Z",
+      "observed_at": "2026-11-15T12:00:45Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/07/13/1306NPRR-15-PUCT-Report-070926.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1306",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) replaces the concept of “Digital Certificates” throughout the Protocols with references to more technology-neutral means whereby restricted Market Information System (MIS) access is granted to certain Market Participant users by each individual Market Participant’s User Security Administrator (USA).",
+      "issue_title": "Removal of Digital Certificate References for Market Participants with ERCOT MIS Access",
+      "affected_sections": "2.1, 2.2, 12.1, 15.2.1, 15.2.2, 15.2.3, 16.2.6.1, 16.12, 16.12.1, 16.12.2, 16.12.3, 16.12.4, 16.15, 19.6.1, 23C, 23E, 23L",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "1fda2bb6a0300b77ea2541ebf3382acfc239159c5fd92461b74622352260000f",
+      "title": "1286NPRR-22 Board Report 091526",
+      "document_number": "NPRR1286",
+      "source": "NPRR",
+      "published_date": "Sep 17, 2026",
+      "downloaded_at": "2026-11-15T12:00:45Z",
+      "observed_at": "2026-11-15T12:00:45Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/09/17/1286NPRR-22-Board-Report-091526.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1286",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) establishes new planning criteria to address the process for determining whether a project that addresses a resiliency issue provides sufficient benefit balanced with economic savings or reliability benefits, in accordance with 16 Texas Administrative Code (TAC) § 25.101(b)(3)(A)(iii). Cleanups are also included in Section 3.11.2 to address the inconsistent use of terminology and delete certain obsolete language.",
+      "issue_title": "Establish Multi-Value Criteria for Resiliency-Related Transmission Project Evaluation",
+      "affected_sections": "3.11.2",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "774777fb0084afcb34d94bda94b658a3e5b4d1b0c5399c7d8ee6b93bbb7a761a",
+      "title": "NPRR1286",
+      "document_number": "NPRR1286",
+      "source": "NPRR",
+      "published_date": "May 21, 2025",
+      "downloaded_at": "2026-11-15T12:00:44Z",
+      "observed_at": "2026-11-15T12:00:44Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1286",
+      "sources": [
+        "DWG",
+        "NPRR"
+      ],
+      "revision_id": "NPRR1286",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) establishes new planning criteria to address the process for determining whether a project that addresses a resiliency issue provides sufficient benefit balanced with economic savings or reliability benefits, in accordance with 16 Texas Administrative Code (TAC) § 25.101(b)(3)(A)(iii). Cleanups are also included in Section 3.11.2 to address the inconsistent use of terminology and delete certain obsolete language.",
+      "issue_title": "Establish Multi-Value Criteria for Resiliency-Related Transmission Project Evaluation",
+      "affected_sections": "3.11.2",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "53d1f6f8be9e77a4fb8da86054d6c997a84e6159025dba50633b0e778ca3e614",
+      "title": "1314NPRR-10 PUCT Report 052926",
+      "document_number": "NPRR1314",
+      "source": "NPRR",
+      "published_date": "Jun 1, 2026",
+      "downloaded_at": "2026-11-15T12:00:44Z",
+      "observed_at": "2026-11-15T12:00:44Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/06/01/1314NPRR-10-PUCT-Report-052926.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1314",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) relocates each term and acronym from Planning Guide Section 2, Definitions and Acronyms, to Protocol Section 2, Definitions and Acronyms, and aligns related defined acronym usage. This NPRR also eliminates the overly-general defined acronyms ‘Current Year (CY)’ and ‘Future Year (FY)’ in effort to avoid potential future confusion.",
+      "issue_title": "Planning Guide Glossary Transition",
+      "affected_sections": "2.1, 2.2, 3.14.1.10, 16.12",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "99f7639d08fc13fd486f686eba6d7b30d503e931687de2f132d5b8d764b47886",
+      "title": "1313NPRR-12 TAC Report 032526",
+      "document_number": "NPRR1313",
+      "source": "NPRR",
+      "published_date": "Mar 26, 2026",
+      "downloaded_at": "2026-11-15T12:00:44Z",
+      "observed_at": "2026-11-15T12:00:44Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/03/26/1313NPRR-12-TAC-Report-032526.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1313",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) changes the calculation of the Initial Standby Cost for Reliability Must Run (RMR) Resources from a constant hourly value over the term of the RMR Contract to an hourly value that could vary monthly during the term of the Agreement based on a monthly budget.",
+      "issue_title": "Adjustment to the Calculation of the Initial Standby Cost for RMR Resources",
+      "affected_sections": "3.14.1.12",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "e48826307a10c0a006b92c6a074444e13628f6cb7d463fda4164049647096aa1",
+      "title": "1311NPRR-07 Board Report 020926",
+      "document_number": "NPRR1311",
+      "source": "NPRR",
+      "published_date": "Feb 9, 2026",
+      "downloaded_at": "2026-11-15T12:00:44Z",
+      "observed_at": "2026-11-15T12:00:44Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/02/09/1311NPRR-07-Board-Report-020926.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1311",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) corrects an error in the calculation of Real-Time Reliability Deployment Price Adders for Ancillary Services when ERCOT is directing firm Load shed during Energy Emergency Alert (EEA) Level 3 under the RTC+B Protocol language. These proposed changes replace the “maximum value on the ASDC for the Ancillary Service” in paragraph (2)(t) of Section 6.5.7.3.1 with the effective Value of Lost Load (VOLL) for determining the price adders for Ancillary Services, ensuring that final Ancillary Service prices cannot exceed $5,000 per MWh.",
+      "issue_title": "Correction to Real-Time Reliability Deployment Price Adders for Ancillary Services under Load Shed for RTC+B",
+      "affected_sections": "6.5.7.3.1",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
       "content_sha256": "f2011110d31b736f75d52f18ea7589c0596cb871cfb8802010a9b2ae0e6a6944",
       "title": "1344NPRR-10 PUCT Report 110526",
       "document_number": "NPRR1344",
@@ -3768,26 +4069,6 @@
       "explanation": "This Nodal Protocol Revision Request (NPRR) creates the granular Congestion Revenue Right (CRR) Time Of Use (TOU) blocks to align with the current resource mix and improve auction speed and efficiency. Currently, CRRs are traded as weekday/weekend peak and off-peak, with no opportunity to further shape hedges. More granular CRR TOU blocks will divide weekday/weekend peak between solar and non-solar hours, providing a more targeted hedging product.",
       "issue_title": "Granular Product Type for CRR TOU",
       "affected_sections": "7.3, 7.5.5.3, and 16.11.4.5",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "b23d517f6db2bc2610b38db34195545d9593673a78ef634b249fafcd635d1622",
-      "title": "NPRR1286",
-      "document_number": "NPRR1286",
-      "source": "DWG",
-      "published_date": "May 21, 2025",
-      "downloaded_at": "2026-09-11T20:07:39Z",
-      "observed_at": "2026-09-11T20:07:39Z",
-      "status": "",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1286",
-      "sources": [
-        "DWG"
-      ],
-      "revision_id": "NPRR1286",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) establishes new planning criteria to address the process for determining whether a project that addresses a resiliency issue provides sufficient benefit balanced with economic savings or reliability benefits, in accordance with 16 Texas Administrative Code (TAC) § 25.101(b)(3)(A)(iii). Cleanups are also included in Section 3.11.2 to address the inconsistent use of terminology and delete certain obsolete language.",
-      "issue_title": "Establish Multi-Value Criteria for Resiliency-Related Transmission Project Evaluation",
-      "affected_sections": "3.11.2",
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
@@ -16679,8 +16960,8 @@
       "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     }
   ],
-  "count": 850,
-  "generated_at": "2026-11-14T21:01:52.397045+00:00",
+  "count": 864,
+  "generated_at": "2026-11-15T12:01:40.547980+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",
@@ -16823,8 +17104,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-11-13T12:00:58Z",
-      "source_observed_at": "2026-11-13T12:00:58Z"
+      "source_downloaded_at": "2026-11-15T12:00:49Z",
+      "source_observed_at": "2026-11-15T12:00:49Z"
     },
     "NOGRR279": {
       "revision_id": "NOGRR279",
@@ -17427,26 +17708,23 @@
       "revision_family": "NPRR",
       "issue_title": "Establish Multi-Value Criteria for Resiliency-Related Transmission Project Evaluation",
       "official_description": "This Nodal Protocol Revision Request (NPRR) establishes new planning criteria to address the process for determining whether a project that addresses a resiliency issue provides sufficient benefit balanced with economic savings or reliability benefits, in accordance with 16 Texas Administrative Code (TAC) § 25.101(b)(3)(A)(iii). Cleanups are also included in Section 3.11.2 to address the inconsistent use of terminology and delete certain obsolete language.",
-      "status": "Pending",
+      "status": "Approved",
       "date_posted": "May 21, 2025",
       "sponsor": "ERCOT",
       "urgent": "No",
       "affected_sections": "3.11.2",
       "reason": "Strategic Plan Objective 1 – Be an industry leader for grid reliability and resilience",
       "issue_url": "https://www.ercot.com/mktrules/issues/NPRR1286",
-      "effective_state": "pending_proposal",
-      "effectiveness_note": "Pending proposal; it is not current governing text.",
+      "effective_state": "approved_not_independently_governing",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "BOARD",
-      "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "07/29/2026",
-        "governing_body": "TAC",
-        "action": "Recommended for Approval",
-        "next_step": "Revision Request Consideration"
+        "date": "11/05/2026",
+        "governing_body": "PUCT",
+        "action": "Approved"
       },
-      "source_downloaded_at": "2026-09-11T20:07:39Z",
-      "source_observed_at": "2026-09-11T20:07:39Z"
+      "source_downloaded_at": "2026-11-15T12:00:44Z",
+      "source_observed_at": "2026-11-15T12:00:44Z"
     },
     "NPRR1287": {
       "revision_id": "NPRR1287",
@@ -17802,8 +18080,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-10-31T20:11:18Z",
-      "source_observed_at": "2026-10-31T20:11:18Z"
+      "source_downloaded_at": "2026-11-15T12:00:43Z",
+      "source_observed_at": "2026-11-15T12:00:43Z"
     },
     "NPRR1307": {
       "revision_id": "NPRR1307",
@@ -17848,8 +18126,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-10-31T20:11:18Z",
-      "source_observed_at": "2026-10-31T20:11:18Z"
+      "source_downloaded_at": "2026-11-15T12:00:43Z",
+      "source_observed_at": "2026-11-15T12:00:43Z"
     },
     "NPRR1309": {
       "revision_id": "NPRR1309",
@@ -17920,8 +18198,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-08-30T20:00:45Z",
-      "source_observed_at": "2026-08-30T20:00:45Z"
+      "source_downloaded_at": "2026-11-15T12:00:43Z",
+      "source_observed_at": "2026-11-15T12:00:43Z"
     },
     "NPRR1312": {
       "revision_id": "NPRR1312",
@@ -17969,8 +18247,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-08-15T20:00:48Z",
-      "source_observed_at": "2026-08-15T20:00:48Z"
+      "source_downloaded_at": "2026-11-15T12:00:43Z",
+      "source_observed_at": "2026-11-15T12:00:43Z"
     },
     "NPRR1314": {
       "revision_id": "NPRR1314",
@@ -17992,8 +18270,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-08-15T20:00:47Z",
-      "source_observed_at": "2026-08-15T20:00:47Z"
+      "source_downloaded_at": "2026-11-15T12:00:43Z",
+      "source_observed_at": "2026-11-15T12:00:43Z"
     },
     "NPRR1315": {
       "revision_id": "NPRR1315",
@@ -19118,8 +19396,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-11-14T12:00:54Z",
-      "source_observed_at": "2026-11-14T12:00:54Z"
+      "source_downloaded_at": "2026-11-15T12:00:54Z",
+      "source_observed_at": "2026-11-15T12:00:54Z"
     },
     "PGRR131": {
       "revision_id": "PGRR131",
