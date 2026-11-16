@@ -1,0 +1,17 @@
+Market Outlook & Trade Watchlist
+Generated: Nov 16, 2026 at 5:26 AM CST (UTC-06:00)
+As of: Nov 13, 2026 to Nov 15, 2026
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+UPSIDE WATCHLIST
+
+1. SLB: forecast +13.08% by Dec 29, 2026
+  Reliability: high; model-estimated chance of a rise: 80%; estimated error: 11.6 percentage points.
+
+2. SLV: forecast +13.02% by Dec 29, 2026
+  Reliability: moderate; model-estimated chance of a rise: 77%; estimated error: 11.4 percentage points.
+
+Returns are estimates for the target date; prices may move against the forecast before then.
+
+Model forecasts, not trade instructions. Not financial advice.
