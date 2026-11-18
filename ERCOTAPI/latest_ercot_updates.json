@@ -2,6 +2,23 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "d594d657d4838d209658bad48b46f1bd80894f98bac11a45fba19638c0a69d6d",
+      "title": "ERCOT Monthly Operational Overview October 2026",
+      "document_number": "",
+      "source": "BOARD OF DIRECTORS",
+      "published_date": "Nov 17, 2026",
+      "downloaded_at": "2026-11-18T12:01:23Z",
+      "observed_at": "2026-11-18T12:01:23Z",
+      "status": "",
+      "url": "https://www.ercot.com/files/docs/2026/11/17/ERCOT-Monthly-Operational-Overview-October-2026.pdf",
+      "sources": [
+        "BOARD OF DIRECTORS"
+      ],
+      "revision_id": "",
+      "revision_family": "",
+      "explanation": "Archived ERCOT technical material. Open the official source to review its contents."
+    },
+    {
       "content_sha256": "874c379d778a6151587e0d8ef2e5c8f7b61ce8e106913f3f151a69e511ea3129",
       "title": "128PGRR-19 Treaty Oak Comments 072826",
       "document_number": "PGRR128",
@@ -16960,8 +16977,8 @@
       "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     }
   ],
-  "count": 864,
-  "generated_at": "2026-11-15T12:01:40.547980+00:00",
+  "count": 865,
+  "generated_at": "2026-11-18T12:01:32.265196+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",

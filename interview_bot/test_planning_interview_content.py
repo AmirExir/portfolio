@@ -20,7 +20,7 @@ REVISED_NUMBERS = set(range(1, 21))
 STAR_REVISION_ID = "private:transmission-planning-star-replacements-2026-10-21"
 STAR_REVISION_SHA256 = "390ea5a290fc288875323eaa22158e5166cc399a4ffc4315c51f390ab7371edb"
 SPECIAL_REVISIONS = {
-    1: ("private:q1-large-load-revisions-2026-10-21", "1938d85145d735ad361ccf1e8090192f6011260db783290862627116d0d3e6da"),
+    1: ("private:q1-established-and-ctp-process-2026-11-17", "48678a1eaa81689bfd9bbbad7a952cc0986d401235149bdc3e681c22916feedc"),
     14: (STAR_REVISION_ID, STAR_REVISION_SHA256),
     15: (STAR_REVISION_ID, STAR_REVISION_SHA256),
     18: (STAR_REVISION_ID, STAR_REVISION_SHA256),
@@ -262,7 +262,9 @@ class PlanningInterviewContentTests(unittest.TestCase):
             self.assertIn("nerc.com/globalassets/standards/projects/2026-02/final-ballots/", reference)
         self.assertIn("proposed modeling/protection", item["quick_view"]["cue"])
         self.assertIn("distinguishing final-ballot success", item["reflection"])
-        for query in item["aliases"][-2:]:
+        clo_queries = [query for query in item["aliases"] if "CLO-001" in query]
+        self.assertEqual(len(clo_queries), 2)
+        for query in clo_queries:
             with self.subTest(query=query):
                 ranked = rank_candidates(query, self.target_chunks, {}, focus="Transmission planning")
                 self.assertEqual([candidate["source_id"] for candidate in ranked], [item["id"]])

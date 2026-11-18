@@ -263,7 +263,7 @@ universal SCR thresholds, and assumed expedited approvals are excluded.
 
 | Question / shortcut | Exclusive example or proposed approach |
 | --- | --- |
-| 1 PROCESS | LCRA modeling; case building, study horizons, project tracking, large-load transition, four RPG tiers, and commissioning |
+| 1 PROCESS | LCRA modeling; established RTP/RPG process compared with proposed Batch/CTP, common PTA forum, RPG 2.0, four tiers, and commissioning |
 | 2 VIOLATION | LCRA conductor alternatives; thermal and voltage diagnosis |
 | 3 NERC | Requirement-to-study evidence matrix for TPL, FAC, and MOD |
 | 4 GENERATOR | Proposed 1,000 MW solar-plus-storage interconnection |
@@ -296,6 +296,28 @@ reporting exclusions, and the unresolved disposition of the requested 2026 RTP
 exception. These are process facts checked as of October 20, 2026, not automatically
 updated regulatory guidance. Q1 remains available through the existing runtime
 content overlay without rewriting the saved embedding cache.
+
+The November 17 Q1 revision starts with a comparison of the established RTP/RPG
+process and the proposed Batch/CTP framework. It uses ERCOT's preliminary
+November 11 design-principles whitepaper and posted November 17 workshop deck:
+Batch allocation and preliminary upgrades, the commitment window, consolidated
+model building, and full reliability studies. The proposed 6–8 / 2 / 10–12 month
+durations are study targets, not effective deadlines or customer service promises.
+CTP would replace RTP reliability studies, and the Reliability Study would replace
+Batch Zero refinement; the answer does not claim all RTP functions disappear.
+
+The updated design distinguishes CTP Project Assessment from rolling RPG 2.0
+assessment of eligible projects outside CTP. PTA is the common stakeholder forum
+for both pathways and preliminary Batch projects, with existing tier governance
+retained. This supersedes the earlier October description below. Sources include
+specific sections/slides and proposal status. Q1's original question, LCRA anchor,
+and assignment remain intact; the attachment's byte-level SHA-256 records revision
+provenance without publishing the raw draft. Aliases including `CTP`, `PTA`,
+`RPG 2.0`, `RPG 2`, and `Batch study`, the recall cue, and follow-up preparation
+use the same updated content. The runtime overlay serves it without rebuilding
+saved embeddings; revised semantic scores still require the documented refresh.
+The separate October regulatory register is explicitly historical and was not
+refreshed as a current November status register.
 
 The October 21 Q1 addition explains Batch Zero's classification, screening,
 allocation, commitment, and transmission-refinement steps, then distinguishes
