@@ -2,6 +2,26 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "2f484d7962891d26878e468c69262d3da73afe75142a30babe156275c4a15b46",
+      "title": "287NOGRR-11 PUCT Report 110526",
+      "document_number": "NOGRR287",
+      "source": "NOGRR",
+      "published_date": "Nov 9, 2026",
+      "downloaded_at": "2026-11-18T21:00:53Z",
+      "observed_at": "2026-11-18T21:00:53Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/11/09/287NOGRR-11-PUCT-Report-110526.docx",
+      "sources": [
+        "NOGRR"
+      ],
+      "revision_id": "NOGRR287",
+      "revision_family": "NOGRR",
+      "explanation": "This Nodal Operating Guide Revision Request (NOGRR) establishes guidelines for Transmission Operators (TOs) and Transmission and/or Distribution Service Providers (TDSPs) to collaborate in identifying and prioritizing critical natural gas infrastructure Loads essential for the reliability of the ERCOT System. Furthermore, this NOGRR outlines provisions for TOs and TDSPs to minimize overlaps between circuits designated for manual Load shedding, Under-Voltage Load Shedding (UVLS), and Under-Frequency Load Shedding (UFLS), and those circuits identified as critical Loads necessary for maintaining reliability of the ERCOT System.",
+      "issue_title": "Load Shed Provisions to Identify and Minimize Overlap of Essential Loads",
+      "affected_sections": "4.5.3.4 and 8L",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
       "content_sha256": "d594d657d4838d209658bad48b46f1bd80894f98bac11a45fba19638c0a69d6d",
       "title": "ERCOT Monthly Operational Overview October 2026",
       "document_number": "",
@@ -16977,8 +16997,8 @@
       "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     }
   ],
-  "count": 865,
-  "generated_at": "2026-11-18T12:01:32.265196+00:00",
+  "count": 866,
+  "generated_at": "2026-11-18T21:02:09.730158+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",
@@ -17331,8 +17351,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-11-10T21:02:07Z",
-      "source_observed_at": "2026-11-10T21:02:07Z"
+      "source_downloaded_at": "2026-11-18T21:00:52Z",
+      "source_observed_at": "2026-11-18T21:00:52Z"
     },
     "NOGRR288": {
       "revision_id": "NOGRR288",

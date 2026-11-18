@@ -68,7 +68,54 @@ process.stdout.write(JSON.stringify(vm.runInNewContext('(function(){' + data.cod
     return json.loads(result.stdout)
 
 
+def legacy_public_forecast_fixture() -> dict:
+    """Model the installed forecast publisher alongside news and filing routes."""
+    workflow = fixture()
+    news_routes = {
+        "ERCOT Request Context": ["ERCOT News API", "Run ERCOT Link Monitor"],
+        "ERCOT News API": ["Build ERCOT News Digest"],
+        "Build ERCOT News Digest": ["Build ERCOT Channel Payload"],
+        "Run ERCOT Link Monitor": ["Parse ERCOT File Updates"],
+        "Parse ERCOT File Updates": ["Message Model For ERCOT"],
+        "Message Model For ERCOT": ["Build ERCOT Channel Payload"],
+        "Build ERCOT Channel Payload": ["Telegram ERCOT News"],
+    }
+    for name, destinations in news_routes.items():
+        workflow["nodes"].append({"name": name, "parameters": {"fixture": name}})
+        workflow["connections"][name] = {"main": [[edge(target) for target in destinations]]}
+    workflow, _ = repair_ercot_load_forecast_workflow(workflow)
+    nodes = {node["name"]: node for node in workflow["nodes"]}
+    nodes[LOAD_CONTEXT]["parameters"]["jsCode"] = """const source = $json.source === 'telegram' ? 'telegram' : 'schedule';
+return {json: {source, reply_chat_id: String($json.reply_chat_id || ''), channel_chat_id: '@ERCOTNEWS'}};"""
+    nodes[LOAD_CHANNEL]["parameters"] = {
+        "mode": "runOnceForEachItem",
+        "jsCode": "return {json: {chat_id: $json.channel_chat_id, text: $json.text}};",
+    }
+    return workflow
+
+
 class ForecastWorkflowTests(unittest.TestCase):
+    def test_legacy_delivery_repair_preserves_news_and_revision_routes(self) -> None:
+        original = legacy_public_forecast_fixture()
+        repaired, _ = repair_ercot_load_forecast_workflow(original)
+        original_nodes = {node["name"]: node for node in original["nodes"]}
+        repaired_nodes = {node["name"]: node for node in repaired["nodes"]}
+        news_nodes = (
+            "ERCOT Schedule Trigger", "ERCOT Request Context", "ERCOT News API",
+            "Build ERCOT News Digest",
+            "Run ERCOT Link Monitor", "Parse ERCOT File Updates",
+            "Message Model For ERCOT",
+            "Build ERCOT Channel Payload", "Telegram ERCOT News",
+        )
+        for name in news_nodes:
+            with self.subTest(node=name):
+                self.assertEqual(repaired_nodes[name], original_nodes[name])
+                self.assertEqual(
+                    repaired["connections"].get(name),
+                    original["connections"].get(name),
+                )
+        self.assertEqual(repaired["settings"], original["settings"])
+
     def test_idempotent_repair_preserves_news_schedule_settings_and_credential_sources(self) -> None:
         original = fixture()
         snapshot = copy.deepcopy(original)
@@ -142,6 +189,34 @@ class ForecastWorkflowTests(unittest.TestCase):
 
 @unittest.skipUnless(shutil.which("node"), "Node.js is required to test n8n snippets")
 class ForecastDeliveryTests(unittest.TestCase):
+    def test_repair_stops_legacy_public_forecasts_and_retains_private_requests(self) -> None:
+        legacy = legacy_public_forecast_fixture()
+        legacy_nodes = {node["name"]: node for node in legacy["nodes"]}
+        old_context = execute_js(legacy_nodes[LOAD_CONTEXT]["parameters"]["jsCode"], {})["json"]
+        old_delivery = execute_js(
+            legacy_nodes[LOAD_CHANNEL]["parameters"]["jsCode"],
+            {**old_context, "text": "Official ERCOT + XGBoost"},
+        )
+        self.assertEqual(old_delivery["json"]["chat_id"], "@ERCOTNEWS")
+
+        workflow, _ = repair_ercot_load_forecast_workflow(legacy)
+        nodes = {node["name"]: node for node in workflow["nodes"]}
+        context_code = nodes[LOAD_CONTEXT]["parameters"]["jsCode"]
+        channel_parameters = nodes[LOAD_CHANNEL]["parameters"]
+        self.assertEqual(channel_parameters["mode"], "runOnceForAllItems")
+        for source in ("schedule", "telegram"):
+            with self.subTest(source=source):
+                context = execute_js(
+                    context_code, {"source": source, "reply_chat_id": "123"}
+                )["json"]
+                self.assertIs(context.get("publish_scheduled"), False)
+                report = {**context, "text": "Official ERCOT + XGBoost", "report_ok": True}
+                self.assertEqual(execute_js(channel_parameters["jsCode"], report), [])
+                if source == "telegram":
+                    direct = execute_js(nodes[LOAD_DIRECT]["parameters"]["jsCode"], report)
+                    self.assertEqual(direct[0]["json"]["chat_id"], "123")
+                    self.assertEqual(direct[0]["json"]["text"], report["text"])
+
     def test_valid_report_and_source_failure_preserve_text_exactly(self) -> None:
         context = {"source": "telegram", "reply_chat_id": "123", "channel_chat_id": "@test"}
         for ok in (True, False):

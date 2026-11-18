@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import errno
 import json
 import os
 import socket
@@ -16,6 +17,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from ERCOTAPI.load_forecast_workflow import repair_ercot_load_forecast_workflow
 from ERCOTAPI.news_pipeline import repair_ercot_publication_workflow
 
 
@@ -25,7 +27,15 @@ DEFAULT_WORKFLOW_ID = "v5QCvpvtHqKS4cWD"
 def _n8n_is_running(host: str = "127.0.0.1", port: int = 5678) -> bool:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
         client.settimeout(0.25)
-        return client.connect_ex((host, port)) == 0
+        status = client.connect_ex((host, port))
+    if status == 0:
+        return True
+    if status == errno.ECONNREFUSED:
+        return False
+    raise RuntimeError(
+        f"Cannot verify whether n8n is stopped (socket error {status}); "
+        "refusing to edit its workflow store"
+    )
 
 
 def _backup_database(connection: sqlite3.Connection, destination: Path) -> None:
@@ -62,8 +72,14 @@ def _require_idle_workflow(connection: sqlite3.Connection, workflow_id: str) -> 
         )
 
 
-def _prepare_repair(row: sqlite3.Row) -> tuple[tuple[str, str], tuple[str, ...]]:
-    repaired, changes = repair_ercot_publication_workflow(
+def _prepare_repair(
+    row: sqlite3.Row, *, forecast_delivery_only: bool = False,
+) -> tuple[tuple[str, str], tuple[str, ...]]:
+    repair = (
+        repair_ercot_load_forecast_workflow
+        if forecast_delivery_only else repair_ercot_publication_workflow
+    )
+    repaired, changes = repair(
         {
             "nodes": json.loads(row["nodes"]),
             "connections": json.loads(row["connections"]),
@@ -79,12 +95,17 @@ def repair_database(
     database: Path,
     backup: Path,
     workflow_id: str = DEFAULT_WORKFLOW_ID,
+    *,
+    forecast_delivery_only: bool = False,
 ) -> tuple[str, ...]:
     """Repair each current version independently in a stopped n8n store.
 
     Validate the draft and all referenced history rows before creating a backup
     or changing workflow data. Only publication nodes/connections are updated;
     version-specific nodes and persistent workflow staticData are preserved.
+    Forecast-delivery mode installs the private-only forecast defaults without
+    changing news, revision-request, or market processing. Scheduled comparisons
+    remain archived; explicit load commands reply privately to their requester.
     """
 
     if _n8n_is_running():
@@ -111,7 +132,9 @@ def repair_database(
                 raise ValueError(f"n8n workflow not found: {workflow_id}")
 
             _require_idle_workflow(connection, workflow_id)
-            draft_values, draft_changes = _prepare_repair(row)
+            draft_values, draft_changes = _prepare_repair(
+                row, forecast_delivery_only=forecast_delivery_only,
+            )
             changes = [f"draft: {change}" for change in draft_changes]
             version_ids = {
                 value
@@ -145,7 +168,9 @@ def repair_database(
                     raise RuntimeError(
                         f"Expected one workflow history row for {version_id}"
                     )
-                values, version_changes = _prepare_repair(history_rows[0])
+                values, version_changes = _prepare_repair(
+                    history_rows[0], forecast_delivery_only=forecast_delivery_only,
+                )
                 if version_changes:
                     history_updates[version_id] = values
                     changes.extend(
@@ -195,9 +220,16 @@ def main() -> None:
     parser.add_argument("--database", type=Path, required=True)
     parser.add_argument("--backup", type=Path, required=True)
     parser.add_argument("--workflow-id", default=DEFAULT_WORKFLOW_ID)
+    parser.add_argument(
+        "--forecast-delivery-only", action="store_true",
+        help="Keep the news channel free of forecasts; preserve news and revision-request processing.",
+    )
     args = parser.parse_args()
 
-    changes = repair_database(args.database, args.backup, args.workflow_id)
+    changes = repair_database(
+        args.database, args.backup, args.workflow_id,
+        forecast_delivery_only=args.forecast_delivery_only,
+    )
     if not changes:
         print("ERCOT publication workflow already satisfies the contract.")
         return

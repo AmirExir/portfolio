@@ -1,14 +1,21 @@
 from __future__ import annotations
 
+import errno
+import io
 import json
 import sqlite3
 import tempfile
 import unittest
-from contextlib import closing
+from contextlib import closing, redirect_stdout
 from pathlib import Path
 from typing import Any
 from unittest.mock import patch
 
+from ERCOTAPI.load_forecast_workflow import (
+    LOAD_CHANNEL,
+    LOAD_CHANNEL_JS,
+    repair_ercot_load_forecast_workflow,
+)
 from ERCOTAPI.news_pipeline import (
     ERCOT_MODEL_NODE,
     ERCOT_NEWS_DIGEST_NODE,
@@ -16,7 +23,7 @@ from ERCOTAPI.news_pipeline import (
     ERCOT_PUBLISH_NODE,
     repair_ercot_publication_workflow,
 )
-from scripts.repair_n8n_ercot_publication import repair_database
+from scripts.repair_n8n_ercot_publication import _n8n_is_running, main, repair_database
 
 
 WORKFLOW_ID = "ercot-test-workflow"
@@ -234,6 +241,78 @@ class NewsWorkflowDatabaseTests(unittest.TestCase):
         self.assertEqual(repair_database(self.database, new_backup, WORKFLOW_ID), ())
         self.assertFalse(new_backup.exists())
 
+    def test_forecast_only_repair_preserves_news_and_each_version(self) -> None:
+        def edge(name: str) -> dict[str, Any]:
+            return {"node": name, "type": "main", "index": 0}
+
+        with closing(sqlite3.connect(self.database)) as connection:
+            for version_id, workflow in self.originals.items():
+                workflow["nodes"].extend([
+                    {"name": "ERCOT Schedule Trigger", "type": "n8n-nodes-base.scheduleTrigger",
+                     "typeVersion": 1.2, "parameters": {"rule": {"interval": [{"triggerAtHour": 7}]}}},
+                    {"name": "Is ERCOT Request", "parameters": {}},
+                    {"name": "Is ERCOT Telegram QA", "parameters": {}},
+                    {"name": "Telegram ERCOT News", "type": "n8n-nodes-base.telegram",
+                     "typeVersion": 1.2, "parameters": {},
+                     "credentials": {"telegramApi": {"id": f"news-{version_id}"}}},
+                    {"name": "Send Direct Market Telegram", "type": "n8n-nodes-base.telegram",
+                     "typeVersion": 1.2, "parameters": {},
+                     "credentials": {"telegramApi": {"id": f"direct-{version_id}"}}},
+                    {"name": "Split Direct Telegram Message", "parameters": {"jsCode": "return $input.all();"}},
+                    {"name": LOAD_CHANNEL, "parameters": {"mode": "runOnceForEachItem",
+                     "jsCode": "return {json: {chat_id: '@ERCOTNEWS', text: $json.text}};"}},
+                ])
+                workflow["connections"].update({
+                    "ERCOT Schedule Trigger": {"main": [[edge(ERCOT_NEWS_DIGEST_NODE)]]},
+                    "Is ERCOT Request": {"main": [[edge("Is ERCOT Telegram QA")]]},
+                    "Is ERCOT Telegram QA": {"main": [[], [edge(ERCOT_MODEL_NODE)]]},
+                })
+                values = (json.dumps(workflow["nodes"]), json.dumps(workflow["connections"]))
+                if version_id == "draft":
+                    connection.execute("UPDATE workflow_entity SET nodes = ?, connections = ?", values)
+                else:
+                    connection.execute(
+                        "UPDATE workflow_history SET nodes = ?, connections = ? WHERE versionId = ?",
+                        (*values, version_id),
+                    )
+            connection.commit()
+        before = self._snapshot()
+
+        self.assertTrue(repair_database(
+            self.database, self.backup, WORKFLOW_ID, forecast_delivery_only=True,
+        ))
+
+        self.assertEqual(self._snapshot(self.backup), before)
+        self.assertEqual(self.backup.stat().st_mode & 0o777, 0o600)
+        for version_id in ("draft", "current", "active", "published"):
+            with self.subTest(version=version_id):
+                actual = self._read_workflow(version_id)
+                expected, _ = repair_ercot_load_forecast_workflow(self.originals[version_id])
+                self.assertEqual(actual, expected)
+                actual_nodes = {node["name"]: node for node in actual["nodes"]}
+                for node in self.originals[version_id]["nodes"]:
+                    if node["name"] != LOAD_CHANNEL:
+                        self.assertEqual(actual_nodes[node["name"]], node)
+                for name, route in self.originals[version_id]["connections"].items():
+                    if name != "Is ERCOT Request":
+                        self.assertEqual(actual["connections"][name], route)
+                self.assertEqual(actual_nodes[LOAD_CHANNEL]["parameters"], {
+                    "mode": "runOnceForAllItems", "jsCode": LOAD_CHANNEL_JS,
+                })
+        self.assertEqual(self._read_workflow("archive"), self.originals["archive"])
+        with closing(sqlite3.connect(self.database)) as connection:
+            row = connection.execute(
+                "SELECT versionCounter, staticData, settings FROM workflow_entity"
+            ).fetchone()
+        self.assertEqual(row, (8, self.static_data, '{"executionOrder":"v1"}'))
+        after = self._snapshot()
+        unused_backup = self.backup.with_name("unused-forecast-backup.sqlite")
+        self.assertEqual(repair_database(
+            self.database, unused_backup, WORKFLOW_ID, forecast_delivery_only=True,
+        ), ())
+        self.assertEqual(self._snapshot(), after)
+        self.assertFalse(unused_backup.exists())
+
     def test_wal_database_backup_includes_uncheckpointed_committed_data(self) -> None:
         with closing(sqlite3.connect(self.database)) as writer:
             writer.execute("PRAGMA journal_mode=WAL")
@@ -366,6 +445,31 @@ class NewsWorkflowDatabaseTests(unittest.TestCase):
 
         self.assertTrue(self._repair())
         self.assertEqual(self._read_workflow("published"), self.originals["published"])
+
+
+class PublicationRepairPreflightTests(unittest.TestCase):
+    def test_cli_selects_forecast_delivery_only_when_requested(self) -> None:
+        arguments = ["repair", "--database", "fixture.sqlite", "--backup", "backup.sqlite"]
+        for extra, expected in (([], False), (["--forecast-delivery-only"], True)):
+            with self.subTest(forecast_only=expected), patch("sys.argv", arguments + extra), \
+                    patch("scripts.repair_n8n_ercot_publication.repair_database", return_value=()) as repair, \
+                    redirect_stdout(io.StringIO()):
+                main()
+            self.assertEqual(repair.call_args.kwargs.get("forecast_delivery_only", False), expected)
+
+    def test_only_connection_refused_establishes_stopped_service(self) -> None:
+        with patch("scripts.repair_n8n_ercot_publication.socket.socket") as socket:
+            client = socket.return_value.__enter__.return_value
+            client.connect_ex.return_value = 0
+            self.assertTrue(_n8n_is_running())
+            client.connect_ex.return_value = errno.ECONNREFUSED
+            self.assertFalse(_n8n_is_running())
+            for status in (errno.EPERM, errno.EACCES, errno.ETIMEDOUT):
+                client.connect_ex.return_value = status
+                with self.subTest(status=status), self.assertRaisesRegex(
+                    RuntimeError, "Cannot verify whether n8n is stopped",
+                ):
+                    _n8n_is_running()
 
 
 if __name__ == "__main__":

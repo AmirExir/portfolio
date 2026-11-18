@@ -326,6 +326,23 @@ The combined agent's private-chat keyboard includes **ERCOT news**
 reopen the keyboard. News requests return the existing digest directly;
 scheduled news publication retains its new-item filtering.
 
+The **@ERCOTNEWS** channel is for news and revision-request updates. Forecast
+comparisons are excluded from channel delivery. To apply this delivery setting
+to an older installed workflow without changing its news or revision processing,
+stop n8n while no executions are running or waiting, then run:
+
+```bash
+python scripts/repair_n8n_ercot_publication.py \
+  --database /path/to/n8n/database.sqlite \
+  --backup /private/backup-directory/n8n-before-private-forecasts.sqlite \
+  --forecast-delivery-only
+```
+
+Restart n8n afterward. This updates each current/active/published version
+independently and retains a private database backup. It installs the forecast
+delivery defaults: scheduled runs archive without sending, and `/ercot_load`
+replies only to its requester. The repair itself sends no Telegram messages.
+
 The repaired load workflow compares a current **official ERCOT** system-wide load
 forecast with the experimental model. `/ercot_load` replies only to its requester;
 it never broadcasts to the public channel. Scheduled forecasts continue computing
