@@ -1,0 +1,25 @@
+Market brief — Nov 18, 2026, 5:05 PM CST
+
+What matters:
+1. Nvidia (NVDA) leadership turmoil remains the dominant company-specific development: multiple reports say the board will not reinstate co-founder Jensen Huang as CEO, even after Huang reportedly said he would be willing to return. CBC says board chair Harvey Jones told investors Nvidia would not rehire Huang and would not take questions on the matter. The Verge says the company’s first post-resignation earnings call was led by CFO and interim CEO Colette Kress, with the board declining to discuss the circumstances of Huang’s exit. The governance mechanism matters because a board drawing a hard line can reduce immediate reversal risk, but it can also prolong uncertainty if customers, employees, or regulators view leadership stability as unresolved. These reports describe a leadership and governance event, not proof of any broader misconduct beyond reported allegations.
+Source: CBC News, Nov 17, 2026, 4:56 PM CST, https://www.cbc.ca/news/business/nvidia-earnings-jensen-huang-9.7425620
+
+2. Nvidia (NVDA) also reported a major earnings beat and strong forward outlook despite the leadership crisis. Fortune says Nvidia posted stronger-than-expected third-quarter results and guided fourth-quarter sales above Wall Street targets; Techpowerup’s repost of the company release says Q3 revenue was $115.8 billion, up 20% sequentially and 103% year over year, with gross margin near 74.8%-74.9%. The Verge adds data-center revenue rose 110% from a year earlier to $107.6 billion. The business mechanism is that continued AI infrastructure demand could offset governance damage if hyperscaler and enterprise spending stays intact.
+Source: Fortune, Nov 17, 2026, 3:38 PM CST, https://fortune.com/2026/11/17/nvidia/
+
+3. A separate reported overhang for Nvidia is regulatory: CNA, citing a Wall Street Journal report, says the SEC is probing Nvidia after Huang’s resignation. Daily Mail also referenced a civil investigation into whether Nvidia violated investor disclosure laws, though that remains an allegation in cited reporting rather than a proven violation. If confirmed, the market mechanism would be legal costs, management distraction, disclosure scrutiny, and possible knock-on effects for counterparties or procurement confidence.
+Source: CNA, Nov 17, 2026, 3:10 PM CST, https://www.channelnewsasia.com/business/nvidia-facing-sec-probe-after-huangs-resignation-wsj-reports-6560406
+
+4. Macro policy risk surfaced around the Federal Reserve: CBS News and Al Jazeera report Fed Governor Lisa Cook declined to attend a White House hearing tied to mortgage-fraud allegations, with her lawyer saying she has no legal obligation to appear unless conditions change. This is a reported political/legal confrontation, not proof of wrongdoing. The market mechanism is institutional risk: any challenge to Fed independence can affect rate expectations, Treasury volatility, and confidence in policy continuity.
+Source: CBS News, Nov 17, 2026, 1:30 PM CST, https://www.cbsnews.com/news/lisa-cook-federal-reserve-white-house-hearing/
+
+5. In AI capital markets, Anthropic’s planned Nasdaq debut this week is being framed by CBS as a key test of risk appetite for the AI boom. A successful launch could support private AI valuations and sentiment across adjacent software and semiconductor names; a weak reception would suggest tighter valuation discipline even with strong sector narratives.
+Source: CBS News, Nov 17, 2026, 2:15 PM CST, https://www.cbsnews.com/news/anthropic-ipo-ai-boom-nasdaq-debut/
+
+Watch actions:
+- NVDA — mixed: monitor whether strong guidance is sustained by customer commentary and whether board cohesion holds under scrutiny. More bullish if original company filings/call transcripts confirm demand durability and no operational disruption; more bearish if a confirmed SEC action or senior-executive departures emerge.
+- AI semiconductor supply chain/megacap AI exposures — mixed: reassess dependence on Nvidia if governance instability starts affecting orders, partnerships, or export/compliance processes. This changes with evidence of customer deferrals or, conversely, uninterrupted backlog conversion.
+- Rates-sensitive assets/Treasuries/USD — mixed to bearish if the Fed governance dispute escalates, because perceived political pressure on the central bank could unsettle policy expectations. This would improve if the matter is resolved without personnel change or policy spillover.
+- Anthropic/AI IPO pipeline — no direct trading watch beyond event monitoring unless debut pricing, demand quality, and lockup/float details become available from primary market sources.
+
+Coverage: Over the last 36 hours, the provider returned 98 fetched articles, 86 eligible unique articles, and 24 selected articles from 20 sources; sample_limited is true, so the provider returned only a sample of matching coverage.
