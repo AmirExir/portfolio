@@ -2,6 +2,26 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "cdab7cb5a15db3be8dae355c8a49a224eb4028e622527f5d21e6fcc188d741bf",
+      "title": "NPRR1350",
+      "document_number": "NPRR1350",
+      "source": "NPRR",
+      "published_date": "Sep 29, 2026",
+      "downloaded_at": "2026-11-19T12:00:42Z",
+      "observed_at": "2026-11-19T12:00:42Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1350",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1350",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) continues the automation of outdated email-based form submissions by Market Participants to ERCOT, facilitating streamlined digital processing of these submissions via the Market Participant Service Portal (MPSP). These previously emailed forms will now be entered by MPs directly into the new portal. The forms themselves will remain in the Protocols so that stakeholders can see a visual of the information they will be prompted to enter into the portal and make revisions to the forms as needed. This NPRR also adds a yes/no checkbox and response line to Form 22E, Notification of Suspension of Operations, and Form 22H, Notification of Change of Resource Designation, to indicate a change in Pre-Assigned Congestion Revenue Rights (PCRR) eligibility.",
+      "issue_title": "Revisions to Section 22 Attachments A through N for the Market Participant Service Portal (MPSP)",
+      "affected_sections": "22A, 22B, 22C, 22D, 22E, 22G, 22H, 22I, 22J, 22K, 22L, 22M, and 22N",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
       "content_sha256": "2f484d7962891d26878e468c69262d3da73afe75142a30babe156275c4a15b46",
       "title": "287NOGRR-11 PUCT Report 110526",
       "document_number": "NOGRR287",
@@ -670,26 +690,6 @@
       "observed_at": "2026-11-14T12:00:44Z",
       "status": "Pending",
       "url": "https://www.ercot.com/files/docs/2026/11/13/1350NPRR-06-PRS-Report-111126.docx",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1350",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) continues the automation of outdated email-based form submissions by Market Participants to ERCOT, facilitating streamlined digital processing of these submissions via the Market Participant Service Portal (MPSP). These previously emailed forms will now be entered by MPs directly into the new portal. The forms themselves will remain in the Protocols so that stakeholders can see a visual of the information they will be prompted to enter into the portal and make revisions to the forms as needed. This NPRR also adds a yes/no checkbox and response line to Form 22E, Notification of Suspension of Operations, and Form 22H, Notification of Change of Resource Designation, to indicate a change in Pre-Assigned Congestion Revenue Rights (PCRR) eligibility.",
-      "issue_title": "Revisions to Section 22 Attachments A through N for the Market Participant Service Portal (MPSP)",
-      "affected_sections": "22A, 22B, 22C, 22D, 22E, 22G, 22H, 22I, 22J, 22K, 22L, 22M, and 22N",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "77d995312c66e0ab25ec516de202b7272a65e3039708e12a8be8095b877c63a1",
-      "title": "NPRR1350",
-      "document_number": "NPRR1350",
-      "source": "NPRR",
-      "published_date": "Sep 29, 2026",
-      "downloaded_at": "2026-11-14T12:00:42Z",
-      "observed_at": "2026-11-14T12:00:42Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1350",
       "sources": [
         "NPRR"
       ],
@@ -16998,7 +16998,7 @@
     }
   ],
   "count": 866,
-  "generated_at": "2026-11-18T21:02:09.730158+00:00",
+  "generated_at": "2026-11-19T12:01:38.236930+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",
@@ -19186,16 +19186,16 @@
       "effective_state": "pending_proposal",
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "TAC",
+      "next_group": "BOARD",
       "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "11/11/2026",
-        "governing_body": "PRS",
+        "date": "11/18/2026",
+        "governing_body": "TAC",
         "action": "Recommended for Approval",
         "next_step": "Revision Request Consideration"
       },
-      "source_downloaded_at": "2026-11-14T12:00:42Z",
-      "source_observed_at": "2026-11-14T12:00:42Z"
+      "source_downloaded_at": "2026-11-19T12:00:42Z",
+      "source_observed_at": "2026-11-19T12:00:42Z"
     },
     "NPRR1351": {
       "revision_id": "NPRR1351",
