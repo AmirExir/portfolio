@@ -1,0 +1,14 @@
+Market Outlook & Trade Watchlist
+Generated: Nov 19, 2026 at 5:23 AM CST (UTC-06:00)
+As of: Nov 18, 2026
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+UPSIDE WATCHLIST
+
+1. SLB: forecast +17.85% by Jan 4, 2027
+  Reliability: high; model-estimated chance of a rise: 86%; estimated error: 11.4 percentage points.
+
+Returns are estimates for the target date; prices may move against the forecast before then.
+
+Model forecasts, not trade instructions. Not financial advice.
