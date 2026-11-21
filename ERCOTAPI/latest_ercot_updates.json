@@ -2,6 +2,206 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "c511534d1e75b5c0404c9a5eed7288980d03dedc111c29eb1f6f7d2fde940ee0",
+      "title": "288NOGRR-10 TAC Report 111826",
+      "document_number": "NOGRR288",
+      "source": "NOGRR",
+      "published_date": "Nov 20, 2026",
+      "downloaded_at": "2026-11-21T21:00:53Z",
+      "observed_at": "2026-11-21T21:00:53Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/11/20/288NOGRR-10-TAC-Report-111826.docx",
+      "sources": [
+        "NOGRR"
+      ],
+      "revision_id": "NOGRR288",
+      "revision_family": "NOGRR",
+      "explanation": "This Nodal Operating Guide Revision Request (NOGRR) and related NPRR1340 adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service.",
+      "issue_title": "Related to NPRR1340, Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
+      "affected_sections": "2.3",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "d5325eb1f209a2edcd02374529cb98117ebcd70463b9e60be1e42e771cba5b30",
+      "title": "1346NPRR-08 TAC Report 102826",
+      "document_number": "NPRR1346",
+      "source": "NPRR",
+      "published_date": "Nov 2, 2026",
+      "downloaded_at": "2026-11-21T21:00:48Z",
+      "observed_at": "2026-11-21T21:00:48Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/11/02/1346NPRR-08-TAC-Report-102826.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1346",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) revises the transportation-cost allowance incorporated into the Fuel Oil Price (FOP) by increasing the adder from $0.05 per gallon to $0.10 per gallon. The NPRR updates the FOP definition in Section 2.1, Definitions. The revision maintains the existing fuel oil index methodology and conversion factor while updating a transportation-cost assumption that has remained substantially unchanged since implementation of the Nodal market more than 15 years ago. The proposed change improves the accuracy of fuel oil pricing assumptions used for reliability services and cost recovery calculations by better reflecting current transportation costs associated with the delivery and replenishment of fuel oil inventories.",
+      "issue_title": "Updates to the Fuel Oil Price (FOP)",
+      "affected_sections": "2.1",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "c83c13a75716269f772d193d7fcf30b18b3abfc4897313922861086961a8362b",
+      "title": "1339NPRR-11 PUCT Report 110526",
+      "document_number": "NPRR1339",
+      "source": "NPRR",
+      "published_date": "Nov 9, 2026",
+      "downloaded_at": "2026-11-21T21:00:47Z",
+      "observed_at": "2026-11-21T21:00:47Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/11/09/1339NPRR-11-PUCT-Report-110526.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1339",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) corrects misalignment of Protocol language with the Real-Time Co-optimization plus Batteries (RTC+B) implementation. The proposed changes are summarized below: 1. Corrects the duration requirement of ERCOT Contingency Reserve Service (ECRS). NPRR1282, Ancillary Service Duration under Real-Time Co-Optimization, set the duration requirement for ECRS to one hour, but certain sections were inadvertently omitted from NPRR1282 and still reflect the previous two-hour duration. This NPRR corrects those references to align with the as-built one-hour duration for ECRS. 2. Removes Fast-Responding Regulation Service (FRRS) reference in Section 4.4.7.3, Ancillary Service Trades, since FRRS was deleted with the RTC+B implementation. 3. Removes the requirement for Energy Storage Resources (ESRs) to telemeter the next Operating Hour Ancillary Service Responsibilities, which is no longer applicable following the removal of Ancillary Service Responsibilities under RTC+B. 4. Removes references to Ancillary Service Responsibility and Ancillary Service Schedule, as well language that is no longer applicable under RTC+B, in several sections. Replaces the Ancillary Service Responsibilities with Ancillary Service awards wherever applicable.",
+      "issue_title": "Protocol Clean Up and Alignment with RTC+B Implementation",
+      "affected_sections": "2.1, 3.9, 3.17.4, 4.4.7.3, 6.3.2, 6.5.7.6.2.3, 8.1.1.2.1.1, 8.1.1.2.1.2, and 8.1.1.3",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "1bc1369a7b8e26d1c6781c6a44e3cacac28b741ea4d788c34be52847858b6cc2",
+      "title": "NPRR1340",
+      "document_number": "NPRR1340",
+      "source": "NPRR",
+      "published_date": "May 29, 2026",
+      "downloaded_at": "2026-11-21T21:00:46Z",
+      "observed_at": "2026-11-21T21:00:46Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1340",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1340",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
+      "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
+      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "8c825a809e784b4916c4f51aa74cadec48e0b8047204b0755ee65a27e850e6cb",
+      "title": "NPRR1343",
+      "document_number": "NPRR1343",
+      "source": "NPRR",
+      "published_date": "Jun 30, 2026",
+      "downloaded_at": "2026-11-21T21:00:45Z",
+      "observed_at": "2026-11-21T21:00:45Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1343",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1343",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) proposes the introduction of a bid fee for each inefficient hourly Point-to-Point (PTP) Obligation bid in the Day-Ahead Market (DAM). The fee will be assessed per inefficient PTP hourly bid and will be modifiable. Changes to the fee will be recommended by WMS, approved by TAC, and communicated to Market Participants in advance of the DAM run in which the change will take effect.",
+      "issue_title": "Introduction of PTP Obligation Bid Fee in DAM",
+      "affected_sections": "4.6.3., 7.9.3.1, 9.2.3, and 16.11.4.3.1",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "7a31237e7f1e35223beef59c43b0fa95bbe039e3b77ff6613266a5198756e238",
+      "title": "NPRR1348",
+      "document_number": "NPRR1348",
+      "source": "NPRR",
+      "published_date": "Sep 29, 2026",
+      "downloaded_at": "2026-11-21T21:00:44Z",
+      "observed_at": "2026-11-21T21:00:44Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1348",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1348",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) introduces a Telemetry Offset framework to bridge the attributability gap between co-located Load and generation. It permits a Qualified Scheduling Entity (QSE) to dynamically raise the telemetered Low Power Consumption (LPC) limit of a Provisional Controllable Load Resource (PCLR) to match the Real-Time Market (RTM) availability of a paired, equivalent mitigating Resource (e.g., Energy Storage System (ESR) or natural gas) on a separate meter. This dynamic telemetry pairing temporarily firms the Load from Security-Constrained Economic Dispatch (SCED) curtailment while the offsetting capacity is actively offered on an equivalent, offsetting basis. To clear uninstructed Resource deviation flags resulting from this shielded operation, a post-Operating Day Settlement is run, proving the shielded megawatts (MW) were physically backed by the paired Resource. The paired Resource is subjected to the same automatic bid capping methodology as the paired PCLR, ensuring economic equivalency. Finally, it establishes deterministic yielding Protocols requiring the telemetry shield to drop, exposing the Load to curtailment, during system-wide macro-scarcity events.",
+      "issue_title": "Telemetry Offsetting for Provisional Controllable Load Resources",
+      "affected_sections": "2.1, 3.8.9 (new), 3.9.1, 4.4.9.4.4, 6.6.5.6, 8.1.1.2, 8.1.1.5 (new), 8.1.2, 16.5.6 (new), 23W, and 23AA (new)",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "86327d19e790661376c50acdd7e6b3022f73b5711770fbc43a92aeb29dc1b929",
+      "title": "NOGRR288",
+      "document_number": "NOGRR288",
+      "source": "NOGRR",
+      "published_date": "May 29, 2026",
+      "downloaded_at": "2026-11-20T21:00:51Z",
+      "observed_at": "2026-11-20T21:00:51Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NOGRR288",
+      "sources": [
+        "NOGRR"
+      ],
+      "revision_id": "NOGRR288",
+      "revision_family": "NOGRR",
+      "explanation": "This Nodal Operating Guide Revision Request (NOGRR) and related NPRR1340 adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service.",
+      "issue_title": "Related to NPRR1340, Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
+      "affected_sections": "2.3",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "46958a225ebc01792937d04228058d7198632db44780109f085dd9920786b445",
+      "title": "1351NPRR-08 Vistra Comments 112026",
+      "document_number": "NPRR1351",
+      "source": "NPRR",
+      "published_date": "Nov 20, 2026",
+      "downloaded_at": "2026-11-20T21:00:48Z",
+      "observed_at": "2026-11-20T21:00:48Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/11/20/1351NPRR-08-Vistra-Comments-112026.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1351",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) continues the automation of outdated email-based form submissions by Market Participants to ERCOT, facilitating streamlined digital processing of these submissions via the Market Participant Service Portal (MPSP). These previously emailed forms will now be entered by MPs directly into the new portal. The forms themselves will remain in the Protocols so that stakeholders can see a visual of the information they will be prompted to enter into the portal and make revisions to the forms as needed.",
+      "issue_title": "Revisions to Section 23 Forms for the Market Participant Service Portal (MPSP)",
+      "affected_sections": "23A, 23B, 23C, 23D, 23F, 23G, 23H, 23I, 23J, 23K, 23L, 23M, 23N, 23O, 23P, 23Q, 23R, and 23U",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "9d2b64ea931d99fb0ea43e0434b9bbd7a867030c59f926d0b3c8ed16959de107",
+      "title": "NPRR1351",
+      "document_number": "NPRR1351",
+      "source": "NPRR",
+      "published_date": "Sep 29, 2026",
+      "downloaded_at": "2026-11-20T21:00:45Z",
+      "observed_at": "2026-11-20T21:00:45Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1351",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1351",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) continues the automation of outdated email-based form submissions by Market Participants to ERCOT, facilitating streamlined digital processing of these submissions via the Market Participant Service Portal (MPSP). These previously emailed forms will now be entered by MPs directly into the new portal. The forms themselves will remain in the Protocols so that stakeholders can see a visual of the information they will be prompted to enter into the portal and make revisions to the forms as needed.",
+      "issue_title": "Revisions to Section 23 Forms for the Market Participant Service Portal (MPSP)",
+      "affected_sections": "23A, 23B, 23C, 23D, 23F, 23G, 23H, 23I, 23J, 23K, 23L, 23M, 23N, 23O, 23P, 23Q, 23R, and 23U",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
+      "content_sha256": "889eaf008846ba196cb73698c8f1c2d6929d8629d00616bd7e691e390402cb92",
+      "title": "1350NPRR-08 TAC Report 111826",
+      "document_number": "NPRR1350",
+      "source": "NPRR",
+      "published_date": "Nov 18, 2026",
+      "downloaded_at": "2026-11-19T21:00:43Z",
+      "observed_at": "2026-11-19T21:00:43Z",
+      "status": "Pending",
+      "url": "https://www.ercot.com/files/docs/2026/11/18/1350NPRR-08-TAC-Report-111826.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1350",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) continues the automation of outdated email-based form submissions by Market Participants to ERCOT, facilitating streamlined digital processing of these submissions via the Market Participant Service Portal (MPSP). These previously emailed forms will now be entered by MPs directly into the new portal. The forms themselves will remain in the Protocols so that stakeholders can see a visual of the information they will be prompted to enter into the portal and make revisions to the forms as needed. This NPRR also adds a yes/no checkbox and response line to Form 22E, Notification of Suspension of Operations, and Form 22H, Notification of Change of Resource Designation, to indicate a change in Pre-Assigned Congestion Revenue Rights (PCRR) eligibility.",
+      "issue_title": "Revisions to Section 22 Attachments A through N for the Market Participant Service Portal (MPSP)",
+      "affected_sections": "22A, 22B, 22C, 22D, 22E, 22G, 22H, 22I, 22J, 22K, 22L, 22M, and 22N",
+      "effectiveness_note": "Pending proposal; it is not current governing text."
+    },
+    {
       "content_sha256": "cdab7cb5a15db3be8dae355c8a49a224eb4028e622527f5d21e6fcc188d741bf",
       "title": "NPRR1350",
       "document_number": "NPRR1350",
@@ -440,26 +640,6 @@
       "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
-      "content_sha256": "a74fcf4441a766cbcaa15b03005cbf14ec5d23ad360a3caa90aebfb8f2d10124",
-      "title": "NPRR1340",
-      "document_number": "NPRR1340",
-      "source": "NPRR",
-      "published_date": "May 29, 2026",
-      "downloaded_at": "2026-11-14T21:00:46Z",
-      "observed_at": "2026-11-14T21:00:46Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1340",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1340",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service. In addition to eligible Off-Line Generation Resources and On-Line Generation Resources, this provides the framework for ESRs to provide DRRS. ESR participation in DRRS would only be permitted using the discharge capability, not the charging capability (i.e., positive High Sustained Limit (HSL)).",
-      "issue_title": "Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "3.17.5 (new), 3.18, 4.5.1, 4.6.4.1.2, 5.7.4.1.1, 6.5.7.3, 6.5.7.5, and 6.7.2.7",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
       "content_sha256": "244a744704d0aad3504a051b7f616a60c728bace3c91a8ac1e1ae1642e05ca83",
       "title": "NPRR1339",
       "document_number": "NPRR1339",
@@ -521,26 +701,6 @@
       "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
-      "content_sha256": "8ef9901f489210feb985fc012c3450d1b7b2630d6f4c3de236b72be831ab435f",
-      "title": "NPRR1343",
-      "document_number": "NPRR1343",
-      "source": "NPRR",
-      "published_date": "Jun 30, 2026",
-      "downloaded_at": "2026-11-14T21:00:45Z",
-      "observed_at": "2026-11-14T21:00:45Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1343",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1343",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) proposes the introduction of a bid fee for each inefficient hourly Point-to-Point (PTP) Obligation bid in the Day-Ahead Market (DAM). The fee will be assessed per inefficient PTP hourly bid and will be modifiable. Changes to the fee will be recommended by WMS, approved by TAC, and communicated to Market Participants in advance of the DAM run in which the change will take effect.",
-      "issue_title": "Introduction of PTP Obligation Bid Fee in DAM",
-      "affected_sections": "4.6.3., 7.9.3.1, 9.2.3, and 16.11.4.3.1",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
       "content_sha256": "b4b1114ec5ba04e26925fb7ed3bac43dca1efb3a24e0d2525ae3b7db99c0278d",
       "title": "NPRR1342",
       "document_number": "NPRR1342",
@@ -579,26 +739,6 @@
       "issue_title": "Related to LPGRR077, Profile Decision Tree Excel-to-Word Conversion",
       "affected_sections": "2.1, 2.2, 11.4.2, 11.4.4.2, 11.4.4.3, 18.4.2",
       "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
-    },
-    {
-      "content_sha256": "0b13e984a2abddb2f5140f89c09aebf213f33710b8e963d04c69c3578d353f20",
-      "title": "NPRR1348",
-      "document_number": "NPRR1348",
-      "source": "NPRR",
-      "published_date": "Sep 29, 2026",
-      "downloaded_at": "2026-11-14T21:00:44Z",
-      "observed_at": "2026-11-14T21:00:44Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1348",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1348",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) introduces a Telemetry Offset framework to bridge the attributability gap between co-located Load and generation. It permits a Qualified Scheduling Entity (QSE) to dynamically raise the telemetered Low Power Consumption (LPC) limit of a Provisional Controllable Load Resource (PCLR) to match the Real-Time Market (RTM) availability of a paired, equivalent mitigating Resource (e.g., Energy Storage System (ESR) or natural gas) on a separate meter. This dynamic telemetry pairing temporarily firms the Load from Security-Constrained Economic Dispatch (SCED) curtailment while the offsetting capacity is actively offered on an equivalent, offsetting basis. To clear uninstructed Resource deviation flags resulting from this shielded operation, a post-Operating Day Settlement is run, proving the shielded megawatts (MW) were physically backed by the paired Resource. The paired Resource is subjected to the same automatic bid capping methodology as the paired PCLR, ensuring economic equivalency. Finally, it establishes deterministic yielding Protocols requiring the telemetry shield to drop, exposing the Load to curtailment, during system-wide macro-scarcity events.",
-      "issue_title": "Telemetry Offsetting for Provisional Controllable Load Resources",
-      "affected_sections": "2.1, 3.8.9 (new), 3.9.1, 4.4.9.4.4, 6.6.5.6, 8.1.1.2, 8.1.1.5 (new), 8.1.2, 16.5.6 (new), 23W, and 23AA (new)",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
       "content_sha256": "e02c3802418ea22af23e04ed2a800523070f6ee344e9af71b9a8ffcefac54ef5",
@@ -1201,26 +1341,6 @@
       "effectiveness_note": "Pending proposal; it is not current governing text."
     },
     {
-      "content_sha256": "d9e0ebfd697da3c02bcbd023e77b4ad68a335e3d50a8c1b61d4054deb6ff15fc",
-      "title": "NOGRR288",
-      "document_number": "NOGRR288",
-      "source": "NOGRR",
-      "published_date": "May 29, 2026",
-      "downloaded_at": "2026-11-06T21:00:52Z",
-      "observed_at": "2026-11-06T21:00:52Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NOGRR288",
-      "sources": [
-        "NOGRR"
-      ],
-      "revision_id": "NOGRR288",
-      "revision_family": "NOGRR",
-      "explanation": "This Nodal Operating Guide Revision Request (NOGRR) and related NPRR1340 adds Energy Storage Resource (ESR) participation to the Dispatchable Reliability Reserve Service (DRRS) Ancillary Service.",
-      "issue_title": "Related to NPRR1340, Dispatchable Reliability Reserve Service Ancillary Service with Energy Storage Resource Participation",
-      "affected_sections": "2.3",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
       "content_sha256": "a4e04c733cc14885d3163062c73051aa113831075c80a4da90d48810be25ee40",
       "title": "1351NPRR-05 ERCOT Comments 110426",
       "document_number": "NPRR1351",
@@ -1230,26 +1350,6 @@
       "observed_at": "2026-11-05T12:00:49Z",
       "status": "Pending",
       "url": "https://www.ercot.com/files/docs/2026/11/04/1351NPRR-05-ERCOT-Comments-110426.docx",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1351",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) continues the automation of outdated email-based form submissions by Market Participants to ERCOT, facilitating streamlined digital processing of these submissions via the Market Participant Service Portal (MPSP). These previously emailed forms will now be entered by MPs directly into the new portal. The forms themselves will remain in the Protocols so that stakeholders can see a visual of the information they will be prompted to enter into the portal and make revisions to the forms as needed.",
-      "issue_title": "Revisions to Section 23 Forms for the Market Participant Service Portal (MPSP)",
-      "affected_sections": "23A, 23B, 23C, 23D, 23F, 23G, 23H, 23I, 23J, 23K, 23L, 23M, 23N, 23O, 23P, 23Q, 23R, and 23U",
-      "effectiveness_note": "Pending proposal; it is not current governing text."
-    },
-    {
-      "content_sha256": "2ba94635df1135635591e6a98bad9b52b2f8a10d214abb77fc0ebc08d2389899",
-      "title": "NPRR1351",
-      "document_number": "NPRR1351",
-      "source": "NPRR",
-      "published_date": "Sep 29, 2026",
-      "downloaded_at": "2026-11-05T12:00:45Z",
-      "observed_at": "2026-11-05T12:00:45Z",
-      "status": "Pending",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1351",
       "sources": [
         "NPRR"
       ],
@@ -3918,8 +4018,8 @@
       "source": "NPRR",
       "published_date": "Aug 28, 2026",
       "downloaded_at": "2026-09-16T11:00:46Z",
-      "observed_at": "2026-09-16T11:00:46Z",
-      "status": "Pending",
+      "observed_at": "2026-11-21T21:00:48Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/08/28/1341NPRR-10-TAC-Report-082626.docx",
       "sources": [
         "NPRR"
@@ -4746,8 +4846,8 @@
       "source": "NPRR",
       "published_date": "Aug 30, 2026",
       "downloaded_at": "2026-09-01T11:00:47Z",
-      "observed_at": "2026-09-01T11:00:47Z",
-      "status": "Pending",
+      "observed_at": "2026-11-21T21:00:47Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/08/30/1344NPRR-08-TAC-Report-082626.docx",
       "sources": [
         "NPRR"
@@ -5266,8 +5366,8 @@
       "source": "NPRR",
       "published_date": "Aug 28, 2026",
       "downloaded_at": "2026-08-29T11:00:45Z",
-      "observed_at": "2026-08-29T11:00:45Z",
-      "status": "Pending",
+      "observed_at": "2026-11-21T21:00:48Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/08/28/1342NPRR-10-TAC-Report-082626.docx",
       "sources": [
         "NPRR"
@@ -6143,8 +6243,8 @@
       "source": "NPRR",
       "published_date": "Aug 16, 2026",
       "downloaded_at": "2026-08-17T11:00:45Z",
-      "observed_at": "2026-08-17T11:00:45Z",
-      "status": "Pending",
+      "observed_at": "2026-11-21T21:00:48Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/08/16/1344NPRR-06-PRS-Report-081226.docx",
       "sources": [
         "NPRR"
@@ -14543,8 +14643,8 @@
       "source": "NPRR",
       "published_date": "Jul 17, 2026",
       "downloaded_at": "2026-07-22T11:30:17Z",
-      "observed_at": "2026-07-22T11:30:17Z",
-      "status": "Pending",
+      "observed_at": "2026-11-21T21:00:47Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/07/17/1341NPRR-06-PRS-Report-071526.docx",
       "sources": [
         "NPRR"
@@ -14936,8 +15036,8 @@
       "source": "NPRR",
       "published_date": "Jul 16, 2026",
       "downloaded_at": "2026-07-21T20:00:40Z",
-      "observed_at": "2026-07-21T20:00:40Z",
-      "status": "Pending",
+      "observed_at": "2026-11-21T21:00:49Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/07/16/1339NPRR-04-PRS-Report-071526.docx",
       "sources": [
         "NPRR"
@@ -15073,8 +15173,8 @@
       "source": "NPRR",
       "published_date": "Jul 17, 2026",
       "downloaded_at": "2026-07-21T11:00:38Z",
-      "observed_at": "2026-07-21T11:00:38Z",
-      "status": "Pending",
+      "observed_at": "2026-11-21T21:00:47Z",
+      "status": "Approved",
       "url": "https://www.ercot.com/files/docs/2026/07/17/1342NPRR-04-PRS-Report-071526.docx",
       "sources": [
         "NPRR"
@@ -16997,8 +17097,8 @@
       "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     }
   ],
-  "count": 866,
-  "generated_at": "2026-11-19T12:01:38.236930+00:00",
+  "count": 871,
+  "generated_at": "2026-11-21T21:01:52.254523+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",
@@ -17369,16 +17469,16 @@
       "effective_state": "pending_proposal",
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "TAC",
-      "next_step": "TAC for consideration",
+      "next_group": "BOARD",
+      "next_step": "Board for consideration",
       "latest_action": {
-        "date": "11/05/2026",
-        "governing_body": "ROS",
+        "date": "11/18/2026",
+        "governing_body": "TAC",
         "action": "Recommended for Approval",
-        "next_step": "TAC for consideration"
+        "next_step": "Board for consideration"
       },
-      "source_downloaded_at": "2026-11-07T12:01:31Z",
-      "source_observed_at": "2026-11-07T12:01:31Z"
+      "source_downloaded_at": "2026-11-21T21:00:51Z",
+      "source_observed_at": "2026-11-21T21:00:51Z"
     },
     "NOGRR289": {
       "revision_id": "NOGRR289",
@@ -18922,8 +19022,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-11-14T21:00:46Z",
-      "source_observed_at": "2026-11-14T21:00:46Z"
+      "source_downloaded_at": "2026-11-21T21:00:46Z",
+      "source_observed_at": "2026-11-21T21:00:46Z"
     },
     "NPRR1340": {
       "revision_id": "NPRR1340",
@@ -18940,16 +19040,16 @@
       "effective_state": "pending_proposal",
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "TAC",
-      "next_step": "TAC for consideration",
+      "next_group": "BOARD",
+      "next_step": "Board for consideration",
       "latest_action": {
-        "date": "11/11/2026",
-        "governing_body": "PRS",
+        "date": "11/18/2026",
+        "governing_body": "TAC",
         "action": "Recommended for Approval",
-        "next_step": "TAC for consideration"
+        "next_step": "Board for consideration"
       },
-      "source_downloaded_at": "2026-11-14T21:00:46Z",
-      "source_observed_at": "2026-11-14T21:00:46Z"
+      "source_downloaded_at": "2026-11-21T21:00:46Z",
+      "source_observed_at": "2026-11-21T21:00:46Z"
     },
     "NPRR1341": {
       "revision_id": "NPRR1341",
@@ -18971,8 +19071,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-11-14T21:00:45Z",
-      "source_observed_at": "2026-11-14T21:00:45Z"
+      "source_downloaded_at": "2026-11-21T21:00:46Z",
+      "source_observed_at": "2026-11-21T21:00:46Z"
     },
     "NPRR1342": {
       "revision_id": "NPRR1342",
@@ -18994,8 +19094,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-11-14T21:00:45Z",
-      "source_observed_at": "2026-11-14T21:00:45Z"
+      "source_downloaded_at": "2026-11-21T21:00:45Z",
+      "source_observed_at": "2026-11-21T21:00:45Z"
     },
     "NPRR1343": {
       "revision_id": "NPRR1343",
@@ -19012,16 +19112,16 @@
       "effective_state": "pending_proposal",
       "effectiveness_note": "Pending proposal; it is not current governing text.",
       "explanation_source": "official_ercot_issue_page",
-      "next_group": "TAC",
+      "next_group": "BOARD",
       "next_step": "Revision Request Consideration",
       "latest_action": {
-        "date": "11/11/2026",
-        "governing_body": "PRS",
+        "date": "11/18/2026",
+        "governing_body": "TAC",
         "action": "Recommended for Approval",
         "next_step": "Revision Request Consideration"
       },
-      "source_downloaded_at": "2026-11-14T21:00:45Z",
-      "source_observed_at": "2026-11-14T21:00:45Z"
+      "source_downloaded_at": "2026-11-21T21:00:45Z",
+      "source_observed_at": "2026-11-21T21:00:45Z"
     },
     "NPRR1344": {
       "revision_id": "NPRR1344",
@@ -19043,8 +19143,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-11-14T21:00:45Z",
-      "source_observed_at": "2026-11-14T21:00:45Z"
+      "source_downloaded_at": "2026-11-21T21:00:45Z",
+      "source_observed_at": "2026-11-21T21:00:45Z"
     },
     "NPRR1345": {
       "revision_id": "NPRR1345",
@@ -19095,8 +19195,8 @@
         "action": "Recommended for Approval",
         "next_step": "Revision Request Consideration"
       },
-      "source_downloaded_at": "2026-11-07T12:00:43Z",
-      "source_observed_at": "2026-11-07T12:00:43Z"
+      "source_downloaded_at": "2026-11-21T21:00:45Z",
+      "source_observed_at": "2026-11-21T21:00:45Z"
     },
     "NPRR1347": {
       "revision_id": "NPRR1347",
@@ -19142,8 +19242,8 @@
         "action": "Deferred/Tabled",
         "next_step": "PRS for consideration"
       },
-      "source_downloaded_at": "2026-11-14T21:00:44Z",
-      "source_observed_at": "2026-11-14T21:00:44Z"
+      "source_downloaded_at": "2026-11-21T21:00:44Z",
+      "source_observed_at": "2026-11-21T21:00:44Z"
     },
     "NPRR1349": {
       "revision_id": "NPRR1349",
@@ -19194,8 +19294,8 @@
         "action": "Recommended for Approval",
         "next_step": "Revision Request Consideration"
       },
-      "source_downloaded_at": "2026-11-19T12:00:42Z",
-      "source_observed_at": "2026-11-19T12:00:42Z"
+      "source_downloaded_at": "2026-11-19T21:00:43Z",
+      "source_observed_at": "2026-11-19T21:00:43Z"
     },
     "NPRR1351": {
       "revision_id": "NPRR1351",
@@ -19215,13 +19315,13 @@
       "next_group": "PRS",
       "next_step": "Impact Analysis Consideration",
       "latest_action": {
-        "date": "10/14/2026",
+        "date": "11/11/2026",
         "governing_body": "PRS",
-        "action": "Recommended for Approval",
+        "action": "Deferred/Tabled",
         "next_step": "Impact Analysis Consideration"
       },
-      "source_downloaded_at": "2026-11-05T12:00:45Z",
-      "source_observed_at": "2026-11-05T12:00:45Z"
+      "source_downloaded_at": "2026-11-20T21:00:45Z",
+      "source_observed_at": "2026-11-20T21:00:45Z"
     },
     "NPRR1352": {
       "revision_id": "NPRR1352",
