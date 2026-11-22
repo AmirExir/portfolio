@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import copy
+import json
+import shutil
+import subprocess
 import unittest
 
 from market_agent.n8n_workflow import (
@@ -32,6 +35,7 @@ from market_agent.n8n_workflow import (
     audit_market_optimization_workflow,
     repair_market_optimization_workflow,
 )
+from market_agent.price_watch_report import build_price_watch, format_price_watch
 
 
 def _node(name: str, *, parameters: dict | None = None) -> dict:
@@ -193,6 +197,69 @@ def _targets(workflow: dict, source: str) -> list[str]:
 
 
 class MarketOptimizationWorkflowTests(unittest.TestCase):
+    @unittest.skipUnless(shutil.which("node"), "Node.js is needed to exercise the n8n Code node")
+    def test_validator_publishes_complete_price_only_run_and_rejects_bad_evidence(self) -> None:
+        observation = {
+            "symbol": "SPY", "as_of_session": "2026-11-20", "lag_sessions": 0,
+            "close": 95.0, "change_pct": -5.0, "prior_low": 100.0, "prior_high": 101.0,
+            "shock_threshold_pct": 2.0, "shock": True, "breakdown": True,
+            "entry_watch": False, "entry_triggered": False,
+        }
+        watch = build_price_watch([observation], universe_count=1, limit=5)
+        text = "\n".join([*format_price_watch(watch), "", "Forecast update unavailable."])
+        report = {
+            "rows": [], "ranked_count": 0, "run_complete": True, "generated_at": "2026-11-21T12-00-00Z",
+            "universe": "Fixture", "universe_count": 1, "symbols": ["SPY"], "horizon_days": 30,
+            "price_watch": watch, "as_of_sessions": watch["as_of_sessions"], "telegram_text": text,
+        }
+        payloads = {
+            "price-only": report,
+            "ranked forecast": {**report, "ranked_count": 1, "rows": [{"Symbol": "SPY"}], "price_watch": None},
+            "missing observations": {**report, "price_watch": None},
+            "empty observations": {**report, "price_watch": {**watch, "observed_count": 0, "observations": []}},
+            "wrong count": {**report, "price_watch": {**watch, "observed_count": 4}},
+            "wrong session": {**report, "price_watch": {**watch, "as_of_sessions": ["2026-11-19"]}},
+            "conflicting report session": {**report, "as_of_sessions": []},
+            "incomplete": {**report, "run_complete": False},
+            "nonliteral complete": {**report, "run_complete": "true"},
+            "ranked count conflict": {**report, "ranked_count": 1},
+            "missing metadata": {**report, "universe": None},
+            "missing forecast status": {**report, "telegram_text": "\n".join(format_price_watch(watch))},
+            "missing watch": {**report, "telegram_text": "Forecast update unavailable."},
+        }
+        for key, value in (
+            ("as_of_session", "2026-02-30"), ("lag_sessions", 1), ("lag_sessions", False),
+            ("close", None), ("prior_high", 0), ("shock", "true"), ("symbol", "UNSCANNED"),
+        ):
+            payloads[f"invalid {key} {value}"] = {
+                **report,
+                "price_watch": {**watch, "observations": [{**observation, key: value}]},
+            }
+        inputs = {name: {"stdout": json.dumps(payload)} for name, payload in payloads.items()}
+        inputs["nonzero exit"] = {**inputs["price-only"], "exitCode": 1}
+        inputs["blank output"] = {"stdout": ""}
+        inputs["bad JSON"] = {"stdout": "incomplete"}
+        harness = (
+            "function validate($input) {\n" + VALIDATION_JS + "\n}\n"
+            "const inputs = JSON.parse(require('fs').readFileSync(0, 'utf8'));\n"
+            "const results = {};\n"
+            "for (const [name, input] of Object.entries(inputs)) {\n"
+            "  try { results[name] = validate({first: () => ({json: input})})[0].json; }\n"
+            "  catch (error) { results[name] = {error: error.message}; }\n"
+            "}\n"
+            "process.stdout.write(JSON.stringify(results));"
+        )
+        completed = subprocess.run(
+            ["node", "-e", harness], input=json.dumps(inputs), text=True,
+            capture_output=True, timeout=10, check=True,
+        )
+        results = json.loads(completed.stdout)
+        for name in ("price-only", "ranked forecast"):
+            self.assertEqual(results.pop(name)["optimizer_payload"], payloads[name])
+        for name, result in results.items():
+            with self.subTest(name=name):
+                self.assertIn("Market optimizer contract violation:", result.get("error", ""))
+
     def test_repair_bounds_schedule_and_hardens_telegram_delivery(self) -> None:
         repaired, changes = repair_market_optimization_workflow(
             _workflow_fixture()

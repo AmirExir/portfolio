@@ -107,10 +107,12 @@ Schedule Trigger
                          └-> raw JSON GitHub payload -> GitHub
 ```
 
-The validation step is required. It must stop the branch when command stdout
-is blank or malformed, when no ranking rows were produced, or when generated
-time, horizon, universe, or report text is missing. A failed producer must not
-be rewritten as a valid “no signals” market report. The checked repair utility
+The validation step stops the branch when command stdout is blank or
+malformed, the run is incomplete, or required report metadata is missing.
+A completed run with zero forecast rows can publish a price-only report if
+its fresh closing observations validate and its message explicitly says the
+forecast is unavailable. A run with neither type of evidence stops. Existing
+installations need the updated validator for price-only delivery. The checked repair utility
 adds this guard, publishes deterministic validated report text instead of
 trusting free-form model output, replaces the optimization language-model node
 with a deterministic publication adapter, reconnects both timestamped
@@ -232,6 +234,38 @@ not claim that price should rise immediately or monotonically. The append-only
 outcome ledger records maximum adverse and favorable excursion so a forecast
 that first falls sharply and later recovers is evaluated as that full path, not
 just by its final sign.
+
+## Closing-price alerts and levels to watch
+
+The scheduled report, Telegram message, and Market Analysis dashboard show
+the closing-price watch even when neither side has a qualified model forecast.
+SPY supplies the benchmark when it is in the requested universe and has
+sufficient data. Each symbol needs 22 consecutive, finite, positive closes
+ending on its latest completed session. Equities use the US trading calendar
+and crypto uses UTC days. A missing latest close excludes the symbol from this
+watch even if the forecast allows a session of lag. Coverage is shown in the
+message.
+
+| Watch | Rule at the completed close | Level to monitor |
+| --- | --- | --- |
+| Exit or avoid | Loss reaches the larger of 2% or twice the sample standard deviation of the preceding 20 one-session percentage returns, or the close falls below the preceding 20 closing prices. | A break of the prior closing low warrants an exit review for an existing holding. That same low becomes a recovery level. |
+| Possible entry | The close is within 2% of the highest of the latest 20 closes, the five-session return is positive, and neither downside rule fires. | A close above the preceding 20-session high confirms a breakout. A later close back below that level invalidates it. |
+
+Levels are in the symbol's quoted price units. The breakout, breakdown, and
+volatility tests for today's close all use earlier sessions. Pending triggers for
+the next close use the 20 sessions ending today, so an old extreme rolling out
+of the window cannot leave an obsolete trigger in the message. A recovery or
+invalidation level references the actual level already crossed. Changes in provider price history,
+including corporate-action adjustments, can change the levels. These are
+descriptive screening rules with no measured win rate. A level refers to a
+completed close, so an intraday crossing can reverse before the report runs.
+The watch has no position-sizing or order-placement role.
+
+The message shows five symbols per side by default. A positive
+`--max-signal-rows` sets the display cap. The JSON field
+`price_watch.observations` and the dashboard's symbol table include every
+usable observation. Reports created before this feature retain their original
+forecast data.
 
 ## Useful arguments
 

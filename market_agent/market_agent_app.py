@@ -66,6 +66,8 @@ try:
         select_model_name,
     )
     from patterns import scan_patterns
+    from price_watch_report import has_scheduled_report_data
+    from price_watch_view import render_scheduled_price_watch
     from report_freshness import (
         newest_json_payload_candidate,
         newest_text_report_candidate,
@@ -2932,7 +2934,7 @@ def newest_valid_local_ml_payload_candidate() -> tuple[dt.datetime, dict] | None
     )
     for candidate_path in candidate_paths:
         payload = load_json_file_safely(candidate_path)
-        if payload and payload.get("rows"):
+        if has_scheduled_report_data(payload):
             selected = newest_json_payload_candidate([(candidate_path, payload)])
             if selected is not None:
                 return selected[0], dict(selected[1])
@@ -3105,7 +3107,7 @@ def fetch_latest_ml_payload() -> dict | None:
     )
     if should_fetch_remote and newest_payload.get("download_url"):
         payload = fetch_json_from_download_url(newest_payload["download_url"])
-        if payload and payload.get("rows"):
+        if has_scheduled_report_data(payload):
             remote_candidate = newest_json_payload_candidate(
                 [(newest_payload.get("name", ""), payload)]
             )
@@ -3139,7 +3141,8 @@ def fetch_latest_ml_payload() -> dict | None:
             return None
         report_response = requests.get(download_url, timeout=10)
         report_response.raise_for_status()
-        return report_response.json()
+        payload = report_response.json()
+        return payload if has_scheduled_report_data(payload) else None
     except Exception:
         return None
 
@@ -3613,14 +3616,18 @@ with top_analysis_tab:
     try:
         latest_ml_payload = fetch_latest_ml_payload()
         latest_ml_report = fetch_latest_ml_report()
-        if latest_ml_payload and latest_ml_payload.get("rows"):
+        has_report = has_scheduled_report_data(latest_ml_payload)
+        if has_report:
             render_section_header(
                 "Scheduled Market Outlook & Trade Watchlist",
-                "Latest n8n-generated model-qualified signals, smart-policy watchlists, and reliability metadata.",
+                "Price conditions and model forecasts from the latest scheduled run.",
             )
             generated_at = latest_ml_payload.get("generated_at")
             if generated_at:
                 st.caption(f"📅 Generated: {generated_at}")
+            render_scheduled_price_watch(latest_ml_payload.get("price_watch"))
+        if has_report and latest_ml_payload["rows"]:
+            st.subheader("Forecast and policy signals")
             signal_summary = latest_ml_payload.get("signal_summary") or {}
             if signal_summary:
                 summary_cols = st.columns(4)
@@ -3636,7 +3643,7 @@ with top_analysis_tab:
             rows_df = pd.DataFrame(latest_ml_payload.get("rows", []))
             if not rows_df.empty:
                 rows_sorted = sort_by_policy_score(rows_df, ascending=False)
-                st.caption(f"{int(latest_ml_payload.get('horizon_days', 30))} trading-day scheduled ranking")
+                st.caption(f"{int(latest_ml_payload.get('horizon_days', 30))}-session forecast ranking")
                 st.dataframe(format_ranking_table(rows_sorted.head(15)), use_container_width=True)
 
             short_horizon_df = scheduled_short_horizon_table(latest_ml_payload.get("short_horizon_reports", []))
@@ -3717,6 +3724,8 @@ with top_analysis_tab:
             if latest_ml_report:
                 with st.expander("Full scheduled report text"):
                     st.info(latest_ml_report.strip())
+        elif has_report:
+            st.warning("Forecast update unavailable.")
         elif latest_ml_report:
             render_section_header(
                 "Scheduled Market Outlook & Trade Watchlist",

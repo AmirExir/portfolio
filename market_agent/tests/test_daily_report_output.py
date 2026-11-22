@@ -9,11 +9,13 @@ import tempfile
 import threading
 import unittest
 from contextlib import redirect_stdout
+from functools import partial
 from unittest.mock import patch
 
 import pandas as pd
 
 from market_agent import daily_ml_forecast_report as report
+from market_agent.agent.forecast import ForecastResult
 
 
 def _research_buy_row(**overrides) -> dict:
@@ -821,6 +823,116 @@ class DailyReportOutputTests(unittest.TestCase):
             )
 
         self.assertEqual(context, {})
+
+    def test_daily_watch_survives_failed_forecast_and_cache_reuse(self) -> None:
+        # Freeze which bars were complete on Saturday morning. The crypto
+        # provider is a day behind and includes an unfinished Saturday bar.
+        as_of = dt.datetime(2026, 11, 21, 11, tzinfo=dt.timezone.utc)
+        sessions = pd.bdate_range(end="2026-11-20", periods=22)
+        frames = {
+            "SPY": pd.DataFrame({"close": [100.0] * 21 + [95.0]}, index=sessions),
+            "TLT": pd.DataFrame({"close": [100.0] * 21 + [101.0]}, index=sessions),
+            "BTC-USD": pd.DataFrame(
+                {"close": [100.0] * 22 + [40.0, 150.0]},
+                index=pd.date_range(end="2026-11-19", periods=23).append(
+                    pd.DatetimeIndex(["2026-11-21"])
+                ),
+            ),
+        }
+
+        def fit(frame: pd.DataFrame, *, symbol: str, **_kwargs: object) -> dict:
+            if symbol == "SPY":
+                raise ValueError("fixture forecast unavailable")
+            forecast = pd.DataFrame(
+                {"forecast_close": [frame["close"].iloc[-1]]},
+                index=pd.DatetimeIndex(["2027-01-06"], name="date"),
+            )
+            return {"Ridge": ForecastResult(forecast, {}, "Ridge")}
+
+        with tempfile.TemporaryDirectory() as directory:
+            argv = [
+                "report", "--json-only", "--run-profile", "quick", "--output-dir", directory,
+                "--symbols", "SPY,TLT,BTC-USD", "--short-horizons", "",
+                "--no-market-context", "--no-earnings-context", "--model-cache-max-age-days", "0",
+            ]
+            with (
+                patch.object(sys, "argv", argv),
+                patch.object(report, "get_ohlcv", side_effect=lambda symbol, _days: frames[symbol]),
+                patch.object(report, "require_fresh_daily_market_data",
+                             wraps=partial(report.require_fresh_daily_market_data, now=as_of)),
+                patch.object(report, "compare_forecast_models", side_effect=fit) as compare,
+            ):
+                for expected_calls in (3, 4):
+                    stdout = io.StringIO()
+                    with redirect_stdout(stdout):
+                        self.assertEqual(report.main(), 0)
+                    self.assertEqual(compare.call_count, expected_calls)
+                    payload = json.loads(stdout.getvalue())
+                    plan = payload["price_watch"]
+                    self.assertEqual(plan["observed_count"], 2)
+                    self.assertEqual(plan["universe_count"], 3)
+                    self.assertNotIn("SPY", [row["Symbol"] for row in payload["rows"]])
+                    self.assertEqual(payload["top_sells"], [])
+                    self.assertEqual(payload["top_buys"], [])
+                    self.assertEqual(plan["downside_watch"][0]["symbol"], "SPY")
+                    self.assertEqual(plan["entry_watch"][0]["symbol"], "TLT")
+                    self.assertEqual(plan["benchmark"]["as_of_session"], "2026-11-20")
+                    self.assertEqual(plan["benchmark"]["change_pct"], -5.0)
+                    self.assertTrue(plan["entry_watch"][0]["entry_triggered"])
+                    self.assertIn("SPY: fixture forecast unavailable", payload["errors"])
+                    self.assertNotIn("timings", payload)
+                    saved = json.loads(Path(payload["paths"]["json"]).read_text())
+                    self.assertEqual(saved["price_watch"], plan)
+                    for output in (saved["report_text"], payload["telegram_text"]):
+                        self.assertIn("COMPLETED-SESSION PRICE WATCH", output)
+                        self.assertIn("SPY", output)
+                        self.assertIn("TLT", output)
+                    self.assertEqual(Path(payload["paths"]["txt"]).read_text(), payload["telegram_text"])
+
+    def test_missing_market_context_can_publish_prices_only_with_current_evidence(self) -> None:
+        as_of = dt.datetime(2026, 11, 21, 11, tzinfo=dt.timezone.utc)
+        prices = pd.DataFrame(
+            {"close": [100.0] * 21 + [96.0]},
+            index=pd.bdate_range(end="2026-11-20", periods=22),
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            state_path = Path(directory) / "policy_portfolio_state.json"
+            state_path.write_text('{"target_weights": {"SPY": 0.01}}')
+            argv = [
+                "report", "--json-only", "--run-profile", "quick", "--output-dir", directory,
+                "--symbols", "SPY", "--short-horizons", "", "--no-earnings-context",
+            ]
+            with (
+                patch.object(sys, "argv", argv),
+                patch.object(report, "load_market_context", side_effect=ValueError("provider offline")),
+                patch.object(report, "get_ohlcv", side_effect=[prices, prices.iloc[:-1]]),
+                patch.object(report, "require_fresh_daily_market_data",
+                             wraps=partial(report.require_fresh_daily_market_data, now=as_of)),
+                patch.object(report, "compare_forecast_models") as fit,
+            ):
+                first = io.StringIO()
+                with redirect_stdout(first):
+                    self.assertEqual(report.main(), 0)
+                payload = json.loads(first.getvalue())
+                self.assertEqual(payload["ranked_count"], 0)
+                self.assertEqual(payload["as_of_sessions"], ["2026-11-20"])
+                self.assertEqual(payload["price_watch"]["downside_count"], 1)
+                self.assertEqual(payload["price_watch"]["benchmark"]["lag_sessions"], 0)
+                self.assertIn("Forecast update unavailable.", payload["telegram_text"])
+                self.assertIn("provider offline", " ".join(payload["errors"]))
+                self.assertEqual(json.loads(state_path.read_text())["target_weights"], {"SPY": 0.01})
+                latest = Path(payload["paths"]["latest_json"])
+                published_bytes = latest.read_bytes()
+
+                second = io.StringIO()
+                with redirect_stdout(second):
+                    self.assertEqual(report.main(), 2)
+                unavailable = json.loads(second.getvalue())
+                self.assertFalse(unavailable["run_complete"])
+                self.assertEqual(unavailable["paths"], {})
+                self.assertEqual(unavailable["price_watch"]["observed_count"], 0)
+                self.assertEqual(latest.read_bytes(), published_bytes)
+                fit.assert_not_called()
 
     def test_json_only_entrypoint_always_emits_parseable_output(self) -> None:
         row = _research_buy_row()

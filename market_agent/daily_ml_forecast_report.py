@@ -48,6 +48,7 @@ from agent.ledger import (
 from agent.outcomes import append_matured_outcomes
 from agent.policy import SmartPolicyConfig, smart_policy_report
 from agent.portfolio import PortfolioConstraints, allocate_target_weights
+from agent.price_watch import price_watch_observation
 from agent.strategy import sma_crossover
 from forecast_cache import (
     MODEL_RESULT_CACHE_VERSION,
@@ -62,6 +63,7 @@ from forecast_cache import (
     snapshots_to_ranking_frame,
 )
 from patterns import recognize_patterns
+from price_watch_report import build_price_watch, format_price_watch
 from report_dates import format_report_timestamp, format_session_date
 from telegram_delivery import split_telegram_text
 
@@ -448,6 +450,7 @@ def require_fresh_daily_market_data(
             f"{expected.isoformat()}, lag {lag} {unit} exceeds allowed "
             f"{int(max_lag_sessions)}"
         )
+    completed.attrs["lag_sessions"] = lag
     return completed
 
 
@@ -468,8 +471,8 @@ def finite_row_float(row: dict, *keys: str, default: float = np.nan) -> float:
     return value if np.isfinite(value) else float(default)
 
 
-def as_of_sessions_from_rows(rows: list[dict]) -> list[str]:
-    """Return the sorted completed market sessions represented by report rows."""
+def as_of_sessions_from_rows(rows: list[dict], price_watch: dict | None = None) -> list[str]:
+    """Use forecast origins when available, or the observed sessions for a price-only run."""
 
     return sorted(
         {
@@ -477,7 +480,7 @@ def as_of_sessions_from_rows(rows: list[dict]) -> list[str]:
             for row in rows
             if str(row_value(row, "As Of Session", default="") or "").strip()
         }
-    )
+    ) or (price_watch or {}).get("as_of_sessions", [])
 
 
 def ranking_score(row: dict) -> float:
@@ -1900,6 +1903,7 @@ def run_rankings(
     *,
     deadline_monotonic: float | None = None,
     ranking_deadline_monotonic: float | None = None,
+    include_price_watch: bool = True,
 ) -> tuple[list[dict], list[str], list[dict], dict]:
     symbols = parse_symbols(args.symbols)
     requested_sequence_model = sequence_model_from_args(args)
@@ -1926,20 +1930,20 @@ def run_rankings(
         else {}
     )
     context_started_at = time.perf_counter()
-    context_df = (
-        pd.DataFrame()
-        if args.no_market_context
-        else load_market_context(
-            args.history_days,
-            args.max_data_lag_sessions,
-        )
-    )
+    context_df = pd.DataFrame()
+    context_error = None
+    if not args.no_market_context:
+        try:
+            context_df = load_market_context(args.history_days, args.max_data_lag_sessions)
+        except ValueError as exc:
+            context_error = f"Market context unavailable; dependent forecasts skipped: {exc}"
     context_fingerprint = None if args.no_market_context else frame_fingerprint(context_df)
     context_seconds = time.perf_counter() - context_started_at
     snapshots = []
     patterns_by_symbol = {}
     portfolio_closes: dict[str, pd.Series] = {}
-    errors = []
+    price_observations: list[dict] = []
+    errors = [context_error] if context_error else []
     symbol_timings = []
 
     runtime_budget_exceeded = False
@@ -1971,6 +1975,18 @@ def run_rankings(
                 symbol,
                 args.max_data_lag_sessions,
             )
+            # A forecast may tolerate one missing session. An alert about the
+            # latest close must actually observe it, even on a model-cache hit.
+            if include_price_watch and df.attrs["lag_sessions"] == 0:
+                observation = price_watch_observation(symbol, df["close"])
+                if observation is not None:
+                    observation["lag_sessions"] = df.attrs["lag_sessions"]
+                    if df.attrs.get("market_data_source"):
+                        observation["data_source"] = dict(df.attrs["market_data_source"])
+                    price_observations.append(observation)
+            if context_error:
+                symbol_status = "forecast_unavailable"
+                continue
             observed_sessions = tuple(
                 pd.Timestamp(value).date() for value in df.index
             )
@@ -2194,12 +2210,18 @@ def run_rankings(
             else 0.0
         ),
         "runtime_budget_exceeded": runtime_budget_exceeded,
-        "run_complete": not runtime_budget_exceeded,
+        "run_complete": not runtime_budget_exceeded and bool(rows or price_observations),
         "market_context_history_coverage": dict(
             context_df.attrs.get("history_coverage") or {}
         ),
         "portfolio": portfolio_diagnostics,
     }
+    if include_price_watch:
+        timings["price_watch"] = build_price_watch(
+            price_observations,
+            universe_count=len(symbols),
+            limit=max_signal_rows_from_args(args) or 5,
+        )
     return rows, errors, snapshots, timings
 
 
@@ -2236,6 +2258,7 @@ def run_short_horizon_reports(
             horizon_args,
             deadline_monotonic=deadline_monotonic,
             ranking_deadline_monotonic=ranking_deadline_monotonic,
+            include_price_watch=False,
         )
         reports.append(
             {
@@ -2578,7 +2601,8 @@ def build_market_report(
         f"{cap_text}"
     )
     watchlist_detail = f"smart-policy overlay only; model call did not qualify for the primary signal section{cap_text}"
-    as_of_sessions = as_of_sessions_from_rows(rows)
+    price_watch = (timings or {}).get("price_watch") or {}
+    as_of_sessions = as_of_sessions_from_rows(rows, price_watch)
     if len(as_of_sessions) == 1:
         data_as_of_text = f"Data as of completed session: {as_of_sessions[0]}"
     elif as_of_sessions:
@@ -2704,10 +2728,10 @@ def build_market_report(
         if binding:
             portfolio_line += f" | binding {binding}"
         lines.append(portfolio_line)
-    adaptive_symbols = (timings or {}).get("adaptive_sequence_symbols") or []
-    if adaptive_symbols:
-        lines.append("Adaptive sequence symbols: " + ", ".join(report_symbol(symbol) for symbol in adaptive_symbols))
-    if timings:
+    if timings and (getattr(args, "show_timing", False) or timings.get("run_complete") is False):
+        adaptive_symbols = timings.get("adaptive_sequence_symbols") or []
+        if adaptive_symbols:
+            lines.append("Adaptive sequence symbols: " + ", ".join(report_symbol(symbol) for symbol in adaptive_symbols))
         slowest = sorted(timings.get("symbol_timings", []), key=lambda item: item.get("seconds", 0.0), reverse=True)[:5]
         slowest_text = ", ".join(
             f"{report_symbol(item.get('symbol'))}: {format_duration(item.get('seconds', 0.0))}"
@@ -2731,6 +2755,11 @@ def build_market_report(
                 "diagnostic output must not be published)"
             )
     lines.append("")
+
+    if price_watch:
+        lines.extend([*format_price_watch(price_watch), ""])
+        if not rows:
+            lines.extend(["Forecast update unavailable.", ""])
 
     qualified_research_rows = [*model_buys, *model_sells]
     if policy_buys or qualified_research_rows:
@@ -2910,12 +2939,7 @@ def build_telegram_text(
     timings: dict | None = None,
     short_horizon_reports: list[dict] | None = None,
 ) -> str:
-    """Render qualified forecasts for readers, leaving diagnostics in the full report.
-
-    Forecast qualification and ranking use the existing rules. Rejected model
-    candidates and policy-only signals remain in ``build_market_report`` and
-    structured output, along with allocation checks and detailed data errors.
-    """
+    """Show observed price conditions and qualified forecasts for the target session."""
 
     generated_at = format_report_timestamp(dt.datetime.now(dt.timezone.utc))
     sorted_rows = sorted(rows, key=ranking_score, reverse=True)
@@ -2927,7 +2951,8 @@ def build_telegram_text(
     model_buys = cap_signal_rows(all_model_buys, args)
     model_sells = cap_signal_rows(all_model_sells, args)
 
-    as_of_sessions = as_of_sessions_from_rows(rows)
+    price_watch = (timings or {}).get("price_watch") or {}
+    as_of_sessions = as_of_sessions_from_rows(rows, price_watch)
     if len(as_of_sessions) == 1:
         data_as_of_text = f"As of: {format_session_date(as_of_sessions[0])}"
     elif as_of_sessions:
@@ -2946,10 +2971,16 @@ def build_telegram_text(
         f"Horizon: {args.horizon} {session_label} per asset",
         "Stocks count trading days; crypto counts calendar days.",
     ]
+    if price_watch:
+        lines.extend(["", *format_price_watch(price_watch)])
     if not rows:
         lines.extend(["", "Forecast update unavailable."])
     elif not (model_buys or model_sells):
         lines.extend(["", "No qualifying forecast setups today."])
+    elif not model_sells:
+        lines.extend(["", f"No downside forecast qualified for the {args.horizon}-session horizon."])
+    elif not model_buys:
+        lines.extend(["", f"No upside forecast qualified for the {args.horizon}-session horizon."])
 
     for heading, displayed, qualified in (
         ("UPSIDE WATCHLIST", model_buys, all_model_buys),
@@ -4139,7 +4170,7 @@ def _write_outputs_to_staging(
         include_rl_policy,
     )
 
-    report = build_market_report(rows, errors, args, timings if args.show_timing else None, short_horizon_reports)
+    report = build_market_report(rows, errors, args, timings, short_horizon_reports)
     ledger_path = output_dir / "prediction_ledger.jsonl"
 
     def deadline_checked_price_loader(symbol: str) -> pd.DataFrame:
@@ -4211,7 +4242,7 @@ def _write_outputs_to_staging(
         "universe": MARKET_UNIVERSE,
         "universe_count": len(symbols),
         "ranked_count": len(rows),
-        "as_of_sessions": as_of_sessions_from_rows(rows),
+        "as_of_sessions": as_of_sessions_from_rows(rows, timings.get("price_watch")),
         "run_profile": str(getattr(args, "run_profile", "custom") or "custom"),
         "primary_model": primary_model_from_args(args),
         "requested_primary_model": args.primary_model,
@@ -4290,7 +4321,7 @@ def _write_outputs_to_staging(
         "snapshots": snapshots,
         "short_horizon_reports": short_horizon_reports or [],
         "errors": errors,
-        "timings": timings,
+        "timings": {key: value for key, value in timings.items() if key != "price_watch"},
         "model_cache": {
             "force_retrain": bool(args.force_retrain),
             "max_age_days": float(args.model_cache_max_age_days),
@@ -4298,6 +4329,7 @@ def _write_outputs_to_staging(
             "no_rl_policy": no_rl_policy_from_args(args),
         },
         "telegram_text": telegram_text,
+        "price_watch": timings.get("price_watch"),
         "report_text": report["report_text"],
         "website_recommendations": report["website_recommendations"],
         "telegram_recommendations": report["telegram_recommendations"],
@@ -4332,25 +4364,20 @@ def _write_outputs_to_staging(
     write_text_atomic(cache_path, json_payload)
     write_text_atomic(txt_path, telegram_text)
     write_text_atomic(latest_txt_path, telegram_text)
-    write_text_atomic(
-        output_dir / "policy_portfolio_state.json",
-        json_dumps_strict(
-            {
-                "generated_at": timestamp,
-                "state_kind": "recommended_targets_not_broker_execution",
-                "target_weights": (
-                    timings.get("portfolio", {}).get("target_weights", {})
-                ),
-                "current_weight_source": (
-                    timings.get("portfolio", {}).get(
-                        "current_weight_source",
-                        "unknown",
-                    )
-                ),
-            },
-            indent=2,
-        ),
-    )
+    if rows:
+        portfolio = timings.get("portfolio", {})
+        write_text_atomic(
+            output_dir / "policy_portfolio_state.json",
+            json_dumps_strict(
+                {
+                    "generated_at": timestamp,
+                    "state_kind": "recommended_targets_not_broker_execution",
+                    "target_weights": portfolio.get("target_weights", {}),
+                    "current_weight_source": portfolio.get("current_weight_source", "unknown"),
+                },
+                indent=2,
+            ),
+        )
 
     _require_publication_time(
         deadline_monotonic,
@@ -4874,14 +4901,11 @@ def main() -> int:
         3,
     )
     timings["short_horizon_runs_complete"] = short_runs_complete
-    report_timings = (
-        timings if args.show_timing or not run_complete else None
-    )
     telegram_text = build_telegram_text(
         rows,
         errors,
         args,
-        report_timings,
+        timings,
         short_horizon_reports,
     )
     paths: dict[str, str] = {}
@@ -4905,12 +4929,11 @@ def main() -> int:
             paths = {}
 
     if not run_complete:
-        report_timings = timings
         telegram_text = build_telegram_text(
             rows,
             errors,
             args,
-            report_timings,
+            timings,
             short_horizon_reports,
         )
 
@@ -4938,7 +4961,7 @@ def main() -> int:
             rows,
             errors,
             args,
-            report_timings,
+            timings,
             short_horizon_reports,
         )
         configured_symbols = parse_symbols(args.symbols)
@@ -4951,7 +4974,7 @@ def main() -> int:
             "universe": MARKET_UNIVERSE,
             "universe_count": len(configured_symbols),
             "ranked_count": len(rows),
-            "as_of_sessions": as_of_sessions_from_rows(rows),
+            "as_of_sessions": as_of_sessions_from_rows(rows, timings.get("price_watch")),
             "symbols": configured_symbols,
             "run_profile": str(
                 getattr(args, "run_profile", "custom") or "custom"
@@ -4962,6 +4985,7 @@ def main() -> int:
             "rl_mode": "off" if no_rl_policy_from_args(args) else "shadow",
             "paths": paths,
             "telegram_text": telegram_text,
+            "price_watch": timings.get("price_watch"),
             "rows": rows,
             "short_horizon_reports": compact_short_horizon_reports(short_horizon_reports, args),
             "top_buys": report_summary["top_buys"],
@@ -5016,7 +5040,7 @@ def main() -> int:
             "errors": errors,
         }
         if args.show_timing:
-            output_payload["timings"] = timings
+            output_payload["timings"] = {key: value for key, value in timings.items() if key != "price_watch"}
         print(json_dumps_strict(output_payload))
     else:
         print(telegram_text)

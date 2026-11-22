@@ -241,14 +241,47 @@ try {
 if (!report || typeof report !== 'object' || Array.isArray(report)) {
   throw new Error('Market optimizer contract violation: the root value must be an object.');
 }
-if (!Array.isArray(report.rows) || report.rows.length === 0) {
-  throw new Error('Market optimizer contract violation: rows must be a non-empty array.');
+if (!Array.isArray(report.rows)) {
+  throw new Error('Market optimizer contract violation: rows must be an array.');
 }
 if (report.run_complete !== true) {
   throw new Error('Market optimizer contract violation: optimizer run is incomplete.');
 }
 if (typeof report.telegram_text !== 'string' || !report.telegram_text.trim()) {
   throw new Error('Market optimizer contract violation: telegram_text must be non-empty.');
+}
+if (report.rows.length === 0) {
+  const watch = report.price_watch;
+  const observations = watch?.observations;
+  const symbols = new Set(Array.isArray(report.symbols) ? report.symbols : []);
+  const reportLines = report.telegram_text.split('\n');
+  if (report.ranked_count !== 0 || !Array.isArray(observations) || !observations.length
+      || watch.observed_count !== observations.length || watch.universe_count !== symbols.size
+      || report.universe_count !== symbols.size || report.symbols?.length !== symbols.size || !Array.isArray(watch.as_of_sessions)
+      || !reportLines.includes('COMPLETED-SESSION PRICE WATCH') || !reportLines.includes('Forecast update unavailable.')) {
+    throw new Error('Market optimizer contract violation: empty rankings require an explicit, populated price watch.');
+  }
+  const seenSymbols = new Set();
+  const sessions = new Set();
+  for (const item of observations) {
+    const session = item?.as_of_session;
+    const timestamp = typeof session === 'string' ? Date.parse(session + 'T00:00:00Z') : NaN;
+    const validDate = Number.isFinite(timestamp) && new Date(timestamp).toISOString().slice(0, 10) === session;
+    if (!validDate || item.lag_sessions !== 0 || typeof item.symbol !== 'string'
+        || !item.symbol.trim() || !symbols.has(item.symbol) || seenSymbols.has(item.symbol)
+        || ![item.close, item.change_pct, item.prior_low, item.prior_high, item.shock_threshold_pct].every(Number.isFinite)
+        || item.close <= 0 || item.prior_low <= 0 || item.prior_high < item.prior_low || item.shock_threshold_pct <= 0
+        || ![item.shock, item.breakdown, item.entry_watch, item.entry_triggered].every(flag => typeof flag === 'boolean')) {
+      throw new Error('Market optimizer contract violation: invalid completed-session price observation.');
+    }
+    seenSymbols.add(item.symbol);
+    sessions.add(session);
+  }
+  const matchesObservations = dates => Array.isArray(dates) && dates.length === sessions.size
+    && [...sessions].every(date => dates.includes(date));
+  if (!matchesObservations(watch.as_of_sessions) || !matchesObservations(report.as_of_sessions)) {
+    throw new Error('Market optimizer contract violation: price-watch sessions disagree with the observations.');
+  }
 }
 
 const textMetadata = (label) => {
