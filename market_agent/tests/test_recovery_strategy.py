@@ -51,6 +51,17 @@ def test_price_alerts_override_oversold_and_only_completed_sessions_influence_en
     assert confirmed.state.iloc[-1] == "Trend"
 
 
+@pytest.mark.parametrize("endpoint", [83, 95, 64])
+def test_implied_rsi_hurdle_reproduces_next_rsi(endpoint: int) -> None:
+    c = closes().iloc[:endpoint]
+    hurdle = recovery_snapshot(c)["next_rsi_close"]
+    next_session = c.index[-1] + pd.offsets.BDay()
+    for delta in (-0.01, 0.01):
+        scenario = c.copy()
+        scenario.loc[next_session] = hurdle + delta
+        assert bool(rsi(scenario).iloc[-1] >= 35) == (delta > 0)
+
+
 def test_starter_expires_and_rsi_handles_one_sided_and_flat_windows() -> None:
     c = closes().iloc[:84]
     c = pd.concat(
@@ -113,6 +124,7 @@ def test_formatter_replays_legacy_warnings_and_keeps_stale_readings_out() -> Non
     message = risk_alerts.format_watch(result)
     assert "Strong Sell / Avoid" in message
     assert "Early rule 0%" in message and "Confirmed rule 0%" in message
+    assert "On a one-cent grid, RSI first qualifies at" in message
     assert "Oversold, Volume Spike" in message
     assert f"exceed {c.tail(5).max():.2f}" in message
     del result["warnings"][0]["policy"]

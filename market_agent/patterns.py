@@ -5,6 +5,7 @@ from collections.abc import Callable, Iterable
 import numpy as np
 import pandas as pd
 
+RSI_WINDOW = 14
 OVERSOLD_RSI = 35.0
 OVERBOUGHT_RSI = 70.0
 
@@ -32,7 +33,7 @@ def latest_value(series: pd.Series, default=np.nan) -> float:
     return float(clean.iloc[-1])
 
 
-def rsi(close: pd.Series, window: int = 14) -> pd.Series:
+def rsi(close: pd.Series, window: int = RSI_WINDOW) -> pd.Series:
     changes = close.diff()
     gains = changes.clip(lower=0).rolling(window).mean()
     losses = (-changes.clip(upper=0)).rolling(window).mean()

@@ -14,7 +14,7 @@ An oversold reading can coexist with a new closing low. The daily report shows h
 
 Each strategy evaluates the risk condition first and the trend condition second. A dropped trend position can qualify for the early starter at the same close. A renewed oversold reading can open another 20-session confirmation window. The closing-price hurdle rolls each session. RSI uses simple averages of gains and losses over 14 changes. The chart assigns 100 to an all-gain window, 0 to an all-loss window, and 50 to a completely flat window. Above 70 is labeled overbought. The strategy can hold an overbought uptrend.
 
-For NVDA on November 20, 2026, RSI was 13.75 and the close was $125.53. The 14.01% loss exceeded the 6.28% shock threshold and the close broke $145.98. Both paper positions were zero. For the next session, the five-close hurdle was $156.14. Reclaiming $145.98 alone would still leave the confirmed starter waiting.
+For NVDA on November 20, 2026, RSI was 13.75 and the close was $125.53. The 14.01% loss exceeded the 6.28% shock threshold and the close broke $145.98. Both paper positions were zero. For the next session, the five-close hurdle was $156.14. A Monday close at $156.15 would produce RSI 30.79. The other 13 price changes imply a closing price of at least $164.68 on a one-cent grid for RSI to reach 35. Both hurdles recalculate after each session.
 
 ## Historical comparison
 

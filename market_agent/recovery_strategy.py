@@ -7,11 +7,11 @@ import pandas as pd
 
 if __package__:
     from .agent.policy import SmartPolicyConfig
-    from .patterns import OVERSOLD_RSI, rsi
+    from .patterns import OVERSOLD_RSI, RSI_WINDOW, rsi
     from .risk_alerts import RANGE, SHOCK_FLOOR_PCT, SHOCK_MULTIPLIER
 else:  # The scheduled runner executes daily_ml_forecast_report.py directly.
     from agent.policy import SmartPolicyConfig
-    from patterns import OVERSOLD_RSI, rsi
+    from patterns import OVERSOLD_RSI, RSI_WINDOW, rsi
     from risk_alerts import RANGE, SHOCK_FLOOR_PCT, SHOCK_MULTIPLIER
 
 
@@ -111,7 +111,15 @@ def recovery_snapshot(close: pd.Series) -> dict:
         return {}
     row = path.iloc[-1]
     early = recovery_path(close, entry="immediate").iloc[-1]
+    # Tomorrow's simple RSI keeps these 13 changes and adds one unknown change.
+    prior_changes = close.diff().tail(RSI_WINDOW - 1)
+    gains = float(prior_changes.clip(lower=0).sum())
+    losses = float(-prior_changes.clip(upper=0).sum())
+    ratio = OVERSOLD_RSI / (100 - OVERSOLD_RSI)
+    gain_needed = ratio * losses - gains
+    move_for_rsi = gain_needed if gain_needed >= 0 else gain_needed / ratio
     return {
+        "next_rsi_close": float(close.iloc[-1]) + move_for_rsi,
         "version": VERSION,
         "recently_oversold": bool((path["rsi"].tail(RANGE + 1) < OVERSOLD_RSI).any()),
         "confirmed_state": row["state"],

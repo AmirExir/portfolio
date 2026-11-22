@@ -416,6 +416,13 @@ def format_watch(watch: dict) -> str:
                 f" Next close must exceed {_price(reading['next_breakout_close'])}"
                 f" with RSI at least {reading['recovery_rsi']:g} for a confirmed starter."
             )
+            rsi_close = reading.get("next_rsi_close")
+            if rsi_close is not None and rsi_close > reading["next_breakout_close"]:
+                if rsi_close >= 1:
+                    penny_close = math.ceil(rsi_close * 100) / 100
+                    detail += f" On a one-cent grid, RSI first qualifies at {penny_close:.2f}."
+                else:
+                    detail += f" The implied RSI price is about {_price(rsi_close)}."
         if patterns:
             detail += f" {patterns}."
         recoveries.append(detail)
