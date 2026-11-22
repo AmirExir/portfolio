@@ -124,6 +124,50 @@ class PriceWatchReportTests(unittest.TestCase):
         plan = build_price_watch([closer_to_old, closer_to_next], universe_count=2, limit=1)
         self.assertEqual(plan["entry_watch"], [closer_to_next])
 
+    def test_technical_readings_follow_watch_forecast_and_rsi_extremes(self) -> None:
+        def item(symbol: str, value: float, state: str, **kwargs: object) -> dict:
+            return _observation(symbol, technical={
+                "trend": "Mixed", "trend_windows": [20, 50], "rsi": value,
+                "rsi_state": state, "patterns": ["Bearish MA Crossover"],
+                "support": 90.5, "resistance": 98.0,
+            }, **kwargs)
+
+        observations = [
+            item("SPY", 30, "Oversold", shock=True), item("AAA", 25, "Oversold"),
+            item("BBB", 80, "Overbought"), item("CCC", 50, "Neutral"),
+            item("DDD", 75, "Overbought"), item("EEE", 65, "Neutral", entry_watch=True),
+            item("COMP5692-USD", 55, "Neutral", report_symbol="COMP", as_of_session="2026-11-21"),
+        ]
+        observations[3]["technical"]["patterns"] = ["Confirmed Double Bottom"]
+        observations[3]["technical"]["shape_necklines"] = {"Confirmed Double Bottom": 95.99}
+        plan = build_price_watch(observations, universe_count=7, limit=1)
+        text = "\n".join(format_price_watch(plan, forecast_symbols=["COMP", "SPY"]))
+        readings = text.split("TECHNICAL READINGS")[1]
+        self.assertIn("across 7 symbols | 2 oversold (below 35) | 2 overbought (above 70)", readings)
+        self.assertIn("COMP5692-USD (Nov 21, 2026) | Mixed trend (SMA 20/50)", readings)
+        self.assertIn("RSI(14) 55.0 (neutral) | Bearish MA Crossover", readings)
+        self.assertIn("Support 90.50 | Resistance 98.00", readings)
+        self.assertIn("neutral) | Confirmed Double Bottom (closed above neckline 95.99)", readings)
+        for symbol in ("SPY", "AAA", "BBB", "CCC", "EEE", "COMP5692-USD"):
+            self.assertEqual(readings.count(f"{symbol} ("), 1)
+        self.assertNotIn("DDD (", readings)
+
+    def test_technical_display_handles_sub_cent_levels_and_threshold_rounding(self) -> None:
+        observation = _observation("PEPE-USD", close=0.000002553, technical={
+            "rsi_state": "Oversold", "rsi": 34.98, "patterns": [],
+            "support": 0.000002552, "resistance": 0.000002559,
+        })
+        plan = build_price_watch([observation], universe_count=1, limit=1)
+        text = "\n".join(format_price_watch(plan))
+        self.assertIn("Trend unavailable | RSI(14) just below 35 (oversold)", text)
+        self.assertIn("Support 0.000002552 | Resistance 0.000002559", text)
+        observation["technical"].update(support=10, resistance=float("nan"), rsi=70.01, rsi_state="Overbought")
+        text = "\n".join(format_price_watch(plan))
+        self.assertIn("RSI(14) just above 70 (overbought)", text)
+        self.assertIn("Support unconfirmed below | Resistance unconfirmed above", text)
+        old = build_price_watch([_observation("SPY")], universe_count=1, limit=1)
+        self.assertNotIn("TECHNICAL READINGS", format_price_watch(old))
+
 
 if __name__ == "__main__":
     unittest.main()

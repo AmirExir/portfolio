@@ -3,12 +3,19 @@
 from __future__ import annotations
 
 import math
+from collections.abc import Sequence
 
 if __package__:
     from .agent import price_watch as rules
+    from .agent.technicals import (
+        DOUBLE_BOTTOM_LABEL, DOUBLE_TOP_LABEL, PATTERN_SESSIONS, RSI_OVERBOUGHT, RSI_OVERSOLD, RSI_PERIOD,
+    )
     from .report_dates import format_session_date
 else:
     from agent import price_watch as rules
+    from agent.technicals import (
+        DOUBLE_BOTTOM_LABEL, DOUBLE_TOP_LABEL, PATTERN_SESSIONS, RSI_OVERBOUGHT, RSI_OVERSOLD, RSI_PERIOD,
+    )
     from report_dates import format_session_date
 
 
@@ -141,11 +148,7 @@ def build_price_watch(observations: list[dict], *, universe_count: int, limit: i
     }
 
 
-def _formatted_levels(item: dict) -> list[str]:
-    values = [item[field] for field in ("close", "prior_low", "prior_high")]
-    levels = _next_levels(item)
-    if levels is not None:
-        values.extend(levels)
+def _format_prices(values: list[float]) -> list[str]:
     # Keep four significant digits for sub-dollar instruments. Add precision
     # when two distinct closing levels would otherwise display identically.
     precision = max(2, 3 - math.floor(math.log10(min(values)))) if min(values) < 1 else 2
@@ -153,6 +156,11 @@ def _formatted_levels(item: dict) -> list[str]:
     while len({round(value, precision) for value in unique}) != len(unique):
         precision += 1
     return [f"{value:,.{precision}f}" for value in values]
+
+
+def _formatted_levels(item: dict) -> list[str]:
+    values = [item[field] for field in ("close", "prior_low", "prior_high")]
+    return _format_prices([*values, *(_next_levels(item) or ())])
 
 
 def format_watch_prices(item: dict) -> tuple[str, str, str]:
@@ -200,7 +208,121 @@ def _entry_line(item: dict) -> str:
     )
 
 
-def format_price_watch(plan: dict) -> list[str]:
+def _finite_number(value: object) -> bool:
+    return isinstance(value, (float, int)) and not isinstance(value, bool) and math.isfinite(value)
+
+
+def _format_chart_pattern(name: str, close: float, necklines: dict) -> str:
+    level = necklines.get(name)
+    if not _finite_number(level) or level <= 0:
+        return name
+    if name == DOUBLE_TOP_LABEL and close < level:
+        direction = "below"
+    elif name == DOUBLE_BOTTOM_LABEL and close > level:
+        direction = "above"
+    else:
+        return name
+    return f"{name} (closed {direction} neckline {_format_prices([close, level])[1]})"
+
+
+def _technical_row(item: dict) -> list[str]:
+    """Describe one completed close with its own date, indicators and confirmed swing levels."""
+    data = item["technical"]
+    trend = data.get("trend")
+    windows = data.get("trend_windows") or []
+    if trend in ("Uptrend", "Downtrend", "Mixed"):
+        trend_text = "Mixed trend" if trend == "Mixed" else trend
+        if isinstance(windows, (list, tuple)) and windows:
+            trend_text += f" (SMA {'/'.join(map(str, windows))})"
+    else:
+        trend_text = "Trend unavailable"
+    rsi = data.get("rsi")
+    state = data.get("rsi_state")
+    momentum = "RSI unavailable"
+    if _finite_number(rsi) and 0 <= rsi <= 100 and state in ("Oversold", "Overbought", "Neutral"):
+        displayed = f"{rsi:.1f}"
+        if state == "Oversold" and float(displayed) == RSI_OVERSOLD:
+            displayed = f"just below {RSI_OVERSOLD:g}"
+        elif state == "Overbought" and float(displayed) == RSI_OVERBOUGHT:
+            displayed = f"just above {RSI_OVERBOUGHT:g}"
+        momentum = f"RSI({RSI_PERIOD}) {displayed} ({state.lower()})"
+    first_line = f"{item['symbol']} ({format_session_date(item['as_of_session'])}) | {trend_text} | {momentum}"
+    patterns = data.get("patterns")
+    close = item["close"]
+    if isinstance(patterns, list) and patterns and all(isinstance(name, str) for name in patterns):
+        necklines = data.get("shape_necklines")
+        if isinstance(necklines, dict):
+            patterns = [_format_chart_pattern(name, close, necklines) for name in patterns]
+        first_line += " | " + ", ".join(patterns)
+    support, resistance = data.get("support"), data.get("resistance")
+    levels = {}
+    if _finite_number(support) and 0 < support < close:
+        levels["Support"] = support
+    if _finite_number(resistance) and resistance > close:
+        levels["Resistance"] = resistance
+    formatted = dict(zip(levels, _format_prices([close, *levels.values()])[1:]))
+    return [
+        first_line,
+        f"  Support {formatted.get('Support', 'unconfirmed below')} | "
+        f"Resistance {formatted.get('Resistance', 'unconfirmed above')}",
+    ]
+
+
+def _technical_lines(plan: dict, forecast_symbols: Sequence[str]) -> list[str]:
+    observations = [
+        item for item in plan.get("observations", [])
+        if isinstance(item.get("technical"), dict) and item["technical"]
+    ]
+    if not observations:
+        return []
+    by_symbol = {item["symbol"]: item for item in observations}
+    selected = []
+    if plan.get("benchmark"):
+        selected.append(plan["benchmark"]["symbol"])
+    selected.extend(item["symbol"] for item in [*plan["downside_watch"], *plan["entry_watch"]])
+    selected.extend(
+        item["symbol"] for item in observations
+        if plan["universe_count"] <= 5 or item.get("report_symbol", item["symbol"]) in forecast_symbols
+    )
+    shapes = [
+        item["symbol"] for item in observations
+        if isinstance(item["technical"].get("patterns"), list)
+        and (DOUBLE_TOP_LABEL in item["technical"]["patterns"] or DOUBLE_BOTTOM_LABEL in item["technical"]["patterns"])
+    ]
+    selected.extend(shapes)
+    measured = [
+        item for item in observations if _finite_number(item["technical"].get("rsi"))
+        and 0 <= item["technical"]["rsi"] <= 100
+    ]
+    measured.sort(key=lambda item: (item["technical"]["rsi"], item["symbol"]))
+    oversold = [item for item in measured if item["technical"].get("rsi_state") == "Oversold"]
+    overbought = [item for item in measured if item["technical"].get("rsi_state") == "Overbought"]
+    if oversold:
+        selected.append(oversold[0]["symbol"])
+    if overbought:
+        selected.append(overbought[-1]["symbol"])
+    selected = list(dict.fromkeys(symbol for symbol in selected if symbol in by_symbol))
+    if not selected:
+        pattern_matches = [item for item in observations if item["technical"].get("patterns")]
+        selected = [item["symbol"] for item in (pattern_matches or observations)[:3]]
+    lines = ["", "TECHNICAL READINGS"]
+    if not shapes:
+        lines.append("No new confirmed double top or double bottom in the available closes.")
+    if measured:
+        noun = "symbol" if len(measured) == 1 else "symbols"
+        lines.append(
+            f"RSI({RSI_PERIOD}) across {len(measured)} {noun} | {len(oversold)} oversold "
+            f"(below {RSI_OVERSOLD:g}) | {len(overbought)} overbought (above {RSI_OVERBOUGHT:g})"
+        )
+    lines.append(
+        f"Support and resistance use the nearest confirmed swing closes from up to {PATTERN_SESSIONS} sessions."
+    )
+    for symbol in selected:
+        lines.extend(_technical_row(by_symbol[symbol]))
+    return lines
+
+
+def format_price_watch(plan: dict, *, forecast_symbols: Sequence[str] = ()) -> list[str]:
     """Render a structured watch plan as plain-text lines, including observed coverage."""
     observed = plan["observed_count"]
     universe = plan["universe_count"]
@@ -271,4 +393,5 @@ def format_price_watch(plan: dict) -> list[str]:
                 else:
                     line += f" Review downside below {levels[0]} or recheck for a breakout above {levels[1]} on a close."
                 lines.append(line)
+    lines.extend(_technical_lines(plan, forecast_symbols))
     return lines

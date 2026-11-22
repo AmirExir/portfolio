@@ -1978,15 +1978,28 @@ def run_rankings(
             # A forecast may tolerate one missing session. An alert about the
             # latest close must actually observe it, even on a model-cache hit.
             if include_price_watch and df.attrs["lag_sessions"] == 0:
-                observation = price_watch_observation(symbol, df["close"])
+                observation = price_watch_observation(
+                    symbol, df["close"], short_window=args.pattern_short_window,
+                    long_window=args.pattern_long_window,
+                )
                 if observation is not None:
                     observation["lag_sessions"] = df.attrs["lag_sessions"]
+                    observation["report_symbol"] = report_symbol(symbol)
                     if df.attrs.get("market_data_source"):
                         observation["data_source"] = dict(df.attrs["market_data_source"])
                     price_observations.append(observation)
             if context_error:
                 symbol_status = "forecast_unavailable"
                 continue
+            # Pattern windows and display rules can change independently of a cached model fit.
+            try:
+                pattern_info = recognize_patterns(
+                    df, short_window=args.pattern_short_window, long_window=args.pattern_long_window,
+                )
+            except (KeyError, TypeError, ValueError) as exc:
+                logging.debug("Pattern scan unavailable for %s: %s", symbol, exc)
+                pattern_info = {"Primary Pattern": "Unavailable", "All Patterns": ""}
+            patterns_by_symbol[symbol] = pattern_info
             observed_sessions = tuple(
                 pd.Timestamp(value).date() for value in df.index
             )
@@ -2048,11 +2061,8 @@ def run_rankings(
                             ).isoformat()
                         )
                     snapshots.append(cached_snapshot)
-                    patterns_by_symbol[symbol] = cached_payload.get("pattern_info") or {
-                        "Primary Pattern": "Unavailable",
-                        "All Patterns": "",
-                    }
                     cached_payload = dict(cached_payload)
+                    cached_payload["pattern_info"] = pattern_info
                     cached_payload["snapshot"] = cached_snapshot
                     cached_payload["history_coverage"] = history_coverage
                     save_json_payload(model_cache_path, cached_payload)
@@ -2068,19 +2078,6 @@ def run_rankings(
                         )
                         break
                     continue
-
-            try:
-                pattern_info = recognize_patterns(
-                    df,
-                    short_window=args.pattern_short_window,
-                    long_window=args.pattern_long_window,
-                )
-            except Exception:
-                pattern_info = {
-                    "Primary Pattern": "Unavailable",
-                    "All Patterns": "",
-                }
-            patterns_by_symbol[symbol] = pattern_info
 
             model_results = compare_forecast_models(
                 df,
@@ -2757,7 +2754,7 @@ def build_market_report(
     lines.append("")
 
     if price_watch:
-        lines.extend([*format_price_watch(price_watch), ""])
+        lines.extend([*format_price_watch(price_watch, forecast_symbols=top_buy_symbols + top_sell_symbols), ""])
         if not rows:
             lines.extend(["Forecast update unavailable.", ""])
 
@@ -2972,7 +2969,8 @@ def build_telegram_text(
         "Stocks count trading days; crypto counts calendar days.",
     ]
     if price_watch:
-        lines.extend(["", *format_price_watch(price_watch)])
+        forecast_symbols = [str(row_value(row, "Symbol", "symbol", default="")) for row in [*model_buys, *model_sells]]
+        lines.extend(["", *format_price_watch(price_watch, forecast_symbols=forecast_symbols)])
     if not rows:
         lines.extend(["", "Forecast update unavailable."])
     elif not (model_buys or model_sells):

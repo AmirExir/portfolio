@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 
 from .earnings import us_equity_trading_sessions
+from .technicals import CROSSOVER_LOOKBACK, TREND_CONFIRM_PERIOD, close_technicals, valid_trend_windows
 
 
 RANGE_SESSIONS = 20
@@ -21,17 +22,19 @@ REQUIRED_CLOSES = RANGE_SESSIONS + 2
 
 
 @lru_cache(maxsize=128)
-def _equity_window(end: date) -> tuple[date, ...]:
+def _equity_window(end: date, count: int) -> tuple[date, ...]:
     # Noon UTC is on the same New York civil date throughout the year.
     sessions = us_equity_trading_sessions(
         as_of=datetime.combine(end, time(12), tzinfo=timezone.utc),
-        lookback_days=REQUIRED_CLOSES * 2,
+        lookback_days=count * 2,
         future_session_count=1,
     )
-    return tuple(session for session in sessions if session <= end)[-REQUIRED_CLOSES:]
+    return tuple(session for session in sessions if session <= end)[-count:]
 
 
-def price_watch_observation(symbol: str, close: pd.Series) -> dict | None:
+def price_watch_observation(
+    symbol: str, close: pd.Series, *, short_window: int = 20, long_window: int = 50,
+) -> dict | None:
     """Evaluate the last completed close against earlier completed sessions.
 
     Supply a provider symbol and a chronological, completed-bar series. Missing
@@ -39,7 +42,9 @@ def price_watch_observation(symbol: str, close: pd.Series) -> dict | None:
     uses prior closes and the volatility uses their prior one-session returns
     (sample standard deviation). The next session's reference range includes
     this completed close. Returns and thresholds are percentages.
-    Price levels use the source quote units.
+    Technical indicators use the uninterrupted valid history ending on the
+    same bar. A gap outside the price-watch window can shorten their history
+    without suppressing a valid watch. Price levels use the source quote units.
     """
     if not isinstance(symbol, str) or not symbol.strip():
         return None
@@ -54,20 +59,26 @@ def price_watch_observation(symbol: str, close: pd.Series) -> dict | None:
         return None
     if sessions.hasnans or not sessions.is_monotonic_increasing or not sessions.is_unique:
         return None
-    window = tuple(sessions[-REQUIRED_CLOSES:].date)
-    end = window[-1]
+    trend_history = long_window + CROSSOVER_LOOKBACK if valid_trend_windows(short_window, long_window) else 0
+    history_count = min(len(close), max(TREND_CONFIRM_PERIOD, trend_history))
+    observed_dates = sessions[-history_count:].date
+    end = observed_dates[-1]
     if symbol.endswith("-USD"):
-        if (end - window[0]).days != REQUIRED_CLOSES - 1:
-            return None
-    elif window != _equity_window(end):
-        return None
+        expected_dates = pd.date_range(end=end, periods=history_count).date
+    else:
+        expected_dates = _equity_window(end, history_count)
 
-    prices = pd.to_numeric(close.iloc[-REQUIRED_CLOSES:], errors="coerce")
+    prices = pd.to_numeric(close.iloc[-history_count:], errors="coerce")
     if pd.api.types.is_complex_dtype(prices.dtype) or pd.api.types.is_bool_dtype(prices.dtype):
         return None
     values = prices.to_numpy(dtype=float, na_value=np.nan)
-    if not np.isfinite(values).all() or (values <= 0.0).any():
+    valid = np.isfinite(values) & (values > 0.0) & (observed_dates == expected_dates)
+    invalid = np.flatnonzero(~valid)
+    start = int(invalid[-1] + 1) if len(invalid) else 0
+    history = pd.Series(values[start:], index=sessions[-history_count:][start:])
+    if len(history) < REQUIRED_CLOSES:
         return None
+    values = values[-REQUIRED_CLOSES:]
     with np.errstate(over="ignore", invalid="ignore"):
         returns_pct = 100.0 * (np.diff(values) / values[:-1])
         daily_sd_pct = float(np.std(returns_pct[:-1], ddof=1))
@@ -105,4 +116,5 @@ def price_watch_observation(symbol: str, close: pd.Series) -> dict | None:
         "breakdown": breakdown,
         "entry_watch": entry_watch,
         "entry_triggered": entry_watch and last_close > prior_high,
+        "technical": close_technicals(history, short_window, long_window),
     }

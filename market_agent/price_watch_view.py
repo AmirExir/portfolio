@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from html import escape
+
 import pandas as pd
 import streamlit as st
 
@@ -52,8 +54,23 @@ def render_scheduled_price_watch(plan: dict | None) -> None:
     except (KeyError, IndexError, TypeError, ValueError, OverflowError):
         st.warning("The saved price watch contains incomplete or invalid data.")
         return
-    st.subheader(watch_lines[0])
-    st.text("\n".join(watch_lines[1:]).strip())
+    st.subheader(watch_lines[0].capitalize())
+    # Keep the same facts and ordering as Telegram. Native paragraphs wrap in
+    # narrow tabs; the indented line belongs to the preceding symbol's reading.
+    body = []
+    for index, group in enumerate("\n".join(watch_lines[1:]).strip().split("\n\n")):
+        lines = group.splitlines()
+        if index > 0:
+            heading = lines.pop(0)
+            body.append(f"<h4>{escape(heading.capitalize() if heading.isupper() else heading)}</h4>")
+        paragraphs = []
+        for line in lines:
+            if line.startswith("  ") and paragraphs:
+                paragraphs[-1] += "<br>" + escape(line.strip())
+            else:
+                paragraphs.append(escape(line))
+        body.extend(f"<p>{paragraph}</p>" for paragraph in paragraphs)
+    st.html('<div class="market-price-watch" style="max-width:88ch;overflow-wrap:anywhere">' + "".join(body) + "</div>")
     if rows.empty:
         return
     with st.expander(f"Price conditions by symbol ({len(rows)})"):

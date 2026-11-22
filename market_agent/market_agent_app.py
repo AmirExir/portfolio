@@ -65,13 +65,16 @@ try:
         snapshot_from_model_results,
         select_model_name,
     )
+    from heatmaps import build_return_heatmap, format_signed_return, heatmap_returns, return_color_axis
     from patterns import scan_patterns
     from price_watch_report import has_scheduled_report_data
     from price_watch_view import render_scheduled_price_watch
+    from report_dates import format_report_timestamp
     from report_freshness import (
         newest_json_payload_candidate,
         newest_text_report_candidate,
         newest_timestamped_path,
+        parse_report_timestamp,
         report_path_is_newer,
     )
 except ImportError as e:
@@ -1119,7 +1122,6 @@ def maybe_execute_auto_trade_smart(
     return {"status": "executed", "entry": log_entry, "decision": decision}
 
 
-APP_BUILD = "2026-06-18 professional-market-ui-v1"
 MARKET_BLUE = "#0b2f4f"
 MARKET_CYAN = "#00a3c7"
 MARKET_GREEN = "#16a34a"
@@ -1154,47 +1156,19 @@ def count_non_crypto_symbols(symbols) -> int:
 
 
 def inject_market_css() -> None:
+    """Style the dashboard while retaining the viewer's native widget palette."""
     st.markdown(
         """
         <style>
         :root {
             --market-blue: #0b2f4f;
             --market-cyan: #00a3c7;
-            --market-green: #16a34a;
-            --market-orange: #f59e0b;
-            --market-red: #dc2626;
-            --market-slate: #334155;
-            --market-muted: #64748b;
-            --market-border: #e2e8f0;
-            --market-bg: #f6f8fb;
-            --market-panel: #ffffff;
-        }
-        .stApp,
-        [data-testid="stAppViewContainer"],
-        [data-testid="stAppViewContainer"] > .main {
-            background: var(--market-bg);
-            color: #0f172a;
-        }
-        [data-testid="stHeader"] {
-            background: rgba(246,248,251,0.92);
-            border-bottom: 1px solid rgba(226,232,240,0.75);
+            --market-border: rgba(128, 145, 164, 0.45);
         }
         .block-container {
             max-width: 1480px;
             padding-top: 1.15rem;
             padding-bottom: 2.5rem;
-        }
-        [data-testid="stSidebar"] {
-            background: linear-gradient(180deg, #071f36 0%, #0b2f4f 54%, #123b63 100%);
-            border-right: 1px solid rgba(255,255,255,0.10);
-        }
-        [data-testid="stSidebar"] * {
-            color: #f8fafc;
-        }
-        [data-testid="stSidebar"] input,
-        [data-testid="stSidebar"] textarea,
-        [data-testid="stSidebar"] select {
-            color: #0f172a !important;
         }
         .market-hero {
             padding: 1.45rem 1.55rem;
@@ -1238,17 +1212,16 @@ def inject_market_css() -> None:
             font-size: 0.82rem;
         }
         .section-title {
-            color: var(--market-blue);
+            color: inherit;
             margin: 0.25rem 0 0.2rem 0;
             letter-spacing: -0.035em;
         }
         .section-subtitle {
-            color: var(--market-muted);
+            color: inherit;
             margin: 0 0 0.85rem 0;
             font-size: 0.95rem;
         }
         div[data-testid="stMetric"] {
-            background: var(--market-panel);
             border: 1px solid var(--market-border);
             border-top: 4px solid var(--market-cyan);
             border-radius: 18px;
@@ -1256,30 +1229,34 @@ def inject_market_css() -> None:
             box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
         }
         div[data-testid="stMetric"] label {
-            color: var(--market-muted) !important;
             text-transform: uppercase;
             letter-spacing: 0.075em;
             font-size: 0.72rem !important;
             font-weight: 800;
         }
-        .stTabs [data-baseweb="tab-list"] {
+        [data-testid="stMultiSelect"] [data-baseweb="tag"] {
+            background-color: #334155;
+            color: #ffffff;
+        }
+        [data-testid="stCaptionContainer"] {
+            opacity: 0.85;
+        }
+        [data-testid="stTabs"] [role="tablist"] {
             gap: 0.45rem;
             border-bottom: 1px solid var(--market-border);
         }
-        .stTabs [data-baseweb="tab"] {
+        [data-testid="stTabs"] [role="tab"] {
             border-radius: 999px;
             padding: 0.5rem 0.9rem;
+            color: inherit;
         }
-        .stTabs [data-baseweb="tab"] p {
-            color: var(--market-slate) !important;
+        [data-testid="stTabs"] [role="tab"] p {
+            color: inherit;
             font-weight: 750;
         }
-        .stTabs [aria-selected="true"] {
+        [data-testid="stTabs"] [role="tab"][aria-selected="true"] {
             background: #e0f2fe;
-        }
-        .stTabs [aria-selected="true"] p {
-            color: var(--market-blue) !important;
-            font-weight: 850;
+            color: var(--market-blue);
         }
         .stButton > button,
         .stLinkButton > a {
@@ -1296,7 +1273,6 @@ def inject_market_css() -> None:
             border-color: var(--market-cyan) !important;
         }
         h1, h2, h3 {
-            color: #0f172a;
             letter-spacing: -0.035em;
         }
         [data-testid="stDataFrame"] {
@@ -1313,7 +1289,7 @@ def inject_market_css() -> None:
 
 def render_market_hero() -> None:
     st.markdown(
-        f"""
+        """
         <div class="market-hero">
             <h1>Market Outlook &amp; Trade Watchlist</h1>
             <p>
@@ -1325,7 +1301,6 @@ def render_market_hero() -> None:
                 <span class="market-badge">Smart policy overlay</span>
                 <span class="market-badge">Stocks + ETFs + crypto</span>
                 <span class="market-badge">Paper trading controls</span>
-                <span class="market-badge">Build {APP_BUILD}</span>
             </div>
         </div>
         """,
@@ -1345,11 +1320,14 @@ def apply_market_chart_layout(
     height: int | None = None,
     margin: dict | None = None,
 ) -> go.Figure:
+    """Apply the light chart palette to the plot and its labels together."""
+    label_color = "#0f172a"
     layout_kwargs = {
         "template": "plotly_white",
         "paper_bgcolor": "#ffffff",
         "plot_bgcolor": "#ffffff",
-        "font": dict(color="#0f172a"),
+        "font": dict(color=label_color),
+        "legend": dict(font=dict(color=label_color), title_font=dict(color=label_color)),
         "hovermode": "closest",
         "margin": margin or dict(l=40, r=30, t=70 if title else 35, b=45),
     }
@@ -1371,24 +1349,31 @@ def apply_market_chart_layout(
         "violin",
     }
     if any(getattr(trace, "type", "") in cartesian_types for trace in fig.data):
-        fig.update_xaxes(showgrid=True, gridcolor="#eef2f7", linecolor="#cbd5e1", tickfont=dict(color="#0f172a"))
+        fig.update_xaxes(
+            showgrid=True,
+            gridcolor="#eef2f7",
+            linecolor="#cbd5e1",
+            tickfont=dict(color=label_color),
+            title_font=dict(color=label_color),
+        )
         fig.update_yaxes(
             showgrid=True,
             gridcolor="#eef2f7",
             zerolinecolor="#cbd5e1",
             linecolor="#cbd5e1",
-            tickfont=dict(color="#0f172a"),
+            tickfont=dict(color=label_color),
+            title_font=dict(color=label_color),
         )
     return fig
 
 
 def render_chart(fig: go.Figure) -> None:
-    st.plotly_chart(fig, use_container_width=True, config=PLOTLY_CONFIG)
+    """Keep Plotly's text colors paired with its explicit white chart background."""
+    st.plotly_chart(fig, use_container_width=True, theme=None, config=PLOTLY_CONFIG)
 
 
 st.set_page_config(
     page_title="Market Outlook & Trade Watchlist",
-    page_icon="📈",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -1587,24 +1572,6 @@ def _download_close_prices(tickers, **kwargs) -> pd.DataFrame:
     return _close_price_frame(raw, ticker_list)
 
 
-def _price_change_pct(close: pd.DataFrame, lookback_days: int) -> pd.Series:
-    if close.empty:
-        return pd.Series(dtype=float)
-
-    close = close.sort_index().ffill().dropna(axis=1, how="all").dropna(how="all")
-    if close.empty:
-        return pd.Series(dtype=float)
-
-    if close.shape[0] <= lookback_days:
-        base = close.iloc[0]
-    else:
-        base = close.iloc[-(lookback_days + 1)]
-    last = close.iloc[-1]
-    pct_change = (last - base) / base * 100.0
-    pct_change = pct_change.replace([np.inf, -np.inf], np.nan)
-    return pct_change.dropna()
-
-
 def _yf_market_cap(ticker: str) -> float:
     try:
         ticker_obj = yf.Ticker(ticker)
@@ -1613,12 +1580,11 @@ def _yf_market_cap(ticker: str) -> float:
             market_cap = fast_info.get("market_cap") if hasattr(fast_info, "get") else None
             if not market_cap:
                 market_cap = (ticker_obj.info or {}).get("marketCap")
-        market_cap = float(market_cap or 1.0)
-        if np.isnan(market_cap) or market_cap <= 0:
-            return 1.0
-        return market_cap
-    except Exception:
-        return 1.0
+        market_cap = float(market_cap or np.nan)
+        return market_cap if np.isfinite(market_cap) and market_cap > 0 else np.nan
+    except Exception as exc:
+        logging.debug("Market cap unavailable for %s: %s", ticker, exc)
+        return np.nan
 
 
 @st.cache_data(ttl=900, show_spinner=False)
@@ -1806,76 +1772,39 @@ def load_market_context(history_days: int) -> pd.DataFrame:
 
 
 @st.cache_data(ttl=900, show_spinner=False)
-def load_stock_heatmap_data(tickers: tuple[str, ...], lookback_days: int) -> pd.DataFrame:
-    period_days = lookback_days + 3
-    hist = _download_close_prices(tickers, period=f"{period_days}d", interval="1d")
-    pct_change = _price_change_pct(hist, lookback_days)
-    if pct_change.empty:
-        return pd.DataFrame(columns=["Ticker", "Percent Change", "Market Cap", "Label"])
-
-    market_caps = {ticker: _yf_market_cap(ticker) for ticker in pct_change.index}
-
-    df = pd.DataFrame(
-        {
-            "Ticker": pct_change.index,
-            "Percent Change": pct_change.values,
-            "Market Cap": [market_caps[ticker] for ticker in pct_change.index],
-        }
-    )
-    df["Label"] = df.apply(lambda row: f"{row['Ticker']}\n{row['Percent Change']:.2f}%", axis=1)
-    return df
+def load_heatmap_data(tickers: tuple[str, ...], lookback_days: int, *, crypto: bool, size_by_cap: bool) -> pd.DataFrame:
+    """Load the observation dates, returns and optional market caps for one heatmap."""
+    # Extra days cover closed markets before both the start and the latest observation.
+    start = dt.datetime.now(dt.timezone.utc).date() - dt.timedelta(days=lookback_days + 14)
+    prices = _download_close_prices(tickers, start=start.isoformat(), interval="1d")
+    data = heatmap_returns(prices, tickers, lookback_days, crypto=crypto)
+    if size_by_cap:
+        data["Market Cap"] = [
+            _yf_market_cap(ticker) if pd.notna(change) else np.nan
+            for ticker, change in zip(data["Ticker"], data["Percent Change"])
+        ]
+    return data
 
 
-@st.cache_data(ttl=900, show_spinner=False)
-def load_watchlist_heatmap_data(
-    watchlist_tickers: tuple[str, ...],
-    watchlist_labels: dict,
-    lookback_days: int,
-) -> pd.DataFrame:
-    period_days = lookback_days + 3
-    watch_hist = _download_close_prices(watchlist_tickers, period=f"{period_days}d", interval="1d")
-    watch_pct_change = _price_change_pct(watch_hist, lookback_days)
-    if watch_pct_change.empty:
-        return pd.DataFrame(columns=["Ticker", "Label", "Percent Change", "Weight", "Display"])
-
-    watch_df = pd.DataFrame(
-        {
-            "Ticker": watch_pct_change.index,
-            "Label": [watchlist_labels.get(ticker, ticker) for ticker in watch_pct_change.index],
-            "Percent Change": watch_pct_change.values,
-            "Weight": 1,
-        }
-    )
-    watch_df["Display"] = watch_df.apply(
-        lambda row: f"{row['Label']}\n{row['Percent Change']:.2f}%",
-        axis=1,
-    )
-    return watch_df
-
-
-@st.cache_data(ttl=900, show_spinner=False)
-def load_crypto_heatmap_data(crypto_tickers: tuple[str, ...], lookback_days: int) -> pd.DataFrame:
-    period_days = lookback_days + 5
-    crypto_hist = _download_close_prices(crypto_tickers, period=f"{period_days}d", interval="1d")
-    crypto_pct_change = _price_change_pct(crypto_hist, lookback_days)
-    if crypto_pct_change.empty:
-        return pd.DataFrame(columns=["Crypto", "Percent Change", "Market Cap", "Symbol", "Label"])
-
-    crypto_market_caps = {ticker: _yf_market_cap(ticker) for ticker in crypto_pct_change.index}
-
-    crypto_df = pd.DataFrame(
-        {
-            "Crypto": crypto_pct_change.index,
-            "Percent Change": crypto_pct_change.values,
-            "Market Cap": [crypto_market_caps[ticker] for ticker in crypto_pct_change.index],
-        }
-    )
-    crypto_df["Symbol"] = crypto_df["Crypto"].apply(ticker_short_label)
-    crypto_df["Label"] = crypto_df.apply(
-        lambda row: f"{row['Symbol']}\n{row['Percent Change']:.2f}%",
-        axis=1,
-    )
-    return crypto_df
+def render_return_heatmap(data: pd.DataFrame, lookback_days: int, *, title: str, height: int) -> None:
+    """Show a signed-return chart and its sortable, full-size values."""
+    figure, sizing = build_return_heatmap(data, lookback_days)
+    if figure.data:
+        figure = apply_market_chart_layout(figure, title=title, height=height, margin=dict(l=8, r=5, t=48, b=10))
+        render_chart(figure)
+        st.caption(
+            f"Daily price bars from {data.attrs['start']} to {data.attrs['end']}. The latest bar can change during trading. "
+            f"Losses are red, gains are green and zero is gray. Darker shades indicate larger moves. {sizing}"
+        )
+    else:
+        st.info(sizing)
+    with st.expander(f"{title} by symbol"):
+        # Keep the numeric column available for sorting even when small tiles hide their labels.
+        table = data[["Ticker", "Percent Change"]]
+        st.dataframe(
+            table.style.format({"Percent Change": format_signed_return}, na_rep="Unavailable"),
+            hide_index=True, use_container_width=True,
+        )
 
 
 def ticker_label(symbol: str) -> str:
@@ -1912,7 +1841,7 @@ def summary_timestamp_caption(filename: str) -> str | None:
         timestamp = _summary_timestamp(filename)
         date_part, time_part = timestamp.split("T", 1)
         time_part = time_part.replace("Z", "").replace("-", ":")
-        return f"📅 Last updated: {date_part} at {time_part} UTC"
+        return f"Last updated: {date_part} at {time_part} UTC"
     except Exception:
         return None
 
@@ -2071,7 +2000,8 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
             "RL Shadow Visits": "{:.0f}",
             "Policy Volatility %": "{:.1f}%",
             "Score": "{:+.2f}",
-        }
+        },
+        na_rep="Unavailable",
     ).hide(axis="index")
 
 
@@ -2485,7 +2415,7 @@ def build_quick_price_chart(df: pd.DataFrame, short_window: int, long_window: in
             y=long_ma,
             mode="lines",
             name=f"{long_window}-day MA",
-            line=dict(color="#2ca02c", width=1.8),
+            line=dict(color="#6d4c9b", width=1.8),
             hovertemplate="%{x}<br>Long MA: $%{y:,.2f}<extra></extra>",
         )
     )
@@ -2896,7 +2826,7 @@ def cached_forecast_rankings(
 def report_generated_caption(report_text: str) -> str | None:
     for line in report_text.splitlines():
         if line.startswith("Generated:"):
-            return f"📅 {line}"
+            return line
     return None
 
 
@@ -3188,11 +3118,11 @@ def fetch_latest_summary():
         return None
 
 # Sidebar: Owner key, Alpaca creds, account summary, strategy and forecast settings
-owner_key_input = st.sidebar.text_input("🔑 Enter Owner Key", type="password").strip()
+owner_key_input = st.sidebar.text_input("Enter Owner Key", type="password").strip()
 OWNER_KEY = get_first_secret(["OWNER_KEY", "MARKET_AGENT_OWNER_KEY"], "")
 
 if owner_key_input == OWNER_KEY and OWNER_KEY != "":
-    demo_mode = st.sidebar.checkbox("🎭 Demo Mode", value=False, help="Toggle between live and demo mode")
+    demo_mode = st.sidebar.checkbox("Demo Mode", value=False, help="Toggle between live and demo mode")
     if demo_mode:
         st.sidebar.info("Demo Mode active — trades will not be executed.")
     else:
@@ -3231,15 +3161,15 @@ else:
         st.sidebar.error(f"Failed to fetch Alpaca account: {e}")
         equity, cash, buying_power = 100000.0, 100000.0, 200000.0
 
-st.sidebar.header("💼 Account Summary (Paper Trading)")
+st.sidebar.header("Account Summary (Paper Trading)")
 st.sidebar.metric("Equity", f"${equity:,.2f}")
 st.sidebar.metric("Cash", f"${cash:,.2f}")
 st.sidebar.metric("Buying Power", f"${buying_power:,.2f}")
-if st.sidebar.button("🔄 Refresh Account and Money Chart"):
+if st.sidebar.button("Refresh Account and Money Chart"):
     st.rerun()
 
 # --- Add a Cancel Orders Button ---
-if st.sidebar.button("🧹 Cancel Open Orders"):
+if st.sidebar.button("Cancel Open Orders"):
     if not demo_mode:
         try:
             cancel_open_orders()
@@ -3250,11 +3180,11 @@ if st.sidebar.button("🧹 Cancel Open Orders"):
         st.sidebar.info("(Demo) Orders not canceled in demo mode")
 
 # --- Strategy Settings ---
-st.sidebar.header("⚙️ Strategy Settings")
-short_window = st.sidebar.number_input("📏 Short-term MA window", min_value=1, max_value=100, value=20, step=1)
-long_window = st.sidebar.number_input("📐 Long-term MA window", min_value=1, max_value=200, value=50, step=1)
+st.sidebar.header("Strategy Settings")
+short_window = st.sidebar.number_input("Short-term MA window", min_value=1, max_value=100, value=20, step=1)
+long_window = st.sidebar.number_input("Long-term MA window", min_value=1, max_value=200, value=50, step=1)
 
-st.sidebar.header("🤖 Auto Paper Trading")
+st.sidebar.header("Auto Paper Trading")
 auto_trade_enabled = st.sidebar.checkbox(
     "Enable automatic paper trades",
     value=False,
@@ -3275,7 +3205,7 @@ st.sidebar.caption(
     "raw ML direction, and RL-shadow outputs cannot submit orders."
 )
 
-st.sidebar.header("🔮 Market Outlook Settings")
+st.sidebar.header("Market Outlook Settings")
 history_options = {
     "~1 year": 365,
     "~2.5 years": 913,
@@ -3354,16 +3284,16 @@ if "symbol_refresh_nonce" not in st.session_state:
 if "forecast_work_paused" not in st.session_state:
     st.session_state["forecast_work_paused"] = False
 
-refresh_all = st.sidebar.button("🔄 Force recalculate all rankings", help="Ignore saved ranking caches and recompute every symbol.")
-refresh_selected = st.sidebar.button("🔄 Force recalculate selected stock", help="Ignore the saved selected-stock cache and recompute only the active symbol.")
+refresh_all = st.sidebar.button("Force recalculate all rankings", help="Ignore saved ranking caches and recompute every symbol.")
+refresh_selected = st.sidebar.button("Force recalculate selected stock", help="Ignore the saved selected-stock cache and recompute only the active symbol.")
 
 if st.session_state["forecast_work_paused"]:
     st.sidebar.warning("Heavy ML forecast work is paused.")
-    if st.sidebar.button("▶️ Resume ML forecasts"):
+    if st.sidebar.button("Resume ML forecasts"):
         st.session_state["forecast_work_paused"] = False
         st.rerun()
 else:
-    if st.sidebar.button("⏹️ Stop / pause ML forecasts", help="Prevents forecast rankings and selected-symbol ML forecasts from starting on rerun."):
+    if st.sidebar.button("Stop / pause ML forecasts", help="Prevents forecast rankings and selected-symbol ML forecasts from starting on rerun."):
         st.session_state["forecast_work_paused"] = True
         st.session_state["skip_heavy_once"] = True
         st.rerun()
@@ -3392,10 +3322,10 @@ pattern_errors: list[str] = []
 
 # Top-level tabs: Portfolio Balance first, then AI-Generated Market Summary, patterns, then Market Analysis
 top_portfolio_tab, top_summary_tab, top_patterns_tab, top_analysis_tab = st.tabs([
-    "💼 Portfolio Balance",
-    "📰 AI-Generated Market Summary",
-    "🧩 Most Common Patterns",
-    "📈 Market Analysis",
+    "Portfolio Balance",
+    "AI-Generated Market Summary",
+    "Most Common Patterns",
+    "Market Analysis",
 ])
 
 with top_summary_tab:
@@ -3403,7 +3333,7 @@ with top_summary_tab:
         "AI-Generated Market Summary",
         "Latest market-moving news summary produced by the automated research workflow.",
     )
-    if st.button("🔄 Reload Published News", help="Reload the latest summary published to GitHub"):
+    if st.button("Reload Published News", help="Reload the latest summary published to GitHub"):
         st.cache_data.clear()
         st.rerun()
 
@@ -3485,7 +3415,7 @@ with top_summary_tab:
                 else:
                     st.warning(" Could not find download URL for the latest summary file.")
     except Exception as e:
-        st.error(f"⚠️ Unable to load summary: {e}")
+        st.error(f"Unable to load summary: {e}")
         st.info("The news summary will be available when GitHub API or local files are accessible.")
 
 with top_patterns_tab:
@@ -3524,11 +3454,11 @@ with top_patterns_tab:
                 if not best_rank_row.empty:
                     picked_cols[2].metric(
                         "Forecast Return",
-                        f"{float(best_rank_row.iloc[0]['Forecast Return %']):+.2f}%",
-                        str(best_rank_row.iloc[0]["Model Call"]),
+                        format_signed_return(best_rank_row.iloc[0]["Forecast Return %"]),
                     )
+                    picked_cols[2].caption(f"Model call: {best_rank_row.iloc[0]['Model Call']}")
                 else:
-                    picked_cols[2].metric("20D Return", f"{float(picked['20D Return %']):+.2f}%")
+                    picked_cols[2].metric("20D Return", format_signed_return(picked["20D Return %"]))
                 picked_cols[3].metric("RSI", f"{float(picked['RSI']):.1f}")
                 st.caption(f"{best_stock_for_analysis} patterns: {picked['All Patterns']}")
             elif best_stock_for_analysis:
@@ -3541,7 +3471,7 @@ with top_patterns_tab:
                 metric_cols = st.columns(3)
                 metric_cols[0].metric("Most Common Pattern", str(top_pattern["Pattern"]))
                 metric_cols[1].metric("Tickers Matching", f"{int(top_pattern['Count'])}")
-                metric_cols[2].metric("Avg 20D Return", f"{float(top_pattern['Avg 20D Return %']):+.2f}%")
+                metric_cols[2].metric("Avg 20D Return", format_signed_return(top_pattern["Avg 20D Return %"]))
 
                 chart_df = pattern_summary.head(12)
                 pattern_fig = px.bar(
@@ -3550,16 +3480,19 @@ with top_patterns_tab:
                     y="Pattern",
                     orientation="h",
                     color="Avg 20D Return %",
-                    color_continuous_scale="RdYlGn",
                     hover_data={
                         "Count": True,
-                        "Avg 20D Return %": ":.2f",
-                        "Avg 60D Return %": ":.2f",
+                        "Avg 20D Return %": ":+.2f",
+                        "Avg 60D Return %": ":+.2f",
                         "Symbols": True,
                     },
                     title="Most Common Patterns Across Selected Tickers",
                 )
-                pattern_fig.update_layout(yaxis=dict(categoryorder="total ascending"))
+                pattern_fig.update_layout(
+                    coloraxis=return_color_axis(20),
+                    yaxis=dict(categoryorder="total ascending", automargin=True),
+                )
+                pattern_fig.update_coloraxes(colorbar_title_text="Avg 20D return")
                 pattern_fig = apply_market_chart_layout(
                     pattern_fig,
                     title="Most Common Patterns Across Selected Tickers",
@@ -3572,8 +3505,8 @@ with top_patterns_tab:
                     pattern_summary.style.format(
                         {
                             "Count": "{:.0f}",
-                            "Avg 20D Return %": "{:+.2f}%",
-                            "Avg 60D Return %": "{:+.2f}%",
+                            "Avg 20D Return %": format_signed_return,
+                            "Avg 60D Return %": format_signed_return,
                         }
                     ).hide(axis="index"),
                     use_container_width=True,
@@ -3586,9 +3519,9 @@ with top_patterns_tab:
                         .style.format(
                             {
                                 "Last Price": "${:,.4f}",
-                                "5D Return %": "{:+.2f}%",
-                                "20D Return %": "{:+.2f}%",
-                                "60D Return %": "{:+.2f}%",
+                                "5D Return %": format_signed_return,
+                                "20D Return %": format_signed_return,
+                                "60D Return %": format_signed_return,
                                 "RSI": "{:.1f}",
                                 "20D Volatility %": "{:.1f}%",
                                 "Volume Ratio": "{:.2f}x",
@@ -3624,7 +3557,8 @@ with top_analysis_tab:
             )
             generated_at = latest_ml_payload.get("generated_at")
             if generated_at:
-                st.caption(f"📅 Generated: {generated_at}")
+                timestamp = parse_report_timestamp(generated_at)
+                st.caption(f"Generated: {format_report_timestamp(timestamp) if timestamp else generated_at}")
             render_scheduled_price_watch(latest_ml_payload.get("price_watch"))
         if has_report and latest_ml_payload["rows"]:
             st.subheader("Forecast and policy signals")
@@ -3752,7 +3686,7 @@ with top_analysis_tab:
 
     # Timeframe selector
     sp_tf = st.selectbox(
-        "📉 Stock / ETF change timeframe",
+        "Stock / ETF change timeframe",
         ["1D", "7D", "1M", "3M", "1Y", "5Y"],
         index=0,
         key="stock_tf"
@@ -3786,23 +3720,9 @@ with top_analysis_tab:
         if not heatmap_symbols:
             st.info("Select at least one non-crypto forecast symbol in the sidebar to render this heatmap.")
         else:
-            df = load_stock_heatmap_data(heatmap_symbols, lookback_days)
-            if df.empty:
-                st.info("No selected-universe heatmap price data returned. Try refreshing or selecting a longer timeframe.")
-            else:
-                fig = px.treemap(
-                    df,
-                    path=["Ticker"],
-                    values="Market Cap",
-                    color="Percent Change",
-                    color_continuous_scale="RdYlGn",
-                    hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
-                    title=f"Selected Universe Change ({sp_tf}) - Sized by Market Cap"
-                )
-
-                fig.update_traces(text=df["Label"])
-                fig = apply_market_chart_layout(fig, title=f"Selected Universe Change ({sp_tf})", height=540)
-                render_chart(fig)
+            df = load_heatmap_data(heatmap_symbols, lookback_days, crypto=False, size_by_cap=True)
+            df["Label"] = df["Ticker"]
+            render_return_heatmap(df, lookback_days, title=f"Selected Universe Change ({sp_tf})", height=540)
 
     except Exception as e:
         st.error(f"Error generating selected-universe heatmap: {e}")
@@ -3825,42 +3745,29 @@ with top_analysis_tab:
     }
 
     try:
-        watch_df = load_watchlist_heatmap_data(tuple(watchlist_tickers), watchlist_labels, lookback_days)
-        if watch_df.empty:
-            st.info("No ETF or commodity watchlist data returned.")
-        else:
-            watch_fig = px.treemap(
-                watch_df,
-                path=["Label"],
-                values="Weight",
-                color="Percent Change",
-                color_continuous_scale="RdYlGn",
-                hover_data={"Percent Change": ":.2f"},
-                title=f"SPY, VOO, Gold, Silver, and Oil Change ({sp_tf})",
-            )
-            watch_fig.update_traces(text=watch_df["Display"])
-            watch_fig = apply_market_chart_layout(watch_fig, title=f"ETF and Commodity Change ({sp_tf})", height=430)
-            render_chart(watch_fig)
+        watch_df = load_heatmap_data(tuple(watchlist_tickers), lookback_days, crypto=False, size_by_cap=False)
+        watch_df["Label"] = watch_df["Ticker"].map(watchlist_labels)
+        render_return_heatmap(watch_df, lookback_days, title=f"ETF and Commodity Change ({sp_tf})", height=430)
     except Exception as e:
         st.error(f"Error generating watchlist heatmap: {e}")
 
 
-    # --- Real-Time Crypto Heatmap (Market Cap Weighted + Labels)
+    # Crypto daily-bar heatmap
     render_section_header(
-        "Real-Time Crypto Heatmap",
+        "Crypto Heatmap",
         "Major crypto assets by selected timeframe, sized by estimated market capitalization.",
     )
 
     # Timeframe selector for crypto
     crypto_tf = st.selectbox(
-        "⏱️ Crypto change timeframe",
-        ["24H", "7D", "1M", "3M", "1Y", "5Y"],
+        "Crypto change timeframe",
+        ["1D", "7D", "1M", "3M", "1Y", "5Y"],
         index=0
     )
 
     # Map timeframe -> lookback in days
     tf_days_map = {
-        "24H": 1,
+        "1D": 1,
         "7D": 7,
         "1M": 30,
         "3M": 90,
@@ -3877,30 +3784,16 @@ with top_analysis_tab:
     ]
 
     try:
-        crypto_df = load_crypto_heatmap_data(tuple(crypto_tickers), lookback_days)
-        if crypto_df.empty:
-            st.info("No crypto heatmap price data returned. Yahoo Finance may not have data for this moment.")
-        else:
-            crypto_fig = px.treemap(
-                crypto_df,
-                path=["Symbol"],
-                values="Market Cap",
-                color="Percent Change",
-                color_continuous_scale="RdYlGn",
-                hover_data={"Market Cap": ":,.0f", "Percent Change": ":.2f"},
-                title=f"Crypto Change ({crypto_tf}) - Sized by Market Cap"
-            )
-
-            crypto_fig.update_traces(text=crypto_df["Label"])
-            crypto_fig = apply_market_chart_layout(crypto_fig, title=f"Crypto Change ({crypto_tf})", height=540)
-            render_chart(crypto_fig)
+        crypto_df = load_heatmap_data(tuple(crypto_tickers), lookback_days, crypto=True, size_by_cap=True)
+        crypto_df["Label"] = crypto_df["Ticker"].map(ticker_short_label)
+        render_return_heatmap(crypto_df, lookback_days, title=f"Crypto Change ({crypto_tf})", height=540)
 
     except Exception as e:
         st.error(f"Error generating crypto heatmap: {e}")
 
     # --- Quick Price + SMA Crossover View ---
     quick_symbol = st.selectbox(
-        "⚡ Quick chart symbol",
+        "Quick chart symbol",
         options=SYMBOL_OPTIONS,
         index=SYMBOL_OPTIONS.index("AAPL"),
         format_func=ticker_label,
@@ -3995,7 +3888,7 @@ with top_analysis_tab:
 
     # --- Symbol input (defaults to best stock from rankings) ---
     symbol = st.selectbox(
-        "🏷️ Symbol",
+        "Symbol",
         options=SYMBOL_OPTIONS,
         index=SYMBOL_OPTIONS.index(best_stock_for_analysis) if best_stock_for_analysis in SYMBOL_OPTIONS else SYMBOL_OPTIONS.index("AAPL"),
         format_func=ticker_label,
@@ -4080,7 +3973,6 @@ try:
                 "Latest earnings interpretation unavailable: "
                 f"{earnings_context.get('error_code', 'unknown provider error')}."
             )
-        forecast_change = 0.0
         ml_forecast_available = False
         forecast_result = None
         model_results = {}
@@ -4119,7 +4011,7 @@ try:
             forecast_df = forecast_result.forecast
             historical_result = None
             historical_forecasts = pd.DataFrame()
-            forecast_change = forecast_result.metrics.get("forecast_change_pct", 0.0)
+            forecast_change = forecast_result.metrics.get("forecast_change_pct")
             probability_up = forecast_result.metrics.get("probability_up_pct", 0.0)
             probability_down = forecast_result.metrics.get("probability_down_pct", 0.0)
             confidence = forecast_result.metrics.get("confidence_pct", 0.0)
@@ -4129,7 +4021,7 @@ try:
             selected_window = forecast_result.metrics.get("selected_lookback_window", forecast_lookback)
             selected_alpha = forecast_result.metrics.get("selected_ridge_alpha", forecast_alpha)
             shrink_factor = forecast_result.metrics.get("shrink_factor", 1.0)
-            raw_forecast = forecast_result.metrics.get("raw_forecast_change_pct", forecast_change)
+            raw_forecast = forecast_result.metrics.get("raw_forecast_change_pct")
             try:
                 historical_result = cached_historical_forecasts(
                     symbol,
@@ -4151,7 +4043,8 @@ try:
             latest_actual_label = f"Actual: ${latest_actual_price:,.2f}"
             final_forecast_date = forecast_df.index[-1]
             final_forecast_price = float(forecast_df["forecast_close"].iloc[-1])
-            final_forecast_label = f"{primary_model}: ${final_forecast_price:,.2f} ({forecast_change:+.2f}%)"
+            forecast_move_label = format_signed_return(forecast_change)
+            final_forecast_label = f"{primary_model}: ${final_forecast_price:,.2f} ({forecast_move_label})"
             forecast_plot_x = [latest_actual_date, *forecast_df.index.tolist()]
             forecast_plot_y = [latest_actual_price, *forecast_df["forecast_close"].tolist()]
 
@@ -4183,7 +4076,7 @@ try:
                     mode="lines",
                     line=dict(width=0),
                     fill="tonexty",
-                    fillcolor="rgba(44, 160, 44, 0.15)",
+                    fillcolor="rgba(79, 70, 150, 0.12)",
                     name="90% estimate range",
                     hoverinfo="skip",
                 )
@@ -4194,18 +4087,18 @@ try:
                     y=forecast_plot_y,
                     mode="lines",
                     name=f"Primary ML Forecast ({primary_model})",
-                    line=dict(color="#2ca02c", width=2, dash="dash"),
+                    line=dict(color="#52449b", width=2, dash="dash"),
                     hovertemplate="%{x}<br>Primary ML forecast: $%{y:,.2f}<extra></extra>",
                 )
             )
             comparison_colors = {
                 "Ridge": "#8c564b",
-                "XGBoost": "#d62728",
+                "XGBoost": "#b16516",
                 "Neural Net": "#17becf",
                 "LSTM": "#9467bd",
                 "Transformer": "#e377c2",
                 "RL Policy": "#bcbd22",
-                "Ensemble": "#2ca02c",
+                "Ensemble": "#2b6485",
             }
             for comparison_name, comparison_result in model_results.items():
                 if comparison_name == primary_model or comparison_result.forecast is None or comparison_result.forecast.empty:
@@ -4282,10 +4175,10 @@ try:
                     y=[final_forecast_price],
                     mode="markers+text",
                     name=f"{forecast_horizon}-Day {primary_model} Forecast",
-                    marker=dict(color="#2ca02c", size=10, line=dict(color="white", width=2)),
+                    marker=dict(color="#52449b", size=10, line=dict(color="white", width=2)),
                     text=[final_forecast_label],
                     textposition="top right",
-                    textfont=dict(color="#1b5e20", size=13),
+                    textfont=dict(color="#433780", size=13),
                     hovertemplate="%{x}<br>ML based forecast value: $%{y:,.2f}<extra></extra>",
                 )
             )
@@ -4324,13 +4217,16 @@ try:
             metric_cols[0].metric(
                 f"{forecast_horizon}-day forecast",
                 f"${final_forecast_price:,.2f}",
-                f"{forecast_change:.2f}%",
+                forecast_move_label if forecast_move_label.startswith(("+", "-")) else None,
             )
+            if forecast_move_label == "0.00%":
+                metric_cols[0].caption("0.00% change")
             metric_cols[1].metric("Probability Up", f"{probability_up:.1f}%")
             metric_cols[2].metric("Expected Error", f"±{expected_error:.2f}%")
 
             quality_cols = st.columns(3)
-            quality_cols[0].metric("Model Edge", f"{model_edge:.1f}%", quality_label)
+            quality_cols[0].metric("Model Edge", f"{model_edge:.1f}%")
+            quality_cols[0].caption(quality_label)
             if historical_result is not None:
                 quality_cols[1].metric(
                     "Previous Forecast MAE",
@@ -4416,8 +4312,8 @@ try:
                 f"Market context features: {'on' if use_market_context and not context_df.empty else 'off'}. "
                 f"Selected lag window: {selected_window}; "
                 f"ridge alpha: {selected_alpha:g}; "
-                f"raw forecast: {raw_forecast:+.2f}%; "
-                f"calibrated forecast: {forecast_change:+.2f}%; "
+                f"raw forecast: {format_signed_return(raw_forecast)}; "
+                f"calibrated forecast: {forecast_move_label}; "
                 f"shrink factor: {shrink_factor:.2f}."
             )
             if quality_label == "No Edge":
@@ -4503,7 +4399,7 @@ try:
 
         action_col1, action_col2 = st.columns(2)
         with action_col1:
-            if st.button(f"🟢 Buy {buy_qty} shares of {symbol} (${est_buy_dollars:,.2f})"):
+            if st.button(f"Buy {buy_qty} shares of {symbol} (${est_buy_dollars:,.2f})"):
                 if demo_mode:
                     st.info(f"(Demo) Pretending to buy {buy_qty} shares of {symbol}")
                     _append_trade_log(
@@ -4553,7 +4449,7 @@ try:
                     except Exception as e:
                         st.error(f"Failed to buy: {e}")
         with action_col2:
-            if st.button(f"🔴 Sell {sell_qty} shares of {symbol} (${est_sell_dollars:,.2f})"):
+            if st.button(f"Sell {sell_qty} shares of {symbol} (${est_sell_dollars:,.2f})"):
                 if demo_mode:
                     st.info(f"(Demo) Pretending to sell {sell_qty} shares of {symbol}")
                     _append_trade_log(
@@ -4689,7 +4585,7 @@ try:
                     y=live_money_df["equity"],
                     mode="lines+markers",
                     name="Equity",
-                    line=dict(color="#2ca02c", width=2),
+                    line=dict(color="#66548b", width=2),
                 )
             )
             if "profit_loss" in live_money_df.columns and live_money_df["profit_loss"].notna().any():
@@ -4733,7 +4629,7 @@ try:
                     y=fallback_money_df["equity"],
                     mode="lines+markers",
                     name="Equity",
-                    line=dict(color="#2ca02c", width=2),
+                    line=dict(color="#66548b", width=2),
                 )
             )
             if "cash" in fallback_money_df.columns and fallback_money_df["cash"].notna().any():
@@ -4792,7 +4688,7 @@ except Exception as e:
 st.divider()
 
 # Debug info (only show in sidebar if needed)
-if st.sidebar.checkbox("🐞 Show Debug Info", value=False):
+if st.sidebar.checkbox("Show Debug Info", value=False):
     try:
         r = requests.get("https://paper-api.alpaca.markets/v2/orders", headers={
             "APCA-API-KEY-ID": ALPACA_KEY,

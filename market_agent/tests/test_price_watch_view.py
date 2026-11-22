@@ -34,7 +34,10 @@ class PriceWatchViewTests(unittest.TestCase):
         plan = build_price_watch([item, micro, neutral], universe_count=3, limit=1)
         app = _app(plan)
         self.assertFalse(app.exception)
-        self.assertNotIn("BBB-USD", app.text[0].value)
+        watch_html = app.get("html")[0].proto.body
+        self.assertIn("<h4>Exit / avoid watch (1 of 2 shown)</h4>", watch_html)
+        self.assertIn("<p>AAA (Nov 20, 2026) closed at 88.00", watch_html)
+        self.assertNotIn("BBB-USD", watch_html)
         self.assertEqual(app.dataframe[0].value["Symbol"].tolist(), ["AAA", "BBB-USD", "CCC"])
         self.assertEqual(app.dataframe[0].value.iloc[2]["Price condition"], "No trigger")
         self.assertEqual(app.dataframe[0].value.iloc[2]["Next-close lower level"], "Unavailable")
@@ -58,6 +61,18 @@ class PriceWatchViewTests(unittest.TestCase):
         self.assertFalse(app.exception)
         self.assertIn("unavailable in this saved report", app.caption[0].value)
         self.assertFalse(app.dataframe)
+
+    def test_report_text_is_escaped_before_it_is_rendered_as_html(self) -> None:
+        item = {
+            "as_of_session": "2026-11-20", "symbol": "<b>AAA</b>", "close": 88.0,
+            "prior_low": 90.0, "prior_high": 100.0, "change_pct": -11.0,
+            "shock_threshold_pct": 3.0, "shock": True, "breakdown": True,
+            "entry_watch": False, "entry_triggered": False,
+        }
+        app = _app(build_price_watch([item], universe_count=1, limit=1))
+        watch_html = app.get("html")[0].proto.body
+        self.assertIn("&lt;b&gt;AAA&lt;/b&gt;", watch_html)
+        self.assertNotIn("<b>AAA</b>", watch_html)
 
     def test_incomplete_saved_watch_does_not_hide_the_forecast_section(self) -> None:
         app = _app({"observed_count": 5})

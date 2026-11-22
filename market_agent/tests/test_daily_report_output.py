@@ -831,7 +831,9 @@ class DailyReportOutputTests(unittest.TestCase):
         sessions = pd.bdate_range(end="2026-11-20", periods=22)
         frames = {
             "SPY": pd.DataFrame({"close": [100.0] * 21 + [95.0]}, index=sessions),
-            "TLT": pd.DataFrame({"close": [100.0] * 21 + [101.0]}, index=sessions),
+            "TLT": pd.DataFrame(
+                {"close": [100.0] * 61 + [101.0]}, index=pd.bdate_range(end=sessions[-1], periods=62),
+            ),
             "BTC-USD": pd.DataFrame(
                 {"close": [100.0] * 22 + [40.0, 150.0]},
                 index=pd.date_range(end="2026-11-19", periods=23).append(
@@ -853,6 +855,7 @@ class DailyReportOutputTests(unittest.TestCase):
             argv = [
                 "report", "--json-only", "--run-profile", "quick", "--output-dir", directory,
                 "--symbols", "SPY,TLT,BTC-USD", "--short-horizons", "",
+                "--pattern-short-window", "3", "--pattern-long-window", "8",
                 "--no-market-context", "--no-earnings-context", "--model-cache-max-age-days", "0",
             ]
             with (
@@ -868,6 +871,8 @@ class DailyReportOutputTests(unittest.TestCase):
                         self.assertEqual(report.main(), 0)
                     self.assertEqual(compare.call_count, expected_calls)
                     payload = json.loads(stdout.getvalue())
+                    tlt_row = next(row for row in payload["rows"] if row["Symbol"] == "TLT")
+                    self.assertIn("Overbought", tlt_row["All Patterns"])
                     plan = payload["price_watch"]
                     self.assertEqual(plan["observed_count"], 2)
                     self.assertEqual(plan["universe_count"], 3)
@@ -878,6 +883,10 @@ class DailyReportOutputTests(unittest.TestCase):
                     self.assertEqual(plan["entry_watch"][0]["symbol"], "TLT")
                     self.assertEqual(plan["benchmark"]["as_of_session"], "2026-11-20")
                     self.assertEqual(plan["benchmark"]["change_pct"], -5.0)
+                    technical = plan["benchmark"]["technical"]
+                    self.assertEqual(technical["trend_windows"], [3, 8])
+                    self.assertEqual((technical["rsi"], technical["rsi_state"]), (0.0, "Oversold"))
+                    self.assertEqual(plan["entry_watch"][0]["technical"]["rsi"], 100.0)
                     self.assertTrue(plan["entry_watch"][0]["entry_triggered"])
                     self.assertIn("SPY: fixture forecast unavailable", payload["errors"])
                     self.assertNotIn("timings", payload)
@@ -885,9 +894,18 @@ class DailyReportOutputTests(unittest.TestCase):
                     self.assertEqual(saved["price_watch"], plan)
                     for output in (saved["report_text"], payload["telegram_text"]):
                         self.assertIn("COMPLETED-SESSION PRICE WATCH", output)
+                        self.assertIn("TECHNICAL READINGS", output)
+                        self.assertIn("Downtrend (SMA 3/8) | RSI(14) 0.0 (oversold)", output)
+                        self.assertIn("Uptrend (SMA 3/8) | RSI(14) 100.0 (overbought)", output)
                         self.assertIn("SPY", output)
                         self.assertIn("TLT", output)
                     self.assertEqual(Path(payload["paths"]["txt"]).read_text(), payload["telegram_text"])
+                    if expected_calls == 3:
+                        # A previous release may have stored stale readings alongside a valid forecast.
+                        for path in (Path(directory) / "model_artifacts").glob("model_results_*.json"):
+                            cache = json.loads(path.read_text())
+                            cache["pattern_info"] = {"Primary Pattern": "Old pattern", "All Patterns": "Old pattern"}
+                            path.write_text(json.dumps(cache))
 
     def test_missing_market_context_can_publish_prices_only_with_current_evidence(self) -> None:
         as_of = dt.datetime(2026, 11, 21, 11, tzinfo=dt.timezone.utc)

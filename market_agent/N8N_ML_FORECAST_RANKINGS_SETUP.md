@@ -267,6 +267,52 @@ The message shows five symbols per side by default. A positive
 usable observation. Reports created before this feature retain their original
 forecast data.
 
+### Technical readings in Telegram
+
+The report gives the benchmark, displayed watch and forecast symbols, newly
+confirmed double tops and bottoms, and the most extreme oversold and overbought
+symbols a dated chart reading. Requests
+for up to five symbols show each symbol with usable prices. The counts cover
+all measured symbols. The JSON stores each symbol's readings under
+`price_watch.observations[].technical`.
+
+- **Trend** compares the close and the short simple moving average against the
+  longer average (20 and 50 sessions by default). When a longer 200-session
+  average is available, the long average must also confirm the direction.
+  Mixed covers ties and conflicting conditions. The report names detected setups such
+  as a recent crossover, pullback in an uptrend, or rebound from a 60-session low.
+- **Double tops and bottoms** require two confirmed peaks or troughs 5–30 sessions
+  apart and within 2% of one another. The intervening confirmed swing must
+  have at least 3% depth. Its closing price is the neckline. The shape appears
+  on the first close through the neckline within ten sessions of the second
+  turn. A double top breaks downward and a double bottom breaks upward.
+- **RSI(14)** uses simple mean gains and losses over 14 close-to-close changes.
+  The scanner labels values below 35 oversold and above 70 overbought. A flat
+  window reads 50. Entry and exit alerts use their existing price triggers.
+- **Support and resistance** use the nearest confirmed swing low below and swing
+  high above the last close. A pivot must be strictly lower or higher than the
+  two closes on each side, within the latest 60 consecutive completed sessions.
+  Either side can be unconfirmed. The separate 20-session range still governs
+  the existing entry and exit watches.
+
+The agent recalculates these readings after filtering incomplete and stale
+bars, including when it reuses a cached forecast. A gap shortens the usable
+history and can make the trend unavailable.
+
+### Reading returns on the dashboard
+
+Red shows a loss, green shows a gain, and gray marks an unchanged price.
+A deeper shade means a larger move. The stock, ETF and crypto heatmaps use
+the same fixed color scale for the same timeframe, so removing a ticker cannot
+change what another ticker's color means. The one-day scale reaches its
+darkest shades at −15% and +15%. Moves beyond those limits retain their full
+signed percentages on hover and in the accompanying table.
+
+The pattern chart uses the same convention for the average 20-session return.
+Bar length gives the number of matching symbols. The heatmap's caption gives
+its price dates and area weighting. A missing price endpoint appears as
+unavailable in the table.
+
 ## Useful arguments
 
 ```bash
