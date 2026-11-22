@@ -31,6 +31,8 @@ class DashboardPresentationTests(unittest.TestCase):
         ):
             script = Path(directory) / source.name
             script.write_text(source.read_text())
+            # Older deployments expose only scan_patterns under this top-level name.
+            script.with_name("patterns.py").write_text("scan_patterns = None\n")
             reports = script.parent / "reports"
             reports.mkdir()
             # Disabled models emit entirely null columns in real scheduled reports.
@@ -45,6 +47,7 @@ class DashboardPresentationTests(unittest.TestCase):
             }))
             app = AppTest.from_file(str(script))
             app.run(timeout=60)
+            self.assertFalse(app.error, [error.value for error in app.error])
             new_stocks = {"NBIS": "Nebius", "CRWV": "CoreWeave", "IREN": "IREN"}
             rankings = app.multiselect(key="market_universe_rankings")
             picker = app.selectbox(key="symbol_select")

@@ -21,8 +21,11 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 
-# Add the parent directory to the path for local imports
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# Streamlit can launch the script with market_agent as its working directory.
+app_dir = Path(__file__).resolve().parent
+sys.path.insert(0, str(app_dir))
+if str(app_dir.parent) not in sys.path:
+    sys.path.append(str(app_dir.parent))
 
 # Try to import agent modules, with fallback handling
 try:
@@ -72,7 +75,7 @@ try:
         select_model_name,
     )
     from heatmaps import build_return_heatmap, format_signed_return, heatmap_returns, return_color_axis
-    from patterns import scan_patterns, summarize_patterns
+    from market_agent.patterns import scan_patterns, summarize_patterns
     from saved_rankings import dashboard_result_path, scheduled_pattern_rows, scheduled_rows_for_symbols, stored_ranking_rows
     from saved_symbol_forecast import (
         attach_archived_models, choose_saved_forecast, historical_accuracy_path, render_historical_accuracy,
@@ -89,8 +92,9 @@ try:
         report_path_is_newer,
     )
 except ImportError as e:
-    st.error(f" Failed to import agent modules: {e}")
-    st.info("Please ensure the 'agent' folder exists in the same directory as this app.")
+    st.error(f"Market Agent could not start: {e}")
+    if isinstance(e, ModuleNotFoundError) and e.name == "agent":
+        st.info("Check that the agent folder is in the same directory as this app.")
     st.stop()
 
 
