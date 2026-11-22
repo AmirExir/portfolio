@@ -1,0 +1,9 @@
+1. tinyercot 0.2.3
+Pypi.org • 2026-11-21
+Tiny fully-typed ERCOT API
+https://pypi.org/project/tinyercot/0.2.3/
+
+2. SpaceX First In Line As Texas Resumes Data Center Permitting
+The Daily Caller • 2026-11-21
+TCEQ issued an air permit on Nov. 16 for SpaceX’s planned data center and gas-fired power plant on a 444-acre site near the Port of Brownsville.
+https://dailycaller.com/2026/11/21/opinion-spacex-texas-data-center-permitting-david-blackmon/
