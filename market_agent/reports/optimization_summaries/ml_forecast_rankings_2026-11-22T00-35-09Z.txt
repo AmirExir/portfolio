@@ -1,0 +1,34 @@
+Market Outlook & Trade Watchlist
+Generated: Nov 21, 2026 at 6:26 PM CST (UTC-06:00)
+As of: Nov 20, 2026 to Nov 21, 2026
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+COMPLETED-SESSION PRICE WATCH
+Usable closing history for 80 of 80 symbols (Nov 20, 2026 to Nov 21, 2026).
+SPY benchmark (Nov 20, 2026) -3.64% in one session, closing at 689.81. Already below its prior 20-session closing low of 715.87. Watch for a close back above it.
+
+Exit / avoid watch (5 of 52 shown)
+If held, review an exit on a break of the 20-session closing low. For a new entry, watch the recovery or breakout level shown.
+NVDA (Nov 20, 2026) closed at 125.53 (-14.01%). Loss reached the 6.28% alert threshold. Already below 145.98. Recovery needs a close back above that level.
+SHIB-USD (Nov 21, 2026) closed at 0.000003510 (-12.25%). Loss reached the 8.94% alert threshold. Already below 0.000004000. Recovery needs a close back above that level.
+META (Nov 20, 2026) closed at 560.84 (-5.93%). Loss reached the 4.46% alert threshold. Already below 596.22. Recovery needs a close back above that level.
+XLK (Nov 20, 2026) closed at 149.01 (-7.27%). Loss reached the 5.55% alert threshold. Already below 160.69. Recovery needs a close back above that level.
+GS (Nov 20, 2026) closed at 790.69 (-6.71%). Loss reached the 5.14% alert threshold. Already below 847.53. Recovery needs a close back above that level.
+
+Entry watch (1)
+TLT (Nov 20, 2026) closed at 81.45. Watch for an entry on a close above 81.96, the latest 20-session closing high. A close below 79.38 invalidates the setup.
+
+No downside forecast qualified for the 30-session horizon.
+
+UPSIDE WATCHLIST
+
+1. SLB: forecast +18.87% by Jan 6, 2027
+  Reliability: moderate; model-estimated chance of a rise: 89%; estimated error: 11.4 percentage points.
+
+2. SLV: forecast +9.53% by Jan 6, 2027
+  Reliability: moderate; model-estimated chance of a rise: 72%; estimated error: 11.5 percentage points.
+
+Returns are estimates for the target date; prices may move against the forecast before then.
+
+Model forecasts, not trade instructions. Not financial advice.
