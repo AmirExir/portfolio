@@ -94,6 +94,7 @@ class DailyReportOutputTests(unittest.TestCase):
         self.assertFalse(args.no_optimize)
         self.assertFalse(args.include_rl_policy)
         self.assertEqual(args.runtime_budget_minutes, 240.0)
+        self.assertIn("12.5%", report.build_parser().format_help())
         self.assertEqual(args.adaptive_sequence_exploration_quota, 2)
 
     def test_runtime_deadlines_reserve_30_minutes_for_overnight_finalization(

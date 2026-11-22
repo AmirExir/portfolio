@@ -65,6 +65,7 @@ from patterns import recognize_patterns
 from report_dates import format_report_timestamp, format_session_date
 from telegram_delivery import split_telegram_text
 import risk_alerts
+from recovery_strategy import recovery_snapshot
 
 
 DEFAULT_SYMBOLS = [
@@ -1988,6 +1989,10 @@ def run_rankings(
                 df.attrs.get("market_data_source", {}), df.attrs.get("lag_sessions", 0),
                 df.attrs.get("close_revisions", {}),
             )
+            if not symbol.endswith("-USD") and not risk_observations[symbol].get("issue"):
+                risk_observations[symbol]["recovery"] = recovery_snapshot(
+                    portfolio_closes[report_symbol(symbol)]
+                )
             data_fingerprint = frame_fingerprint(df)
             symbol_context_fingerprint = context_fingerprint
             if earnings_context:
@@ -2020,6 +2025,19 @@ def run_rankings(
                 include_rl_policy,
             )
 
+            try:
+                pattern_info = recognize_patterns(
+                    df,
+                    short_window=args.pattern_short_window,
+                    long_window=args.pattern_long_window,
+                )
+            except Exception:
+                pattern_info = {
+                    "Primary Pattern": "Unavailable",
+                    "All Patterns": "",
+                }
+            patterns_by_symbol[symbol] = pattern_info
+
             if not args.force_retrain:
                 cached_payload = load_json_payload(model_cache_path)
                 cached_snapshot = cached_payload.get("snapshot") or {}
@@ -2040,11 +2058,8 @@ def run_rankings(
                             ).isoformat()
                         )
                     snapshots.append(cached_snapshot)
-                    patterns_by_symbol[symbol] = cached_payload.get("pattern_info") or {
-                        "Primary Pattern": "Unavailable",
-                        "All Patterns": "",
-                    }
                     cached_payload = dict(cached_payload)
+                    cached_payload["pattern_info"] = pattern_info
                     cached_payload["snapshot"] = cached_snapshot
                     cached_payload["history_coverage"] = history_coverage
                     save_json_payload(model_cache_path, cached_payload)
@@ -2060,19 +2075,6 @@ def run_rankings(
                         )
                         break
                     continue
-
-            try:
-                pattern_info = recognize_patterns(
-                    df,
-                    short_window=args.pattern_short_window,
-                    long_window=args.pattern_long_window,
-                )
-            except Exception:
-                pattern_info = {
-                    "Primary Pattern": "Unavailable",
-                    "All Patterns": "",
-                }
-            patterns_by_symbol[symbol] = pattern_info
 
             model_results = compare_forecast_models(
                 df,
@@ -4813,7 +4815,7 @@ def build_parser() -> argparse.ArgumentParser:
             "default is 240 minutes: ranking stops at 210 minutes to reserve "
             "30 minutes for finalization, leaving another 30 minutes before "
             "the external 4.5-hour ceiling. Smaller explicit budgets reserve "
-            "12.5% (capped at 30 minutes). Use 0 to disable the guard."
+            "12.5%% (capped at 30 minutes). Use 0 to disable the guard."
         ),
     )
     parser.add_argument(
