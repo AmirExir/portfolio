@@ -9,6 +9,8 @@ from pathlib import Path
 
 import pandas as pd
 
+SHOCK_FLOOR_PCT = 2.0
+SHOCK_MULTIPLIER = 2.0
 RANGE = 20
 WINDOW = RANGE + 2  # 20 prior returns, plus the current close
 STATE_VERSION = 1
@@ -50,7 +52,10 @@ def observe_closes(
     prior = prices.iloc[-RANGE - 1 : -1]
     close = result["close"]
     change = (close / float(prices.iloc[-2]) - 1) * 100
-    threshold = max(2.0, 200 * float(prices.iloc[:-1].pct_change().dropna().std()))
+    threshold = max(
+        SHOCK_FLOOR_PCT,
+        SHOCK_MULTIPLIER * 100 * float(prices.iloc[:-1].pct_change().dropna().std()),
+    )
     low, high = float(prior.min()), float(prior.max())
     recent = prices.iloc[-RANGE:]
     positive_momentum = close > prices.iloc[-6]
@@ -71,7 +76,7 @@ def observe_closes(
 
 def _flags(row: dict, obs: dict) -> list[str]:
     flags = []
-    if row.get("Smart Policy") == "Sell / Avoid":
+    if row.get("Smart Policy") in {"Sell / Avoid", "Strong Sell / Avoid"}:
         flags.append("policy")
     flags.extend(key for key in ("breakdown", "shock") if obs.get(key))
     return flags
@@ -257,6 +262,7 @@ def evaluate_watch(
                         "entry_triggered",
                         "change_pct",
                         "shock_threshold_pct",
+                        "recovery",
                         "prior_low",
                         "prior_high",
                         "next_high",
@@ -266,6 +272,10 @@ def evaluate_watch(
             )
             continue
         if obs:
+            if obs.get("recovery"):
+                obs["recovery"] = dict(
+                    obs["recovery"], patterns=row.get("All Patterns") or ""
+                )
             checked.append(obs)
         flags = _flags(row, obs)
         if flags:
@@ -282,6 +292,7 @@ def evaluate_watch(
                     "forecast": row.get("Forecast Return %"),
                     "model": row.get("Model Call"),
                     "reliability": row.get("Reliability"),
+                    "policy": row.get("Smart Policy"),
                 }
             )
         if obs.get("entry_watch") or obs.get("entry_triggered"):
@@ -305,8 +316,8 @@ def evaluate_watch(
             "version": "closing-price-watch-v2",
             "range_sessions": RANGE,
             "momentum_sessions": 5,
-            "shock_floor_pct": 2,
-            "shock_volatility_multiplier": 2,
+            "shock_floor_pct": SHOCK_FLOOR_PCT,
+            "shock_volatility_multiplier": SHOCK_MULTIPLIER,
             "entry_proximity_pct": 2,
         },
     }
@@ -341,7 +352,7 @@ def format_watch(watch: dict) -> str:
                 if (a["momentum"] or 0) < 0:
                     drivers.append("negative momentum")
                 reasons.append(
-                    "Sell / Avoid"
+                    (a.get("policy") or "Sell / Avoid")
                     + (" (" + ", ".join(drivers) + ")" if drivers else " policy")
                 )
             if "breakdown" in flags:
@@ -374,6 +385,51 @@ def format_watch(watch: dict) -> str:
             f"{obs['symbol']} at {_price(obs['close'])} — {label} {_price(level)}. "
             f"A close below {_price(obs['next_low'])} invalidates the setup."
         )
+    recoveries = []
+    overbought = []
+    for obs in watch.get("observations", []):
+        reading = obs.get("recovery")
+        if obs.get("issue") or not reading:
+            continue
+        patterns = reading.get("patterns", "")
+        rsi_value = reading["rsi"]
+        rsi_text = (
+            f"RSI {rsi_value:.1f}" if rsi_value is not None else "RSI unavailable"
+        )
+        early, confirmed = reading["early_state"], reading["confirmed_state"]
+        if "Overbought" in patterns.split(", "):
+            overbought.append(f"{obs['symbol']} — {rsi_text}. {patterns}.")
+        if not reading["recently_oversold"] and not (
+            early.startswith("Starter") or confirmed.startswith("Starter")
+        ):
+            continue
+        if early == confirmed == "Trend":
+            continue
+        early_pct = reading["early_sleeve_fraction"]
+        confirmed_pct = reading["confirmed_sleeve_fraction"]
+        detail = (
+            f"{obs['symbol']} — {rsi_text}. Early rule {early_pct:.0%} ({early}). "
+            f"Confirmed rule {confirmed_pct:.0%} ({confirmed})."
+        )
+        if reading["confirmation_watch_next"]:
+            detail += (
+                f" Next close must exceed {_price(reading['next_breakout_close'])}"
+                f" with RSI at least {reading['recovery_rsi']:g} for a confirmed starter."
+            )
+        if patterns:
+            detail += f" {patterns}."
+        recoveries.append(detail)
+    if recoveries:
+        lines.extend(
+            [
+                "",
+                "Oversold recovery study (paper signals)",
+                "Percentages use the planned position for each symbol. A fresh closing low or loss alert blocks entry.",
+                *recoveries,
+            ]
+        )
+    if overbought:
+        lines.extend(["", "Overbought readings", *overbought])
     for issue in watch["data_issues"]:
         lines.append(f"{issue['symbol']} — {issue['reason']}. Price alert withheld.")
     return "\n".join(lines).strip()

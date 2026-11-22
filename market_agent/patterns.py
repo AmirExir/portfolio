@@ -5,6 +5,9 @@ from collections.abc import Callable, Iterable
 import numpy as np
 import pandas as pd
 
+OVERSOLD_RSI = 35.0
+OVERBOUGHT_RSI = 70.0
+
 
 def _column(frame: pd.DataFrame, name: str) -> str:
     if name in frame.columns:
@@ -33,8 +36,8 @@ def rsi(close: pd.Series, window: int = 14) -> pd.Series:
     changes = close.diff()
     gains = changes.clip(lower=0).rolling(window).mean()
     losses = (-changes.clip(upper=0)).rolling(window).mean()
-    rs = gains / losses.replace(0, np.nan)
-    return 100.0 - (100.0 / (1.0 + rs))
+    movement = gains + losses
+    return (100 * gains / movement.where(movement > 0)).mask(movement == 0, 50.0)
 
 
 def recent_cross(short_ma: pd.Series, long_ma: pd.Series, direction: str, lookback: int = 5) -> bool:
@@ -116,9 +119,9 @@ def recognize_patterns(frame: pd.DataFrame, short_window: int = 20, long_window:
         patterns.append("Rebound From 60-Day Low")
     if uptrend and np.isfinite(short_now) and np.isfinite(long_now) and short_now > last_close > long_now:
         patterns.append("Pullback In Uptrend")
-    if np.isfinite(latest_rsi) and latest_rsi < 35:
+    if np.isfinite(latest_rsi) and latest_rsi < OVERSOLD_RSI:
         patterns.append("Oversold")
-    if np.isfinite(latest_rsi) and latest_rsi > 70:
+    if np.isfinite(latest_rsi) and latest_rsi > OVERBOUGHT_RSI:
         patterns.append("Overbought")
     if np.isfinite(volume_ratio) and volume_ratio >= 1.8:
         patterns.append("Volume Spike")
