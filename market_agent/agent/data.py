@@ -7,8 +7,10 @@ import contextlib
 import io
 import json
 import logging
+import math
 import os
 import re
+import tempfile
 
 
 logger = logging.getLogger(__name__)
@@ -111,7 +113,7 @@ def _read_cached_ohlcv(path: Path) -> pd.DataFrame:
     if not path.exists():
         return pd.DataFrame(columns=["open", "high", "low", "close", "volume"])
     try:
-        cached = pd.read_csv(path, index_col=0, parse_dates=True)
+        cached = pd.read_csv(path, index_col=0, parse_dates=True, float_precision="round_trip")
         return _normalize_ohlcv(cached)
     except Exception:
         return pd.DataFrame(columns=["open", "high", "low", "close", "volume"])
@@ -119,7 +121,13 @@ def _read_cached_ohlcv(path: Path) -> pd.DataFrame:
 
 def _write_cached_ohlcv(path: Path, frame: pd.DataFrame) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    frame.to_csv(path, index_label="date")
+    with tempfile.NamedTemporaryFile(dir=path.parent, suffix=".tmp", delete=False) as handle:
+        temporary = Path(handle.name)
+    try:
+        frame.to_csv(temporary, index_label="date")
+        temporary.replace(path)
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def _normalized_utc_now(now: datetime | None = None) -> datetime:
@@ -245,6 +253,7 @@ def _download_ohlcv(symbol: str, fetch_start: str, interval: str) -> pd.DataFram
                 symbol,
                 start=fetch_start,
                 interval=interval,
+                rounding=False,
                 progress=False,
                 threads=False,
             )
@@ -290,6 +299,16 @@ def get_ohlcv(
         cached = pd.DataFrame()
         cache_metadata = {}
 
+    daily_crypto = interval == "1d" and symbol.endswith("-USD")
+    if daily_crypto and not cached.empty:
+        # A bar dated D could only be finalized on/after D+1 UTC. This also
+        # removes partial bars left in legacy caches before a failed refresh.
+        cache_written = _metadata_timestamp(cache_metadata.get("updated_at_utc"))
+        if cache_written is None:
+            cached = cached.iloc[0:0]
+        else:
+            cached = cached.loc[cached.index < cache_written]
+
     recorded_backfill_start = _metadata_timestamp(
         cache_metadata.get("earliest_backfill_requested_start")
     )
@@ -317,14 +336,33 @@ def get_ohlcv(
 
     downloaded = _normalize_ohlcv(_download_ohlcv(provider_symbol, fetch_start, interval))
 
+    close_revisions = {}
+    if daily_crypto:
+        earliest = (_normalized_utc_now(now).date() - timedelta(days=22)).isoformat()
+        close_revisions = {day: values for day, values in cache_metadata.get("close_revisions", {}).items()
+                           if day >= earliest}
+    if daily_crypto and not cached.empty and not downloaded.empty:
+        cutoff = pd.Timestamp(_normalized_utc_now(now).date())
+        overlap = cached.index.intersection(downloaded.index)
+        for day in overlap[(overlap < cutoff) & (overlap >= cutoff - pd.Timedelta(days=22))]:
+            previous, fresh = float(cached.at[day, "close"]), float(downloaded.at[day, "close"])
+            if not math.isclose(previous, fresh, rel_tol=1e-7, abs_tol=0):
+                close_revisions[day.date().isoformat()] = [previous, fresh]
+
     if use_cache:
         if not downloaded.empty:
             if cached.empty:
                 merged = downloaded.copy()
             else:
-                merged = pd.concat([cached, downloaded]).sort_index()
-            merged = merged[~merged.index.duplicated(keep="last")]
-            _write_cached_ohlcv(path, merged)
+                # Resolve overlaps in source order. Sorting duplicate dates
+                # before selecting the winner can silently keep the old row.
+                merged = pd.concat([cached, downloaded])
+            merged = merged[~merged.index.duplicated(keep="last")].sort_index()
+            cache_frame = merged
+            if daily_crypto:
+                today_utc = pd.Timestamp(_normalized_utc_now(now).date())
+                cache_frame = merged.loc[merged.index < today_utc]
+            _write_cached_ohlcv(path, cache_frame)
             earliest_requested = requested_start if cache_needs_backfill or cached.empty else recorded_backfill_start
             if recorded_backfill_start is not None and earliest_requested is not None:
                 earliest_requested = min(recorded_backfill_start, earliest_requested)
@@ -334,13 +372,14 @@ def get_ohlcv(
                 "provider": "yahoo_finance",
                 "provider_symbol": provider_symbol,
                 "interval": str(interval),
+                "close_revisions": close_revisions,
                 "earliest_backfill_requested_start": (
                     earliest_requested.date().isoformat()
                     if earliest_requested is not None
                     else None
                 ),
-                "available_start": merged.index.min().date().isoformat(),
-                "available_end": merged.index.max().date().isoformat(),
+                "available_start": cache_frame.index.min().date().isoformat() if not cache_frame.empty else None,
+                "available_end": cache_frame.index.max().date().isoformat() if not cache_frame.empty else None,
                 "updated_at_utc": _normalized_utc_now(now).isoformat(),
             }
             _write_cache_metadata(metadata_path, metadata_payload)
@@ -353,6 +392,7 @@ def get_ohlcv(
                 backfill_requested=bool(cache_needs_backfill or cached.empty),
                 backfill_succeeded=True,
             )
+            requested.attrs["close_revisions"] = close_revisions
             return _with_source_metadata(
                 requested, symbol, provider_symbol, cache_fallback=False
             )
@@ -371,6 +411,7 @@ def get_ohlcv(
                 backfill_requested=cache_needs_backfill,
                 backfill_succeeded=False,
             )
+            requested.attrs["close_revisions"] = close_revisions
             return _with_source_metadata(
                 requested, symbol, provider_symbol, cache_fallback=True
             )
@@ -390,3 +431,22 @@ def get_ohlcv(
     return _with_source_metadata(
         requested, symbol, provider_symbol, cache_fallback=False
     )
+
+
+def corroborate_daily_closes(provider_symbol: str, candidates: dict[str, float]) -> dict[str, float]:
+    """Confirm disputed daily quotes against the final close of a complete UTC hourly series."""
+    if not candidates:
+        return {}
+    raw = _download_ohlcv(provider_symbol, min(candidates), "1h")
+    if raw.empty or getattr(raw.index, "tz", None) is None:
+        return {}
+    hourly = _normalize_ohlcv(raw)
+    verified = {}
+    for day, candidate in candidates.items():
+        expected = pd.date_range(day, periods=24, freq="h")
+        closes = hourly["close"].reindex(expected)
+        if closes.isna().any() or not all(math.isfinite(x) and x > 0 for x in closes):
+            continue
+        if math.isclose(float(closes.iloc[-1]), candidate, rel_tol=1e-7, abs_tol=0):
+            verified[day] = candidate
+    return verified

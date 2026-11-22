@@ -24,7 +24,7 @@ import yfinance as yf
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from agent.data import get_ohlcv
+from agent.data import corroborate_daily_closes, get_ohlcv
 from agent.earnings import (
     DEFAULT_MARKET_TIMEZONE,
     fetch_yfinance_earnings_payload,
@@ -64,6 +64,7 @@ from forecast_cache import (
 from patterns import recognize_patterns
 from report_dates import format_report_timestamp, format_session_date
 from telegram_delivery import split_telegram_text
+import risk_alerts
 
 
 DEFAULT_SYMBOLS = [
@@ -448,6 +449,7 @@ def require_fresh_daily_market_data(
             f"{expected.isoformat()}, lag {lag} {unit} exceeds allowed "
             f"{int(max_lag_sessions)}"
         )
+    completed.attrs["lag_sessions"] = lag
     return completed
 
 
@@ -1939,6 +1941,7 @@ def run_rankings(
     snapshots = []
     patterns_by_symbol = {}
     portfolio_closes: dict[str, pd.Series] = {}
+    risk_observations = {}
     errors = []
     symbol_timings = []
 
@@ -1980,6 +1983,11 @@ def run_rankings(
                 observed_sessions=observed_sessions,
             )
             portfolio_closes[report_symbol(symbol)] = clean_close(df)
+            risk_observations[symbol] = risk_alerts.observe_closes(
+                symbol, portfolio_closes[report_symbol(symbol)],
+                df.attrs.get("market_data_source", {}), df.attrs.get("lag_sessions", 0),
+                df.attrs.get("close_revisions", {}),
+            )
             data_fingerprint = frame_fingerprint(df)
             symbol_context_fingerprint = context_fingerprint
             if earnings_context:
@@ -2176,6 +2184,7 @@ def run_rankings(
         "symbols_cached": sum(1 for item in symbol_timings if item["status"] == "cached"),
         "symbols_failed": sum(1 for item in symbol_timings if item["status"] not in {"ok", "cached"}),
         "symbol_timings": symbol_timings,
+        "risk_observations": risk_observations,
         "requested_sequence_model": requested_sequence_model,
         "adaptive_sequence_symbols": sorted(adaptive_sequence_models),
         "adaptive_sequence_models": dict(adaptive_sequence_models),
@@ -2909,11 +2918,13 @@ def build_telegram_text(
     args: argparse.Namespace,
     timings: dict | None = None,
     short_horizon_reports: list[dict] | None = None,
+    *,
+    price_watch: dict | None = None,
 ) -> str:
-    """Render qualified forecasts for readers, leaving diagnostics in the full report.
+    """Render qualified forecasts and independently evaluated completed-close warnings.
 
     Forecast qualification and ranking use the existing rules. Rejected model
-    candidates and policy-only signals remain in ``build_market_report`` and
+    candidates remain in ``build_market_report`` and
     structured output, along with allocation checks and detailed data errors.
     """
 
@@ -2946,10 +2957,17 @@ def build_telegram_text(
         f"Horizon: {args.horizon} {session_label} per asset",
         "Stocks count trading days; crypto counts calendar days.",
     ]
+    if price_watch:
+        watch_text = risk_alerts.format_watch(price_watch)
+        if watch_text:
+            lines.extend(["", watch_text])
     if not rows:
         lines.extend(["", "Forecast update unavailable."])
     elif not (model_buys or model_sells):
         lines.extend(["", "No qualifying forecast setups today."])
+
+    if price_watch and model_buys and not model_sells:
+        lines.extend(["", f"No downside forecast qualified for the {args.horizon}-session horizon."])
 
     for heading, displayed, qualified in (
         ("UPSIDE WATCHLIST", model_buys, all_model_buys),
@@ -4298,6 +4316,7 @@ def _write_outputs_to_staging(
             "no_rl_policy": no_rl_policy_from_args(args),
         },
         "telegram_text": telegram_text,
+        "price_watch": timings.get("price_watch", {}),
         "report_text": report["report_text"],
         "website_recommendations": report["website_recommendations"],
         "telegram_recommendations": report["telegram_recommendations"],
@@ -4410,6 +4429,18 @@ def _write_outputs_with_lock_held(
         staging_dir = transaction_root / "staged"
         backup_dir = transaction_root / "backup"
         staging_dir.mkdir(parents=True)
+
+        # Calculate transitions under the same lock and rollback unit as the report.
+        cutoff = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H-%M-%SZ")
+        history = risk_alerts.publication_history(destination_dir, args.horizon, cutoff, REPORT_SYMBOLS)
+        watch = risk_alerts.evaluate_watch(rows, timings.get("risk_observations", {}), history,
+                                           parse_symbols(args.symbols), REPORT_SYMBOLS)
+        if rows:
+            telegram_text = build_telegram_text(rows, errors, args, timings, short_horizon_reports,
+                                                price_watch=watch)
+        timings = dict(timings, price_watch=watch)
+        write_text_atomic(staging_dir / risk_alerts.state_filename(args.horizon),
+                          json_dumps_strict({"version": risk_alerts.STATE_VERSION, "symbols": history}))
 
         destination_ledger = destination_dir / "prediction_ledger.jsonl"
         if destination_ledger.exists():
@@ -4864,6 +4895,18 @@ def main() -> int:
                     f"short horizon {horizon}: {message}"
                     for message in short_report.get("errors") or []
                 )
+    if run_complete and timings.get("risk_observations"):
+        # Network reads happen outside the publication lock. Re-evaluate evidence
+        # against the committed history inside the transaction before raising alerts.
+        cutoff = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H-%M-%SZ")
+        prior = risk_alerts.publication_history(Path(args.output_dir), args.horizon, cutoff, REPORT_SYMBOLS)
+        for symbol, observation in timings["risk_observations"].items():
+            if runtime_deadline_reached(deadline_monotonic):
+                break
+            disputed = risk_alerts.disputed_candidates(observation, prior.get(symbol, {}))
+            if disputed:
+                provider_symbol = observation.get("data_source", {}).get("provider_symbol", symbol)
+                observation["corroborated_closes"] = corroborate_daily_closes(provider_symbol, disputed)
     if run_complete and runtime_deadline_reached(deadline_monotonic):
         run_complete = False
         timings["runtime_budget_exceeded"] = True
@@ -4904,6 +4947,10 @@ def main() -> int:
             errors.append(str(exc))
             paths = {}
 
+    published_report = (
+        load_json_payload(Path(paths["json"])) if run_complete and paths.get("json") else {}
+    )
+    telegram_text = published_report.get("telegram_text", telegram_text)
     if not run_complete:
         report_timings = timings
         telegram_text = build_telegram_text(
@@ -4929,11 +4976,6 @@ def main() -> int:
     if args.json_only:
         # The automation publishes stdout, so retain the same matured evidence
         # as the committed report instead of dropping it from the public JSON.
-        published_report = (
-            load_json_payload(Path(paths["json"]))
-            if run_complete and paths.get("json")
-            else {}
-        )
         report_summary = build_market_report(
             rows,
             errors,
@@ -4962,6 +5004,7 @@ def main() -> int:
             "rl_mode": "off" if no_rl_policy_from_args(args) else "shadow",
             "paths": paths,
             "telegram_text": telegram_text,
+            "price_watch": published_report.get("price_watch", {}),
             "rows": rows,
             "short_horizon_reports": compact_short_horizon_reports(short_horizon_reports, args),
             "top_buys": report_summary["top_buys"],

@@ -41,12 +41,21 @@ not supplied for publication. The news text archive uses the same audience
 brief. Empty results produce a short unavailable-update notice, while provider
 errors still fail the branch instead of producing an apparently valid brief.
 
-The forecast Telegram summary likewise shows only forecasts passing the
-existing qualification rules, with forecast dates, probabilities and error
-estimates. Failed candidates, policy-only signals, holdings/allocation checks,
-run settings and raw errors remain in the detailed report and JSON. A short
-availability note appears if some forecasts could not be updated. This is a
-presentation change; forecast calculations and qualification gates are unchanged.
+The forecast Telegram summary reports a risk-policy transition even when its
+forecast has low reliability. Each warning gives the completed close, the
+observed risk condition, and the model’s separate forecast and reliability.
+New and escalated warnings bypass the forecast display limit. The producer
+commits per-horizon warning history with the report under the publication
+lock. It seeds missing history from earlier completed, timestamped reports.
+The history describes published reports, rather than Telegram delivery receipts.
+
+For daily crypto, the producer compares completed UTC closes across the
+provider refresh, cache, and archived reports used by the 20-session rule.
+When quotes disagree, a matching close from a complete 24-hour series can
+corroborate the daily input. Otherwise the affected price alert is withheld
+while the disputed date remains in the calculation window. The JSON records
+the conflicting date and the quotes so an alert can be reproduced.
+The upside and downside forecast lists retain their existing qualification rules.
 
 The normalization node runs before the news model in both the exported
 workflow and the repair helper. The existing news GitHub publication branch
