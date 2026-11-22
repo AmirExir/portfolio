@@ -142,7 +142,7 @@ def frame_fingerprint(frame: pd.DataFrame | pd.Series | None) -> dict:
     if normalized.empty:
         return {"rows": 0, "start": None, "end": None, "hash": "empty"}
 
-    hash_values = pd.util.hash_pandas_object(normalized.round(10), index=True).values.tobytes()
+    hash_values = pd.util.hash_pandas_object(normalized, index=True).values.tobytes()
     digest = hashlib.sha256(hash_values).hexdigest()[:16]
     return {
         "rows": int(len(normalized)),
