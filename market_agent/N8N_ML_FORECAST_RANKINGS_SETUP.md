@@ -299,6 +299,30 @@ The agent recalculates these readings after filtering incomplete and stale
 bars, including when it reuses a cached forecast. A gap shortens the usable
 history and can make the trend unavailable.
 
+### Dashboard controls and saved results
+
+In **Market Analysis**, open **Scheduled outlook** for the latest publication
+or choose an earlier timestamp under **Previous scheduled reports**. **Universe
+rankings** and **Symbol forecast** open saved results when available. Each view
+identifies the run that produced its results. A saved forecast can have a past
+target date. A completed symbol run also saves its **Previous forecast accuracy**
+table when a walk-forward test produced predictions. The table reopens for
+the same model, settings, price history and market context.
+Interactive runs are saved on the app server's local disk. When
+that storage is replaced, published reports in the repository remain available.
+
+Use **Run** to calculate with the current settings and reuse eligible model fits.
+Use **Rebuild** to request a fresh fit. The shared **Forecast settings** panel
+defaults to automatic tuning and also provides manual controls. A pattern scan
+has its own run button and moving-average windows in **Most Common Patterns**.
+The symbol selection is shared by the rankings, patterns and stock heatmap.
+The dashboard and scheduled reports include Nebius Group (NBIS), CoreWeave
+(CRWV) and IREN Limited (IREN) by default. The portfolio groups these stocks
+under Technology and applies the AI Infrastructure cluster limit to their
+combined exposure. The shadow policy uses XLK as their sector benchmark.
+Account access and order management are in **Portfolio Balance**. Position
+sizing and automatic paper trading are beside the selected symbol's trade controls.
+
 ### Reading returns on the dashboard
 
 Red shows a loss, green shows a gain, and gray marks an unchanged price.

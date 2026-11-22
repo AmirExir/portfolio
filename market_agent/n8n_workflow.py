@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import copy
+import json
 import re
 from collections.abc import Mapping
 from typing import Any
 
 from market_agent.news_workflow import repair_market_news_workflow
 from market_agent.chat_commands import repair_market_chat_workflow
+from market_agent.agent.universe import AI_INFRASTRUCTURE_EQUITIES
 from ERCOTAPI.load_forecast_workflow import repair_ercot_load_forecast_workflow
 
 RUN_NODE = "Run Optimization Scripts"
@@ -21,6 +23,15 @@ PUBLISH_NODE = "Save Optimization To GitHub"
 OPTIMIZATION_TELEGRAM_NODE = "Send Optimization Telegram"
 DIRECT_OPTIMIZATION_TELEGRAM_NODE = "Send Direct Market Telegram"
 DEFAULT_CREDENTIAL_SOURCE_NODE = "Save ERCOT To GitHub"
+
+_STOCK_REQUEST_ALIASES = {
+    **{name.upper(): ticker for ticker, name in AI_INFRASTRUCTURE_EQUITIES.items()},
+    "NEBIUS": "NBIS", "CORWEAVE": "CRWV",
+}
+_STOCK_REQUEST_ENTRIES = {
+    "const stockAliases = {": _STOCK_REQUEST_ALIASES,
+    "const allowedTickerSymbols = new Set([": list(AI_INFRASTRUCTURE_EQUITIES),
+}
 
 _VALIDATION_NODE_ID = "b966fa49-4e35-51f0-a3eb-f2c9a8df4c32"
 _PUBLISH_BRANCH_FALLBACK = re.compile(
@@ -527,6 +538,25 @@ def _repair_scheduled_profile(node: dict[str, Any]) -> tuple[str, ...]:
     return tuple(changes)
 
 
+def _repair_stock_requests(node: dict[str, Any]) -> tuple[str, ...]:
+    """Extend the existing Telegram name and ticker parser, retaining its older entries."""
+    code = node["parameters"]["jsCode"]
+    if not any(declaration in code for declaration in _STOCK_REQUEST_ENTRIES):
+        return ()  # Older schedule-only contexts can delegate symbol selection to the CLI.
+    updated = code
+    for declaration, values in _STOCK_REQUEST_ENTRIES.items():
+        # Replace our generated entry on subsequent repairs when the universe changes.
+        pattern = re.escape(declaration) + r"(?:\n  \.\.\.[^\n]+, // Market agent equities)?"
+        entry = f"{declaration}\n  ...{json.dumps(values)}, // Market agent equities\n"
+        updated, count = re.subn(pattern + r"\n?", lambda _: entry, updated)
+        if count != 1:
+            raise ValueError(f"{REQUEST_CONTEXT_NODE} lacks a unique {declaration!r} declaration")
+    if updated == code:
+        return ()
+    node["parameters"]["jsCode"] = updated
+    return ("recognize tracked equities by name and ticker in Telegram requests",)
+
+
 def _configure_telegram_delivery(node: dict[str, Any]) -> tuple[str, ...]:
     """Make generated plain text safe and non-blocking for Telegram."""
 
@@ -675,6 +705,7 @@ def repair_market_optimization_workflow(
     )
 
     changes.extend(_repair_scheduled_profile(request_context))
+    changes.extend(_repair_stock_requests(request_context))
     changes.extend(_configure_telegram_delivery(optimization_telegram))
     changes.extend(_configure_telegram_delivery(direct_optimization_telegram))
 

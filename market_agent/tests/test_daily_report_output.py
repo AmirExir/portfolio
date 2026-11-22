@@ -68,6 +68,16 @@ class DailyReportOutputTests(unittest.TestCase):
             ["--run-profile", "quick", "--no-rl-policy"]
         )
 
+    def test_default_universe_includes_ai_infrastructure_equities(self) -> None:
+        symbols = report.build_parser().parse_args(["--run-profile", "scheduled"]).symbols.split(",")
+        for symbol in ("NBIS", "CRWV", "IREN"):
+            with self.subTest(symbol=symbol):
+                self.assertEqual(symbols.count(symbol), 1)
+                self.assertEqual(report.report_symbol(symbol), symbol)
+                self.assertEqual(report.session_calendar_for_symbol(symbol), report.US_EQUITY_SESSION_CALENDAR)
+                self.assertEqual(report.SYMBOL_SECTORS[symbol], "Technology")
+                self.assertEqual(report.SYMBOL_CLUSTERS[symbol], "AI Infrastructure")
+
     def test_scheduled_profile_is_single_pass_and_bounded(self) -> None:
         raw_args = ["--run-profile", "scheduled"]
         args = report.apply_run_profile(

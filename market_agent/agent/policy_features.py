@@ -14,6 +14,8 @@ from typing import Mapping
 import numpy as np
 import pandas as pd
 
+from .universe import AI_INFRASTRUCTURE_EQUITIES
+
 
 SECTOR_ETF_BY_SYMBOL: dict[str, str] = {
     **{
@@ -31,6 +33,7 @@ SECTOR_ETF_BY_SYMBOL: dict[str, str] = {
             "SNDK",
             "ORCL",
             "DELL",
+            *AI_INFRASTRUCTURE_EQUITIES,
         )
     },
     **{symbol: "XLY" for symbol in ("AMZN", "TSLA", "HD")},

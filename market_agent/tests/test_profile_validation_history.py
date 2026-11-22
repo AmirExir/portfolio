@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 
-import ast
 import datetime as dt
-from pathlib import Path
 import unittest
 
 import numpy as np
@@ -13,6 +11,7 @@ import pandas as pd
 from market_agent import daily_ml_forecast_report as report
 from market_agent.agent.earnings import us_equity_trading_sessions
 from market_agent.agent.forecast import forecast_close_prices
+from market_agent.forecast_settings import ForecastSettings
 
 
 def _history_frame(calendar_days: int) -> pd.DataFrame:
@@ -34,24 +33,8 @@ class ProfileValidationHistoryTests(unittest.TestCase):
     def test_dashboard_and_cli_default_to_the_same_validation_history(self) -> None:
         """Inspect settings without starting Streamlit or its network requests."""
 
-        app_path = Path(report.__file__).with_name("market_agent_app.py")
-        module = ast.parse(app_path.read_text())
-        assignments = {
-            target.id: node.value
-            for node in module.body
-            if isinstance(node, ast.Assign)
-            for target in node.targets
-            if isinstance(target, ast.Name)
-        }
-        options = ast.literal_eval(assignments["history_options"])
-        selectbox = assignments["history_label"]
-        default_index = next(
-            ast.literal_eval(keyword.value)
-            for keyword in selectbox.keywords
-            if keyword.arg == "index"
-        )
         self.assertEqual(
-            list(options.values())[default_index],
+            ForecastSettings().history_days,
             report.build_parser().parse_args([]).history_days,
         )
 

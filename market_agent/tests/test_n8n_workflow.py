@@ -56,6 +56,8 @@ def _workflow_fixture() -> dict:
                 REQUEST_CONTEXT_NODE,
                 parameters={
                     "jsCode": (
+                        "const stockAliases = { INTEL: 'INTC' };\n"
+                        "const allowedTickerSymbols = new Set(['AMD', 'INTC']);\n"
                         "let runProfile = source === 'telegram' ? 'quick' : 'research';\n"
                         "if (qualityRequested && !allModels && !researchRequested "
                         "&& !rlRequested) {\n"
@@ -259,6 +261,30 @@ class MarketOptimizationWorkflowTests(unittest.TestCase):
         for name, result in results.items():
             with self.subTest(name=name):
                 self.assertIn("Market optimizer contract violation:", result.get("error", ""))
+
+    @unittest.skipUnless(shutil.which("node"), "Node.js is required to exercise the Telegram ticker parser")
+    def test_repaired_telegram_parser_recognizes_company_names_and_tickers(self) -> None:
+        repaired, _ = repair_market_optimization_workflow(_workflow_fixture())
+        context = next(node for node in repaired["nodes"] if node["name"] == REQUEST_CONTEXT_NODE)
+        declarations = context["parameters"]["jsCode"].split("let runProfile =", 1)[0]
+        requested = ["Nebius Group", "Nebius", "NBIS", "CoreWeave", "corweave", "CRWV", "IREN Limited", "IREN", "Intel", "AMD"]
+        harness = declarations + (
+            "const names = JSON.parse(require('node:fs').readFileSync(0, 'utf8'));\n"
+            "const resolve = name => stockAliases[name] ?? (allowedTickerSymbols.has(name) ? name : null);\n"
+            "process.stdout.write(JSON.stringify(names.map(name => resolve(name.toUpperCase()))));"
+        )
+        result = subprocess.run(["node", "-e", harness], input=json.dumps(requested), text=True,
+                                capture_output=True, timeout=10, check=True)
+        self.assertEqual(json.loads(result.stdout),
+                         ["NBIS", "NBIS", "NBIS", "CRWV", "CRWV", "CRWV", "IREN", "IREN", "INTC", "AMD"])
+
+    def test_schedule_only_context_keeps_using_the_cli_default_universe(self) -> None:
+        fixture = _workflow_fixture()
+        parameters = next(node["parameters"] for node in fixture["nodes"] if node["name"] == REQUEST_CONTEXT_NODE)
+        parameters["jsCode"] = parameters["jsCode"][parameters["jsCode"].index("let runProfile"):]
+        repaired, _ = repair_market_optimization_workflow(fixture)
+        context = next(node for node in repaired["nodes"] if node["name"] == REQUEST_CONTEXT_NODE)
+        self.assertNotIn("allowedTickerSymbols", context["parameters"]["jsCode"])
 
     def test_repair_bounds_schedule_and_hardens_telegram_delivery(self) -> None:
         repaired, changes = repair_market_optimization_workflow(

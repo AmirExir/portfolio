@@ -98,43 +98,39 @@ def scan_patterns(
     long_window: int = 50,
 ) -> tuple[pd.DataFrame, pd.DataFrame, list[str]]:
     detail_rows = []
-    pattern_rows = []
     errors = []
 
     for symbol in symbols:
         try:
             frame = get_ohlcv(symbol, history_days)
             pattern_info = recognize_patterns(frame, short_window=short_window, long_window=long_window)
-            detail_rows.append({"Symbol": symbol, **pattern_info})
-            for pattern in str(pattern_info["All Patterns"]).split(", "):
-                pattern_rows.append(
-                    {
-                        "Pattern": pattern,
-                        "Symbol": symbol,
-                        "20D Return %": pattern_info["20D Return %"],
-                        "60D Return %": pattern_info["60D Return %"],
-                    }
-                )
+            detail = {"Symbol": symbol, **pattern_info}
+            if isinstance(frame.index, pd.DatetimeIndex):
+                detail["As Of Session"] = clean_series(frame, "close").index[-1].date().isoformat()
+            detail_rows.append(detail)
         except Exception as pattern_error:
             errors.append(f"{symbol}: {pattern_error}")
 
     detail_df = pd.DataFrame(detail_rows)
-    if not pattern_rows:
-        return pd.DataFrame(), detail_df, errors
+    return summarize_patterns(detail_df), detail_df, errors
 
-    raw_patterns = pd.DataFrame(pattern_rows)
-    summary_rows = []
-    for pattern, group in raw_patterns.groupby("Pattern"):
-        symbols_list = sorted(group["Symbol"].unique().tolist())
-        summary_rows.append(
-            {
-                "Pattern": pattern,
-                "Count": int(group["Symbol"].nunique()),
-                "Avg 20D Return %": float(group["20D Return %"].mean()),
-                "Avg 60D Return %": float(group["60D Return %"].mean()),
-                "Symbols": ", ".join(symbols_list),
-            }
-        )
 
-    summary_df = pd.DataFrame(summary_rows).sort_values(["Count", "Avg 20D Return %"], ascending=[False, False])
-    return summary_df, detail_df, errors
+def summarize_patterns(details: pd.DataFrame) -> pd.DataFrame:
+    """Aggregate recorded pattern labels and whichever return horizons the scan retained."""
+    if details.empty:
+        return pd.DataFrame()
+    matches = details.assign(Pattern=details["All Patterns"].str.split(", ")).explode("Pattern")
+    matches = matches[matches["Pattern"].notna() & matches["Pattern"].ne("")].drop_duplicates(["Symbol", "Pattern"])
+    if matches.empty:
+        return pd.DataFrame()
+    groups = matches.groupby("Pattern")
+    summary = groups["Symbol"].agg(
+        Count="nunique", Symbols=lambda group: ", ".join(sorted(group)),
+    )
+    sort_columns = ["Count"]
+    for column in ("20D Return %", "60D Return %"):
+        if column in matches:
+            summary[f"Avg {column}"] = groups[column].mean()
+            if column == "20D Return %":
+                sort_columns.append(f"Avg {column}")
+    return summary.sort_values(sort_columns, ascending=False, kind="stable").reset_index()

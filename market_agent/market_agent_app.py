@@ -12,6 +12,8 @@ import base64
 import json
 import glob
 import hashlib
+import tempfile
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import yfinance as yf
@@ -33,6 +35,7 @@ try:
     )
     from agent.forecast import backtest_forecasts, compare_forecast_models, forecast_close_prices
     from agent.strategy import sma_crossover
+    from agent.universe import AI_INFRASTRUCTURE_EQUITIES
     from agent.backtest import simple_vector_backtest
     from agent.broker import (
         BrokerError,
@@ -42,6 +45,7 @@ try:
         close_all_positions,
         get_account,
         get_latest_quote,
+        get_open_orders,
         get_portfolio_snapshot,
         get_positions,
         size_capped_buy_notional,
@@ -54,6 +58,8 @@ try:
         constrain_incremental_target,
     )
     from agent.risk import target_position_qty
+    from dashboard_controls import choose_universe, forecast_run_buttons
+    from forecast_settings import render_forecast_settings, tuning_results_table
     from forecast_cache import (
         MODEL_RESULT_CACHE_VERSION,
         cache_payload_fresh,
@@ -66,7 +72,12 @@ try:
         select_model_name,
     )
     from heatmaps import build_return_heatmap, format_signed_return, heatmap_returns, return_color_axis
-    from patterns import scan_patterns
+    from patterns import scan_patterns, summarize_patterns
+    from saved_rankings import dashboard_result_path, scheduled_pattern_rows, scheduled_rows_for_symbols, stored_ranking_rows
+    from saved_symbol_forecast import (
+        attach_archived_models, choose_saved_forecast, historical_accuracy_path, render_historical_accuracy,
+        render_saved_symbol_forecast,
+    )
     from price_watch_report import has_scheduled_report_data
     from price_watch_view import render_scheduled_price_watch
     from report_dates import format_report_timestamp
@@ -1128,7 +1139,7 @@ MARKET_GREEN = "#16a34a"
 MARKET_ORANGE = "#f59e0b"
 MARKET_RED = "#dc2626"
 PLOTLY_CONFIG = {"displayModeBar": False, "responsive": True}
-HEATMAP_MAX_SYMBOLS = 40
+HEATMAP_MAX_SYMBOLS = 43
 
 
 def selected_non_crypto_symbols(symbols) -> tuple[str, ...]:
@@ -1375,13 +1386,14 @@ def render_chart(fig: go.Figure) -> None:
 st.set_page_config(
     page_title="Market Outlook & Trade Watchlist",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
 )
 inject_market_css()
 render_market_hero()
 
 SYMBOL_OPTIONS = [
     "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO", "STX", "SPCX",
+    *AI_INFRASTRUCTURE_EQUITIES,
     "ORCL", "NFLX", "JPM", "BAC", "WFC", "C", "GS", "MS", "V", "MU", "WDC",
     "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD", "PEP",
     "DAL", "UAL", "AAL", "LUV", "XOM", "CVX", "COP", "OXY", "SLB", "EOG",
@@ -1393,6 +1405,7 @@ SYMBOL_OPTIONS = [
 ]
 DEFAULT_FORECAST_SYMBOLS = [
     "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO", "MU", "WDC", "STX", "SNDK", "SPCX",
+    *AI_INFRASTRUCTURE_EQUITIES,
     "ORCL", "NFLX", "JPM", "BAC", "WFC", "C", "GS", "MS", "V",
     "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD", "PEP",
     "DAL", "UAL", "AAL", "LUV", "XOM", "CVX", "COP", "OXY", "SLB", "EOG",
@@ -1403,7 +1416,7 @@ DEFAULT_FORECAST_SYMBOLS = [
     "ZEC-USD", "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD", "DOT-USD",
 ]
 PORTFOLIO_SECTORS = {
-    **{symbol: "Technology" for symbol in ("AAPL", "MSFT", "NVDA", "AMD", "INTC", "AVGO", "MU", "WDC", "STX", "SNDK", "ORCL", "DELL")},
+    **{symbol: "Technology" for symbol in ("AAPL", "MSFT", "NVDA", "AMD", "INTC", "AVGO", "MU", "WDC", "STX", "SNDK", "ORCL", "DELL", *AI_INFRASTRUCTURE_EQUITIES)},
     **{symbol: "Crypto Infrastructure" for symbol in ("RIOT",)},
     **{symbol: "Communication Services" for symbol in ("GOOGL", "META", "NFLX")},
     **{symbol: "Consumer Discretionary" for symbol in ("AMZN", "TSLA", "HD")},
@@ -1418,6 +1431,7 @@ PORTFOLIO_SECTORS = {
     **{symbol: "Crypto" for symbol in DEFAULT_FORECAST_SYMBOLS if symbol.endswith("-USD")},
 }
 PORTFOLIO_CLUSTERS = {
+    **dict.fromkeys(AI_INFRASTRUCTURE_EQUITIES, "AI Infrastructure"),
     **{symbol: "AI Mega Cap" for symbol in ("AAPL", "MSFT", "NVDA", "AMD", "AVGO", "GOOGL", "AMZN", "META", "ORCL", "DELL", "XLK", "QQQ")},
     **{symbol: "Legacy Semiconductors" for symbol in ("INTC",)},
     **{symbol: "Memory and Storage" for symbol in ("MU", "WDC", "STX", "SNDK")},
@@ -1440,6 +1454,7 @@ PORTFOLIO_CLUSTERS = {
 SHORT_TERM_SIGNAL_HORIZONS = (1,)
 SCHEDULED_ONE_DAY_FALLBACK_LIMIT = 10
 SYMBOL_LABELS = {
+    **{symbol: f"{company} ({symbol})" for symbol, company in AI_INFRASTRUCTURE_EQUITIES.items()},
     "MU": "Micron (MU)",
     "WDC": "Western Digital (WDC)",
     "STX": "Seagate (STX)",
@@ -1913,6 +1928,8 @@ def format_ranking_table(df: pd.DataFrame) -> pd.DataFrame:
         "Horizon",
         "Sequence Model",
         "Symbol",
+        "As Of Session",
+        "Target Session",
         "Smart Policy",
         "Policy Score",
         "Policy Target %",
@@ -2041,10 +2058,14 @@ def scheduled_one_day_fallback_symbols(payload: dict | None, limit: int = SCHEDU
     payload = payload or {}
     rows = pd.DataFrame(payload.get("rows", []))
     symbols: list[str] = []
+    universe = payload.get("symbols") or SYMBOL_OPTIONS
+    provider_names = {ticker_short_label(ticker): ticker for ticker in universe}
+    provider_names.update({ticker: ticker for ticker in universe})
 
     if not rows.empty and "Symbol" in rows.columns:
         rows = sort_by_policy_score(rows, ascending=False)
-        for symbol in rows["Symbol"].dropna().astype(str):
+        for name in rows["Symbol"].dropna().astype(str):
+            symbol = provider_names.get(name)
             if symbol and symbol not in symbols:
                 symbols.append(symbol)
             if len(symbols) >= limit:
@@ -2370,13 +2391,21 @@ def scan_common_patterns(
     long_window: int,
     cache_buster: int = 0,
 ) -> tuple[pd.DataFrame, pd.DataFrame, list[str]]:
-    return scan_patterns(
-        symbols=symbols,
-        history_days=history_days,
-        get_ohlcv=get_ohlcv,
-        short_window=short_window,
-        long_window=long_window,
+    result = scan_patterns(
+        symbols=symbols, history_days=history_days, get_ohlcv=get_ohlcv,
+        short_window=short_window, long_window=long_window,
     )
+    _, details, errors = result
+    if not details.empty:
+        path = dashboard_result_path(_forecast_reports_dir(), "patterns", (sorted(symbols), history_days, short_window, long_window))
+        try:
+            _save_forecast_payload(str(path), {
+                "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+                "rows": json.loads(details.to_json(orient="records", double_precision=15)), "errors": errors,
+            })
+        except OSError as exc:
+            errors.append(f"Could not save this scan for later viewing: {exc}")
+    return result
 
 
 def build_quick_price_chart(df: pd.DataFrame, short_window: int, long_window: int, symbol: str) -> go.Figure:
@@ -2436,19 +2465,41 @@ def _forecast_reports_dir() -> str:
 
 
 def _load_forecast_payload(cache_path: str) -> dict:
-    if not os.path.exists(cache_path):
-        return {}
     try:
-        with open(cache_path, "r") as handle:
-            return json.load(handle)
-    except Exception:
+        with open(cache_path, encoding="utf-8") as handle:
+            payload = json.load(handle)
+    except FileNotFoundError:
         return {}
+    except (OSError, ValueError) as exc:
+        logging.warning("Could not read saved forecast %s: %s", cache_path, exc)
+        return {}
+    return payload if isinstance(payload, dict) else {}
+
+
+@st.cache_data(max_entries=16, show_spinner=False)
+def read_saved_ranking(
+    path: str, file_version: tuple[int, int], symbols: tuple[str, ...], horizon: int, primary: str,
+) -> tuple[pd.DataFrame, str, list[str]]:
+    """Read only display fields, invalidating the cached projection when the source file changes."""
+    payload = _load_forecast_payload(path)
+    if payload.get("run_profile"):
+        return pd.DataFrame(), "", []  # The scheduled report has its own provenance and symbol aliases.
+    return (
+        stored_ranking_rows(payload, symbols, horizon, primary),
+        str(payload.get("generated_at") or ""), list(payload.get("errors") or []),
+    )
 
 
 def _save_forecast_payload(cache_path: str, payload: dict) -> None:
     os.makedirs(os.path.dirname(cache_path), exist_ok=True)
-    with open(cache_path, "w") as handle:
-        json.dump(payload, handle, indent=2, default=str)
+    handle = tempfile.NamedTemporaryFile(mode="w", dir=os.path.dirname(cache_path), delete=False)
+    try:
+        with handle:
+            json.dump(payload, handle, indent=2, default=str)
+        os.replace(handle.name, cache_path)
+    finally:
+        if os.path.exists(handle.name):
+            os.unlink(handle.name)
 
 
 def _model_results_from_snapshot(snapshot: dict) -> dict:
@@ -2469,9 +2520,29 @@ def _load_model_result_cache(cache_path: str, max_age_days: float = 7.0) -> dict
 
 
 def _save_model_result_cache(cache_path: str, payload: dict) -> None:
-    os.makedirs(os.path.dirname(cache_path), exist_ok=True)
-    with open(cache_path, "w") as handle:
-        json.dump(payload, handle, indent=2, default=str)
+    _save_forecast_payload(cache_path, payload)
+
+
+def render_available_symbol_forecasts(
+    symbol: str, primary_model: str, scheduled: dict | None, cache_paths: dict[int, str],
+    test_points: int,
+) -> None:
+    """Open completed forecasts for these settings, including a separately fitted one-day result."""
+    for horizon, path in cache_paths.items():
+        local = _load_forecast_payload(path)
+        saved = choose_saved_forecast(local, scheduled, symbol, ticker_short_label(symbol), horizon, primary_model)
+        if saved:
+            attach_archived_models(saved, scheduled or {}, _forecast_reports_dir(), symbol, horizon)
+            render_saved_symbol_forecast(saved, symbol, horizon)
+            if saved.source == "Interactive run":
+                history_path = historical_accuracy_path(
+                    _forecast_reports_dir(), local, symbol, saved.row["Selected Model"], test_points,
+                )
+                history = _load_forecast_payload(str(history_path)) if history_path else {}
+                if history.get("rows"):
+                    render_historical_accuracy(pd.DataFrame(history["rows"]), history.get("generated_at"))
+        else:
+            st.caption(f"No saved {horizon}-session forecast for {symbol} matches these selections.")
 
 
 @st.cache_data(ttl=900, show_spinner=False)
@@ -2488,6 +2559,7 @@ def cached_model_results(
     ranking_symbols: tuple[str, ...] | None = None,
     cache_buster: int = 0,
     earnings_context_json: str = "",
+    _force_retrain: bool = False,
 ) -> dict:
     ranking_symbols = ranking_symbols or tuple()
     cache_path = forecast_cache_path(
@@ -2544,11 +2616,13 @@ def cached_model_results(
         include_rl_policy,
     )
 
-    if cache_buster == 0:
+    if not _force_retrain:
         cached_payload = _load_model_result_cache(str(model_cache_path))
         if cached_payload:
             model_results = _model_results_from_snapshot(cached_payload["snapshot"])
-            if model_results:
+            if select_model_name(model_results):
+                # Keep a successful fingerprint-keyed hit available after the run button resets.
+                _save_forecast_payload(str(cache_path), {**cached_payload, "symbols": [symbol]})
                 return model_results
 
     model_results = compare_forecast_models(
@@ -2560,7 +2634,7 @@ def cached_model_results(
         context_df=context_df,
         sequence_model=sequence_model_choice,
         symbol=symbol,
-        force_retrain=cache_buster != 0,
+        force_retrain=_force_retrain,
         include_rl=include_rl_policy,
         earnings_context=earnings_policy_metrics(earnings_context),
     )
@@ -2609,8 +2683,9 @@ def cached_model_results(
         "errors": [],
         "telegram_text": "",
     }
-    _save_forecast_payload(str(cache_path), payload)
-    _save_model_result_cache(str(model_cache_path), payload)
+    if primary_for_policy:
+        _save_forecast_payload(str(cache_path), payload)
+        _save_model_result_cache(str(model_cache_path), payload)
     return model_results
 
 
@@ -2625,11 +2700,12 @@ def cached_historical_forecasts(
     primary_model: str,
     use_market_context: bool,
     cache_buster: int = 0,
+    *,
+    prices: pd.DataFrame,
+    context_df: pd.DataFrame,
 ):
-    df = get_ohlcv(symbol, history_days)
-    context_df = _load_market_context_data(history_days) if use_market_context else pd.DataFrame()
-    return backtest_forecasts(
-        df,
+    result = backtest_forecasts(
+        prices,
         horizon_days=forecast_horizon,
         lookback_window=int(selected_window),
         ridge_alpha=float(selected_alpha),
@@ -2638,6 +2714,23 @@ def cached_historical_forecasts(
         model_type=primary_model.lower(),
         context_df=context_df,
     )
+    if not result.forecasts.empty:
+        config = {
+            "history_days": history_days, "horizon_days": forecast_horizon, "lookback_window": int(selected_window),
+            "ridge_alpha": float(selected_alpha), "use_market_context": use_market_context,
+            "data_fingerprint": frame_fingerprint(prices), "context_fingerprint": frame_fingerprint(context_df),
+        }
+        path = historical_accuracy_path(_forecast_reports_dir(), config, symbol, primary_model, historical_test_points)
+        if path:
+            try:
+                _save_forecast_payload(str(path), {
+                    "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+                    "symbol": symbol, "model": primary_model, "test_points": historical_test_points, **config,
+                    "rows": json.loads(result.forecasts.to_json(orient="records", date_format="iso", double_precision=15)),
+                })
+            except OSError as exc:
+                st.warning(f"Historical accuracy is available for this run. Saving it for later failed ({exc}).")
+    return result
 
 
 @st.cache_data(ttl=900, show_spinner=False)
@@ -2653,6 +2746,7 @@ def cached_forecast_rankings(
     include_rl_policy: bool,
     primary_model_choice: str,
     cache_buster: int = 0,
+    _force_retrain: bool = False,
 ) -> tuple[pd.DataFrame, list[str]]:
     ranking_cache_path = forecast_cache_path(
         _forecast_reports_dir(),
@@ -2725,8 +2819,8 @@ def cached_forecast_rankings(
                 symbol_context_fingerprint,
                 include_rl_policy,
             )
-            cached_payload = _load_model_result_cache(str(model_cache_path)) if cache_buster == 0 else {}
-            if cached_payload:
+            cached_payload = {} if _force_retrain else _load_model_result_cache(str(model_cache_path))
+            if cached_payload and select_model_name(cached_payload["snapshot"].get("models", {}), preferred=primary_model_choice):
                 ranking_snapshots.append(
                     enrich_snapshot_with_smart_policy_for_app(
                         cached_payload["snapshot"],
@@ -2747,22 +2841,18 @@ def cached_forecast_rankings(
                 context_df=ranking_context_df,
                 sequence_model=sequence_model_choice,
                 symbol=ranking_symbol,
-                force_retrain=cache_buster != 0,
+                force_retrain=_force_retrain,
                 include_rl=include_rl_policy,
                 earnings_context=earnings_policy_metrics(
                     earnings_context
                 ),
             )
             primary_for_policy = select_model_name(ranking_results, preferred=primary_model_choice)
-            smart_policy = (
-                build_smart_policy_metadata(
-                    ranking_df,
-                    ranking_results,
-                    primary_for_policy,
-                    earnings_context=earnings_context,
-                )
-                if primary_for_policy
-                else {}
+            if not primary_for_policy:
+                ranking_errors.append(f"{ranking_symbol}: No usable forecast model result.")
+                continue
+            smart_policy = build_smart_policy_metadata(
+                ranking_df, ranking_results, primary_for_policy, earnings_context=earnings_context,
             )
             snapshot = snapshot_from_model_results(
                 ranking_symbol,
@@ -2810,8 +2900,6 @@ def cached_forecast_rankings(
         "errors": ranking_errors,
         "telegram_text": "",
     }
-    _save_forecast_payload(str(ranking_cache_path), ranking_payload)
-
     ranking_table, ranking_errors_from_snapshots = snapshots_to_ranking_frame(ranking_snapshots, primary_model_choice)
     if ranking_errors_from_snapshots:
         ranking_errors.extend(ranking_errors_from_snapshots)
@@ -2820,6 +2908,16 @@ def cached_forecast_rankings(
         ranking_close_history,
     )
     ranking_errors.extend(f"Portfolio: {warning}" for warning in portfolio_warnings)
+    if not ranking_table.empty:
+        rank_records = json.loads(ranking_table.to_json(orient="records", double_precision=15))
+        ranking_payload.update(rows=rank_records, errors=ranking_errors)
+        # Keep final portfolio-constrained rows separately from large model snapshots.
+        view_path = dashboard_result_path(_forecast_reports_dir(), "rankings", (ranking_cache_path.stem, primary_model_choice))
+        try:
+            _save_forecast_payload(str(ranking_cache_path), ranking_payload)
+            _save_forecast_payload(str(view_path), {k: v for k, v in ranking_payload.items() if k != "snapshots"})
+        except OSError as exc:
+            ranking_errors.append(f"Could not save all ranking results for later viewing: {exc}")
     return ranking_table, ranking_errors
 
 
@@ -2851,6 +2949,27 @@ def load_text_file_safely(path: str) -> str | None:
         return text
     except Exception:
         return None
+
+
+@st.cache_data(max_entries=4, show_spinner=False)
+def read_archived_report(path: str, modified_ns: int) -> dict | None:
+    """Read one selected report, retaining only the data needed for its tables and text."""
+    payload = load_json_file_safely(path)
+    if not has_scheduled_report_data(payload):
+        return None
+    payload.pop("snapshots", None)
+    for report in payload.get("short_horizon_reports") or []:
+        if isinstance(report, dict):
+            report.pop("snapshots", None)
+    return payload
+
+
+def archive_label(filename: str | None) -> str:
+    """Display timestamped report names in the configured report timezone."""
+    if not filename:
+        return "Latest available"
+    stamp = parse_report_timestamp(filename.removeprefix("ml_forecast_rankings_").removesuffix(".json"))
+    return format_report_timestamp(stamp) if stamp is not None else filename
 
 
 def newest_valid_local_ml_payload_candidate() -> tuple[dt.datetime, dict] | None:
@@ -3117,201 +3236,111 @@ def fetch_latest_summary():
         # Silently fail and let the fallback handle it
         return None
 
-# Sidebar: Owner key, Alpaca creds, account summary, strategy and forecast settings
-owner_key_input = st.sidebar.text_input("Enter Owner Key", type="password").strip()
-OWNER_KEY = get_first_secret(["OWNER_KEY", "MARKET_AGENT_OWNER_KEY"], "")
+# Create the destinations before their controls so each widget appears next to its results.
+top_portfolio_tab, top_summary_tab, top_patterns_tab, top_analysis_tab = st.tabs([
+    "Portfolio Balance", "AI-Generated Market Summary", "Most Common Patterns", "Market Analysis",
+])
 
-if owner_key_input == OWNER_KEY and OWNER_KEY != "":
-    demo_mode = st.sidebar.checkbox("Demo Mode", value=False, help="Toggle between live and demo mode")
-    if demo_mode:
-        st.sidebar.info("Demo Mode active — trades will not be executed.")
-    else:
-        st.sidebar.success(" Live Mode active — connected to Alpaca paper trading.")
-else:
-    demo_mode = True
-    if OWNER_KEY:
-        st.sidebar.info("Demo Mode forced ON until the owner key matches.")
-    else:
-        st.sidebar.info("Demo Mode forced ON for public viewers — safe demo mode.")
-
-if OWNER_KEY == "":
-    st.sidebar.caption("Owner key not configured in Streamlit secrets or environment: live mode is disabled, auto-trades run in demo simulation only.")
-
-# --- Load Alpaca credentials from Streamlit Secrets ---
-ALPACA_KEY = get_secret("ALPACA_KEY")
-ALPACA_SECRET = get_secret("ALPACA_SECRET")
-ALPACA_ENDPOINT = get_secret("ALPACA_ENDPOINT", "https://paper-api.alpaca.markets")
-
-# --- Account Summary ---
-if demo_mode or not ALPACA_KEY or not ALPACA_SECRET:
-    equity, cash, buying_power = 100000.0, 100000.0, 200000.0
-    if not ALPACA_KEY or not ALPACA_SECRET:
-        st.sidebar.warning("Alpaca API keys not found — using demo values.")
-else:
-    try:
-        acct = get_account()
-        if isinstance(acct, dict) and "equity" in acct:
-            equity = float(acct.get("equity", 0))
-            cash = float(acct.get("cash", 0))
-            buying_power = float(acct.get("buying_power", 0))
+with top_portfolio_tab:
+    render_section_header("Paper trading account", "Balances, account access and portfolio activity.")
+    with st.expander("Account access"):
+        owner_key_input = st.text_input("Enter Owner Key", type="password", key="market_owner_key").strip()
+        OWNER_KEY = get_first_secret(["OWNER_KEY", "MARKET_AGENT_OWNER_KEY"], "")
+        owner_authenticated = bool(OWNER_KEY and owner_key_input == OWNER_KEY)
+        if owner_authenticated:
+            demo_mode = st.checkbox("Demo Mode", value=False, help="Simulate orders using the local ledger.")
         else:
-            st.sidebar.warning("Invalid response from Alpaca — using demo values.")
-            equity, cash, buying_power = 100000.0, 100000.0, 200000.0
-    except Exception as e:
-        st.sidebar.error(f"Failed to fetch Alpaca account: {e}")
-        equity, cash, buying_power = 100000.0, 100000.0, 200000.0
+            demo_mode = True
+        if not OWNER_KEY:
+            st.caption("Owner access is unconfigured. This account uses demo balances.")
+        elif owner_key_input and not owner_authenticated:
+            st.warning("The owner key did not match. Demo mode is active.")
 
-st.sidebar.header("Account Summary (Paper Trading)")
-st.sidebar.metric("Equity", f"${equity:,.2f}")
-st.sidebar.metric("Cash", f"${cash:,.2f}")
-st.sidebar.metric("Buying Power", f"${buying_power:,.2f}")
-if st.sidebar.button("Refresh Account and Money Chart"):
-    st.rerun()
-
-# --- Add a Cancel Orders Button ---
-if st.sidebar.button("Cancel Open Orders"):
+    ALPACA_KEY = get_secret("ALPACA_KEY")
+    ALPACA_SECRET = get_secret("ALPACA_SECRET")
+    equity, cash, buying_power = 100000.0, 100000.0, 200000.0
+    account_source = "Demo balances"
     if not demo_mode:
-        try:
-            cancel_open_orders()
-            st.sidebar.success("All open orders canceled!")
-        except Exception as e:
-            st.sidebar.error(f"Failed to cancel orders: {e}")
-    else:
-        st.sidebar.info("(Demo) Orders not canceled in demo mode")
+        if not ALPACA_KEY or not ALPACA_SECRET:
+            st.warning("Alpaca credentials are missing. Showing demo balances.")
+        else:
+            try:
+                acct = get_account()
+                if isinstance(acct, dict) and "equity" in acct:
+                    equity, cash, buying_power = (
+                        float(acct["equity"]), float(acct["cash"]), float(acct["buying_power"])
+                    )
+                    account_source = "Alpaca paper account"
+                else:
+                    st.warning("Alpaca returned incomplete balances. Showing demo balances.")
+            except Exception as account_error:
+                st.warning(f"Could not load the Alpaca account. Showing demo balances. {account_error}")
 
-# --- Strategy Settings ---
-st.sidebar.header("Strategy Settings")
-short_window = st.sidebar.number_input("Short-term MA window", min_value=1, max_value=100, value=20, step=1)
-long_window = st.sidebar.number_input("Long-term MA window", min_value=1, max_value=200, value=50, step=1)
-
-st.sidebar.header("Auto Paper Trading")
-auto_trade_enabled = st.sidebar.checkbox(
-    "Enable automatic paper trades",
-    value=False,
-    help="Places BUY/SELL paper orders from the selected policy trigger.",
-)
-auto_trade_risk_fraction = st.sidebar.slider(
-    "Auto-trade position size (% of equity)",
-    min_value=0.03,
-    max_value=0.05,
-    value=0.05,
-    step=0.01,
-)
-if auto_trade_enabled and demo_mode:
-    st.sidebar.info("Auto trading enabled in demo mode: orders are simulated and still logged.")
-auto_trade_trigger = "Smart Policy"
-st.sidebar.caption(
-    "Automatic orders use only the calibrated Smart Policy. Standalone SMA, "
-    "raw ML direction, and RL-shadow outputs cannot submit orders."
-)
-
-st.sidebar.header("Market Outlook Settings")
-history_options = {
-    "~1 year": 365,
-    "~2.5 years": 913,
-    "~5 years": 1825,
-    "~7.5 years": 2738,
-}
-history_label = st.sidebar.selectbox("Historical data lookback", list(history_options.keys()), index=2)
-history_days = history_options[history_label]
-forecast_horizon = st.sidebar.slider("Forecast horizon", min_value=1, max_value=60, value=30, step=1)
-forecast_lookback = st.sidebar.slider("Lag window", min_value=5, max_value=60, value=20, step=5)
-historical_test_points = st.sidebar.slider("Previous forecast test points", min_value=10, max_value=100, value=50, step=10)
-optimize_forecast_model = st.sidebar.checkbox("Optimize ML model", value=True)
-use_market_context = st.sidebar.checkbox("Use market context features", value=True)
-primary_model_choice = st.sidebar.selectbox(
-    "Primary forecast model",
-    ["Ensemble", "Best Validation", "Ridge", "XGBoost", "Neural Net", "LSTM", "Transformer"],
-    index=1,
-)
-sequence_model_label = st.sidebar.selectbox("Deep sequence model", ["Off", "LSTM", "Transformer", "Both"], index=0)
-sequence_model_choice = {"Off": "off", "LSTM": "lstm", "Transformer": "transformer", "Both": "both"}[sequence_model_label]
-if primary_model_choice == "LSTM":
-    sequence_model_choice = "lstm"
-elif primary_model_choice == "Transformer":
-    sequence_model_choice = "transformer"
-one_day_sequence_model_label = st.sidebar.selectbox(
-    "1-day sequence model",
-    ["Both", "LSTM", "Transformer", "Off", "Same as 30-day"],
-    index=0,
-    help="Controls the next-trading-day forecast only. Both enables LSTM and Transformer for the 1-day model.",
-)
-one_day_sequence_model_choice = {
-    "Both": "both",
-    "LSTM": "lstm",
-    "Transformer": "transformer",
-    "Off": "off",
-    "Same as 30-day": sequence_model_choice,
-}[one_day_sequence_model_label]
-include_rl_policy = st.sidebar.checkbox(
-    "Generate RL shadow diagnostics",
-    value=True,
-    help=(
-        "Evaluates the policy for research only. RL is excluded from primary-model "
-        "selection, ensembles, reliability grades, target weights, and orders."
-    ),
-)
-forecast_alpha = st.sidebar.number_input(
-    "Ridge regularization",
-    min_value=0.1,
-    max_value=100.0,
-    value=10.0,
-    step=0.5,
-)
-run_symbol_forecast = st.sidebar.checkbox(
-    "Run selected-symbol ML forecast",
-    value=False,
-    key="run_symbol_forecast_v2",
-    help="Adds the ML forecast overlay to the selected-symbol chart. Leave off for a fast public dashboard load.",
-)
-run_forecast_rankings = st.sidebar.checkbox(
-    "Run market outlook & trade watchlist",
-    value=False,
-    key="run_forecast_rankings_v2",
-    help="Computes fresh ML rankings for the selected ticker universe. Leave off to show saved reports and quick charts immediately.",
-)
-selected_forecast_symbols = st.sidebar.multiselect(
-    "Forecast ranking tickers",
-    options=SYMBOL_OPTIONS,
-    default=DEFAULT_FORECAST_SYMBOLS,
-    format_func=ticker_label,
-)
-
-if "ranking_refresh_nonce" not in st.session_state:
-    st.session_state["ranking_refresh_nonce"] = 0
-if "symbol_refresh_nonce" not in st.session_state:
-    st.session_state["symbol_refresh_nonce"] = 0
-if "forecast_work_paused" not in st.session_state:
-    st.session_state["forecast_work_paused"] = False
-
-refresh_all = st.sidebar.button("Force recalculate all rankings", help="Ignore saved ranking caches and recompute every symbol.")
-refresh_selected = st.sidebar.button("Force recalculate selected stock", help="Ignore the saved selected-stock cache and recompute only the active symbol.")
-
-if st.session_state["forecast_work_paused"]:
-    st.sidebar.warning("Heavy ML forecast work is paused.")
-    if st.sidebar.button("Resume ML forecasts"):
-        st.session_state["forecast_work_paused"] = False
-        st.rerun()
-else:
-    if st.sidebar.button("Stop / pause ML forecasts", help="Prevents forecast rankings and selected-symbol ML forecasts from starting on rerun."):
-        st.session_state["forecast_work_paused"] = True
-        st.session_state["skip_heavy_once"] = True
+    st.caption(account_source)
+    balances = st.columns(3)
+    balances[0].metric("Equity", f"${equity:,.2f}")
+    balances[1].metric("Cash", f"${cash:,.2f}")
+    balances[2].metric("Buying Power", f"${buying_power:,.2f}")
+    if st.button("Refresh account and balance chart"):
         st.rerun()
 
-if refresh_all:
-    st.session_state["ranking_refresh_nonce"] += 1
-    st.session_state["symbol_refresh_nonce"] += 1
-    st.rerun()
+    with st.expander("Open orders"):
+        if st.button("Cancel Open Orders"):
+            if demo_mode:
+                st.info("Demo mode is active. Orders are simulated.")
+            else:
+                try:
+                    cancel_open_orders()
+                    st.success("Open orders canceled.")
+                except Exception as order_error:
+                    st.error(f"Failed to cancel orders: {order_error}")
+        if owner_authenticated and not demo_mode and st.checkbox("Show order details", value=False):
+            try:
+                st.json(list(get_open_orders()))
+            except (BrokerError, requests.RequestException, ValueError) as order_error:
+                st.error(f"Could not load orders: {order_error}")
 
-if refresh_selected:
-    st.session_state["symbol_refresh_nonce"] += 1
-    st.rerun()
+with top_analysis_tab:
+    with st.expander("Forecast settings"):
+        settings = render_forecast_settings()
+        forecast_work_paused = st.checkbox(
+            "Pause new forecast runs", key="forecast_work_paused",
+            help="You can still view saved results while new runs are paused.",
+        )
+    scheduled_tab, universe_tab, symbol_tab, heatmap_tab = st.tabs([
+        "Scheduled outlook", "Universe rankings", "Symbol forecast", "Heatmaps",
+    ])
 
+history_days = settings.history_days
+forecast_horizon = settings.forecast_horizon
+forecast_lookback = settings.forecast_lookback
+forecast_alpha = settings.forecast_alpha
+optimize_forecast_model = settings.optimize_forecast_model
+historical_test_points = settings.historical_test_points
+use_market_context = settings.use_market_context
+primary_model_choice = settings.primary_model_choice
+sequence_model_choice = settings.sequence_model_choice
+one_day_sequence_model_choice = settings.one_day_sequence_model_choice
+include_rl_policy = settings.include_rl_policy
+forecast_run_description = f"{'Automatic tuning' if settings.automatic else 'Manual settings'} · {forecast_horizon}-session horizon"
 skip_heavy_once = bool(st.session_state.pop("skip_heavy_once", False))
-forecast_work_paused = bool(st.session_state.get("forecast_work_paused", False))
-if forecast_work_paused:
-    run_forecast_rankings = False
-    run_symbol_forecast = False
+
+with universe_tab:
+    render_section_header("Universe rankings", forecast_run_description)
+    selected_forecast_symbols = choose_universe("rankings", SYMBOL_OPTIONS, DEFAULT_FORECAST_SYMBOLS, ticker_label)
+    run_forecast_rankings, force_rankings = forecast_run_buttons(
+        "Run rankings", "Rebuild rankings", "ranking", disabled=forecast_work_paused or not selected_forecast_symbols,
+    )
+
+with top_patterns_tab:
+    render_section_header("Most Common Patterns", "Technical patterns across the selected symbols.")
+    choose_universe("patterns", SYMBOL_OPTIONS, DEFAULT_FORECAST_SYMBOLS, ticker_label)
+    with st.expander("Moving-average settings"):
+        periods = st.columns(2)
+        short_window = periods[0].number_input("Short-term MA window", min_value=1, max_value=100, value=20)
+        long_window = periods[1].number_input("Long-term MA window", min_value=1, max_value=200, value=50)
+        st.caption("These windows also apply to the crossover chart and strategy.")
+    run_pattern_scan = st.button("Run pattern scan", type="primary", disabled=not selected_forecast_symbols)
 
 ranking_table = pd.DataFrame()
 ranking_errors: list[str] = []
@@ -3319,14 +3348,6 @@ best_stock_for_analysis = "AAPL"
 pattern_summary = pd.DataFrame()
 pattern_details = pd.DataFrame()
 pattern_errors: list[str] = []
-
-# Top-level tabs: Portfolio Balance first, then AI-Generated Market Summary, patterns, then Market Analysis
-top_portfolio_tab, top_summary_tab, top_patterns_tab, top_analysis_tab = st.tabs([
-    "Portfolio Balance",
-    "AI-Generated Market Summary",
-    "Most Common Patterns",
-    "Market Analysis",
-])
 
 with top_summary_tab:
     render_section_header(
@@ -3418,60 +3439,67 @@ with top_summary_tab:
         st.error(f"Unable to load summary: {e}")
         st.info("The news summary will be available when GitHub API or local files are accessible.")
 
+try:
+    latest_ml_payload = fetch_latest_ml_payload()
+except (OSError, ValueError, TypeError, requests.RequestException) as report_error:
+    logging.warning("Could not read the scheduled market report: %s", report_error)
+    latest_ml_payload = None
+
+report_aliases = {ticker: ticker_short_label(ticker) for ticker in selected_forecast_symbols}
+
 with top_patterns_tab:
-    render_section_header(
-        "Most Common Patterns",
-        "Technical pattern concentration across the selected forecast universe.",
-    )
-    if not selected_forecast_symbols:
-        st.info("Select forecast ranking tickers to scan current patterns.")
-    elif forecast_work_paused:
-        st.info("Resume ML forecasts in the sidebar to calculate pattern summaries.")
-    elif not run_forecast_rankings or skip_heavy_once:
-        st.info("Enable Run forecast rankings to calculate pattern summaries.")
-    else:
+    if selected_forecast_symbols:
         try:
-            with st.spinner("Scanning current technical patterns..."):
-                pattern_summary, pattern_details, pattern_errors = scan_common_patterns(
-                    tuple(selected_forecast_symbols),
-                    history_days,
-                    short_window,
-                    long_window,
-                    st.session_state["ranking_refresh_nonce"],
-                )
-
-            best_pattern_row = pd.DataFrame()
-            if not pattern_details.empty:
-                best_pattern_row = pattern_details[pattern_details["Symbol"] == best_stock_for_analysis]
-            best_rank_row = pd.DataFrame()
-            if not ranking_table.empty and "Symbol" in ranking_table.columns:
-                best_rank_row = ranking_table[ranking_table["Symbol"] == best_stock_for_analysis]
-            if not best_pattern_row.empty:
-                picked = best_pattern_row.iloc[0]
-                picked_cols = st.columns(4)
-                picked_cols[0].metric("ML Picked Stock", ticker_label(best_stock_for_analysis))
-                picked_cols[1].metric("Recognized Pattern", str(picked["Primary Pattern"]))
-                if not best_rank_row.empty:
-                    picked_cols[2].metric(
-                        "Forecast Return",
-                        format_signed_return(best_rank_row.iloc[0]["Forecast Return %"]),
+            scan_path = dashboard_result_path(
+                _forecast_reports_dir(), "patterns",
+                (sorted(selected_forecast_symbols), history_days, short_window, long_window),
+            )
+            if run_pattern_scan:
+                with st.spinner("Scanning current technical patterns..."):
+                    pattern_summary, pattern_details, pattern_errors = scan_common_patterns(
+                        tuple(selected_forecast_symbols), history_days, short_window, long_window,
+                        st.session_state["ranking_refresh_nonce"],
                     )
-                    picked_cols[2].caption(f"Model call: {best_rank_row.iloc[0]['Model Call']}")
+            if pattern_details.empty:
+                saved_scan = _load_forecast_payload(str(scan_path))
+                pattern_details = pd.DataFrame(saved_scan.get("rows") or [])
+                archive = latest_ml_payload or {}
+                if not pattern_details.empty and {"Symbol", "All Patterns", "Primary Pattern"}.issubset(pattern_details):
+                    archive = saved_scan
+                    source = f"Saved scan using {short_window}/{long_window}-session moving averages"
+                    pattern_errors.extend(saved_scan.get("errors") or [])
                 else:
-                    picked_cols[2].metric("20D Return", format_signed_return(picked["20D Return %"]))
-                picked_cols[3].metric("RSI", f"{float(picked['RSI']):.1f}")
-                st.caption(f"{best_stock_for_analysis} patterns: {picked['All Patterns']}")
-            elif best_stock_for_analysis:
-                st.caption(f"ML picked {ticker_label(best_stock_for_analysis)}, but no pattern row was available for that ticker.")
+                    pattern_details = scheduled_pattern_rows(archive, selected_forecast_symbols, report_aliases)
+                    source = "Scheduled scan using the published report's settings"
+                if not pattern_details.empty:
+                    pattern_summary = summarize_patterns(pattern_details)
+                    stamp = parse_report_timestamp(archive.get("generated_at"))
+                    when = format_report_timestamp(stamp) if stamp else "generation time unavailable"
+                    st.caption(f"{source} · {when} · {len(pattern_details)} of {len(selected_forecast_symbols)} selected symbols.")
+            if pattern_details.empty and not run_pattern_scan:
+                st.info("Run a pattern scan to calculate the first results for this selection.")
 
-            if pattern_summary.empty:
+            if not pattern_details.empty and "20D Return %" in pattern_details:
+                exemplar = best_stock_for_analysis if best_stock_for_analysis in selected_forecast_symbols else selected_forecast_symbols[0]
+                picked_rows = pattern_details[pattern_details["Symbol"] == exemplar]
+                if not picked_rows.empty:
+                    picked = picked_rows.iloc[0]
+                    picked_cols = st.columns(4)
+                    picked_cols[0].metric("Symbol", ticker_label(exemplar))
+                    picked_cols[1].metric("Recognized Pattern", str(picked["Primary Pattern"]))
+                    picked_cols[2].metric("20D Return", format_signed_return(picked["20D Return %"]))
+                    rsi = picked.get("RSI")
+                    picked_cols[3].metric("RSI", f"{rsi:.1f}" if pd.notna(rsi) else "Unavailable")
+            if pattern_summary.empty and run_pattern_scan:
                 st.info("No pattern data was available for the selected tickers.")
-            else:
+            elif not pattern_summary.empty:
                 top_pattern = pattern_summary.iloc[0]
-                metric_cols = st.columns(3)
+                has_returns = "Avg 20D Return %" in pattern_summary
+                metric_cols = st.columns(3 if has_returns else 2)
                 metric_cols[0].metric("Most Common Pattern", str(top_pattern["Pattern"]))
                 metric_cols[1].metric("Tickers Matching", f"{int(top_pattern['Count'])}")
-                metric_cols[2].metric("Avg 20D Return", format_signed_return(top_pattern["Avg 20D Return %"]))
+                if has_returns:
+                    metric_cols[2].metric("Avg 20D Return", format_signed_return(top_pattern["Avg 20D Return %"]))
 
                 chart_df = pattern_summary.head(12)
                 pattern_fig = px.bar(
@@ -3479,13 +3507,10 @@ with top_patterns_tab:
                     x="Count",
                     y="Pattern",
                     orientation="h",
-                    color="Avg 20D Return %",
-                    hover_data={
-                        "Count": True,
-                        "Avg 20D Return %": ":+.2f",
-                        "Avg 60D Return %": ":+.2f",
-                        "Symbols": True,
-                    },
+                    color="Avg 20D Return %" if has_returns else None,
+                    hover_data={key: value for key, value in {
+                        "Count": True, "Avg 20D Return %": ":+.2f", "Avg 60D Return %": ":+.2f", "Symbols": True,
+                    }.items() if key in chart_df},
                     title="Most Common Patterns Across Selected Tickers",
                 )
                 pattern_fig.update_layout(
@@ -3515,7 +3540,7 @@ with top_patterns_tab:
             if not pattern_details.empty:
                 with st.expander("Pattern details by ticker", expanded=True):
                     st.dataframe(
-                        pattern_details.sort_values(["Primary Pattern", "20D Return %"], ascending=[True, False])
+                        pattern_details.sort_values("Primary Pattern", kind="stable")
                         .style.format(
                             {
                                 "Last Price": "${:,.4f}",
@@ -3525,7 +3550,7 @@ with top_patterns_tab:
                                 "RSI": "{:.1f}",
                                 "20D Volatility %": "{:.1f}%",
                                 "Volume Ratio": "{:.2f}x",
-                            }
+                            }, na_rep="Unavailable",
                         )
                         .hide(axis="index"),
                         use_container_width=True,
@@ -3537,32 +3562,41 @@ with top_patterns_tab:
         except Exception as pattern_scan_error:
             st.warning(f"Pattern scan unavailable: {pattern_scan_error}")
 
-if not ranking_table.empty and not pattern_details.empty:
-    ranking_pattern_columns = pattern_details[["Symbol", "Primary Pattern"]].drop_duplicates("Symbol")
-    ranking_table = ranking_table.drop(columns=["Primary Pattern"], errors="ignore").merge(
-        ranking_pattern_columns,
-        on="Symbol",
-        how="left",
-    )
+    else:
+        st.info("Select symbols to view pattern results.")
 
-with top_analysis_tab:
+with scheduled_tab:
     try:
-        latest_ml_payload = fetch_latest_ml_payload()
-        latest_ml_report = fetch_latest_ml_report()
-        has_report = has_scheduled_report_data(latest_ml_payload)
+        archive_dir = Path(_forecast_reports_dir())
+        report_names = sorted((p.name for p in archive_dir.glob("ml_forecast_rankings_20*.json")), reverse=True)
+        with st.expander("Previous scheduled reports"):
+            report_name = st.selectbox(
+                "Report to display", [None, *report_names], key="scheduled_archive",
+                format_func=archive_label,
+            )
+        if report_name is None:
+            scheduled_payload = latest_ml_payload
+            scheduled_text = fetch_latest_ml_report()
+        else:
+            archive_path = archive_dir / report_name
+            scheduled_payload = read_archived_report(str(archive_path), archive_path.stat().st_mtime_ns)
+            if scheduled_payload is None:
+                raise ValueError(f"No completed report data in {report_name}.")
+            scheduled_text = scheduled_payload.get("telegram_text") or scheduled_payload.get("report_text")
+        has_report = has_scheduled_report_data(scheduled_payload)
         if has_report:
             render_section_header(
                 "Scheduled Market Outlook & Trade Watchlist",
-                "Price conditions and model forecasts from the latest scheduled run.",
+                "Price conditions and model forecasts from the selected scheduled run.",
             )
-            generated_at = latest_ml_payload.get("generated_at")
+            generated_at = scheduled_payload.get("generated_at")
             if generated_at:
                 timestamp = parse_report_timestamp(generated_at)
                 st.caption(f"Generated: {format_report_timestamp(timestamp) if timestamp else generated_at}")
-            render_scheduled_price_watch(latest_ml_payload.get("price_watch"))
-        if has_report and latest_ml_payload["rows"]:
+            render_scheduled_price_watch(scheduled_payload.get("price_watch"))
+        if has_report and scheduled_payload["rows"]:
             st.subheader("Forecast and policy signals")
-            signal_summary = latest_ml_payload.get("signal_summary") or {}
+            signal_summary = scheduled_payload.get("signal_summary") or {}
             if signal_summary:
                 summary_cols = st.columns(4)
                 with summary_cols[0]:
@@ -3574,101 +3608,72 @@ with top_analysis_tab:
                 with summary_cols[3]:
                     st.metric("Policy Sell/Avoid Watchlist", int(signal_summary.get("policy_watch_sells", 0) or 0))
 
-            rows_df = pd.DataFrame(latest_ml_payload.get("rows", []))
+            rows_df = pd.DataFrame(scheduled_payload.get("rows", []))
             if not rows_df.empty:
                 rows_sorted = sort_by_policy_score(rows_df, ascending=False)
-                st.caption(f"{int(latest_ml_payload.get('horizon_days', 30))}-session forecast ranking")
+                st.caption(f"{int(scheduled_payload.get('horizon_days', 30))}-session forecast ranking")
                 st.dataframe(format_ranking_table(rows_sorted.head(15)), use_container_width=True)
 
-            short_horizon_df = scheduled_short_horizon_table(latest_ml_payload.get("short_horizon_reports", []))
+            short_horizon_df = scheduled_short_horizon_table(scheduled_payload.get("short_horizon_reports", []))
             if not short_horizon_df.empty:
                 st.markdown("**1-Day Scheduled Rankings**")
                 st.caption("Separate scheduled model run for the next trading day.")
                 st.dataframe(format_ranking_table(short_horizon_df), use_container_width=True)
-            else:
-                fallback_symbols = scheduled_one_day_fallback_symbols(latest_ml_payload)
-                fallback_state = st.session_state.get("scheduled_one_day_fallback", {})
-                fallback_cache_matches = (
-                    fallback_state.get("source_generated_at") == generated_at
-                    and fallback_state.get("sequence_model") == one_day_sequence_model_choice
-                )
-                fallback_rows = fallback_state.get("rows") if fallback_cache_matches else None
-                fallback_errors = fallback_state.get("errors", []) if fallback_cache_matches else []
-
-                if fallback_rows:
-                    st.markdown("**1-Day Scheduled Rankings**")
-                    st.caption(
-                        "Manual next-trading-day model run for top symbols from "
-                        "the latest scheduled report. "
-                        f"Sequence model: {one_day_sequence_model_choice}."
+            elif report_name is None:
+                fallback_symbols = scheduled_one_day_fallback_symbols(scheduled_payload)
+                if fallback_symbols:
+                    fallback_path = forecast_cache_path(
+                        _forecast_reports_dir(), fallback_symbols, history_days, 1, forecast_lookback,
+                        forecast_alpha, optimize_forecast_model, use_market_context,
+                        one_day_sequence_model_choice, include_rl_policy,
                     )
-                    fallback_df = pd.DataFrame(fallback_rows)
-                    fallback_df = sort_by_policy_score(fallback_df, ascending=False)
-                    if not fallback_df.empty and "Horizon" not in fallback_df.columns:
-                        fallback_df.insert(0, "Horizon", "1D")
-                    if not fallback_df.empty and "Sequence Model" not in fallback_df.columns:
-                        fallback_df.insert(1, "Sequence Model", one_day_sequence_model_choice)
-                    st.dataframe(format_ranking_table(fallback_df), use_container_width=True)
-                else:
-                    st.info(
-                        "Routine scheduled runs publish only the bounded 30-day "
-                        "report. Run the 1-day ranking here, or explicitly run "
-                        "the quality/custom profile with --short-horizons 1."
+                    fallback_view = dashboard_result_path(
+                        _forecast_reports_dir(), "rankings", (fallback_path.stem, primary_model_choice),
                     )
-                    if fallback_symbols:
-                        st.caption(
-                            f"Fast page fallback will rank the top {len(fallback_symbols)} symbols from the latest 30-day scheduled run: "
-                            + ", ".join(fallback_symbols)
-                            + f". Sequence model: {one_day_sequence_model_choice}."
-                        )
-                    if fallback_symbols and st.button("Run 1-Day Scheduled Ranking Now", key="run_scheduled_one_day_now"):
-                        with st.spinner("Computing real 1-day ML ranking..."):
-                            fallback_df, fallback_errors = cached_forecast_rankings(
-                                fallback_symbols,
-                                history_days,
-                                1,
-                                forecast_lookback,
-                                forecast_alpha,
-                                optimize_forecast_model,
-                                use_market_context,
-                                one_day_sequence_model_choice,
-                                include_rl_policy,
-                                primary_model_choice,
-                                st.session_state["ranking_refresh_nonce"],
+                    for path in (fallback_view, fallback_path):
+                        fallback_payload = _load_forecast_payload(str(path))
+                        fallback_df = stored_ranking_rows(fallback_payload, fallback_symbols, 1, primary_model_choice)
+                        if not fallback_df.empty:
+                            break
+                    fallback_errors = list(fallback_payload.get("errors") or [])
+                    st.markdown("**1-session rankings**")
+                    if st.button("Run 1-session rankings", key="run_scheduled_one_day_now", disabled=forecast_work_paused):
+                        with st.spinner("Calculating 1-session rankings..."):
+                            new_rows, fallback_errors = cached_forecast_rankings(
+                                fallback_symbols, history_days, 1, forecast_lookback, forecast_alpha,
+                                optimize_forecast_model, use_market_context, one_day_sequence_model_choice,
+                                include_rl_policy, primary_model_choice, st.session_state["ranking_refresh_nonce"],
                             )
-                        fallback_records = fallback_df.to_dict("records") if not fallback_df.empty else []
-                        st.session_state["scheduled_one_day_fallback"] = {
-                            "source_generated_at": generated_at,
-                            "sequence_model": one_day_sequence_model_choice,
-                            "rows": fallback_records,
-                            "errors": fallback_errors,
-                        }
-                        st.markdown("**1-Day Scheduled Rankings**")
-                        fallback_df = sort_by_policy_score(fallback_df, ascending=False)
-                        if not fallback_df.empty and "Horizon" not in fallback_df.columns:
-                            fallback_df.insert(0, "Horizon", "1D")
-                        if not fallback_df.empty and "Sequence Model" not in fallback_df.columns:
-                            fallback_df.insert(1, "Sequence Model", one_day_sequence_model_choice)
-                        st.dataframe(format_ranking_table(fallback_df), use_container_width=True)
+                        if not new_rows.empty:
+                            fallback_df = new_rows
+                            fallback_payload = _load_forecast_payload(str(fallback_view))
+                    if not fallback_df.empty:
+                        timestamp = parse_report_timestamp(fallback_payload.get("generated_at"))
+                        generated = format_report_timestamp(timestamp) if timestamp else "time unavailable"
+                        st.caption(f"Saved interactive ranking · {generated} · 1 session")
+                        st.dataframe(format_ranking_table(sort_by_policy_score(fallback_df, ascending=False)),
+                                     use_container_width=True)
+                    else:
+                        st.caption("No saved one-session ranking for this selection.")
+                    st.caption("Symbols: " + ", ".join(fallback_symbols))
+                    if fallback_errors:
+                        with st.expander("1-session ranking errors"):
+                            st.write("\n".join(map(str, fallback_errors)))
 
-                if fallback_errors:
-                    with st.expander("1-day scheduled ranking errors"):
-                        st.write("\n".join(map(str, fallback_errors)))
-
-            if latest_ml_report:
+            if scheduled_text:
                 with st.expander("Full scheduled report text"):
-                    st.info(latest_ml_report.strip())
+                    st.info(scheduled_text.strip())
         elif has_report:
             st.warning("Forecast update unavailable.")
-        elif latest_ml_report:
+        elif scheduled_text:
             render_section_header(
                 "Scheduled Market Outlook & Trade Watchlist",
                 "Latest scheduled report text from the automation pipeline.",
             )
-            report_caption = report_generated_caption(latest_ml_report)
+            report_caption = report_generated_caption(scheduled_text)
             if report_caption:
                 st.caption(report_caption)
-            st.info(latest_ml_report.strip())
+            st.info(scheduled_text.strip())
         else:
             st.caption(
                 "Scheduled market outlooks and trade watchlists will appear here after n8n writes "
@@ -3678,6 +3683,8 @@ with top_analysis_tab:
     except Exception as e:
         st.caption(f"Scheduled market outlook unavailable: {e}")
 
+with heatmap_tab:
+    choose_universe("heatmap", SYMBOL_OPTIONS, DEFAULT_FORECAST_SYMBOLS, ticker_label)
     #  Selected non-crypto universe heatmap (market-cap weighted + labels)
     render_section_header(
         "Selected Universe Heatmap",
@@ -3718,7 +3725,7 @@ with top_analysis_tab:
 
     try:
         if not heatmap_symbols:
-            st.info("Select at least one non-crypto forecast symbol in the sidebar to render this heatmap.")
+            st.info("Choose at least one stock or ETF above to show the universe heatmap.")
         else:
             df = load_heatmap_data(heatmap_symbols, lookback_days, crypto=False, size_by_cap=True)
             df["Label"] = df["Ticker"]
@@ -3791,6 +3798,10 @@ with top_analysis_tab:
     except Exception as e:
         st.error(f"Error generating crypto heatmap: {e}")
 
+with top_patterns_tab:
+    render_section_header(
+        "Price and moving averages", "Inspect one symbol with the selected moving-average windows.",
+    )
     # --- Quick Price + SMA Crossover View ---
     quick_symbol = st.selectbox(
         "Quick chart symbol",
@@ -3800,10 +3811,6 @@ with top_analysis_tab:
         key="quick_symbol_select",
     )
 
-    render_section_header(
-        "Quick Price + SMA Crossover",
-        "Fast single-symbol trend view using the active moving-average settings.",
-    )
     try:
         quick_df = load_ohlcv(quick_symbol, history_days)
         render_chart(build_quick_price_chart(quick_df, short_window, long_window, quick_symbol))
@@ -3811,95 +3818,132 @@ with top_analysis_tab:
         quick_df = None
         st.warning(f"Quick price chart unavailable: {quick_error}")
 
-    if run_forecast_rankings:
-        render_section_header(
-            "Live Market Outlook & Trade Watchlist",
-            "On-demand ranking run for the selected forecast universe using the sidebar model settings.",
-        )
-
-        if not selected_forecast_symbols:
-            st.info("Select forecast ranking tickers in the sidebar to compute rankings.")
-        elif skip_heavy_once:
-            st.info("Heavy forecast work was skipped on this rerun. Re-enable or refresh rankings when ready.")
-        elif forecast_work_paused:
-            st.info("Resume ML forecasts in the sidebar to compute rankings.")
-        else:
+with universe_tab:
+    if selected_forecast_symbols:
+        if run_forecast_rankings and not skip_heavy_once and not forecast_work_paused:
             try:
                 with st.spinner("Preparing the market outlook & trade watchlist..."):
                     ranking_table, ranking_errors = cached_forecast_rankings(
-                        tuple(selected_forecast_symbols),
-                        history_days,
-                        forecast_horizon,
-                        forecast_lookback,
-                        forecast_alpha,
-                        optimize_forecast_model,
-                        use_market_context,
-                        sequence_model_choice,
-                        include_rl_policy,
-                        primary_model_choice,
-                        st.session_state["ranking_refresh_nonce"],
+                        tuple(selected_forecast_symbols), history_days, forecast_horizon, forecast_lookback,
+                        forecast_alpha, optimize_forecast_model, use_market_context, sequence_model_choice,
+                        include_rl_policy, primary_model_choice, st.session_state["ranking_refresh_nonce"],
+                        _force_retrain=force_rankings,
                     )
                 best_stock_for_analysis = best_ranked_symbol(ranking_table, fallback="AAPL")
-                if not ranking_table.empty and not pattern_details.empty:
-                    ranking_pattern_columns = pattern_details[["Symbol", "Primary Pattern"]].drop_duplicates("Symbol")
+                if not ranking_table.empty and {"Symbol", "As Of Session", "Primary Pattern"}.issubset(pattern_details):
+                    # A previously saved scan may have a different data cutoff.
+                    pattern_columns = ["Symbol", "As Of Session", "Primary Pattern"]
                     ranking_table = ranking_table.drop(columns=["Primary Pattern"], errors="ignore").merge(
-                        ranking_pattern_columns,
-                        on="Symbol",
-                        how="left",
+                        pattern_details[pattern_columns].drop_duplicates(["Symbol", "As Of Session"]),
+                        on=["Symbol", "As Of Session"], how="left",
                     )
             except Exception as ranking_error:
                 st.warning(f"Could not compute forecast rankings: {ranking_error}")
 
+        if ranking_table.empty:
+            config_path = forecast_cache_path(
+                _forecast_reports_dir(), selected_forecast_symbols, history_days, forecast_horizon, forecast_lookback,
+                forecast_alpha, optimize_forecast_model, use_market_context, sequence_model_choice, include_rl_policy,
+            )
+            view_path = dashboard_result_path(_forecast_reports_dir(), "rankings", (config_path.stem, primary_model_choice))
+            for path in (view_path, config_path):
+                try:
+                    stat = path.stat()
+                except FileNotFoundError:
+                    continue
+                except OSError as read_error:
+                    ranking_errors.append(f"Could not access saved rankings: {read_error}")
+                    continue
+                ranking_table, generated_at, saved_errors = read_saved_ranking(
+                    str(path), (stat.st_mtime_ns, stat.st_size), tuple(selected_forecast_symbols), forecast_horizon,
+                    primary_model_choice,
+                )
+                if not ranking_table.empty:
+                    source = "Saved on-demand ranking"
+                    if "Policy Target %" not in ranking_table:
+                        source += " · Final portfolio weights unavailable"
+                    ranking_errors.extend(saved_errors)
+                    break
+            if ranking_table.empty:
+                archive = latest_ml_payload or {}
+                generated_at = archive.get("generated_at")
+                ranking_table = scheduled_rows_for_symbols(archive, selected_forecast_symbols, forecast_horizon, report_aliases)
+                source = "Scheduled ranking using the published report's settings and portfolio weights"
+            if not ranking_table.empty:
+                stamp = parse_report_timestamp(generated_at)
+                when = format_report_timestamp(stamp) if stamp else "generation time unavailable"
+                st.caption(f"{source} · {when} · {forecast_horizon} sessions · {len(ranking_table)} of {len(selected_forecast_symbols)} selected symbols.")
+                best_stock_for_analysis = best_ranked_symbol(ranking_table, fallback=selected_forecast_symbols[0])
+            else:
+                st.info(f"Run a ranking to see {forecast_horizon}-session forecasts for this selection.")
         if not ranking_table.empty:
-            if "Policy Score" in ranking_table.columns:
+            if {"Policy Score", "Policy Target %"}.issubset(ranking_table):
                 policy_scores = pd.to_numeric(ranking_table["Policy Score"], errors="coerce").fillna(0.0)
                 default_targets = pd.Series(0.0, index=ranking_table.index)
                 policy_targets = pd.to_numeric(ranking_table.get("Policy Target %", default_targets), errors="coerce").fillna(0.0)
                 buy_candidates = ranking_table[(policy_targets > 0.0) & (policy_scores > 0.0)]
                 sell_candidates = ranking_table[policy_scores < 0.0]
-            else:
-                buy_candidates = ranking_table[ranking_table["Forecast Return %"] > 0]
-                sell_candidates = ranking_table[ranking_table["Forecast Return %"] < 0]
-            strongest_buy = sort_by_policy_score(buy_candidates, ascending=False).head(10)
-            strongest_sell = sort_by_policy_score(sell_candidates, ascending=True).head(10)
+                strongest_buy = sort_by_policy_score(buy_candidates, ascending=False).head(10)
+                strongest_sell = sort_by_policy_score(sell_candidates, ascending=True).head(10)
 
-            buy_col, sell_col = st.columns(2)
-            with buy_col:
-                st.markdown("**Smart Policy Buy Forecasts**")
-                if strongest_buy.empty:
-                    st.info("No smart-policy buy candidates.")
-                else:
-                    st.dataframe(format_ranking_table(strongest_buy), use_container_width=True)
-            with sell_col:
-                st.markdown("**Smart Policy Sell / Avoid Forecasts**")
-                if strongest_sell.empty:
-                    st.info("No smart-policy sell/avoid candidates.")
-                else:
-                    st.dataframe(format_ranking_table(strongest_sell), use_container_width=True)
+                buy_col, sell_col = st.columns(2)
+                with buy_col:
+                    st.markdown("**Smart Policy Buy Forecasts**")
+                    if strongest_buy.empty:
+                        st.info("No smart-policy buy candidates.")
+                    else:
+                        st.dataframe(format_ranking_table(strongest_buy), use_container_width=True)
+                with sell_col:
+                    st.markdown("**Smart Policy Sell / Avoid Forecasts**")
+                    if strongest_sell.empty:
+                        st.info("No smart-policy sell/avoid candidates.")
+                    else:
+                        st.dataframe(format_ranking_table(strongest_sell), use_container_width=True)
 
-            with st.expander("All forecast ranking results"):
+            with st.expander("All forecast ranking results", expanded=True):
                 st.dataframe(format_ranking_table(sort_by_policy_score(ranking_table, ascending=False)), use_container_width=True)
 
-            if ranking_errors:
-                with st.expander("Symbols skipped during forecast ranking"):
-                    st.write("\n".join(ranking_errors))
-
+        if ranking_errors:
+            with st.expander("Forecast ranking messages"):
+                st.write("\n".join(ranking_errors))
         st.divider()
+    else:
+        st.info("Select at least one symbol to view rankings.")
 
-    # --- Symbol input (defaults to best stock from rankings) ---
+with symbol_tab:
+    render_section_header("Symbol forecast", forecast_run_description)
+    if "symbol_select" not in st.session_state:
+        st.session_state["symbol_select"] = best_stock_for_analysis if best_stock_for_analysis in SYMBOL_OPTIONS else "AAPL"
     symbol = st.selectbox(
         "Symbol",
         options=SYMBOL_OPTIONS,
-        index=SYMBOL_OPTIONS.index(best_stock_for_analysis) if best_stock_for_analysis in SYMBOL_OPTIONS else SYMBOL_OPTIONS.index("AAPL"),
         format_func=ticker_label,
         key="symbol_select",
     )
 
-# Re-use the previously created top-level tabs so Portfolio Balance stays at the very top
-analysis_tab = top_analysis_tab
+    run_symbol_forecast, force_symbol = forecast_run_buttons(
+        "Run symbol forecast", "Rebuild symbol forecast", "symbol", disabled=forecast_work_paused,
+    )
+
+analysis_tab = symbol_tab
 money_tab = top_portfolio_tab
 
 # --- Load data and backtest ---
+symbol_cache_paths = {
+    horizon: str(forecast_cache_path(
+        _forecast_reports_dir(), (symbol,), history_days, horizon, forecast_lookback, forecast_alpha,
+        optimize_forecast_model, use_market_context,
+        sequence_model_choice if horizon == forecast_horizon else one_day_sequence_model_choice,
+        include_rl_policy,
+    ))
+    for horizon in dict.fromkeys((forecast_horizon, *SHORT_TERM_SIGNAL_HORIZONS))
+}
+# Display saved evidence even if the current price feed or a new fit is unavailable.
+run_symbol_now = run_symbol_forecast and not forecast_work_paused
+symbol_view_ready = False
+if not run_symbol_now:
+    with analysis_tab:
+        render_available_symbol_forecasts(symbol, primary_model_choice, latest_ml_payload, symbol_cache_paths, historical_test_points)
 try:
     df = load_ohlcv(symbol, history_days)
     
@@ -3973,421 +4017,407 @@ try:
                 "Latest earnings interpretation unavailable: "
                 f"{earnings_context.get('error_code', 'unknown provider error')}."
             )
-        ml_forecast_available = False
         forecast_result = None
         model_results = {}
-        try:
-            if forecast_work_paused:
-                raise RuntimeError("ML forecast calculations are paused from the sidebar.")
-            if not run_symbol_forecast:
-                raise RuntimeError("Enable 'Run selected-symbol ML forecast' in the sidebar to calculate ML overlays.")
-            model_results = cached_model_results(
-                symbol,
-                history_days,
-                forecast_horizon,
-                forecast_lookback,
-                forecast_alpha,
-                optimize_forecast_model,
-                use_market_context,
-                sequence_model_choice,
-                include_rl_policy,
-                tuple(selected_forecast_symbols),
-                st.session_state["symbol_refresh_nonce"],
-                earnings_context_json=json.dumps(
-                    earnings_context,
-                    sort_keys=True,
-                    default=str,
-                ),
-            )
-            if primary_model_choice == "Best Validation":
-                primary_model = best_model_name(model_results, preferred="")
-            else:
-                primary_model = best_model_name(model_results, preferred=primary_model_choice)
-            if not primary_model:
-                raise ValueError("No forecast model produced a usable forecast.")
-
-            forecast_result = model_results[primary_model]
-            ml_forecast_available = True
-            forecast_df = forecast_result.forecast
-            historical_result = None
-            historical_forecasts = pd.DataFrame()
-            forecast_change = forecast_result.metrics.get("forecast_change_pct")
-            probability_up = forecast_result.metrics.get("probability_up_pct", 0.0)
-            probability_down = forecast_result.metrics.get("probability_down_pct", 0.0)
-            confidence = forecast_result.metrics.get("confidence_pct", 0.0)
-            model_edge = max(confidence - 50.0, 0.0)
-            quality_label = signal_quality(confidence)
-            expected_error = forecast_result.metrics.get("expected_error_pct", 0.0)
-            selected_window = forecast_result.metrics.get("selected_lookback_window", forecast_lookback)
-            selected_alpha = forecast_result.metrics.get("selected_ridge_alpha", forecast_alpha)
-            shrink_factor = forecast_result.metrics.get("shrink_factor", 1.0)
-            raw_forecast = forecast_result.metrics.get("raw_forecast_change_pct")
+        if run_symbol_now:
             try:
-                historical_result = cached_historical_forecasts(
+                model_results = cached_model_results(
                     symbol,
                     history_days,
                     forecast_horizon,
-                    int(selected_window),
-                    float(selected_alpha),
-                    historical_test_points,
-                    primary_model,
+                    forecast_lookback,
+                    forecast_alpha,
+                    optimize_forecast_model,
                     use_market_context,
+                    sequence_model_choice,
+                    include_rl_policy,
+                    tuple(selected_forecast_symbols),
                     st.session_state["symbol_refresh_nonce"],
+                    earnings_context_json=json.dumps(
+                        earnings_context,
+                        sort_keys=True,
+                        default=str,
+                    ),
+                    _force_retrain=force_symbol,
                 )
-                historical_forecasts = historical_result.forecasts
-            except Exception as history_error:
-                st.info(f"Previous ML forecast test unavailable: {history_error}")
+                if primary_model_choice == "Best Validation":
+                    primary_model = best_model_name(model_results, preferred="")
+                else:
+                    primary_model = best_model_name(model_results, preferred=primary_model_choice)
+                if not primary_model:
+                    raise ValueError("No forecast model produced a usable forecast.")
 
-            latest_actual_date = actual_close.index[-1]
-            latest_actual_price = float(actual_close.iloc[-1])
-            latest_actual_label = f"Actual: ${latest_actual_price:,.2f}"
-            final_forecast_date = forecast_df.index[-1]
-            final_forecast_price = float(forecast_df["forecast_close"].iloc[-1])
-            forecast_move_label = format_signed_return(forecast_change)
-            final_forecast_label = f"{primary_model}: ${final_forecast_price:,.2f} ({forecast_move_label})"
-            forecast_plot_x = [latest_actual_date, *forecast_df.index.tolist()]
-            forecast_plot_y = [latest_actual_price, *forecast_df["forecast_close"].tolist()]
+                forecast_result = model_results[primary_model]
+                forecast_df = forecast_result.forecast
+                historical_result = None
+                historical_forecasts = pd.DataFrame()
+                forecast_change = forecast_result.metrics.get("forecast_change_pct")
+                probability_up = forecast_result.metrics.get("probability_up_pct", 0.0)
+                probability_down = forecast_result.metrics.get("probability_down_pct", 0.0)
+                confidence = forecast_result.metrics.get("confidence_pct", 0.0)
+                model_edge = max(confidence - 50.0, 0.0)
+                quality_label = signal_quality(confidence)
+                expected_error = forecast_result.metrics.get("expected_error_pct", 0.0)
+                shrink_factor = forecast_result.metrics.get("shrink_factor")
+                raw_forecast = forecast_result.metrics.get("raw_forecast_change_pct")
+                try:
+                    historical_result = cached_historical_forecasts(
+                        symbol,
+                        history_days,
+                        forecast_horizon,
+                        forecast_lookback,
+                        forecast_alpha,
+                        historical_test_points,
+                        primary_model,
+                        use_market_context,
+                        st.session_state["symbol_refresh_nonce"],
+                        prices=df, context_df=context_df,
+                    )
+                    historical_forecasts = historical_result.forecasts
+                except Exception as history_error:
+                    st.info(f"Previous ML forecast test unavailable: {history_error}")
 
-            price_fig = go.Figure()
-            price_fig.add_trace(
-                go.Scatter(
-                    x=actual_close.index,
-                    y=actual_close,
-                    mode="lines",
-                    name="Actual Value",
-                    line=dict(color="#1f77b4", width=2),
-                    hovertemplate="%{x}<br>Actual value: $%{y:,.2f}<extra></extra>",
-                )
-            )
-            price_fig.add_trace(
-                go.Scatter(
-                    x=forecast_df.index,
-                    y=forecast_df["upper_estimate"],
-                    mode="lines",
-                    line=dict(width=0),
-                    showlegend=False,
-                    hoverinfo="skip",
-                )
-            )
-            price_fig.add_trace(
-                go.Scatter(
-                    x=forecast_df.index,
-                    y=forecast_df["lower_estimate"],
-                    mode="lines",
-                    line=dict(width=0),
-                    fill="tonexty",
-                    fillcolor="rgba(79, 70, 150, 0.12)",
-                    name="90% estimate range",
-                    hoverinfo="skip",
-                )
-            )
-            price_fig.add_trace(
-                go.Scatter(
-                    x=forecast_plot_x,
-                    y=forecast_plot_y,
-                    mode="lines",
-                    name=f"Primary ML Forecast ({primary_model})",
-                    line=dict(color="#52449b", width=2, dash="dash"),
-                    hovertemplate="%{x}<br>Primary ML forecast: $%{y:,.2f}<extra></extra>",
-                )
-            )
-            comparison_colors = {
-                "Ridge": "#8c564b",
-                "XGBoost": "#b16516",
-                "Neural Net": "#17becf",
-                "LSTM": "#9467bd",
-                "Transformer": "#e377c2",
-                "RL Policy": "#bcbd22",
-                "Ensemble": "#2b6485",
-            }
-            for comparison_name, comparison_result in model_results.items():
-                if comparison_name == primary_model or comparison_result.forecast is None or comparison_result.forecast.empty:
-                    continue
+                latest_actual_date = actual_close.index[-1]
+                latest_actual_price = float(actual_close.iloc[-1])
+                latest_actual_label = f"Actual: ${latest_actual_price:,.2f}"
+                final_forecast_date = forecast_df.index[-1]
+                final_forecast_price = float(forecast_df["forecast_close"].iloc[-1])
+                forecast_move_label = format_signed_return(forecast_change)
+                final_forecast_label = f"{primary_model}: ${final_forecast_price:,.2f} ({forecast_move_label})"
+                forecast_plot_x = [latest_actual_date, *forecast_df.index.tolist()]
+                forecast_plot_y = [latest_actual_price, *forecast_df["forecast_close"].tolist()]
 
+                price_fig = go.Figure()
                 price_fig.add_trace(
                     go.Scatter(
-                        x=[latest_actual_date, *comparison_result.forecast.index.tolist()],
-                        y=[latest_actual_price, *comparison_result.forecast["forecast_close"].tolist()],
+                        x=actual_close.index,
+                        y=actual_close,
                         mode="lines",
-                        name=f"{comparison_name} Forecast",
-                        line=dict(
-                            color=comparison_colors.get(comparison_name, "#7f7f7f"),
-                            width=1.5,
-                            dash="dot",
-                        ),
-                        hovertemplate=f"%{{x}}<br>{comparison_name}: $%{{y:,.2f}}<extra></extra>",
+                        name="Actual Value",
+                        line=dict(color="#1f77b4", width=2),
+                        hovertemplate="%{x}<br>Actual value: $%{y:,.2f}<extra></extra>",
                     )
                 )
-            if not historical_forecasts.empty:
-                error_line_x = []
-                error_line_y = []
-                for _, row in historical_forecasts.iterrows():
-                    error_line_x.extend([row["forecast_date"], row["forecast_date"], None])
-                    error_line_y.extend([row["actual_close"], row["forecast_close"], None])
-
                 price_fig.add_trace(
                     go.Scatter(
-                        x=error_line_x,
-                        y=error_line_y,
+                        x=forecast_df.index,
+                        y=forecast_df["upper_estimate"],
                         mode="lines",
-                        name="Previous Forecast Error",
-                        line=dict(color="rgba(255, 127, 14, 0.25)", width=1),
+                        line=dict(width=0),
+                        showlegend=False,
                         hoverinfo="skip",
                     )
                 )
                 price_fig.add_trace(
                     go.Scatter(
-                        x=historical_forecasts["forecast_date"],
-                        y=historical_forecasts["forecast_close"],
-                        mode="markers",
-                        name="Previous ML Forecasts",
-                        marker=dict(color="#ff7f0e", size=7, symbol="diamond"),
-                        customdata=historical_forecasts[
-                            ["actual_close", "error_pct", "confidence_pct", "expected_error_pct"]
-                        ],
-                        hovertemplate=(
-                            "%{x}<br>"
-                            "Previous ML forecast: $%{y:,.2f}<br>"
-                            "Actual close: $%{customdata[0]:,.2f}<br>"
-                            "Error: %{customdata[1]:+.2f}%<br>"
-                            "Confidence then: %{customdata[2]:.1f}%<br>"
-                            "Expected error then: %{customdata[3]:.2f}%"
-                            "<extra></extra>"
-                        ),
+                        x=forecast_df.index,
+                        y=forecast_df["lower_estimate"],
+                        mode="lines",
+                        line=dict(width=0),
+                        fill="tonexty",
+                        fillcolor="rgba(79, 70, 150, 0.12)",
+                        name="90% estimate range",
+                        hoverinfo="skip",
                     )
                 )
-            price_fig.add_trace(
-                go.Scatter(
-                    x=[latest_actual_date],
-                    y=[latest_actual_price],
-                    mode="markers+text",
-                    name="Latest Actual Value",
-                    marker=dict(color="#1f77b4", size=10, line=dict(color="white", width=2)),
-                    text=[latest_actual_label],
-                    textposition="bottom left",
-                    textfont=dict(color="#0d47a1", size=13),
-                    hovertemplate="%{x}<br>Latest actual value: $%{y:,.2f}<extra></extra>",
+                price_fig.add_trace(
+                    go.Scatter(
+                        x=forecast_plot_x,
+                        y=forecast_plot_y,
+                        mode="lines",
+                        name=f"Primary ML Forecast ({primary_model})",
+                        line=dict(color="#52449b", width=2, dash="dash"),
+                        hovertemplate="%{x}<br>Primary ML forecast: $%{y:,.2f}<extra></extra>",
+                    )
                 )
-            )
-            price_fig.add_trace(
-                go.Scatter(
-                    x=[final_forecast_date],
-                    y=[final_forecast_price],
-                    mode="markers+text",
-                    name=f"{forecast_horizon}-Day {primary_model} Forecast",
-                    marker=dict(color="#52449b", size=10, line=dict(color="white", width=2)),
-                    text=[final_forecast_label],
-                    textposition="top right",
-                    textfont=dict(color="#433780", size=13),
-                    hovertemplate="%{x}<br>ML based forecast value: $%{y:,.2f}<extra></extra>",
-                )
-            )
-            price_fig.add_trace(
-                go.Scatter(
-                    x=bt.index,
-                    y=bt["curve"],
-                    mode="lines",
-                    name="Using the Crossover Strategy",
-                    line=dict(color="#9467bd", width=2),
-                    yaxis="y2",
-                    hovertemplate="%{x}<br>Crossover strategy equity: %{y:.4f}<extra></extra>",
-                )
-            )
-            price_fig = apply_market_chart_layout(
-                price_fig,
-                title=f"{ticker_label(symbol)} Forecast, Actuals, and Strategy Curve",
-                height=560,
-                margin=dict(l=55, r=65, t=78, b=48),
-            )
-            price_fig.update_layout(
-                yaxis=dict(title="Actual / Forecast Price"),
-                yaxis2=dict(
-                    title="Crossover Strategy Equity Curve",
-                    overlaying="y",
-                    side="right",
-                    showgrid=False,
-                ),
-                hovermode="x unified",
-                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
-            )
-            price_fig.update_xaxes(title_text="Date")
-            render_chart(price_fig)
+                comparison_colors = {
+                    "Ridge": "#8c564b",
+                    "XGBoost": "#b16516",
+                    "Neural Net": "#17becf",
+                    "LSTM": "#9467bd",
+                    "Transformer": "#e377c2",
+                    "RL Policy": "#bcbd22",
+                    "Ensemble": "#2b6485",
+                }
+                for comparison_name, comparison_result in model_results.items():
+                    if comparison_name == primary_model or comparison_result.forecast is None or comparison_result.forecast.empty:
+                        continue
 
-            metric_cols = st.columns(3)
-            metric_cols[0].metric(
-                f"{forecast_horizon}-day forecast",
-                f"${final_forecast_price:,.2f}",
-                forecast_move_label if forecast_move_label.startswith(("+", "-")) else None,
-            )
-            if forecast_move_label == "0.00%":
-                metric_cols[0].caption("0.00% change")
-            metric_cols[1].metric("Probability Up", f"{probability_up:.1f}%")
-            metric_cols[2].metric("Expected Error", f"±{expected_error:.2f}%")
+                    price_fig.add_trace(
+                        go.Scatter(
+                            x=[latest_actual_date, *comparison_result.forecast.index.tolist()],
+                            y=[latest_actual_price, *comparison_result.forecast["forecast_close"].tolist()],
+                            mode="lines",
+                            name=f"{comparison_name} Forecast",
+                            line=dict(
+                                color=comparison_colors.get(comparison_name, "#7f7f7f"),
+                                width=1.5,
+                                dash="dot",
+                            ),
+                            hovertemplate=f"%{{x}}<br>{comparison_name}: $%{{y:,.2f}}<extra></extra>",
+                        )
+                    )
+                if not historical_forecasts.empty:
+                    error_line_x = []
+                    error_line_y = []
+                    for _, row in historical_forecasts.iterrows():
+                        error_line_x.extend([row["forecast_date"], row["forecast_date"], None])
+                        error_line_y.extend([row["actual_close"], row["forecast_close"], None])
 
-            quality_cols = st.columns(3)
-            quality_cols[0].metric("Model Edge", f"{model_edge:.1f}%")
-            quality_cols[0].caption(quality_label)
-            if historical_result is not None:
-                quality_cols[1].metric(
-                    "Previous Forecast MAE",
-                    f"{historical_result.metrics['historical_mae_pct']:.2f}%",
-                )
-                quality_cols[2].metric(
-                    "Previous Direction Hit Rate",
-                    f"{historical_result.metrics['historical_direction_accuracy']:.1f}%",
-                )
-            elif "holdout_direction_accuracy" in forecast_result.metrics:
-                quality_cols[1].metric(
-                    "Holdout Direction",
-                    f"{forecast_result.metrics['holdout_direction_accuracy']:.1f}%",
-                )
-                quality_cols[2].metric(
-                    "Holdout MAE",
-                    f"{forecast_result.metrics['holdout_mae_pct']:.2f}%",
-                )
-            else:
-                quality_cols[1].metric("Training Samples", forecast_result.metrics.get("training_samples", 0))
-                quality_cols[2].metric("Probability Down", f"{probability_down:.1f}%")
-
-            short_signal_rows = []
-            short_signal_errors = []
-            for short_horizon in SHORT_TERM_SIGNAL_HORIZONS:
-                try:
-                    if int(short_horizon) == int(forecast_horizon) and one_day_sequence_model_choice == sequence_model_choice:
-                        short_model_results = model_results
-                    else:
-                        short_model_results = cached_model_results(
-                            symbol,
-                            history_days,
-                            int(short_horizon),
-                            forecast_lookback,
-                            forecast_alpha,
-                            optimize_forecast_model,
-                            use_market_context,
-                            one_day_sequence_model_choice,
-                            include_rl_policy,
-                            tuple(selected_forecast_symbols),
-                            st.session_state["symbol_refresh_nonce"],
-                            earnings_context_json=json.dumps(
-                                earnings_context,
-                                sort_keys=True,
-                                default=str,
+                    price_fig.add_trace(
+                        go.Scatter(
+                            x=error_line_x,
+                            y=error_line_y,
+                            mode="lines",
+                            name="Previous Forecast Error",
+                            line=dict(color="rgba(255, 127, 14, 0.25)", width=1),
+                            hoverinfo="skip",
+                        )
+                    )
+                    price_fig.add_trace(
+                        go.Scatter(
+                            x=historical_forecasts["forecast_date"],
+                            y=historical_forecasts["forecast_close"],
+                            mode="markers",
+                            name="Previous ML Forecasts",
+                            marker=dict(color="#ff7f0e", size=7, symbol="diamond"),
+                            customdata=historical_forecasts[
+                                ["actual_close", "error_pct", "confidence_pct", "expected_error_pct"]
+                            ],
+                            hovertemplate=(
+                                "%{x}<br>"
+                                "Previous ML forecast: $%{y:,.2f}<br>"
+                                "Actual close: $%{customdata[0]:,.2f}<br>"
+                                "Error: %{customdata[1]:+.2f}%<br>"
+                                "Confidence then: %{customdata[2]:.1f}%<br>"
+                                "Expected error then: %{customdata[3]:.2f}%"
+                                "<extra></extra>"
                             ),
                         )
-                    short_signal_rows.append(
-                        short_term_signal_row(int(short_horizon), short_model_results, primary_model_choice)
                     )
-                except Exception as short_signal_error:
-                    short_signal_errors.append(f"{short_horizon}D: {short_signal_error}")
-
-            if short_signal_rows:
-                st.markdown("**1-Day ML Signal**")
-                st.caption(
-                    "This is a separate direct forecast for the next trading day, not a slice of the 30-day forecast. "
-                    f"Sequence model: {one_day_sequence_model_choice}."
+                price_fig.add_trace(
+                    go.Scatter(
+                        x=[latest_actual_date],
+                        y=[latest_actual_price],
+                        mode="markers+text",
+                        name="Latest Actual Value",
+                        marker=dict(color="#1f77b4", size=10, line=dict(color="white", width=2)),
+                        text=[latest_actual_label],
+                        textposition="bottom left",
+                        textfont=dict(color="#0d47a1", size=13),
+                        hovertemplate="%{x}<br>Latest actual value: $%{y:,.2f}<extra></extra>",
+                    )
                 )
-                short_signal_table = pd.DataFrame(short_signal_rows)
-                st.dataframe(
-                    short_signal_table.style.format(
-                        {
-                            "Forecast Price": "${:,.2f}",
-                            "Forecast Return %": "{:+.2f}%",
-                            "Probability Up %": "{:.1f}%",
-                            "Model Edge %": "{:.1f}%",
-                            "Expected Error %": "{:.2f}%",
-                            "Score": "{:+.3f}",
-                        },
-                        na_rep="",
-                    ).hide(axis="index"),
-                    use_container_width=True,
+                price_fig.add_trace(
+                    go.Scatter(
+                        x=[final_forecast_date],
+                        y=[final_forecast_price],
+                        mode="markers+text",
+                        name=f"{forecast_horizon}-Day {primary_model} Forecast",
+                        marker=dict(color="#52449b", size=10, line=dict(color="white", width=2)),
+                        text=[final_forecast_label],
+                        textposition="top right",
+                        textfont=dict(color="#433780", size=13),
+                        hovertemplate="%{x}<br>ML based forecast value: $%{y:,.2f}<extra></extra>",
+                    )
                 )
-            if short_signal_errors:
-                with st.expander("Short-term signal errors"):
-                    st.write("\n".join(short_signal_errors))
-
-            st.caption(
-                "Model: "
-                f"{forecast_result.model_name}. "
-                f"Primary model: {primary_model}. "
-                f"Market context features: {'on' if use_market_context and not context_df.empty else 'off'}. "
-                f"Selected lag window: {selected_window}; "
-                f"ridge alpha: {selected_alpha:g}; "
-                f"raw forecast: {format_signed_return(raw_forecast)}; "
-                f"calibrated forecast: {forecast_move_label}; "
-                f"shrink factor: {shrink_factor:.2f}."
-            )
-            if quality_label == "No Edge":
-                st.info(
-                    "The optimized model is effectively neutral here: directional probability is close to 50%, "
-                    "so the current feature set does not justify a strong forecast."
+                price_fig.add_trace(
+                    go.Scatter(
+                        x=bt.index,
+                        y=bt["curve"],
+                        mode="lines",
+                        name="Using the Crossover Strategy",
+                        line=dict(color="#9467bd", width=2),
+                        yaxis="y2",
+                        hovertemplate="%{x}<br>Crossover strategy equity: %{y:.4f}<extra></extra>",
+                    )
                 )
-
-            with st.expander("Model comparison"):
-                comparison_table = model_results_table(model_results)
-                st.dataframe(
-                    comparison_table.style.format(
-                        {
-                            "Forecast Price": "${:,.2f}",
-                            "Forecast Return %": "{:+.2f}%",
-                            "Probability Up %": "{:.1f}%",
-                            "Model Edge %": "{:.1f}%",
-                            "Expected Error %": "{:.2f}%",
-                            "Validation MAE %": "{:.2f}%",
-                            "Validation Direction %": "{:.1f}%",
-                            "Score": "{:+.3f}",
-                        },
-                        na_rep="",
+                price_fig = apply_market_chart_layout(
+                    price_fig,
+                    title=f"{ticker_label(symbol)} Forecast, Actuals, and Strategy Curve",
+                    height=560,
+                    margin=dict(l=55, r=65, t=78, b=48),
+                )
+                price_fig.update_layout(
+                    yaxis=dict(title="Actual / Forecast Price"),
+                    yaxis2=dict(
+                        title="Crossover Strategy Equity Curve",
+                        overlaying="y",
+                        side="right",
+                        showgrid=False,
                     ),
-                    use_container_width=True,
+                    hovermode="x unified",
+                    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
                 )
+                price_fig.update_xaxes(title_text="Date")
+                render_chart(price_fig)
 
-            if historical_result is not None:
-                with st.expander("Previous forecast accuracy"):
+                metric_cols = st.columns(3)
+                metric_cols[0].metric(
+                    f"{forecast_horizon}-day forecast",
+                    f"${final_forecast_price:,.2f}",
+                    forecast_move_label if forecast_move_label.startswith(("+", "-")) else None,
+                )
+                if forecast_move_label == "0.00%":
+                    metric_cols[0].caption("0.00% change")
+                metric_cols[1].metric("Probability Up", f"{probability_up:.1f}%")
+                metric_cols[2].metric("Expected Error", f"±{expected_error:.2f}%")
+
+                quality_cols = st.columns(3)
+                quality_cols[0].metric("Model Edge", f"{model_edge:.1f}%")
+                quality_cols[0].caption(quality_label)
+                if historical_result is not None:
                     st.caption(
-                        "Each row shows what the ML model would have forecasted using only data available at that past date."
+                        f"The historical comparison uses a fixed {forecast_lookback}-session lag and "
+                        f"regularization of {forecast_alpha:g} at each forecast date."
                     )
-                    display_history = historical_forecasts.rename(
+                    quality_cols[1].metric(
+                        "Previous Forecast MAE",
+                        f"{historical_result.metrics['historical_mae_pct']:.2f}%",
+                    )
+                    quality_cols[2].metric(
+                        "Previous Direction Hit Rate",
+                        f"{historical_result.metrics['historical_direction_accuracy']:.1f}%",
+                    )
+                elif "holdout_direction_accuracy" in forecast_result.metrics:
+                    quality_cols[1].metric(
+                        "Holdout Direction",
+                        f"{forecast_result.metrics['holdout_direction_accuracy']:.1f}%",
+                    )
+                    quality_cols[2].metric(
+                        "Holdout MAE",
+                        f"{forecast_result.metrics['holdout_mae_pct']:.2f}%",
+                    )
+                else:
+                    quality_cols[1].metric("Training Samples", forecast_result.metrics.get("training_samples", 0))
+                    quality_cols[2].metric("Probability Down", f"{probability_down:.1f}%")
+
+                short_signal_rows = []
+                short_signal_errors = []
+                for short_horizon in SHORT_TERM_SIGNAL_HORIZONS:
+                    try:
+                        if int(short_horizon) == int(forecast_horizon) and one_day_sequence_model_choice == sequence_model_choice:
+                            short_model_results = model_results
+                        else:
+                            short_model_results = cached_model_results(
+                                symbol,
+                                history_days,
+                                int(short_horizon),
+                                forecast_lookback,
+                                forecast_alpha,
+                                optimize_forecast_model,
+                                use_market_context,
+                                one_day_sequence_model_choice,
+                                include_rl_policy,
+                                tuple(selected_forecast_symbols),
+                                st.session_state["symbol_refresh_nonce"],
+                                earnings_context_json=json.dumps(
+                                    earnings_context,
+                                    sort_keys=True,
+                                    default=str,
+                                ),
+                                _force_retrain=force_symbol,
+                            )
+                        short_signal_rows.append(
+                            short_term_signal_row(int(short_horizon), short_model_results, primary_model_choice)
+                        )
+                    except Exception as short_signal_error:
+                        short_signal_errors.append(f"{short_horizon}D: {short_signal_error}")
+
+                if short_signal_rows:
+                    st.markdown("**1-Day ML Signal**")
+                    st.caption(
+                        "This is a separate direct forecast for the next trading day, not a slice of the 30-day forecast. "
+                        f"Sequence model: {one_day_sequence_model_choice}."
+                    )
+                    short_signal_table = pd.DataFrame(short_signal_rows)
+                    st.dataframe(
+                        short_signal_table.style.format(
+                            {
+                                "Forecast Price": "${:,.2f}",
+                                "Forecast Return %": "{:+.2f}%",
+                                "Probability Up %": "{:.1f}%",
+                                "Model Edge %": "{:.1f}%",
+                                "Expected Error %": "{:.2f}%",
+                                "Score": "{:+.3f}",
+                            },
+                            na_rep="",
+                        ).hide(axis="index"),
+                        use_container_width=True,
+                    )
+                if short_signal_errors:
+                    with st.expander("Short-term signal errors"):
+                        st.write("\n".join(short_signal_errors))
+
+                st.caption(
+                    f"Primary forecast from {primary_model}. "
+                    f"Market context features {'enabled' if use_market_context and not context_df.empty else 'disabled'}. "
+                    f"Raw return {format_signed_return(raw_forecast)}, calibrated return {forecast_move_label}."
+                    + (f" Shrink factor {shrink_factor:.2f}." if pd.notna(shrink_factor) else "")
+                )
+                if quality_label == "No Edge":
+                    st.info(
+                        "The optimized model is effectively neutral here: directional probability is close to 50%, "
+                        "so the current feature set does not justify a strong forecast."
+                    )
+
+                with st.expander("Model comparison"):
+                    tuning = tuning_results_table(model_results, primary_model)
+                    if not tuning.empty:
+                        st.dataframe(tuning, hide_index=True, use_container_width=True)
+                    comparison_table = model_results_table(model_results)
+                    st.dataframe(
+                        comparison_table.style.format(
+                            {
+                                "Forecast Price": "${:,.2f}",
+                                "Forecast Return %": "{:+.2f}%",
+                                "Probability Up %": "{:.1f}%",
+                                "Model Edge %": "{:.1f}%",
+                                "Expected Error %": "{:.2f}%",
+                                "Validation MAE %": "{:.2f}%",
+                                "Validation Direction %": "{:.1f}%",
+                                "Score": "{:+.3f}",
+                            },
+                            na_rep="",
+                        ),
+                        use_container_width=True,
+                    )
+
+                if historical_result is not None:
+                    render_historical_accuracy(historical_forecasts)
+
+                with st.expander("Forecast values"):
+                    display_forecast = forecast_df.rename(
                         columns={
-                            "as_of_date": "Forecast Made On",
-                            "forecast_date": "Forecast Target Date",
-                            "as_of_price": "Price Then",
                             "forecast_close": "Forecast Close",
-                            "actual_close": "Actual Close",
-                            "predicted_change_pct": "Forecast Return %",
-                            "actual_change_pct": "Actual Return %",
-                            "error_pct": "Error %",
-                            "abs_error_pct": "Absolute Error %",
-                            "confidence_pct": "Confidence %",
-                            "expected_error_pct": "Expected Error %",
-                            "direction_correct": "Direction Correct",
+                            "lower_estimate": "Lower Estimate",
+                            "upper_estimate": "Upper Estimate",
+                            "expected_daily_return_pct": "Expected Daily Return %",
                         }
                     )
-                    st.dataframe(display_history)
-
-            with st.expander("Forecast values"):
-                display_forecast = forecast_df.rename(
-                    columns={
-                        "forecast_close": "Forecast Close",
-                        "lower_estimate": "Lower Estimate",
-                        "upper_estimate": "Upper Estimate",
-                        "expected_daily_return_pct": "Expected Daily Return %",
-                    }
-                )
-                st.dataframe(display_forecast)
-        except Exception as forecast_error:
-            st.line_chart(actual_close)
-            forecast_error_text = str(forecast_error)
-            if forecast_error_text.startswith("Enable 'Run selected-symbol ML forecast'"):
-                st.info(forecast_error_text)
-            elif "paused from the sidebar" in forecast_error_text:
-                st.info(forecast_error_text)
-            else:
+                    st.dataframe(display_forecast)
+            except Exception as forecast_error:
                 st.warning(f"ML forecast unavailable: {forecast_error}")
+                st.line_chart(actual_close)
+                render_available_symbol_forecasts(symbol, primary_model_choice, latest_ml_payload, symbol_cache_paths, historical_test_points)
+        else:
+            st.line_chart(actual_close)
+        symbol_view_ready = True
 
         render_section_header(
-            "Paper Trading Controls",
-            "Manual and smart-policy paper-trading actions for the selected symbol.",
+            f"Paper trading for {symbol}",
+            "Manual orders and automatic Smart Policy orders for the selected symbol.",
         )
+        with st.expander("Automatic paper trading"):
+            auto_trade_enabled = st.checkbox("Enable automatic paper trades", value=False)
+            auto_trade_risk_fraction = st.slider(
+                "Auto-trade position size (% of equity)", min_value=3, max_value=5, value=5, step=1,
+                format="%d%%",
+            ) / 100.0
+            st.caption("Automatic orders use the calibrated Smart Policy and the account mode selected in Portfolio Balance.")
+            if auto_trade_enabled and demo_mode:
+                st.info("Demo mode is active. Automatic orders are simulated.")
+        auto_trade_trigger = "Smart Policy"
         trade_log_df = load_trade_log(limit=500)
         trade_summary = _trade_summary(trade_log_df, symbol, float(actual_close.iloc[-1]))
 
@@ -4566,6 +4596,13 @@ try:
             "Estimated total P/L is mark-to-market: sells plus the current value of any open shares, minus logged buys."
         )
 
+except Exception as price_error:
+    with symbol_tab:
+        st.warning(f"Price history for {symbol} is unavailable: {price_error}")
+        if run_symbol_now and not symbol_view_ready:
+            render_available_symbol_forecasts(symbol, primary_model_choice, latest_ml_payload, symbol_cache_paths, historical_test_points)
+
+try:
     with money_tab:
         render_section_header(
             "Portfolio Balance Chart",
@@ -4681,19 +4718,6 @@ try:
             ]
             st.dataframe(trade_log_df.head(100)[display_cols], use_container_width=True)
     
-except Exception as e:
-    st.error(f" Error loading market data: {e}")
-    st.info("Please check if the symbol is valid and try again.")
-
-st.divider()
-
-# Debug info (only show in sidebar if needed)
-if st.sidebar.checkbox("Show Debug Info", value=False):
-    try:
-        r = requests.get("https://paper-api.alpaca.markets/v2/orders", headers={
-            "APCA-API-KEY-ID": ALPACA_KEY,
-            "APCA-API-SECRET-KEY": ALPACA_SECRET,
-        })
-        st.sidebar.json(r.json())
-    except Exception as e:
-        st.sidebar.error(f"Failed to fetch orders: {e}")
+except Exception as account_error:
+    with money_tab:
+        st.warning(f"Portfolio activity is unavailable: {account_error}")

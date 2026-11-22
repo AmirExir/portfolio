@@ -30,6 +30,21 @@ gate passes.
 
 ## Forecast qualification invariants
 
+The dashboard opens in automatic forecast settings mode. When a user runs a
+forecast, it requests five years of prices, includes market context and tunes
+the direct models for the chosen symbol and horizon. The search compares the
+available lag and regularization candidates on an earlier time block, using
+mean absolute return error, then RMSE and directional hit rate to break ties.
+A horizon-length purge separates selection from the later test block. Short
+histories can limit tuning or leave the outer test unavailable.
+
+The automatic primary uses the registered eligible ensemble and its existing
+fallback order. Sequence and RL diagnostics are available in manual mode.
+The fitted settings table lists parameters actually recorded for the direct
+model or its contributing ensemble components. The historical chart's separate
+walk-forward comparison uses the configured fixed starting parameters at
+each historical origin.
+
 The CLI defaults to 1,825 calendar days of price history for all run profiles.
 The former 913-day quick/scheduled window provided about 630 equity sessions:
 after features and a 30-session target, its 25% holdout contained only about

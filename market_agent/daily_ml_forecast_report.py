@@ -50,6 +50,7 @@ from agent.policy import SmartPolicyConfig, smart_policy_report
 from agent.portfolio import PortfolioConstraints, allocate_target_weights
 from agent.price_watch import price_watch_observation
 from agent.strategy import sma_crossover
+from agent.universe import AI_INFRASTRUCTURE_EQUITIES
 from forecast_cache import (
     MODEL_RESULT_CACHE_VERSION,
     build_cache_key,
@@ -70,7 +71,7 @@ from telegram_delivery import split_telegram_text
 
 DEFAULT_SYMBOLS = [
     "AAPL", "MSFT", "NVDA", "AMD", "INTC", "GOOGL", "AMZN", "META", "TSLA", "RIOT", "AVGO", "GEV",
-    "MU", "WDC", "STX", "SNDK", "SPCX",
+    "MU", "WDC", "STX", "SNDK", "SPCX", *AI_INFRASTRUCTURE_EQUITIES,
     "ORCL", "NFLX", "JPM", "BAC", "WFC", "C", "GS", "MS", "V",
     "UNH", "LLY", "JNJ", "WMT", "PG", "KO", "HD", "PEP", "DELL",
     "DAL", "UAL", "AAL", "LUV", "XOM", "CVX", "COP", "OXY", "SLB", "EOG",
@@ -138,7 +139,7 @@ NON_EARNINGS_SECTORS = {
 }
 
 SYMBOL_SECTORS = {
-    **{symbol: "Technology" for symbol in ("AAPL", "MSFT", "NVDA", "AMD", "INTC", "AVGO", "MU", "WDC", "STX", "SNDK", "ORCL", "DELL")},
+    **{symbol: "Technology" for symbol in ("AAPL", "MSFT", "NVDA", "AMD", "INTC", "AVGO", "MU", "WDC", "STX", "SNDK", "ORCL", "DELL", *AI_INFRASTRUCTURE_EQUITIES)},
     **{symbol: "Crypto Infrastructure" for symbol in ("RIOT",)},
     **{symbol: "Communication Services" for symbol in ("GOOGL", "META", "NFLX")},
     **{symbol: "Consumer Discretionary" for symbol in ("AMZN", "TSLA", "HD")},
@@ -154,6 +155,7 @@ SYMBOL_SECTORS = {
 }
 
 SYMBOL_CLUSTERS = {
+    **dict.fromkeys(AI_INFRASTRUCTURE_EQUITIES, "AI Infrastructure"),
     **{symbol: "AI Mega Cap" for symbol in ("AAPL", "MSFT", "NVDA", "AMD", "AVGO", "GOOGL", "AMZN", "META", "ORCL", "DELL", "XLK", "QQQ")},
     **{symbol: "Legacy Semiconductors" for symbol in ("INTC",)},
     **{symbol: "Memory and Storage" for symbol in ("MU", "WDC", "STX", "SNDK")},
