@@ -2,6 +2,86 @@
   "minimum_year": 2026,
   "items": [
     {
+      "content_sha256": "dd18cc982ee344d84037cd955139c08249a8f8c00314caf7d5acb304c8572fb5",
+      "title": "1264NPRR-29 ERCOT Comments 030526",
+      "document_number": "NPRR1264",
+      "source": "NPRR",
+      "published_date": "Mar 5, 2026",
+      "downloaded_at": "2026-11-22T12:00:45Z",
+      "observed_at": "2026-11-22T12:00:45Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/03/05/1264NPRR-29-ERCOT-Comments-030526.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1264",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) introduces the concept of Energy Attribute Certificates (EACs). EACs can be earned by any generator, regardless of fuel type. By introducing EACs, this NPRR also allows all generators, such as energy storage generators, nuclear generators, or other generators to participate in the program, and add specificity to their attributes so buyers and sellers know what they are transacting. To add value to the EAC program, this NPRR creates a new category of participants – third-party certification programs. EAC Account Holders may use these third parties to provide documentation to ERCOT and other Market Participants about how they charged energy storage devices, provided fuel for generators, or met certain operational characteristics to be determined by Market Participants. This NPRR also allows ERCOT to allow a third-party administrator to administer the program.",
+      "issue_title": "Creation of a New Energy Attribute Certificate Program",
+      "affected_sections": "1.3.1.1, 2.1, 2.2, 14, 14.1, 14.2, 14.2.1, 14.3, 14.3.1, 14.3.2, 14.4, 14.5.1, 14.6, 14.7, 14.8, 14.9, 14.10, 14.10.1, 14.10.2, 14.11, 14.12, 14.13, 14.14 (new), 16.7, 21.2, Section 22A, Section 22C, Section 23V (new)",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "1946a135f25879ca042a6377006f2b95dc1c5c1d0a9312953f1ad41b54d12baa",
+      "title": "1264NPRR-39 PUCT Report 070926",
+      "document_number": "NPRR1264",
+      "source": "NPRR",
+      "published_date": "Jul 13, 2026",
+      "downloaded_at": "2026-11-22T12:00:44Z",
+      "observed_at": "2026-11-22T12:00:44Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/07/13/1264NPRR-39-PUCT-Report-070926.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1264",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) introduces the concept of Energy Attribute Certificates (EACs). EACs can be earned by any generator, regardless of fuel type. By introducing EACs, this NPRR also allows all generators, such as energy storage generators, nuclear generators, or other generators to participate in the program, and add specificity to their attributes so buyers and sellers know what they are transacting. To add value to the EAC program, this NPRR creates a new category of participants – third-party certification programs. EAC Account Holders may use these third parties to provide documentation to ERCOT and other Market Participants about how they charged energy storage devices, provided fuel for generators, or met certain operational characteristics to be determined by Market Participants. This NPRR also allows ERCOT to allow a third-party administrator to administer the program.",
+      "issue_title": "Creation of a New Energy Attribute Certificate Program",
+      "affected_sections": "1.3.1.1, 2.1, 2.2, 14, 14.1, 14.2, 14.2.1, 14.3, 14.3.1, 14.3.2, 14.4, 14.5.1, 14.6, 14.7, 14.8, 14.9, 14.10, 14.10.1, 14.10.2, 14.11, 14.12, 14.13, 14.14 (new), 16.7, 21.2, Section 22A, Section 22C, Section 23V (new)",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "d44ff43123167a61a7441cde775a77db402e63a14413324d98e92f80c0730a87",
+      "title": "1264NPRR-31 PRS Report 041526",
+      "document_number": "NPRR1264",
+      "source": "NPRR",
+      "published_date": "Apr 20, 2026",
+      "downloaded_at": "2026-11-22T12:00:44Z",
+      "observed_at": "2026-11-22T12:00:44Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/files/docs/2026/04/20/1264NPRR-31-PRS-Report-041526.docx",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1264",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) introduces the concept of Energy Attribute Certificates (EACs). EACs can be earned by any generator, regardless of fuel type. By introducing EACs, this NPRR also allows all generators, such as energy storage generators, nuclear generators, or other generators to participate in the program, and add specificity to their attributes so buyers and sellers know what they are transacting. To add value to the EAC program, this NPRR creates a new category of participants – third-party certification programs. EAC Account Holders may use these third parties to provide documentation to ERCOT and other Market Participants about how they charged energy storage devices, provided fuel for generators, or met certain operational characteristics to be determined by Market Participants. This NPRR also allows ERCOT to allow a third-party administrator to administer the program.",
+      "issue_title": "Creation of a New Energy Attribute Certificate Program",
+      "affected_sections": "1.3.1.1, 2.1, 2.2, 14, 14.1, 14.2, 14.2.1, 14.3, 14.3.1, 14.3.2, 14.4, 14.5.1, 14.6, 14.7, 14.8, 14.9, 14.10, 14.10.1, 14.10.2, 14.11, 14.12, 14.13, 14.14 (new), 16.7, 21.2, Section 22A, Section 22C, Section 23V (new)",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
+      "content_sha256": "c8b307d451aee343f201dc3d4b0f74b872d44e1526284a36a2caa637e2d6ccc3",
+      "title": "NPRR1264",
+      "document_number": "NPRR1264",
+      "source": "NPRR",
+      "published_date": "Dec 19, 2024",
+      "downloaded_at": "2026-11-22T12:00:43Z",
+      "observed_at": "2026-11-22T12:00:43Z",
+      "status": "Approved",
+      "url": "https://www.ercot.com/mktrules/issues/NPRR1264",
+      "sources": [
+        "NPRR"
+      ],
+      "revision_id": "NPRR1264",
+      "revision_family": "NPRR",
+      "explanation": "This Nodal Protocol Revision Request (NPRR) introduces the concept of Energy Attribute Certificates (EACs). EACs can be earned by any generator, regardless of fuel type. By introducing EACs, this NPRR also allows all generators, such as energy storage generators, nuclear generators, or other generators to participate in the program, and add specificity to their attributes so buyers and sellers know what they are transacting. To add value to the EAC program, this NPRR creates a new category of participants – third-party certification programs. EAC Account Holders may use these third parties to provide documentation to ERCOT and other Market Participants about how they charged energy storage devices, provided fuel for generators, or met certain operational characteristics to be determined by Market Participants. This NPRR also allows ERCOT to allow a third-party administrator to administer the program.",
+      "issue_title": "Creation of a New Energy Attribute Certificate Program",
+      "affected_sections": "1.3.1.1, 2.1, 2.2, 14, 14.1, 14.2, 14.2.1, 14.3, 14.3.1, 14.3.2, 14.4, 14.5.1, 14.6, 14.7, 14.8, 14.9, 14.10, 14.10.1, 14.10.2, 14.11, 14.12, 14.13, 14.14 (new), 16.7, 21.2, Section 22A, Section 22C, Section 23V (new)",
+      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
+    },
+    {
       "content_sha256": "c511534d1e75b5c0404c9a5eed7288980d03dedc111c29eb1f6f7d2fde940ee0",
       "title": "288NOGRR-10 TAC Report 111826",
       "document_number": "NOGRR288",
@@ -5477,26 +5557,6 @@
       "explanation": "This Nodal Protocol Provision (NPRR) implements procedures for Distributed Generation (DG) reporting provided in House Bill 3390 (HB 3390). Specifically, this NPRR clarifies the definition of “Distributed Generation (DG)” and defines a new term, “Unregistered Distributed Generators (UDG).” Additionally, this NPRR establishes procedures for UDG reporting to ERCOT and UDG reporting requirements from ERCOT. Lastly, this NPRR reconciles references to DG to UDG where the term UDG is now appropriate.",
       "issue_title": "Unregistered Distributed Generator",
       "affected_sections": "2.1, 2.2, 3.2.5.1, 3.2.5.2 (delete), 3.2.5.3, 10.2.2, 11.4.4.2, 11.4.4.3, 16.5, 18.2, 18.2.2.1, and 18.2.2.2",
-      "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
-    },
-    {
-      "content_sha256": "c1b99a0836bf4c040443a9792751dc2906f5de08d9912133eac9ae0d6eebc2c5",
-      "title": "NPRR1264",
-      "document_number": "NPRR1264",
-      "source": "NPRR",
-      "published_date": "Dec 19, 2024",
-      "downloaded_at": "2026-08-23T20:00:45Z",
-      "observed_at": "2026-08-23T20:00:45Z",
-      "status": "Approved",
-      "url": "https://www.ercot.com/mktrules/issues/NPRR1264",
-      "sources": [
-        "NPRR"
-      ],
-      "revision_id": "NPRR1264",
-      "revision_family": "NPRR",
-      "explanation": "This Nodal Protocol Revision Request (NPRR) introduces the concept of Energy Attribute Certificates (EACs). EACs can be earned by any generator, regardless of fuel type. By introducing EACs, this NPRR also allows all generators, such as energy storage generators, nuclear generators, or other generators to participate in the program, and add specificity to their attributes so buyers and sellers know what they are transacting. To add value to the EAC program, this NPRR creates a new category of participants – third-party certification programs. EAC Account Holders may use these third parties to provide documentation to ERCOT and other Market Participants about how they charged energy storage devices, provided fuel for generators, or met certain operational characteristics to be determined by Market Participants. This NPRR also allows ERCOT to allow a third-party administrator to administer the program.",
-      "issue_title": "Creation of a New Energy Attribute Certificate Program",
-      "affected_sections": "1.3.1.1, 2.1, 2.2, 14, 14.1, 14.2, 14.2.1, 14.3, 14.3.1, 14.3.2, 14.4, 14.5.1, 14.6, 14.7, 14.8, 14.9, 14.10, 14.10.1, 14.10.2, 14.11, 14.12, 14.13, 14.14 (new), 16.7, 21.2, Section 22A, Section 22C, Section 23V (new)",
       "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     },
     {
@@ -17097,8 +17157,8 @@
       "effectiveness_note": "Approved revision request; confirm its effective date and incorporation in the current controlling document before relying on it as governing text."
     }
   ],
-  "count": 871,
-  "generated_at": "2026-11-21T21:01:52.254523+00:00",
+  "count": 874,
+  "generated_at": "2026-11-22T12:01:29.093356+00:00",
   "revision_issues": {
     "COPMGRR052": {
       "revision_id": "COPMGRR052",
@@ -17624,8 +17684,8 @@
         "governing_body": "PUCT",
         "action": "Approved"
       },
-      "source_downloaded_at": "2026-08-23T20:00:45Z",
-      "source_observed_at": "2026-08-23T20:00:45Z"
+      "source_downloaded_at": "2026-11-22T12:00:43Z",
+      "source_observed_at": "2026-11-22T12:00:43Z"
     },
     "NPRR1265": {
       "revision_id": "NPRR1265",
