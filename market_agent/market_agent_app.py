@@ -76,6 +76,7 @@ try:
     )
     from heatmaps import build_return_heatmap, format_signed_return, heatmap_returns, return_color_axis
     from market_agent.patterns import scan_patterns, summarize_patterns
+    from market_agent.publisher_headlines import HEADLINE_WINDOW, check_publisher_headlines
     from saved_rankings import dashboard_result_path, scheduled_pattern_rows, scheduled_rows_for_symbols, stored_ranking_rows
     from saved_symbol_forecast import (
         attach_archived_models, choose_saved_forecast, historical_accuracy_path, render_historical_accuracy,
@@ -1855,39 +1856,15 @@ def is_timestamped_summary(filename: str) -> bool:
     return len(timestamp) >= 11 and timestamp[:4].isdigit() and timestamp[4] == "-" and "T" in timestamp
 
 
-def summary_timestamp_caption(filename: str) -> str | None:
-    try:
-        timestamp = _summary_timestamp(filename)
-        date_part, time_part = timestamp.split("T", 1)
-        time_part = time_part.replace("Z", "").replace("-", ":")
-        return f"Last updated: {date_part} at {time_part} UTC"
-    except Exception:
-        return None
-
-
-def summary_age_hours(filename: str, now: dt.datetime | None = None) -> float | None:
-    timestamp = _summary_timestamp(filename)
-    try:
-        published_at = dt.datetime.strptime(timestamp, "%Y-%m-%dT%H-%M-%S-%fZ").replace(
-            tzinfo=dt.timezone.utc
-        )
-    except (TypeError, ValueError):
-        return None
-
-    current_time = now or dt.datetime.now(dt.timezone.utc)
-    if current_time.tzinfo is None:
-        current_time = current_time.replace(tzinfo=dt.timezone.utc)
-    return max((current_time.astimezone(dt.timezone.utc) - published_at).total_seconds() / 3600, 0.0)
-
-
 def render_summary_timestamp(filename: str) -> None:
-    caption = summary_timestamp_caption(filename)
-    if caption:
-        st.caption(caption)
-
-    age_hours = summary_age_hours(filename)
-    if age_hours is not None and age_hours > 36:
-        age_days = age_hours / 24
+    """Show when the workflow published the saved brief."""
+    published_at = parse_report_timestamp(_summary_timestamp(filename))
+    if published_at is None:
+        return
+    st.caption(f"Brief published {format_report_timestamp(published_at)}")
+    age = dt.datetime.now(dt.timezone.utc) - published_at
+    if age > dt.timedelta(hours=36):
+        age_days = age.total_seconds() / 86400
         st.warning(
             f"This published summary is {age_days:.1f} days old. "
             "The automated research workflow may not have published a newer report yet."
@@ -3240,6 +3217,22 @@ def fetch_latest_summary():
         # Silently fail and let the fallback handle it
         return None
 
+
+@st.cache_data(ttl=300, max_entries=16, show_spinner=False)
+def fetch_published_summary_text(download_url: str) -> str:
+    """Retrieve a dated archive once and decode legacy JSON summaries."""
+    response = requests.get(download_url, timeout=10)
+    response.raise_for_status()
+    try:
+        summary = json.loads(response.text)
+    except json.JSONDecodeError:
+        return response.text
+    if isinstance(summary, dict):
+        return str(summary.get("content") or summary.get("message") or summary)
+    if isinstance(summary, list):
+        return "\n".join(str(item) for item in summary)
+    return str(summary)
+
 # Create the destinations before their controls so each widget appears next to its results.
 top_portfolio_tab, top_summary_tab, top_patterns_tab, top_analysis_tab = st.tabs([
     "Portfolio Balance", "AI-Generated Market Summary", "Most Common Patterns", "Market Analysis",
@@ -3356,12 +3349,47 @@ pattern_errors: list[str] = []
 with top_summary_tab:
     render_section_header(
         "AI-Generated Market Summary",
-        "Latest market-moving news summary produced by the automated research workflow.",
+        "Check publisher headlines and read the latest saved market brief.",
     )
-    if st.button("Reload Published News", help="Reload the latest summary published to GitHub"):
-        st.cache_data.clear()
-        st.rerun()
+    if st.button(
+        "Refresh market news", key="refresh_market_news",
+        help="Check publisher feeds now and reload the published brief.",
+    ):
+        fetch_latest_summary.clear()
+        fetch_published_summary_text.clear()
+        with st.spinner("Checking publisher feeds…"):
+            st.session_state["market_headline_check"] = check_publisher_headlines()
 
+    check = st.session_state.get("market_headline_check")
+    if check is not None:
+        st.subheader("Publisher headlines")
+        hours = int(HEADLINE_WINDOW.total_seconds() / 3600)
+        st.caption(f"Feeds checked {format_report_timestamp(check.checked_at)} · {hours}-hour publication window")
+        if check.failures and not check.headlines and not check.empty_sources:
+            st.error("All publisher feeds were unavailable for this check. " + ", ".join(check.failures) + ".")
+        elif check.failures:
+            st.warning("Could not read " + ", ".join(check.failures) + ".")
+        if check.empty_sources:
+            st.caption(f"No dated headlines in the {hours}-hour window from " + ", ".join(check.empty_sources) + ".")
+        if check.headlines:
+            newest = check.headlines[0].published_at
+            st.caption(f"Newest article published {format_report_timestamp(newest)}")
+            if check.checked_at - newest >= dt.timedelta(hours=24):
+                st.warning("Every available headline was at least 24 hours old when these feeds were checked.")
+            st.dataframe(
+                [
+                    {
+                        "Published": format_report_timestamp(item.published_at), "Publisher": item.publisher,
+                        "Headline": item.title, "Article": item.url,
+                    }
+                    for item in check.headlines
+                ],
+                hide_index=True, use_container_width=True,
+                column_config={"Article": st.column_config.LinkColumn("Source", display_text="Read article")},
+            )
+
+    st.subheader("Published market brief")
+    st.caption("The automated workflow generates this brief separately. Headlines from a dashboard refresh appear above.")
     try:
         files = fetch_latest_summary()
 
@@ -3420,23 +3448,7 @@ with top_summary_tab:
                 download_url = latest_file.get("download_url")
 
                 if download_url:
-                    content_response = requests.get(download_url, timeout=10)
-                    content_response.raise_for_status()
-                    summary_decoded = content_response.text
-
-                    # Try parsing as JSON if it's not plain text
-                    try:
-                        maybe_json = json.loads(summary_decoded)
-                        if isinstance(maybe_json, dict):
-                            summary_text = maybe_json.get("content") or maybe_json.get("message") or str(maybe_json)
-                        elif isinstance(maybe_json, list):
-                            summary_text = "\n".join([str(item) for item in maybe_json])
-                        else:
-                            summary_text = str(maybe_json)
-                    except json.JSONDecodeError:
-                        summary_text = summary_decoded
-
-                    st.info(summary_text.strip())
+                    st.info(fetch_published_summary_text(download_url).strip())
                 else:
                     st.warning(" Could not find download URL for the latest summary file.")
     except Exception as e:

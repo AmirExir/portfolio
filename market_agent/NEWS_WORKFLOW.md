@@ -14,14 +14,25 @@ the market has no significant events. The old prompt explicitly requested a
 "thin" judgment and raw `publishedAt` dates. It did not require source links
 or concrete event watch actions.
 
-`news_workflow.py` now requests up to 100 relevant results within 36 hours,
-then rejects stale, future, missing-time, removed, malformed-URL and duplicate
-records. It retains original timestamps and URLs, formats publication times
-in `America/Chicago` with daylight-saving changes, and reserves coverage for
-governance/legal, earnings, macro, semiconductors, energy and crypto topics.
-The topic rules are editorial coverage heuristics, not investment scores.
-Publisher diversity is preferred; repeated snippets are not corroboration.
-Both publisher and aggregator snippets remain explicitly unverified.
+Telegram `/news`, `/briefing` and scheduled briefs read MarketWatch Top Stories,
+BBC Business and NVIDIA Newsroom RSS on every run. They also request up to 100
+relevant NewsAPI articles for context. The November 23, 2026 9:04 a.m. Central
+run illustrates why both are needed. Its newest NewsAPI article was already
+24 hours old, while NVIDIA's RSS item announcing its board decision was stamped
+7:55 a.m. that morning. Publisher feeds and their URLs are configured in
+`breaking_news_sources.py`.
+
+The evidence filter keeps source links and publication times, excludes future,
+undated, malformed and duplicate items, and displays times in `America/Chicago`.
+It reserves room for the newest eligible headline and material publisher reports
+before filling the brief across topics. Articles up to 36 hours old can supply
+context. When every eligible article is at least 24 hours old, the model receives
+an empty article list and instructions to report that a current update is unavailable.
+Newer decisions take precedence over earlier speculation about the same event.
+
+In the Streamlit news tab, **Refresh market news** queries the same publishers
+and shows their linked headlines and publication times. The saved AI brief has
+its own publication timestamp. Refreshing the dashboard does not publish a brief.
 
 The summary leads with material developments and explains conditional market
 implications. A reported investigation and its company response must be
@@ -38,8 +49,10 @@ Retrieval diagnostics remain in the evidence node's `news_coverage` output for
 operator inspection in n8n execution data. Only its readable generation time
 is passed to the news model, along with the selected articles; the counts are
 not supplied for publication. The news text archive uses the same audience
-brief. Empty results produce a short unavailable-update notice, while provider
-errors still fail the branch instead of producing an apparently valid brief.
+brief. Operators can inspect each source's status and article count, the newest
+eligible and selected timestamps, and the delayed-only flag. Available sources
+continue through partial failures. If every source fails, the workflow reports
+an error.
 
 The forecast Telegram summary likewise shows only forecasts passing the
 existing qualification rules, with forecast dates, probabilities and error
@@ -78,9 +91,19 @@ Before importing/activating the export:
 3. Select existing OpenAI, Telegram and Calendar credentials as appropriate.
    Confirm intended publication destinations before activating the workflow.
 
-For an existing installation, the repository's offline repair tool updates
-the stored workflow. It requires n8n to be stopped, the correct workflow ID,
-an unused backup path, and a configured GitHub credential source node:
+For an existing installation, let active jobs finish and stop n8n. Install
+only the market news update using the existing workflow ID and a new private
+backup path. This updates the draft and each referenced published version
+independently. Restart n8n after the command finishes.
+
+```bash
+.venv/bin/python scripts/repair_n8n_market_optimization.py --news-only \
+  --database /path/to/n8n/database.sqlite \
+  --backup /path/to/backups/before-breaking-news.sqlite \
+  --workflow-id YOUR_EXISTING_WORKFLOW_ID
+```
+
+For a combined optimizer and news installation, supply the GitHub credential source.
 
 ```bash
 .venv/bin/python scripts/repair_n8n_market_optimization.py \
@@ -116,6 +139,9 @@ assert repaired == workflow and not changes
 .venv/bin/python -m unittest \
   market_agent.tests.test_n8n_workflow \
   market_agent.tests.test_news_workflow \
+  market_agent.tests.test_breaking_news_workflow \
+  market_agent.tests.test_news_only_database_repair \
+  market_agent.tests.test_publisher_headlines \
   market_agent.tests.test_daily_report_output \
   market_agent.tests.test_report_presentation -v
 ```
@@ -129,9 +155,10 @@ source evidence, graph/repair idempotence, and complete long-message delivery
 through the last sell row. They do not call NewsAPI, the language model, GitHub or
 Telegram. Prompt assertions verify the written contract, not model obedience.
 
-Retrieval still uses one provider page, so matching stories can be missed.
-The internal `sample_limited` flag records when the provider's `totalResults`
-exceeds the fetched count. NewsAPI supplies snippets, not verified full articles.
+Coverage depends on when each publisher posts or updates its feed. It is
+polled on request and on the existing schedule. NewsAPI contributes one page
+per run, and the internal `sample_limited` flag records when its result count
+exceeds that page. Each brief has a maximum of 24 selected articles.
 The workflow cannot independently confirm allegations or establish complete
 market coverage. Live model prose must still be checked against its links.
 No historical news panel was added to forecast training.

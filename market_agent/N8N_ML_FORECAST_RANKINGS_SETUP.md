@@ -55,7 +55,7 @@ run the workflow repair first.
 
 Use this with your existing n8n workflow:
 
-`Schedule Trigger -> News API -> Build Market News Digest -> Message Model For News -> publication payloads`
+`Schedule Trigger -> News API -> Build Publisher Feed Requests -> Read Market Publisher Feeds -> Combine Market News Sources -> Build Market News Digest -> Message Model For News -> publication payloads`
 
 and:
 
@@ -98,9 +98,10 @@ Recommended node layout:
 
 ```text
 Schedule Trigger
-├─ News API -> Build Market News Digest -> Message Model For News
-│                                      ├-> complete text -> Telegram splitters
-│                                      └-> news GitHub payload -> GitHub
+├─ News API -> publisher RSS reads -> Combine Market News Sources
+│              └─ Build Market News Digest -> Message Model For News
+│                                          ├-> complete text -> Telegram splitters
+│                                          └-> news GitHub payload -> GitHub
 └─ ML Forecast Rankings -> Validate Optimization Output
                          ├-> deterministic publication adapter -> Telegram
                          ├-> validated text GitHub payload -> GitHub

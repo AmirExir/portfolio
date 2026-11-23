@@ -20,6 +20,8 @@ from market_agent.n8n_workflow import (  # noqa: E402
     DEFAULT_CREDENTIAL_SOURCE_NODE,
     repair_market_optimization_workflow,
 )
+from market_agent.news_workflow import repair_market_news_workflow  # noqa: E402
+from scripts.n8n_workflow_store import repair_workflow_versions  # noqa: E402
 
 
 def _n8n_is_running(host: str = "127.0.0.1", port: int = 5678) -> bool:
@@ -49,6 +51,7 @@ def repair_database(
     backup: Path,
     workflow_id: str,
     *,
+    news_only: bool = False,
     credential_source_node: str = DEFAULT_CREDENTIAL_SOURCE_NODE,
     ercot_forecast_owner_chat_id: str = "",
     ercot_forecast_publish_scheduled: bool = False,
@@ -57,6 +60,8 @@ def repair_database(
 
     if _n8n_is_running():
         raise RuntimeError("Stop n8n before repairing its SQLite workflow store")
+    if news_only:
+        return repair_workflow_versions(database, backup, workflow_id, repair_market_news_workflow)
     if not database.is_file():
         raise FileNotFoundError(f"n8n database not found: {database}")
 
@@ -148,6 +153,9 @@ def main() -> None:
     parser.add_argument("--backup", type=Path, required=True)
     parser.add_argument("--workflow-id", required=True)
     parser.add_argument(
+        "--news-only", action="store_true", help="Update only the market news branch in each current version.",
+    )
+    parser.add_argument(
         "--credential-source-node",
         default=DEFAULT_CREDENTIAL_SOURCE_NODE,
     )
@@ -166,14 +174,16 @@ def main() -> None:
         args.database,
         args.backup,
         args.workflow_id,
+        news_only=args.news_only,
         credential_source_node=args.credential_source_node,
         ercot_forecast_owner_chat_id=args.ercot_forecast_owner_chat_id,
         ercot_forecast_publish_scheduled=args.publish_scheduled_ercot_forecasts,
     )
+    branch = "news" if args.news_only else "optimization"
     if not changes:
-        print("Market optimization workflow already satisfies the contract.")
+        print(f"Market {branch} workflow already satisfies the contract.")
         return
-    print("Repaired market optimization workflow:")
+    print(f"Repaired market {branch} workflow:")
     for change in changes:
         print(f"- {change}")
     print(f"Backup: {args.backup}")
