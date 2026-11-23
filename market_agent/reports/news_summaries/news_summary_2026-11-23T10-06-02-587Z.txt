@@ -1,0 +1,32 @@
+Market brief — Nov 23, 2026, 4:05 AM CST
+
+What matters:
+1. Nvidia (NVDA) governance and regulatory scrutiny remain the most consequential theme in the sample. Livemint reports a shareholder open letter urging Nvidia’s board to let three newly elected directors decide whether former CEO Jensen Huang should return, citing alleged conflicts among current directors. Separately, Hurriyet Daily News reports U.S. securities regulators are investigating Nvidia’s accounting practices, describing this as a reported probe rather than proof of wrongdoing. Together, the reports point to board instability, potential management distraction, and possible regulatory overhang for the AI chip leader; if corroborated, those factors could affect capital allocation, customer confidence, and valuation multiples. No board or company rebuttal is provided in these supplied snippets.
+Source: Livemint; Nov 22, 2026, 3:33 AM CST
+https://www.livemint.com/companies/news/nvidia-shareholder-writes-open-letter-to-board-calls-for-newly-elected-board-leaders-to-decide-on-jensen-huangs-return-11795339464376.html
+Source: Hurriyet Daily News; Nov 22, 2026, 12:41 AM CST
+https://www.hurriyetdailynews.com/nvidia-faces-accounting-probe-amid-deepening-turmoil-media-229684
+
+2. Quebecor’s proposed C$31 billion bid for Telus raises a major Canadian telecom consolidation question. CBC reports Quebecor CEO Pierre Karl Péladeau defended the offer by arguing wireless prices are falling and framing the deal partly around Canadian sovereignty as non-Canadian firms seek expansion. The mechanism for markets is straightforward: approval could reshape competitive dynamics, pricing power, network investment plans, and regulatory precedent in Canadian telecom. This is a reported defense of the transaction, not an approval signal.
+Source: CBC News; Nov 22, 2026, 3:01 AM CST
+https://www.cbc.ca/news/politics/pierre-karl-peladeau-quebecor-telus-bid-9.7431320
+
+3. Gold’s sharp reversal is emerging as a cross-asset macro signal. Economictimes.com reports gold has fallen to around $3,510 an ounce after a 2026 record near $5,594.82 and is tracking toward its first annual loss in five years, with a stronger dollar, elevated bond yields, profit-taking, and weaker safe-haven demand cited as pressures. Livemint separately says expectations for further Fed rate hikes and a stronger dollar are weighing on gold and silver. If sustained, that mix matters for miners, bullion-linked products, and inflation/real-rate expectations more broadly.
+Source: Economictimes.com; Nov 22, 2026, 2:21 AM CST
+https://m.economictimes.com/markets/commodities/why-golds-five-year-winning-streak-is-under-threat-after-dramatic-selloff/articleshow/136070323.cms
+Source: Livemint; Nov 22, 2026, 12:40 AM CST
+https://www.livemint.com/money/personal-finance/gold-silver-etf-crash-should-investors-buy-the-dip-11795255637502.html
+
+4. Crypto market structure risk was highlighted by two exchange/platform incidents. Cointelegraph reports Bitcoin briefly fell to the equivalent of $17,000 on Kraken’s Canadian-dollar market and that Kraken said it would honor all executed trades while ruling out a breach. Cointelegraph also reports South Korean exchanges Upbit and Bithumb halted CYBER deposits and withdrawals after the project reported suspicious bridge activity and began an investigation. The business mechanism is operational and trust-related: exchange integrity, liquidity fragmentation, and token-bridge security can quickly affect trading volumes, user retention, and regulatory scrutiny.
+Source: Cointelegraph; Nov 22, 2026, 3:33 AM CST
+https://cointelegraph.com/news/bitcoin-17k-kraken-canadian-dollar-market-trades-stand
+Source: Cointelegraph; Nov 22, 2026, 1:24 AM CST
+https://cointelegraph.com/news/upbit-bithumb-suspend-cyber-transfers-bridge-exploit
+
+Watch actions:
+- NVDA — mixed to bearish near term: monitor for original-source confirmation of any SEC accounting probe and for board response on leadership succession. A clearer independent denial, limited-scope inquiry, or stabilized governance would soften downside case; evidence of restatements or executive turnover would worsen it.
+- Telus / Quebecor — mixed: watch Canadian regulatory and political reaction to the proposed deal. A signal that competition concerns can be addressed would support merger probability; early resistance from regulators or policymakers would weaken it.
+- Gold/miners — bearish unless real-rate pressure eases: reassess if bond yields or the dollar reverse, or if safe-haven demand returns. Continued stronger-dollar / higher-yield evidence would reinforce pressure.
+- Crypto exchanges / CYBER-linked venues — bearish on operational-risk perception unless incident details narrow quickly. Confirmation of isolated market-structure issues rather than broader controls failures would reduce concern.
+
+Coverage: From a 36-hour window, the provider returned 100 fetched articles out of 306 total results; 88 were eligible unique items, 24 were selected from 16 sources, and because sample_limited is true, the provider returned only a sample of matching coverage.
