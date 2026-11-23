@@ -1,0 +1,25 @@
+Market brief — Nov 22, 2026, 5:05 PM CST
+
+What matters:
+1) Nvidia (NVDA) faces the heaviest event cluster in the sample: governance turmoil, a reported SEC accounting probe, and questions about leadership continuity — even as one report says results were exceptionally strong. RT, citing Reuters, reports the U.S. securities regulator is probing Nvidia’s accounting and Singapore revenue disclosures, which would raise legal, reporting, and multiple-compression risk if confirmed. Separately, The Information says Jensen Huang is seeking a return after resigning, while Crypto Briefing reports Nvidia posted a “blowout quarter” with revenue up 103% to $115.84 billion and says the board rejected calls for Huang’s return. TechRadar and Kotaku add further allegations around an alleged influence campaign and workplace conduct; these are allegations, not proof. The board-response element present in the sample is that calls for Huang’s return were reportedly rejected.
+Source: Rt-english.com / Nov 21, 2026, 3:26 PM CST / https://rt-english.com/news/649192-us-financial-watchdog-probes-nvidia/
+Source: Crypto Briefing / Nov 21, 2026, 3:11 PM CST / https://cryptobriefing.com/nvidia-earnings-jensen-huang-leadership-speculation/
+Source: The Information / Nov 21, 2026, 10:13 AM CST / https://www.theinformation.com/articles/can-jensen-return
+
+2) Taiwan’s regulators reportedly moved to curb short selling after a steep selloff in its chip-heavy market. Business Insider says the main index fell 17.5% in five days and authorities will limit short selling effective Monday. The mechanism is broader than one stock: emergency market-stabilization steps can reduce immediate downside pressure but also signal official concern about disorderly AI/semiconductor de-risking, with implications for regional liquidity, sentiment, and hedging behavior.
+Source: Business Insider / Nov 21, 2026, 4:02 PM CST / https://www.businessinsider.com/taiwan-market-sell-off-regulation-ai-trade-tech-semiconductors-2026-11
+
+3) U.S. policy risk for consumer finance rose after President Trump said he would work with Democrats to cap credit-card interest rates. CBS News reports the proposal as a cross-party push. If pursued legislatively, the clearest mechanism is pressure on card issuers’ net interest margins, repricing of unsecured credit risk, and possible shifts in underwriting, fees, or rewards economics.
+Source: CBS News / Nov 21, 2026, 12:27 PM CST / https://www.cbsnews.com/news/trump-credit-card-rates-democrats-politics/
+
+4) AI infrastructure and deployment policy remains fluid. Tom’s Hardware reports Trump wants to stop U.S. companies from building overseas data centers or impose a heavy fee, while The Information reports Amazon (AMZN) is nearing a $7.5 billion purchase of Israeli AI startup Decart. Together, that points to a push-pull between expansion appetite and geopolitical/policy constraints on where AI capacity gets built and monetized.
+Source: Tom's Hardware UK / Nov 21, 2026, 10:29 AM CST / https://www.tomshardware.com/tech-industry/data-centers/trump-wants-to-ban-us-companies-from-building-overseas-data-centers-as-bans-slow-development-also-considers-putting-a-tremendous-tax-in-lieu-of-prohibition
+Source: The Information / Nov 21, 2026, 12:38 PM CST / https://www.theinformation.com/briefings/amazon-nearing-7-5-billion-purchase-decart
+
+Watch actions:
+- NVDA — Mixed: monitor for original-source confirmation of the reported SEC probe, board stance, and any permanent leadership plan. Bearish if regulatory findings or operational disruption are confirmed; less bearish if audited disclosures, board stability, and customer demand remain intact.
+- Taiwan/chip supply chain — Mixed: watch whether short-selling limits stabilize financing conditions or instead confirm deeper stress across AI hardware. A sustained policy rollout or broader regional interventions would increase downside concern.
+- U.S. card issuers/banks — Bearish if a rate-cap proposal advances into concrete legislation. Reassess if the policy stalls, is watered down, or issuers show offsets through fees, underwriting, or lower funding costs.
+- AMZN/U.S. data-center buildout — Mixed: bullish if Decart strengthens proprietary AI capability and policy remains manageable; bearish if overseas build restrictions become binding and raise capacity or customer-delivery friction.
+
+Coverage: Within the last 36 hours, the provider returned only a sample of matching coverage: 98 fetched items out of 469 total results, with 85 eligible unique articles; 24 were selected from 19 sources.
