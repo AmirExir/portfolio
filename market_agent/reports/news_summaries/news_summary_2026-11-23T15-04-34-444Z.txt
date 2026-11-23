@@ -1,0 +1,30 @@
+Market brief — Nov 23, 2026, 9:04 AM CST
+
+What matters:
+1. Nvidia-related export-control and leadership turmoil remains the dominant equity risk in this sample. Multiple reports say Nvidia is dealing with the aftermath of Jensen Huang’s ouster and tighter scrutiny of its international business, while separate coverage alleges a Singapore-linked network smuggled restricted Nvidia AI chips to China and that accused figure Li Ming is now out on bail. These are allegations and reported investigations, not proof of wrongdoing by Nvidia, but the mechanism is material: tougher export enforcement, management transition, and channel disruption could affect China-linked revenue, compliance costs, customer demand timing, and valuation for AI infrastructure suppliers.
+Source: Fortune — Nov 22, 2026, 6:30 AM CST
+https://fortune.com/2026/11/22/nvidia-next-ceo-international-business-reorganization-ai-equilibrium/
+Source: Crypto Briefing — Nov 22, 2026, 8:35 AM CST
+https://cryptobriefing.com/li-ming-nvidia-chip-smuggling-bail/
+
+2. Semiconductor supply chains tied to China may be tightening further. Tom’s Hardware reports TSMC has reportedly paused shipments to Chinese designers after new U.S. export rules flagged even older 16nm and 14nm nodes. If accurate, that broadens restrictions beyond the most advanced chips and raises the risk of supply interruptions for smartphone, TV, automotive, and AI-adjacent designs, potentially shifting orders, inventories, and fab utilization across the sector.
+Source: Tom's Hardware UK — Nov 22, 2026, 7:30 AM CST
+https://www.tomshardware.com/tech-industry/policy/tsmc-reportedly-pauses-shipments-to-chinese-designers-after-u-s-export-rules-flag-decade-old-16nm-and-14nm-nodes-new-bis-controls-threaten-smartphone-tv-and-automotive-chips
+
+3. U.S. risk assets face a rates-plus-AI repricing narrative. Crypto Briefing reports the S&P 500 has entered correction territory and separately says some analysts see the Fed potentially needing multiple rate hikes because inflation remains above target. Even without independent verification here, the mechanism is straightforward: higher-for-longer policy pressure raises discount rates and can hit long-duration growth and AI capex beneficiaries hardest, while also tightening financial conditions more broadly.
+Source: Crypto Briefing — Nov 22, 2026, 6:39 AM CST
+https://cryptobriefing.com/investors-seek-bottom-us-stock-selloff/
+Source: Crypto Briefing — Nov 22, 2026, 8:24 AM CST
+https://cryptobriefing.com/fed-may-need-multiple-rate-hikes-to-tackle-persistent-inflation/
+
+4. Energy shipping risk has resurfaced in the Middle East. CryptoSlate reports UK Maritime Trade Operations said two outbound tankers were struck by projectiles near Hormuz. If confirmed and disruptions persist, higher crude and freight risk could feed inflation expectations, complicate central-bank easing hopes, and pressure risk sentiment across equities and crypto.
+Source: CryptoSlate — Nov 22, 2026, 7:00 AM CST
+https://cryptoslate.com/two-hormuz-tanker-strikes-threaten-a-potential-source-of-relief-for-bitcoin/
+
+Watch actions:
+- NVDA / AI infrastructure — mixed; monitor board succession, export-control disclosures, and any confirmed operational impact on shipments or customer demand. More bullish if demand proves durable despite enforcement; more bearish if restrictions or investigations materially impair revenue channels.
+- TSM / China-exposed chip designers — bearish watch if shipment pauses expand beyond reported nodes or customers; reassess if companies clarify limited exposure or secure licenses/workarounds.
+- Broad U.S. equities, especially long-duration tech — bearish watch if inflation data or Fed communication validates further hikes; mixed if disinflation resumes and correction pressure eases.
+- Oil-sensitive markets and inflation trades — mixed; monitor whether Hormuz incidents remain isolated or begin affecting cargo flows and crude pricing materially.
+
+Coverage: From a 36-hour window, the provider returned 370 results; 100 were fetched, 84 were eligible unique articles, and 24 were selected from 18 sources. The provider returned only a sample of matching coverage, so absent original-source confirmation here reflects missing feed coverage, not necessarily that an event did not occur.
