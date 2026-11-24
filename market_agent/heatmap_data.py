@@ -90,8 +90,13 @@ def download_regular_quotes(tickers: tuple[str, ...]) -> pd.DataFrame:
         try:
             metadata = yf.Ticker(symbol).get_history_metadata()
             price = float(metadata["regularMarketPrice"])
-            timestamp = pd.Timestamp(metadata["regularMarketTime"], unit="s", tz="UTC")
-            if metadata.get("currency") == "USD" and np.isfinite(price) and price > 0:
+            observed = metadata["regularMarketTime"]
+            # yfinance returns Unix seconds or an exchange-local, timezone-aware timestamp.
+            if isinstance(observed, (int, float, np.integer, np.floating)):
+                timestamp = pd.Timestamp(observed, unit="s", tz="UTC")
+            else:
+                timestamp = pd.Timestamp(observed).tz_convert("UTC")
+            if metadata.get("currency") == "USD" and np.isfinite(price) and price > 0 and pd.notna(timestamp):
                 return symbol, price, timestamp
         except (YFException, RequestException, OSError, KeyError, TypeError, ValueError, OverflowError) as error:
             logging.getLogger(__name__).warning("Heatmap quote unavailable for %s (%s)", symbol, type(error).__name__)

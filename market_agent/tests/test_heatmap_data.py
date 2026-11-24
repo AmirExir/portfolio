@@ -97,3 +97,27 @@ class LiveHeatmapTests(unittest.TestCase):
         self.assertEqual(quotes.loc["A", "Observed"], pd.Timestamp("2026-11-23T21:00:01Z"))
         self.assertEqual(quotes.loc["A", "Price"], 165.05)
         self.assertTrue(quotes.loc[["B", "C"], "Price"].isna().all())
+
+    def test_yfinance_quote_times_preserve_the_observation_instant(self) -> None:
+        checked = pd.Timestamp("2026-11-24T16:20Z")
+        observed = {
+            "EPOCH": int(checked.timestamp()),
+            "EXCHANGE": checked.tz_convert("America/New_York"),
+            "UTC": checked,
+            "STALE": (checked - pd.Timedelta(minutes=21)).tz_convert("America/New_York"),
+            "NAIVE": checked.tz_localize(None),
+            "MISSING": None,
+        }
+        symbols = tuple(observed)
+        daily = pd.DataFrame(100.0, index=[pd.Timestamp("2026-11-23")], columns=symbols)
+        with patch("market_agent.heatmap_data.yf.Ticker", side_effect=lambda symbol: Mock(
+            get_history_metadata=Mock(return_value={
+                "currency": "USD", "regularMarketPrice": 105.0, "regularMarketTime": observed[symbol],
+            })
+        )):
+            data = fetch_heatmap_prices(symbols, now=checked, read_daily=lambda *_: daily).set_index("Ticker")
+        for symbol in ("EPOCH", "EXCHANGE", "UTC"):
+            with self.subTest(symbol=symbol):
+                self.assertEqual(data.loc[symbol, "Price as of"], "2026-11-24 16:20:00 UTC")
+                self.assertEqual(data.loc[symbol, "Percent Change"], 5.0)
+        self.assertTrue(data.loc[["STALE", "NAIVE", "MISSING"], "Price (USD)"].isna().all())
