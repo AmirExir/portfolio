@@ -34,6 +34,10 @@ class DashboardPresentationTests(unittest.TestCase):
             script.write_text(source.read_text())
             # Older deployments expose only scan_patterns under this top-level name.
             script.with_name("patterns.py").write_text("scan_patterns = None\n")
+            # Simulate an older top-level heatmaps module without the price formatter.
+            script.with_name("heatmaps.py").write_text(
+                "from market_agent.heatmaps import build_return_heatmap, format_signed_return, return_color_axis\n"
+            )
             reports = script.parent / "reports"
             reports.mkdir()
             # Disabled models emit entirely null columns in real scheduled reports.
