@@ -74,7 +74,9 @@ try:
         snapshot_from_model_results,
         select_model_name,
     )
-    from heatmaps import build_return_heatmap, format_heatmap_price, format_signed_return, return_color_axis
+    from market_agent.heatmaps import (
+        build_return_heatmap, format_heatmap_price, format_signed_return, return_color_axis,
+    )
     from market_agent.heatmap_data import (
         MAX_INTRADAY_AGE, close_price_frame as _close_price_frame, download_daily_closes,
         download_crypto_day_close, download_regular_quotes, fetch_heatmap_prices,
@@ -83,7 +85,7 @@ try:
     from market_agent.breaking_analysis_view import analyze_refreshed_headlines, render_breaking_analysis
     from market_agent.publisher_headlines import HEADLINE_WINDOW, check_publisher_headlines
     from saved_rankings import dashboard_result_path, scheduled_pattern_rows, scheduled_rows_for_symbols, stored_ranking_rows
-    from saved_symbol_forecast import (
+    from market_agent.saved_symbol_forecast import (
         attach_archived_models, choose_saved_forecast, historical_accuracy_path, render_historical_accuracy,
         render_saved_symbol_forecast,
     )
