@@ -4,11 +4,43 @@ import unittest
 from unittest.mock import Mock, patch
 
 import requests
+import pandas as pd
 
-from market_agent.heatmap_market_caps import download_market_caps
+from market_agent.heatmap_market_caps import attach_heatmap_caps, download_market_caps
 
 
 class HeatmapMarketCapTests(unittest.TestCase):
+    def test_fund_size_uses_the_listed_price_and_a_share_count_available_by_the_session(self) -> None:
+        quotes = pd.DataFrame({"Ticker": ["STOCK", "FUND", "FUTURE", "NO_PRICE"],
+                               "Price (USD)": [10., 25., 32., float("nan")],
+                               "Percent Change": [2., 1., 3., float("nan")]})
+        quotes.attrs["end"] = "2026-11-23"
+        shares = Mock(return_value={"FUND": (100., "Issuer", "2026-11-23"),
+                                    "FUTURE": (10., "Issuer", "2026-11-24"),
+                                    "NO_PRICE": (50., "Issuer", "2026-11-23")})
+        stock_caps = Mock(return_value={"STOCK": (950., "Yahoo Finance")})
+        crypto_caps = Mock()
+        sized = attach_heatmap_caps(
+            quotes, crypto=False, fund_listings={"FUND", "FUTURE", "NO_PRICE"},
+            read_caps=stock_caps, read_fund_shares=shares, read_crypto_caps=crypto_caps,
+        ).set_index("Ticker")
+        stock_caps.assert_called_once_with(("STOCK",))
+        crypto_caps.assert_not_called()
+        self.assertEqual(sized.loc["FUND", "Market Cap"], 2500.)
+        self.assertEqual(sized.loc["STOCK", "Market Cap"], 950.)
+        self.assertTrue(sized.loc[["FUTURE", "NO_PRICE"], "Market Cap"].isna().all())
+
+    def test_crypto_uses_reported_caps_only_for_coins_missing_from_the_dated_snapshot(self) -> None:
+        quotes = pd.DataFrame({"Ticker": ["BTC-USD", "ETH-USD"], "Percent Change": [3., -2.]})
+        fallback = Mock(return_value={"ETH-USD": (100., "Yahoo Finance")})
+        sized = attach_heatmap_caps(
+            quotes, crypto=True, fund_listings=(), read_caps=fallback, read_fund_shares=Mock(),
+            read_crypto_caps=lambda _: {"BTC-USD": (450., "CoinGecko", "2026-11-23 12:30:00 UTC")},
+        ).set_index("Ticker")
+        fallback.assert_called_once_with(("ETH-USD",))
+        self.assertEqual(sized.loc["BTC-USD", "Cap source"], "CoinGecko")
+        self.assertTrue(pd.isna(sized.loc["ETH-USD", "Size input as of"]))
+
     @patch("market_agent.nasdaq_data.requests.get")
     @patch("market_agent.heatmap_market_caps.YfData")
     def test_provider_caps_and_missing_stock_snapshot(self, yf_data: Mock, nasdaq: Mock) -> None:

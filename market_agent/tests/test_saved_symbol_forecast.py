@@ -137,9 +137,15 @@ class SavedSymbolForecastTests(unittest.TestCase):
         from market_agent.heatmap_data import fetch_heatmap_prices
 
         def current_heatmap(tickers, days, *, crypto, **readers):
-            history = pd.DataFrame({"NVDA": [100., 86.]}, index=pd.to_datetime(["2026-11-19", "2026-11-20"]))
-            quote = pd.DataFrame({"Price": [107.5, 75.], "Observed": pd.Timestamp("2026-11-23T15:02Z")},
-                                 index=["NVDA", "SNDK"])
+            baseline = ({"BTC-USD": 500., "ETH-USD": 100.} if crypto else
+                        {"NVDA": 86., "SPY": 100., "VOO": 200., "GLD": 50.})
+            previous = pd.Timestamp("2026-11-22" if crypto else "2026-11-20")
+            history = pd.DataFrame([baseline], index=[previous])
+            quote = pd.DataFrame({"Price": {
+                "NVDA": 107.5, "SNDK": 75., "SPY": 105., "VOO": 190., "GLD": 55.,
+                "BTC-USD": 510., "ETH-USD": 120.,
+            }})
+            quote["Observed"] = pd.Timestamp("2026-11-23T15:02Z")
             return fetch_heatmap_prices(
                 tickers, days, crypto=crypto, now=pd.Timestamp("2026-11-23T15:04Z"),
                 read_daily=lambda *_: history, read_quotes=lambda *_: quote,
@@ -151,18 +157,54 @@ class SavedSymbolForecastTests(unittest.TestCase):
             caps = {"SNDK": (2., "Nasdaq screener"), "NVDA": (998., "Yahoo Finance")}
             return {symbol: caps[symbol] for symbol in symbols if symbol in caps}
 
-        def assert_current_tile(app):
+        etf_share_count = {"SPY": 100., "VOO": 60.}
+        coin_caps = {"BTC-USD": 2_000., "ETH-USD": 500.}
+
+        def etf_shares(symbols: tuple[str, ...]) -> dict[str, tuple[float, str, str]]:
+            return {symbol: (etf_share_count[symbol], "Fund share counts", "2026-11-20")
+                    for symbol in symbols if symbol in etf_share_count}
+
+        def crypto_caps(symbols: tuple[str, ...]) -> dict[str, tuple[float, str, str]]:
+            return {symbol: (coin_caps[symbol], "CoinGecko", "2026-11-23 15:03:00 UTC")
+                    for symbol in symbols if symbol in coin_caps}
+
+        def assert_current_tiles(app: AppTest, *, show_all: bool = False) -> None:
             tab = next(tab for tab in app.tabs if tab.label == "Heatmaps")
-            trace = json.loads(tab.get("plotly_chart")[0].proto.spec)["data"][0]
+            traces = [json.loads(chart.proto.spec)["data"][0] for chart in tab.get("plotly_chart")]
+            self.assertEqual(len(traces), 3)
+            trace, etf_trace, crypto_trace = traces
             pos = trace["ids"].index("NVDA")
             self.assertEqual(trace["text"][pos], "+25.00%")
-            self.assertEqual(trace["customdata"][pos], ["$107.50", "2026-11-23 15:02:00 UTC"])
+            self.assertEqual(trace["customdata"][pos][:2], ["$107.50", "2026-11-23 15:02:00 UTC"])
             self.assertEqual(trace["marker"]["colors"][pos], 25.0)
-            self.assertEqual(dict(zip(trace["ids"], trace["values"])), {"NVDA": 998., "SNDK": 2.})
+            etf_weights = {"SPY": 105. * etf_share_count["SPY"], "VOO": 190. * etf_share_count["VOO"]}
+            expected_stock_weights = {"NVDA": 998., "SNDK": 2.}
+            if show_all:
+                expected_stock_weights.update(etf_weights)
+            self.assertEqual(dict(zip(trace["ids"], trace["values"])), expected_stock_weights)
             self.assertEqual(trace["text"][trace["ids"].index("SNDK")], "-6.25%")
-            table = next(t.value.set_index("Ticker") for t in tab.dataframe if "SNDK" in t.value["Ticker"].values)
-            self.assertEqual(table.loc["SNDK", "Market Cap (USD)"], 2.)
-            self.assertEqual(table.loc["SNDK", "Cap source"], "Nasdaq screener")
+            universe_table, etf_table, crypto_table = [entry.value.set_index("Ticker") for entry in tab.dataframe]
+            self.assertEqual(universe_table.loc["SNDK", "Market Cap (USD)"], 2.)
+            self.assertEqual(universe_table.loc["SNDK", "Cap source"], "Nasdaq screener")
+            self.assertEqual(dict(zip(etf_trace["ids"], etf_trace["values"])), etf_weights)
+            self.assertEqual(dict(zip(crypto_trace["ids"], crypto_trace["values"])), coin_caps)
+            self.assertTrue(any("GLD" in caption.value for caption in tab.caption))
+            for symbol, trace, rows, source, date, weights in (
+                ("SPY", etf_trace, etf_table, "Fund share counts", "2026-11-20", etf_weights),
+                ("ETH-USD", crypto_trace, crypto_table, "CoinGecko", "2026-11-23 15:03:00 UTC", coin_caps),
+            ):
+                weight = weights[symbol]
+                self.assertEqual(rows.loc[symbol, "Market Cap (USD)"], weight)
+                self.assertAlmostEqual(rows.loc[symbol, "Share of chart (%)"], 100 * weight / sum(weights.values()))
+                self.assertIn(source, rows.loc[symbol, "Cap source"])
+                self.assertEqual(rows.loc[symbol, "Size input as of"], date)
+                hover_fields = trace["customdata"][trace["ids"].index(symbol)]
+                self.assertIn(source, hover_fields[2])
+                self.assertEqual(hover_fields[3], date)
+                self.assertIn("%{percentRoot:.3~p}", trace["hovertemplate"])
+            self.assertAlmostEqual(etf_table.loc["GLD", "Percent Change"], 10.)
+            self.assertTrue(pd.isna(etf_table.loc["GLD", "Market Cap (USD)"]))
+            self.assertTrue(pd.isna(etf_table.loc["GLD", "Share of chart (%)"]))
 
         with (
             tempfile.TemporaryDirectory() as temporary,
@@ -174,6 +216,8 @@ class SavedSymbolForecastTests(unittest.TestCase):
             patch("yfinance.download", return_value=pd.DataFrame()),
             patch("market_agent.heatmap_data.fetch_heatmap_prices", side_effect=current_heatmap),
             patch("market_agent.heatmap_market_caps.download_market_caps", new=market_caps),
+            patch("market_agent.heatmap_fund_assets.download_etf_shares", new=etf_shares),
+            patch("market_agent.heatmap_crypto_caps.download_crypto_market_caps", new=crypto_caps),
         ):
             st.cache_data.clear()
             self.addCleanup(st.cache_data.clear)
@@ -208,9 +252,14 @@ class SavedSymbolForecastTests(unittest.TestCase):
             self.assertEqual(history_tables[0]["Actual Close"].tolist(), [99.75])
             record["data_fingerprint"]["hash"] = "revised"
             cache.write_text(json.dumps(record))
-            assert_current_tile(app)
+            assert_current_tiles(app)
+            etf_share_count["VOO"] = 75.
+            coin_caps["ETH-USD"] = 600.
+            app.button(key="refresh_heatmap_prices").click().run(timeout=60)
+            assert_current_tiles(app)
             app.button(key="symbol_run").click().run(timeout=60)
-            assert_current_tile(app)
+            app.checkbox(key="heatmap_show_all").check().run(timeout=60)
+            assert_current_tiles(app, show_all=True)
             self.assertIn("BTC-USD · Saved 30-session forecast", [h.value for h in app.subheader])
             self.assertFalse(any("Walk-forward test completed" in cap.value for cap in app.caption))
             fit.assert_not_called()

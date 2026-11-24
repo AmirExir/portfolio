@@ -81,7 +81,9 @@ try:
         MAX_INTRADAY_AGE, close_price_frame as _close_price_frame, download_daily_closes,
         download_crypto_day_close, download_equity_prior_closes, download_regular_quotes, fetch_heatmap_prices,
     )
-    from market_agent.heatmap_market_caps import download_market_caps
+    from market_agent.heatmap_crypto_caps import CRYPTO_HEATMAP_TICKERS, download_crypto_market_caps
+    from market_agent.heatmap_fund_assets import ETF_LISTINGS, download_etf_shares
+    from market_agent.heatmap_market_caps import attach_heatmap_caps, download_market_caps
     from market_agent.patterns import scan_patterns, summarize_patterns
     from market_agent.breaking_analysis_view import analyze_refreshed_headlines, render_breaking_analysis
     from market_agent.publisher_headlines import HEADLINE_WINDOW, check_publisher_headlines
@@ -1153,30 +1155,7 @@ MARKET_ORANGE = "#f59e0b"
 MARKET_RED = "#dc2626"
 PLOTLY_CONFIG = {"displayModeBar": False, "responsive": True}
 HEATMAP_MAX_SYMBOLS = 43
-
-
-def selected_non_crypto_symbols(symbols) -> tuple[str, ...]:
-    selected = []
-    seen = set()
-    for symbol in symbols or []:
-        symbol_text = str(symbol).strip().upper()
-        if not symbol_text or symbol_text.endswith("-USD") or symbol_text in seen:
-            continue
-        selected.append(symbol_text)
-        seen.add(symbol_text)
-        if len(selected) >= HEATMAP_MAX_SYMBOLS:
-            break
-    return tuple(selected)
-
-
-def count_non_crypto_symbols(symbols) -> int:
-    return len(
-        {
-            str(symbol).strip().upper()
-            for symbol in symbols or []
-            if str(symbol).strip() and not str(symbol).strip().upper().endswith("-USD")
-        }
-    )
+HEATMAP_TIMEFRAMES = {"1D": 1, "7D": 7, "1M": 30, "3M": 90, "1Y": 365, "5Y": 365 * 5}
 
 
 def inject_market_css() -> None:
@@ -1512,6 +1491,7 @@ SYMBOL_LABELS = {
     "UNI7083-USD": "Uniswap (UNI)",
     "ENA-USD": "Ethena (ENA)",
     "DOT-USD": "Polkadot (DOT)",
+    "TON-USD": "TON Community (TON)",
 }
 MARKET_CONTEXT_TICKERS = [
     "SPY", "VOO", "QQQ", "IWM", "DIA", "^VIX",
@@ -1748,20 +1728,21 @@ cached_crypto_day_close = st.cache_data(ttl=300, max_entries=30, show_spinner=Fa
 cached_heatmap_equity_close = st.cache_data(ttl=300, max_entries=30, show_spinner=False)(download_equity_prior_closes)
 cached_heatmap_quotes = st.cache_data(ttl=60, max_entries=30, show_spinner=False)(download_regular_quotes)
 cached_heatmap_caps = st.cache_data(ttl=900, max_entries=30, show_spinner=False)(download_market_caps)
+cached_crypto_caps = st.cache_data(ttl=300, max_entries=30, show_spinner=False)(download_crypto_market_caps)
+cached_etf_shares = st.cache_data(ttl=3600, max_entries=30, show_spinner=False)(download_etf_shares)
 
 
-def load_heatmap_data(tickers: tuple[str, ...], lookback_days: int, *, crypto: bool, size_by_cap: bool) -> pd.DataFrame:
-    """Load the current window and optional market cap for one heatmap."""
+def load_heatmap_data(tickers: tuple[str, ...], lookback_days: int, *, crypto: bool) -> pd.DataFrame:
+    """Load price returns and market-cap weights for one dashboard heatmap."""
     data = fetch_heatmap_prices(
         tickers, lookback_days, crypto=crypto,
         read_daily=cached_heatmap_history, read_quotes=cached_heatmap_quotes, read_crypto_close=cached_crypto_day_close,
         read_equity_close=cached_heatmap_equity_close,
     )
-    if size_by_cap:
-        caps = cached_heatmap_caps(tickers) if data["Percent Change"].notna().any() else {}
-        data["Market Cap"] = data["Ticker"].map({symbol: value for symbol, (value, _) in caps.items()})
-        data["Cap source"] = data["Ticker"].map({symbol: source for symbol, (_, source) in caps.items()})
-    return data
+    return attach_heatmap_caps(
+        data, crypto=crypto, fund_listings=ETF_LISTINGS, read_caps=cached_heatmap_caps,
+        read_fund_shares=cached_etf_shares, read_crypto_caps=cached_crypto_caps,
+    )
 
 
 def render_return_heatmap(data: pd.DataFrame, lookback_days: int, *, title: str, height: int) -> None:
@@ -1804,9 +1785,13 @@ def render_return_heatmap(data: pd.DataFrame, lookback_days: int, *, title: str,
             columns.append("Price as of")
         formats = {"Price (USD)": format_heatmap_price, "Percent Change": format_signed_return}
         if "Market Cap" in data:
-            columns.extend(["Market Cap", "Cap source"])
+            columns.extend(["Market Cap", "Cap source", "Size input as of"])
             formats["Market Cap (USD)"] = "${:,.0f}"
         table = data[columns].rename(columns={"Market Cap": "Market Cap (USD)"})
+        if figure.data and "Market Cap (USD)" in table:
+            weights = pd.Series(figure.data[0].values, index=figure.data[0].ids)
+            table["Share of chart (%)"] = table["Ticker"].map(100 * weights / weights.sum())
+            formats["Share of chart (%)"] = "{:.3g}%"
         st.dataframe(
             table.style.format(formats, na_rep="Unavailable"),
             hide_index=True, use_container_width=True,
@@ -3702,29 +3687,26 @@ with heatmap_tab:
         cached_crypto_day_close.clear()
         cached_heatmap_equity_close.clear()
         cached_heatmap_caps.clear()
+        cached_crypto_caps.clear()
+        cached_etf_shares.clear()
 
     # Timeframe selector
     sp_tf = st.selectbox(
         "Stock / ETF change timeframe",
-        ["1D", "7D", "1M", "3M", "1Y", "5Y"],
+        list(HEATMAP_TIMEFRAMES),
         index=0,
         key="stock_tf"
     )
 
-    # Time-to-days map
-    sp_days_map = {
-        "1D": 1,
-        "7D": 7,
-        "1M": 30,
-        "3M": 90,
-        "1Y": 365,
-        "5Y": 365 * 5,
-    }
-
-    lookback_days = sp_days_map[sp_tf]
-    heatmap_symbols = selected_non_crypto_symbols(selected_forecast_symbols)
+    lookback_days = HEATMAP_TIMEFRAMES[sp_tf]
+    heatmap_symbols = tuple(s for s in _ticker_tuple(selected_forecast_symbols) if not s.endswith("-USD"))
     if heatmap_symbols:
-        non_crypto_count = count_non_crypto_symbols(selected_forecast_symbols)
+        non_crypto_count = len(heatmap_symbols)
+        if non_crypto_count > HEATMAP_MAX_SYMBOLS and not st.checkbox(
+            f"Show all {non_crypto_count} selected stocks and ETFs", key="heatmap_show_all",
+            help="Fetch prices and sizing data for selections beyond the default chart limit.",
+        ):
+            heatmap_symbols = heatmap_symbols[:HEATMAP_MAX_SYMBOLS]
         heatmap_note = f"Showing {len(heatmap_symbols)} selected non-crypto symbols."
         if non_crypto_count > len(heatmap_symbols):
             heatmap_note = (
@@ -3732,14 +3714,14 @@ with heatmap_tab:
                 "for dashboard responsiveness."
             )
         if len(selected_forecast_symbols or []) > non_crypto_count:
-            heatmap_note += " Crypto symbols are shown in the crypto heatmap below."
+            heatmap_note += " The separate crypto heatmap tracks a fixed watchlist."
         st.caption(heatmap_note)
 
     try:
         if not heatmap_symbols:
             st.info("Choose at least one stock or ETF above to show the universe heatmap.")
         else:
-            df = load_heatmap_data(heatmap_symbols, lookback_days, crypto=False, size_by_cap=True)
+            df = load_heatmap_data(heatmap_symbols, lookback_days, crypto=False)
             df["Label"] = df["Ticker"]
             render_return_heatmap(df, lookback_days, title=f"Selected Universe Change ({sp_tf})", height=540)
 
@@ -3751,7 +3733,8 @@ with heatmap_tab:
     # ETF / commodity watchlist requested for broader market context
     render_section_header(
         "ETF and Commodity Watchlist",
-        "Broad market, rates, metals, and oil proxies for fast cross-asset context.",
+        "Tile area uses each fund’s reported shares outstanding and observed USD price. "
+        "Share counts can lag the price. See the by-symbol table for dates.",
     )
 
     watchlist_tickers = ["SPY", "VOO", "GLD", "SLV", "USO"]
@@ -3764,7 +3747,7 @@ with heatmap_tab:
     }
 
     try:
-        watch_df = load_heatmap_data(tuple(watchlist_tickers), lookback_days, crypto=False, size_by_cap=False)
+        watch_df = load_heatmap_data(tuple(watchlist_tickers), lookback_days, crypto=False)
         watch_df["Label"] = watch_df["Ticker"].map(watchlist_labels)
         render_return_heatmap(watch_df, lookback_days, title=f"ETF and Commodity Change ({sp_tf})", height=430)
     except Exception as e:
@@ -3774,38 +3757,26 @@ with heatmap_tab:
     # Crypto daily-bar heatmap
     render_section_header(
         "Crypto Heatmap",
-        "Major crypto assets by selected timeframe, sized by estimated market capitalization.",
+        "Watchlist assets sized by circulating market capitalization in USD.",
     )
 
     # Timeframe selector for crypto
     crypto_tf = st.selectbox(
         "Crypto change timeframe",
-        ["1D", "7D", "1M", "3M", "1Y", "5Y"],
+        list(HEATMAP_TIMEFRAMES),
         index=0
     )
 
-    # Map timeframe -> lookback in days
-    tf_days_map = {
-        "1D": 1,
-        "7D": 7,
-        "1M": 30,
-        "3M": 90,
-        "1Y": 365,
-        "5Y": 365 * 5,
-    }
-
-    lookback_days = tf_days_map[crypto_tf]
-
-    crypto_tickers = [
-        "BTC-USD", "ETH-USD", "BNB-USD", "SOL-USD", "XRP-USD", "ADA-USD",
-        "DOGE-USD", "AVAX-USD", "TON-USD", "DOT-USD", "ZEC-USD",
-        "COMP5692-USD", "HYPE32196-USD", "MNT27075-USD", "UNI7083-USD", "ENA-USD",
-    ]
+    lookback_days = HEATMAP_TIMEFRAMES[crypto_tf]
 
     try:
-        crypto_df = load_heatmap_data(tuple(crypto_tickers), lookback_days, crypto=True, size_by_cap=True)
-        crypto_df["Label"] = crypto_df["Ticker"].map(ticker_short_label)
+        crypto_df = load_heatmap_data(CRYPTO_HEATMAP_TICKERS, lookback_days, crypto=True)
+        crypto_df["Label"] = crypto_df["Ticker"].map(
+            lambda ticker: "TON Community" if ticker == "TON-USD" else ticker_short_label(ticker)
+        )
         render_return_heatmap(crypto_df, lookback_days, title=f"Crypto Change ({crypto_tf})", height=540)
+        if crypto_df["Cap source"].eq("CoinGecko").any():
+            st.caption("[Data provided by CoinGecko](https://www.coingecko.com/en/api)")
 
     except Exception as e:
         st.error(f"Error generating crypto heatmap: {e}")

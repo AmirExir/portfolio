@@ -132,16 +132,15 @@ def build_return_heatmap(data: pd.DataFrame, lookback_days: int) -> tuple[go.Fig
     cap_hover = ""
     if "Market Cap" in measured:
         has_cap = np.isfinite(measured["Market Cap"]) & (measured["Market Cap"] > 0)
-        if has_cap.any():
-            tiles = measured.loc[has_cap]
-            sizes = tiles["Market Cap"].to_list()
-            sizing = "Tile area is proportional to reported market capitalization in USD."
-            cap_hover = "<br>Market cap $%{value:,.0f}"
-            if not has_cap.all():
-                missing_caps = ", ".join(measured.loc[~has_cap, "Ticker"])
-                sizing += f" Market cap unavailable for {missing_caps}. See the by-symbol table."
-        else:
-            sizing = "Tiles have equal area because market cap is unavailable."
+        if not has_cap.any():
+            return go.Figure(), "Market-cap data is unavailable. Prices and returns are shown in the by-symbol table."
+        tiles = measured.loc[has_cap]
+        sizes = tiles["Market Cap"].to_list()
+        sizing = f"Tile area is proportional to USD market cap. Showing {len(tiles)} of {len(data)} symbols."
+        cap_hover = "<br>Market cap $%{value:,.0f}<br>Share of displayed area %{percentRoot:.3~p}"
+        if not has_cap.all():
+            missing_caps = ", ".join(measured.loc[~has_cap, "Ticker"])
+            sizing += f" Market cap unavailable for {missing_caps}. See the by-symbol table."
     if len(measured) < len(data):
         missing = ", ".join(data.loc[~np.isfinite(data["Percent Change"]), "Ticker"])
         sizing += f" Change unavailable for {len(data) - len(measured)} of {len(data)} symbols ({missing})."
@@ -160,6 +159,12 @@ def build_return_heatmap(data: pd.DataFrame, lookback_days: int) -> tuple[go.Fig
         if "Price as of" in tiles:
             quote_details["Price as of"] = tiles["Price as of"].replace("", "Unavailable").fillna("Unavailable")
             quote_hover += "<br>As of %{customdata[1]}"
+        if cap_hover and "Cap source" in tiles:
+            cap_hover += f"<br>Source %{{customdata[{len(quote_details.columns)}]}}"
+            quote_details["Cap source"] = tiles["Cap source"].fillna("Unavailable")
+            if "Size input as of" in tiles and tiles["Size input as of"].notna().any():
+                cap_hover += f"<br>Size input as of %{{customdata[{len(quote_details.columns)}]}}"
+                quote_details["Size input as of"] = tiles["Size input as of"].fillna("Date unavailable")
     full_label = "<b>%{label}</b>" + price_line + "<br>%{text}"
     text_template = full_label
     if cap_hover:
@@ -173,7 +178,7 @@ def build_return_heatmap(data: pd.DataFrame, lookback_days: int) -> tuple[go.Fig
         customdata=quote_details, texttemplate=text_template,
         textfont=dict(size=15, color=label_colors),
         hovertemplate="%{label}" + quote_hover + "<br>Change %{text}" + cap_hover + "<extra></extra>",
-        tiling=dict(pad=2), pathbar=dict(visible=False), root=dict(color="#ffffff"),
+        tiling=dict(pad=0 if cap_hover else 2), pathbar=dict(visible=False), root=dict(color="#ffffff"),
     ))
     figure.update_layout(coloraxis=axis, uniformtext=None if cap_hover else dict(minsize=12, mode="hide"))
     return figure, sizing

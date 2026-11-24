@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import logging
+from collections.abc import Callable, Container
 from math import isfinite
 
+import pandas as pd
 import requests
 from curl_cffi.requests.exceptions import RequestException as CurlRequestError
 from yfinance.const import _QUERY1_URL_
@@ -79,3 +81,42 @@ def download_market_caps(tickers: tuple[str, ...]) -> dict[str, tuple[float, str
         except (requests.RequestException, ValueError) as error:
             _LOG.warning("Nasdaq stock screener market caps unavailable (%s)", type(error).__name__)
     return caps
+
+
+def attach_heatmap_caps(
+    data: pd.DataFrame, *, crypto: bool, fund_listings: Container[str],
+    read_caps: Callable[[tuple[str, ...]], dict[str, tuple[float, str]]],
+    read_fund_shares: Callable[[tuple[str, ...]], dict[str, tuple[float, str, str]]],
+    read_crypto_caps: Callable[[tuple[str, ...]], dict[str, tuple[float, str, str]]],
+) -> pd.DataFrame:
+    """Attach USD market values and their input sources to the price observations.
+
+    For exchange-traded funds, revalue the listed shares at the observed price
+    on every refresh. The size-input date is the share-count date for funds and
+    the provider's cap timestamp for crypto.
+    """
+    symbols = tuple(data["Ticker"])
+    sizes: dict[str, tuple[float, str, str | None]] = {}
+    if data["Percent Change"].notna().any():
+        if crypto:
+            sizes.update(read_crypto_caps(symbols))
+            quote_cap_symbols = tuple(s for s in symbols if s not in sizes)
+        else:
+            quote_cap_symbols = tuple(s for s in symbols if s not in fund_listings)
+            funds = tuple(s for s in symbols if s in fund_listings)
+            if funds:
+                prices = data.set_index("Ticker")["Price (USD)"]
+                for symbol, (shares, source, as_of) in read_fund_shares(funds).items():
+                    if symbol in funds and as_of <= data.attrs["end"]:
+                        value = _positive_cap(prices[symbol] * shares)
+                        if value is not None:
+                            sizes[symbol] = (value, source, as_of)
+        if quote_cap_symbols:
+            sizes.update({s: (value, source, None) for s, (value, source) in read_caps(quote_cap_symbols).items()})
+    result = data.copy()
+    columns = ["Market Cap", "Cap source", "Size input as of"]
+    result[columns] = pd.DataFrame(
+        [sizes.get(symbol, (float("nan"), None, None)) for symbol in symbols],
+        columns=columns, index=data.index,
+    )
+    return result

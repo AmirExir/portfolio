@@ -333,15 +333,26 @@ change what another ticker's color means. The one-day scale reaches its
 darkest shades at −15% and +15%. Moves beyond those limits retain their full
 signed percentages on hover and in the accompanying table.
 
-Stock and crypto tile areas are proportional to reported USD market capitalization.
-The by-symbol table gives the cap and its source. Yahoo Finance supplies caps,
-with Nasdaq screener values available for missing stock caps. Cap observations
-may come from an earlier time than the price shown. Symbols without a cap
-appear in the table. If the entire group lacks caps, the chart uses equal
-areas and says so in its caption. The separate ETF and commodity watchlist
-also uses equal areas. Small weighted tiles show the ticker.
-Hovering reveals the observed price and return. Larger tiles also show those
-values directly. For equities and ETFs, 1D compares the current regular-session
+Every dashboard heatmap uses USD market capitalization for tile area.
+
+| Instruments | How tile area is determined |
+| --- | --- |
+| Stocks | Reported equity market cap from Yahoo Finance, with a Nasdaq screener fallback. |
+| ETFs and commodity trusts | Shares outstanding in the listed fund or trust multiplied by its displayed USD price. Most share counts are daily. Vanguard reports VOO’s ETF share class monthly, and USO’s count comes from its latest quarterly or annual SEC filing. Creations, redemptions and splits after the reported date can affect the estimate. |
+| Crypto watchlist | Circulating market cap from a dated CoinGecko USD observation. Each ticker is mapped to a specific coin identifier. Yahoo Finance supplies reported caps when available for missing coins. |
+
+The by-symbol table includes the cap, its source, the size-input date when
+available and the percentage of the displayed chart each tile occupies.
+Symbols without a return or usable cap appear in the table. If no measured
+symbols have caps, the dashboard shows the table and explains why it cannot
+draw a proportional chart. A very small asset can occupy less than a screen
+pixel. Use the table to find its price, return and exact weight.
+
+The selected-universe heatmap initially shows up to 43 stocks and ETFs.
+**Show all** includes the rest of the selection. The crypto heatmap has a
+separate, fixed watchlist. Its TON-USD observation tracks TON Community.
+Small weighted tiles prioritize the ticker. Hovering reveals the observed
+price and return. For equities and ETFs, 1D compares the current regular-session
 price (or the latest expected session close) with the previous trading session's close. Crypto uses the
 current UTC day and its previous UTC daily close. The table and hover show
 the price observation time. During trading, the dashboard accepts quotes up

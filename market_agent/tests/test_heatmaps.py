@@ -57,9 +57,8 @@ class HeatmapTests(unittest.TestCase):
         self.assertEqual(len(data), 4)  # table retains every requested symbol
         data["Market Cap"] = np.nan
         fig, sizing = build_return_heatmap(data, 7)
-        self.assertIn("equal area", sizing)
-        self.assertEqual(tuple(fig.data[0].values), (1, 1, 1))
-        self.assertNotIn("Market cap", fig.data[0].hovertemplate)
+        self.assertFalse(fig.data)
+        self.assertIn("by-symbol table", sizing)
         data["Percent Change"] = np.nan
         self.assertFalse(build_return_heatmap(data, 7)[0].data)
 
