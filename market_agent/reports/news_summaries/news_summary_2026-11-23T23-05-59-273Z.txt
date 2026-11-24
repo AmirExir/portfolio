@@ -1,0 +1,27 @@
+Market brief — Nov 23, 2026, 5:05 PM CST
+
+What matters:
+1. NVIDIA (NVDA) said its board has reinstated Jensen Huang as president, CEO and board director, effective immediately. That is the clearest new decision in today’s reports and matters because it resolves an acute leadership disruption at a company central to the AI trade; separate media reports describe prior controversy involving an alleged spy, but that allegation is not proof of wrongdoing in the cited items.
+Source: NVIDIA Newsroom — Nov 23, 2026, 7:55 AM CST
+https://nvidianews.nvidia.com/news/nvidia-board-reinstates-jensen-huang-as-president-ceo-and-board-director
+Source: BBC Business — Nov 23, 2026, 8:51 AM CST
+https://www.bbc.co.uk/news/videos/cqze7lwdglngo?at_medium=RSS&at_campaign=rss
+
+2. U.S. stocks posted their best day in more than a year, with MarketWatch attributing the rebound largely to Huang’s return and revived AI enthusiasm. MarketWatch also reported Nvidia rallied more than 30% in its biggest one-day gain on record, hitting short sellers and products tied to daily declines in the stock.
+Source: MarketWatch — Nov 23, 2026, 3:51 PM CST
+https://www.marketwatch.com/story/u-s-stocks-see-best-day-in-more-than-a-year-as-return-of-jensen-huang-revives-ai-enthusiasm-c3b9d274?mod=mw_rss_topstories
+Source: MarketWatch — Nov 23, 2026, 3:19 PM CST
+https://www.marketwatch.com/story/short-sellers-get-smoked-as-nvidia-tallies-biggest-one-day-gain-in-stock-market-history-e9dc6e9c?mod=mw_rss_topstories
+
+3. The sharp AI-led rotation appears to have come at the expense of defensive consumer names. MarketWatch reported Kroger and Tyson Foods were among the S&P 500’s biggest losers Monday as Nvidia surged, underscoring how quickly risk appetite swung back toward AI-linked equities.
+Source: MarketWatch — Nov 23, 2026, 3:45 PM CST
+https://www.marketwatch.com/story/consumer-stocks-seen-as-safe-bet-amid-cracks-in-ai-trade-are-among-the-s-p-500s-biggest-losers-monday-80cf8f81?mod=mw_rss_topstories
+
+4. MarketWatch cautioned that investors chasing Nvidia’s rebound should still expect volatility even after Huang’s return. That matters because the leadership decision may have eased one immediate overhang, but the reporting does not establish that broader uncertainty around the company or AI trade has fully cleared.
+Source: MarketWatch — Nov 23, 2026, 4:04 PM CST
+https://www.marketwatch.com/story/nvidias-stock-is-surging-again-what-to-know-before-chasing-the-ai-rally-226688d7?mod=mw_rss_topstories
+
+What to watch:
+- NVDA — watch for board, regulatory, or compliance follow-up beyond the reinstatement; mixed implication because governance clarity improved, but any confirmed new probe or customer disruption would be bearish.
+- U.S. equities/AI trade — watch whether follow-through buying broadens beyond Nvidia; bullish if semiconductor and adjacent AI names confirm the move, mixed if gains stay concentrated in one stock.
+- Consumer defensives — watch whether Monday’s underperformance in Kroger and Tyson persists; mixed because a one-day rotation is not enough to prove a durable shift out of defensive positioning.

@@ -1,0 +1,58 @@
+Market Outlook & Trade Watchlist
+Generated: Nov 23, 2026 at 6:24 PM CST (UTC-06:00)
+As of: Nov 23, 2026
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+COMPLETED-SESSION PRICE WATCH
+Usable closing history for 83 of 83 symbols (Nov 23, 2026).
+SPY benchmark (Nov 23, 2026) +4.71% in one session, closing at 722.29. Watch for a close below its latest 20-session closing low of 689.81. Its closing high over that window is 772.31.
+
+Exit / avoid watch (5 of 6 shown)
+If held, review an exit on a break of the 20-session closing low. For a new entry, watch the recovery or breakout level shown.
+USO (Nov 23, 2026) closed at 133.36 (-4.49%). Already below 136.11. Recovery needs a close back above that level.
+COP (Nov 23, 2026) closed at 132.19 (-2.89%). Already below 133.59. Recovery needs a close back above that level.
+SHIB-USD (Nov 23, 2026) closed at 0.000003770 (-5.75%). Already below 0.000004000. Recovery needs a close back above that level.
+OXY (Nov 23, 2026) closed at 52.70 (-2.23%). Already below 53.76. Recovery needs a close back above that level.
+XOM (Nov 23, 2026) closed at 156.90 (-1.93%). Already below 158.93. Recovery needs a close back above that level.
+
+Entry watch (2)
+WMT (Nov 23, 2026) closed at 129.58. Already above the prior 20-session closing high of 129.17. Watch the next close for follow-through. A close back below 129.17 invalidates the breakout.
+TLT (Nov 23, 2026) closed at 81.69. Watch for an entry on a close above 81.96, the latest 20-session closing high. A close below 79.38 invalidates the setup.
+
+TECHNICAL READINGS
+RSI(14) across 83 symbols | 30 oversold (below 35) | 0 overbought (above 70)
+Support and resistance use the nearest confirmed swing closes from up to 60 sessions.
+SPY (Nov 23, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 41.1 (neutral)
+  Support unconfirmed below | Resistance 759.81
+USO (Nov 23, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 23.9 (oversold) | Bearish MA Crossover
+  Support unconfirmed below | Resistance 146.07
+COP (Nov 23, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 31.4 (oversold)
+  Support 125.27 | Resistance 137.20
+SHIB-USD (Nov 23, 2026) | Downtrend (SMA 20/50/200) | RSI(14) 0.0 (oversold)
+  Support unconfirmed below | Resistance unconfirmed above
+OXY (Nov 23, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 22.5 (oversold) | Bearish MA Crossover
+  Support unconfirmed below | Resistance 58.05
+XOM (Nov 23, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 22.0 (oversold)
+  Support unconfirmed below | Resistance 163.54
+WMT (Nov 23, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 63.9 (neutral) | Near 60-Day High
+  Support 126.04 | Resistance unconfirmed above
+TLT (Nov 23, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 55.0 (neutral) | Near 60-Day High, Rebound From 60-Day Low
+  Support 81.11 | Resistance 81.74
+SLB (Nov 23, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 24.3 (oversold)
+  Support unconfirmed below | Resistance 50.28
+XRP-USD (Nov 23, 2026) | Downtrend (SMA 20/50/200) | RSI(14) 38.2 (neutral) | Confirmed Double Bottom (closed above neckline 0.9829)
+  Support 0.9130 | Resistance 1.3047
+MNT27075-USD (Nov 23, 2026) | Downtrend (SMA 20/50/200) | RSI(14) 40.2 (neutral) | Confirmed Double Bottom (closed above neckline 0.3913)
+  Support 0.3705 | Resistance 0.4540
+
+No downside forecast qualified for the 30-session horizon.
+
+UPSIDE WATCHLIST
+
+1. SLB: forecast +15.74% by Jan 7, 2027
+  Reliability: high; model-estimated chance of a rise: 86%; estimated error: 11.4 percentage points.
+
+Returns are estimates for the target date; prices may move against the forecast before then.
+
+Model forecasts, not trade instructions. Not financial advice.
