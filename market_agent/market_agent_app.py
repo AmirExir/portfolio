@@ -3775,8 +3775,14 @@ with heatmap_tab:
             lambda ticker: "TON Community" if ticker == "TON-USD" else ticker_short_label(ticker)
         )
         render_return_heatmap(crypto_df, lookback_days, title=f"Crypto Change ({crypto_tf})", height=540)
-        if crypto_df["Cap source"].eq("CoinGecko").any():
-            st.caption("[Data provided by CoinGecko](https://www.coingecko.com/en/api)")
+        credits = {
+            "CoinGecko": "[Data provided by CoinGecko](https://www.coingecko.com/en/api)",
+            "CoinMarketCap": "[Data provided by CoinMarketCap](https://coinmarketcap.com/)",
+            "GeckoTerminal": "[Data provided by GeckoTerminal](https://www.geckoterminal.com/)",
+        }
+        used_credits = [link for source, link in credits.items() if crypto_df["Cap source"].eq(source).any()]
+        if used_credits:
+            st.caption(" · ".join(used_credits))
 
     except Exception as e:
         st.error(f"Error generating crypto heatmap: {e}")

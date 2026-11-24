@@ -165,11 +165,14 @@ class SavedSymbolForecastTests(unittest.TestCase):
                     for symbol in symbols if symbol in etf_share_count}
 
         def crypto_caps(symbols: tuple[str, ...]) -> dict[str, tuple[float, str, str]]:
-            return {symbol: (coin_caps[symbol], "CoinGecko", "2026-11-23 15:03:00 UTC")
+            providers = {"BTC-USD": "CoinMarketCap", "ETH-USD": "CoinGecko"}
+            return {symbol: (coin_caps[symbol], providers[symbol], "2026-11-23 15:03:00 UTC")
                     for symbol in symbols if symbol in coin_caps}
 
         def assert_current_tiles(app: AppTest, *, show_all: bool = False) -> None:
             tab = next(tab for tab in app.tabs if tab.label == "Heatmaps")
+            self.assertTrue(any("Data provided by CoinGecko" in item.value and
+                                "Data provided by CoinMarketCap" in item.value for item in tab.caption))
             traces = [json.loads(chart.proto.spec)["data"][0] for chart in tab.get("plotly_chart")]
             self.assertEqual(len(traces), 3)
             trace, etf_trace, crypto_trace = traces

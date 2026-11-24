@@ -339,10 +339,12 @@ Every dashboard heatmap uses USD market capitalization for tile area.
 | --- | --- |
 | Stocks | Reported equity market cap from Yahoo Finance, with a Nasdaq screener fallback. |
 | ETFs and commodity trusts | Shares outstanding in the listed fund or trust multiplied by its displayed USD price. Most share counts are daily. Vanguard reports VOO’s ETF share class monthly, and USO’s count comes from its latest quarterly or annual SEC filing. Creations, redemptions and splits after the reported date can affect the estimate. |
-| Crypto watchlist | Circulating market cap from a dated CoinGecko USD observation. Each ticker is mapped to a specific coin identifier. Yahoo Finance supplies reported caps when available for missing coins. |
+| Crypto watchlist | Circulating USD market cap from CoinGecko or CoinMarketCap, matched by provider asset ID. TON Community can also use GeckoTerminal’s verified market cap for its Ethereum contract. Yahoo Finance supplies reported caps when available for missing coins. |
 
 The by-symbol table includes the cap, its source, the size-input date when
 available and the percentage of the displayed chart each tile occupies.
+GeckoTerminal supplies a current snapshot. Its date is labeled as the retrieval
+time because the provider does not timestamp the cap itself.
 Symbols without a return or usable cap appear in the table. If no measured
 symbols have caps, the dashboard shows the table and explains why it cannot
 draw a proportional chart. A very small asset can occupy less than a screen
