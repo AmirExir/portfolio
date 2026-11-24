@@ -80,6 +80,7 @@ class SavedRankingTests(unittest.TestCase):
             patch("agent.forecast.compare_forecast_models") as fit,
             patch("requests.get", return_value=Mock(status_code=404)),
             patch("yfinance.download", return_value=pd.DataFrame()),
+            patch("yfinance.Ticker.get_history_metadata", return_value={}),
         ):
             script = Path(directory) / source.name
             script.write_text(source.read_text())

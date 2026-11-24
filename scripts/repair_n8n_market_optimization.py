@@ -10,12 +10,14 @@ import os
 import socket
 import sqlite3
 import sys
+from functools import partial
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from market_agent.breaking_analysis_workflow import repair_breaking_analysis_workflow  # noqa: E402
 from market_agent.n8n_workflow import (  # noqa: E402
     DEFAULT_CREDENTIAL_SOURCE_NODE,
     repair_market_optimization_workflow,
@@ -52,6 +54,8 @@ def repair_database(
     workflow_id: str,
     *,
     news_only: bool = False,
+    breaking_analysis_only: bool = False,
+    project_root: Path = REPO_ROOT,
     credential_source_node: str = DEFAULT_CREDENTIAL_SOURCE_NODE,
     ercot_forecast_owner_chat_id: str = "",
     ercot_forecast_publish_scheduled: bool = False,
@@ -60,6 +64,11 @@ def repair_database(
 
     if _n8n_is_running():
         raise RuntimeError("Stop n8n before repairing its SQLite workflow store")
+    if breaking_analysis_only:
+        if news_only:
+            raise ValueError("Choose one repair mode")
+        transform = partial(repair_breaking_analysis_workflow, project_root=project_root)
+        return repair_workflow_versions(database, backup, workflow_id, transform)
     if news_only:
         return repair_workflow_versions(database, backup, workflow_id, repair_market_news_workflow)
     if not database.is_file():
@@ -152,8 +161,16 @@ def main() -> None:
     parser.add_argument("--database", type=Path, required=True)
     parser.add_argument("--backup", type=Path, required=True)
     parser.add_argument("--workflow-id", required=True)
-    parser.add_argument(
+    scope = parser.add_mutually_exclusive_group()
+    scope.add_argument(
         "--news-only", action="store_true", help="Update only the market news branch in each current version.",
+    )
+    scope.add_argument(
+        "--breaking-analysis-only", action="store_true", help="Install the publisher poll and event analysis.",
+    )
+    parser.add_argument(
+        "--project-root", type=Path, default=REPO_ROOT,
+        help="Absolute checkout path on the n8n execution host for breaking-news analysis.",
     )
     parser.add_argument(
         "--credential-source-node",
@@ -175,11 +192,13 @@ def main() -> None:
         args.backup,
         args.workflow_id,
         news_only=args.news_only,
+        breaking_analysis_only=args.breaking_analysis_only,
+        project_root=args.project_root,
         credential_source_node=args.credential_source_node,
         ercot_forecast_owner_chat_id=args.ercot_forecast_owner_chat_id,
         ercot_forecast_publish_scheduled=args.publish_scheduled_ercot_forecasts,
     )
-    branch = "news" if args.news_only else "optimization"
+    branch = "breaking analysis" if args.breaking_analysis_only else ("news" if args.news_only else "optimization")
     if not changes:
         print(f"Market {branch} workflow already satisfies the contract.")
         return

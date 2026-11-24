@@ -74,8 +74,13 @@ try:
         snapshot_from_model_results,
         select_model_name,
     )
-    from heatmaps import build_return_heatmap, format_signed_return, heatmap_returns, return_color_axis
+    from heatmaps import build_return_heatmap, format_heatmap_price, format_signed_return, return_color_axis
+    from market_agent.heatmap_data import (
+        MAX_INTRADAY_AGE, close_price_frame as _close_price_frame, download_daily_closes,
+        download_crypto_day_close, download_regular_quotes, fetch_heatmap_prices,
+    )
     from market_agent.patterns import scan_patterns, summarize_patterns
+    from market_agent.breaking_analysis_view import analyze_refreshed_headlines, render_breaking_analysis
     from market_agent.publisher_headlines import HEADLINE_WINDOW, check_publisher_headlines
     from saved_rankings import dashboard_result_path, scheduled_pattern_rows, scheduled_rows_for_symbols, stored_ranking_rows
     from saved_symbol_forecast import (
@@ -1550,48 +1555,7 @@ def _yf_download(tickers, **kwargs) -> pd.DataFrame:
         return pd.DataFrame()
 
 
-def _close_price_frame(raw: pd.DataFrame, tickers) -> pd.DataFrame:
-    ticker_list = _ticker_tuple(tickers)
-    if raw is None or raw.empty:
-        return pd.DataFrame()
-
-    if isinstance(raw, pd.Series):
-        close = raw.to_frame(name=ticker_list[0] if ticker_list else raw.name)
-    elif isinstance(raw.columns, pd.MultiIndex):
-        column_levels = raw.columns
-        if "Close" in column_levels.get_level_values(0):
-            close = raw["Close"]
-        elif "Close" in column_levels.get_level_values(column_levels.nlevels - 1):
-            close = raw.xs("Close", axis=1, level=column_levels.nlevels - 1)
-        else:
-            return pd.DataFrame()
-    elif "Close" in raw.columns:
-        close = raw[["Close"]].copy()
-        if len(ticker_list) == 1:
-            close.columns = [ticker_list[0]]
-    else:
-        close = raw.copy()
-
-    if isinstance(close, pd.Series):
-        close = close.to_frame(name=ticker_list[0] if ticker_list else close.name)
-
-    close = close.copy()
-    close.columns = [str(column[-1] if isinstance(column, tuple) else column) for column in close.columns]
-    requested_columns = [ticker for ticker in ticker_list if ticker in close.columns]
-    if requested_columns:
-        close = close[requested_columns]
-
-    close = close.apply(pd.to_numeric, errors="coerce")
-    close = close.dropna(axis=1, how="all").dropna(how="all")
-    return close.loc[:, ~close.columns.duplicated()]
-
-
-def _download_close_prices(tickers, **kwargs) -> pd.DataFrame:
-    ticker_list = _ticker_tuple(tickers)
-    raw = _yf_download(ticker_list, **kwargs)
-    return _close_price_frame(raw, ticker_list)
-
-
+@st.cache_data(ttl=86400, max_entries=256, show_spinner=False)
 def _yf_market_cap(ticker: str) -> float:
     try:
         ticker_obj = yf.Ticker(ticker)
@@ -1791,13 +1755,18 @@ def load_market_context(history_days: int) -> pd.DataFrame:
     return _load_market_context_data(history_days)
 
 
-@st.cache_data(ttl=900, show_spinner=False)
+# Quotes have their own cache, independent of model history and dated report selection.
+cached_heatmap_history = st.cache_data(ttl=300, max_entries=90, show_spinner=False)(download_daily_closes)
+cached_crypto_day_close = st.cache_data(ttl=300, max_entries=30, show_spinner=False)(download_crypto_day_close)
+cached_heatmap_quotes = st.cache_data(ttl=60, max_entries=30, show_spinner=False)(download_regular_quotes)
+
+
 def load_heatmap_data(tickers: tuple[str, ...], lookback_days: int, *, crypto: bool, size_by_cap: bool) -> pd.DataFrame:
-    """Load the observation dates, returns and optional market caps for one heatmap."""
-    # Extra days cover closed markets before both the start and the latest observation.
-    start = dt.datetime.now(dt.timezone.utc).date() - dt.timedelta(days=lookback_days + 14)
-    prices = _download_close_prices(tickers, start=start.isoformat(), interval="1d")
-    data = heatmap_returns(prices, tickers, lookback_days, crypto=crypto)
+    """Load the current window and optional market cap for one heatmap."""
+    data = fetch_heatmap_prices(
+        tickers, lookback_days, crypto=crypto,
+        read_daily=cached_heatmap_history, read_quotes=cached_heatmap_quotes, read_crypto_close=cached_crypto_day_close,
+    )
     if size_by_cap:
         data["Market Cap"] = [
             _yf_market_cap(ticker) if pd.notna(change) else np.nan
@@ -1809,20 +1778,42 @@ def load_heatmap_data(tickers: tuple[str, ...], lookback_days: int, *, crypto: b
 def render_return_heatmap(data: pd.DataFrame, lookback_days: int, *, title: str, height: int) -> None:
     """Show a signed-return chart and its sortable, full-size values."""
     figure, sizing = build_return_heatmap(data, lookback_days)
+    reference = f"Compared with the {data.attrs['start']} close."
+    if data.attrs["intraday"]:
+        window = "UTC day" if data.attrs["crypto"] else "U.S. regular session"
+        current = f"{window} on {data.attrs['end']}. Yahoo Finance regular-market quotes"
+        stamps = data.loc[data["Price as of"].ne(""), "Price as of"]
+        if not stamps.empty:
+            current += f", newest {stamps.max()}"
+        if data.attrs["missing_price_count"]:
+            cutoff = int(MAX_INTRADAY_AGE.total_seconds() // 60)
+            st.warning(
+                f"{data.attrs['missing_price_count']} of {len(data)} symbols have no valid quote "
+                f"within {cutoff} minutes of the check."
+            )
+    else:
+        current = f"Last completed U.S. regular session on {data.attrs['end']}. Yahoo Finance closing prices"
+        if data.attrs["quote_count"]:
+            current += f", including timestamped regular-market quotes for {data.attrs['quote_count']} pending daily closes"
+        if data.attrs["missing_price_count"]:
+            st.warning(f"The expected closing price is unavailable for {data.attrs['missing_price_count']} of {len(data)} symbols.")
+    st.caption(f"{current}. {reference}")
     if figure.data:
         figure = apply_market_chart_layout(figure, title=title, height=height, margin=dict(l=8, r=5, t=48, b=10))
         render_chart(figure)
-        st.caption(
-            f"Daily price bars from {data.attrs['start']} to {data.attrs['end']}. The latest bar can change during trading. "
-            f"Losses are red, gains are green and zero is gray. Darker shades indicate larger moves. {sizing}"
-        )
+        st.caption(f"Losses are red, gains are green and zero is gray. Darker shades indicate larger moves. {sizing}")
     else:
         st.info(sizing)
-    with st.expander(f"{title} by symbol"):
+    show_prices = not figure.data and bool(data["Price (USD)"].notna().any())
+    with st.expander(f"{title} by symbol", expanded=show_prices):
         # Keep the numeric column available for sorting even when small tiles hide their labels.
-        table = data[["Ticker", "Percent Change"]]
+        columns = ["Ticker", "Price (USD)", "Percent Change"]
+        if "Price as of" in data:
+            columns.append("Price as of")
+        table = data[columns]
         st.dataframe(
-            table.style.format({"Percent Change": format_signed_return}, na_rep="Unavailable"),
+            table.style.format({"Price (USD)": format_heatmap_price, "Percent Change": format_signed_return},
+                               na_rep="Unavailable"),
             hide_index=True, use_container_width=True,
         )
 
@@ -3353,12 +3344,14 @@ with top_summary_tab:
     )
     if st.button(
         "Refresh market news", key="refresh_market_news",
-        help="Check publisher feeds now and reload the published brief.",
+        help="Check publishers, analyze new qualifying events, and reload the published brief.",
     ):
         fetch_latest_summary.clear()
         fetch_published_summary_text.clear()
         with st.spinner("Checking publisher feeds…"):
             st.session_state["market_headline_check"] = check_publisher_headlines()
+        if not forecast_work_paused:
+            analyze_refreshed_headlines(Path(_reports_dir()) / "breaking_analysis", st.session_state["market_headline_check"])
 
     check = st.session_state.get("market_headline_check")
     if check is not None:
@@ -3582,6 +3575,7 @@ with top_patterns_tab:
         st.info("Select symbols to view pattern results.")
 
 with scheduled_tab:
+    render_breaking_analysis(Path(_reports_dir()) / "breaking_analysis")
     try:
         archive_dir = Path(_forecast_reports_dir())
         report_names = sorted((p.name for p in archive_dir.glob("ml_forecast_rankings_20*.json")), reverse=True)
@@ -3706,6 +3700,11 @@ with heatmap_tab:
         "Selected Universe Heatmap",
         "Selected non-crypto forecast symbols by timeframe, sized by available market capitalization.",
     )
+
+    if st.button("Refresh heatmap prices", key="refresh_heatmap_prices"):
+        cached_heatmap_history.clear()
+        cached_heatmap_quotes.clear()
+        cached_crypto_day_close.clear()
 
     # Timeframe selector
     sp_tf = st.selectbox(

@@ -333,6 +333,20 @@ change what another ticker's color means. The one-day scale reaches its
 darkest shades at −15% and +15%. Moves beyond those limits retain their full
 signed percentages on hover and in the accompanying table.
 
+Each tile shows the observed USD price above its percentage. For equities and
+ETFs, 1D compares the current regular-session price (or the latest expected
+session close) with the previous trading session's close. Crypto uses the
+current UTC day and its previous UTC daily close. The table and hover show
+the price observation time. During trading, the dashboard accepts quotes up
+to 20 minutes old. If an equity daily close is pending, the regular-market
+quote must be stamped at the scheduled close or within 15 minutes afterward.
+The session calendar includes weekends, exchange holidays and scheduled
+early closes. For a missing previous UTC daily close on the crypto 1D view,
+the last minute of that UTC day can supply the comparison price. Missing
+endpoints leave the percentage unavailable. Running a symbol forecast uses
+separate data and caches. **Refresh heatmap prices** checks the prices again.
+[NYSE trading hours](https://www.nyse.com/trade/hours-calendars)
+
 The pattern chart uses the same convention for the average 20-session return.
 Bar length gives the number of matching symbols. The heatmap's caption gives
 its price dates and area weighting. A missing price endpoint appears as

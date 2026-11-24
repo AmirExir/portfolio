@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime, time, timedelta, timezone
-from math import isfinite
+from math import floor, isfinite, log10
 
 import numpy as np
 import pandas as pd
@@ -42,6 +42,20 @@ def format_signed_return(value: object) -> str:
     return f"{value:+.2f}%"
 
 
+def format_heatmap_price(value: object) -> str:
+    """Format a USD quote with cents, retaining four significant digits below a dollar."""
+    if isinstance(value, (bool, np.bool_)):
+        return "Unavailable"
+    try:
+        price = float(value)
+    except (TypeError, ValueError, OverflowError):
+        return "Unavailable"
+    if not isfinite(price) or price <= 0:
+        return "Unavailable"
+    decimals = 2 if price >= 1 else 3 - floor(log10(price))
+    return f"${price:,.{decimals}f}"
+
+
 def return_color_axis(lookback_days: int) -> dict:
     """Return fixed symmetric percentage-point limits and a signed, labeled colorbar."""
     if lookback_days < 1:
@@ -69,7 +83,7 @@ def heatmap_returns(close: pd.DataFrame, tickers: tuple[str, ...], lookback_days
     """
     if lookback_days < 1:
         raise ValueError("The return horizon must be positive.")
-    result = pd.DataFrame({"Ticker": tickers, "Percent Change": np.nan})
+    result = pd.DataFrame({"Ticker": tickers, "Price (USD)": np.nan, "Percent Change": np.nan})
     if close.empty:
         return result
     prices = close.reindex(columns=tickers).copy()
@@ -85,11 +99,14 @@ def heatmap_returns(close: pd.DataFrame, tickers: tuple[str, ...], lookback_days
         )
         start = max(session for session in sessions if session <= start)
     result.attrs.update(start=start.isoformat(), end=end.isoformat())
+    latest = pd.to_numeric(prices.loc[pd.Timestamp(end)], errors="coerce")
+    latest = latest.where(np.isfinite(latest) & (latest > 0))
+    result["Price (USD)"] = latest.to_numpy()
     if pd.Timestamp(start) in prices.index:
-        endpoints = prices.loc[[pd.Timestamp(start), pd.Timestamp(end)]].apply(pd.to_numeric, errors="coerce")
-        valid = (np.isfinite(endpoints) & (endpoints > 0)).all()
-        returns = (endpoints.iloc[1] - endpoints.iloc[0]) / endpoints.iloc[0] * 100
-        result["Percent Change"] = returns.where(valid & np.isfinite(returns)).to_numpy()
+        baseline = pd.to_numeric(prices.loc[pd.Timestamp(start)], errors="coerce")
+        baseline = baseline.where(np.isfinite(baseline) & (baseline > 0))
+        returns = (latest - baseline) / baseline * 100
+        result["Percent Change"] = returns.where(np.isfinite(returns)).to_numpy()
     return result
 
 
@@ -103,23 +120,23 @@ def _label_color(background: str) -> str:
 def build_return_heatmap(data: pd.DataFrame, lookback_days: int) -> tuple[go.Figure, str]:
     """Build a readable flat treemap and describe its area weighting and coverage.
 
-    Supply Ticker, Label and Percent Change columns. An optional Market Cap
-    column sizes measured symbols by market cap when available.
+    Supply Ticker, Label and Percent Change columns. Price (USD) adds the ending
+    quote to each tile. Market Cap sizes measured symbols when available.
     """
     measured = data.loc[np.isfinite(data["Percent Change"])]
     if measured.empty:
         return go.Figure(), "No symbols have prices at both ends of this timeframe."
     tiles = measured
     sizes = [1] * len(tiles)
-    hover = "%{label}<br>Change %{text}"
     sizing = "Tiles have equal area."
+    cap_hover = ""
     if "Market Cap" in measured:
         has_cap = np.isfinite(measured["Market Cap"]) & (measured["Market Cap"] > 0)
         if has_cap.any():
             tiles = measured.loc[has_cap]
             sizes = tiles["Market Cap"].to_list()
             sizing = "Tile area shows market capitalization."
-            hover += "<br>Market cap $%{value:,.0f}"
+            cap_hover = "<br>Market cap $%{value:,.0f}"
             if not has_cap.all():
                 sizing += f" {len(measured) - len(tiles)} without market cap appear only in the table."
         else:
@@ -130,12 +147,24 @@ def build_return_heatmap(data: pd.DataFrame, lookback_days: int) -> tuple[go.Fig
     values = tiles["Percent Change"].to_numpy(dtype=float)
     positions = 0.5 + 0.5 * np.clip(values / axis["cmax"], -1, 1)
     label_colors = [_label_color(color) for color in sample_colorscale(_RETURN_SCALE, positions)]
+    quote_details = None
+    price_line = ""
+    quote_hover = ""
+    if "Price (USD)" in tiles:
+        quote_details = tiles[["Price (USD)"]].copy()
+        quote_details["Price (USD)"] = quote_details["Price (USD)"].map(format_heatmap_price)
+        price_line = "<br>%{customdata[0]}"
+        quote_hover = "<br>Price %{customdata[0]}"
+        if "Price as of" in tiles:
+            quote_details["Price as of"] = tiles["Price as of"].replace("", "Unavailable").fillna("Unavailable")
+            quote_hover += "<br>As of %{customdata[1]}"
     figure = go.Figure(go.Treemap(
         ids=tiles["Ticker"].tolist(), labels=tiles["Label"].tolist(), parents=[""] * len(tiles),
         values=sizes, marker=dict(colors=values.tolist(), coloraxis="coloraxis", line=dict(width=1, color="white")),
         text=[format_signed_return(value) for value in values],
-        texttemplate="<b>%{label}</b><br>%{text}", textfont=dict(size=15, color=label_colors),
-        hovertemplate=hover + "<extra></extra>",
+        customdata=quote_details, texttemplate="<b>%{label}</b>" + price_line + "<br>%{text}",
+        textfont=dict(size=15, color=label_colors),
+        hovertemplate="%{label}" + quote_hover + "<br>Change %{text}" + cap_hover + "<extra></extra>",
         tiling=dict(pad=2), pathbar=dict(visible=False), root=dict(color="#ffffff"),
     ))
     figure.update_layout(coloraxis=axis, uniformtext=dict(minsize=12, mode="hide"))

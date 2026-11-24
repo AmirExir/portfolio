@@ -30,9 +30,40 @@ context. When every eligible article is at least 24 hours old, the model receive
 an empty article list and instructions to report that a current update is unavailable.
 Newer decisions take precedence over earlier speculation about the same event.
 
-In the Streamlit news tab, **Refresh market news** queries the same publishers
-and shows their linked headlines and publication times. The saved AI brief has
-its own publication timestamp. Refreshing the dashboard does not publish a brief.
+In the Streamlit news tab, **Refresh market news** queries the same publishers,
+shows linked headlines and publication times, and checks for events that qualify
+for a new analysis. The saved AI brief has its own publication timestamp.
+
+### News-triggered analysis
+
+The n8n timer checks the three publisher feeds every five minutes. It recognizes
+selected actions at covered companies (such as CEO changes, mergers, bankruptcy,
+earnings surprises or guidance changes) and Federal Reserve rate changes. It
+considers headlines published in the past two hours. A qualifying event launches
+the existing quick forecast for the affected symbols plus SPY and QQQ. A Fed
+decision runs the benchmarks. Each forecast uses completed daily price sessions,
+which can predate an intraday announcement. The article supplies the trigger and
+source attribution. The forecast calculation continues to use its model inputs.
+
+The poller groups related coverage, allows 30 minutes between successful runs,
+and retries a failed batch once after 15 minutes while its events remain fresh.
+Its lock, receipts, reports and latest completed result live under
+`market_agent/reports/breaking_analysis/` on the execution host. The scheduled
+full-universe archive has its own directory. Open **Market Analysis → Scheduled
+outlook → Latest news-triggered market analysis** to see the article, price
+sessions and result. A dashboard running on a different host keeps its own
+results and evaluates the same events on **Refresh market news**. The server's
+local storage must persist to retain deduplication across restarts.
+
+To install the timer on an existing n8n host, let active jobs finish, stop n8n,
+then run the following and restart the service. The project root must contain
+the checkout and its `.venv` on the n8n execution host.
+
+```bash
+.venv/bin/python scripts/repair_n8n_market_optimization.py --breaking-analysis-only \
+  --database /path/to/n8n/database.sqlite --backup /path/to/private/before-event-poll.sqlite \
+  --workflow-id YOUR_EXISTING_WORKFLOW_ID --project-root /absolute/path/to/portfolio
+```
 
 The summary leads with material developments and explains conditional market
 implications. A reported investigation and its company response must be

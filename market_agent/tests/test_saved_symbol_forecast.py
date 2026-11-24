@@ -5,7 +5,7 @@ import json
 import sys
 import tempfile
 import unittest
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, PropertyMock, patch
 
 import pandas as pd
 import streamlit as st
@@ -134,6 +134,25 @@ class SavedSymbolForecastTests(unittest.TestCase):
         report.update(symbols=["BTC-USD"], short_horizon_reports=[])
         short = _report()["short_horizon_reports"][0]["rows"][0]
         short["Symbol"] = "BTC-USD"
+        from market_agent.heatmap_data import fetch_heatmap_prices
+
+        def current_heatmap(tickers, days, *, crypto, **readers):
+            history = pd.DataFrame({"NVDA": [100., 86.]}, index=pd.to_datetime(["2026-11-19", "2026-11-20"]))
+            quote = pd.DataFrame({"Price": [107.5], "Observed": [pd.Timestamp("2026-11-23T15:02Z")]}, index=["NVDA"])
+            return fetch_heatmap_prices(
+                tickers, days, crypto=crypto, now=pd.Timestamp("2026-11-23T15:04Z"),
+                read_daily=lambda *_: history, read_quotes=lambda *_: quote,
+                read_crypto_close=lambda symbols, _: pd.Series(float("nan"), index=symbols),
+            )
+
+        def assert_current_tile(app):
+            tab = next(tab for tab in app.tabs if tab.label == "Heatmaps")
+            trace = json.loads(tab.get("plotly_chart")[0].proto.spec)["data"][0]
+            pos = trace["ids"].index("NVDA")
+            self.assertEqual(trace["text"][pos], "+25.00%")
+            self.assertEqual(trace["customdata"][pos], ["$107.50", "2026-11-23 15:02:00 UTC"])
+            self.assertEqual(trace["marker"]["colors"][pos], 25.0)
+
         with (
             tempfile.TemporaryDirectory() as temporary,
             patch.object(sys, "path", [str(source.parent), *sys.path]),
@@ -142,6 +161,8 @@ class SavedSymbolForecastTests(unittest.TestCase):
             patch("agent.forecast.backtest_forecasts") as backtest,
             patch("requests.get", return_value=Mock(status_code=404)),
             patch("yfinance.download", return_value=pd.DataFrame()),
+            patch("market_agent.heatmap_data.fetch_heatmap_prices", side_effect=current_heatmap),
+            patch("yfinance.Ticker.fast_info", new_callable=PropertyMock, return_value={"market_cap": 100.}),
         ):
             st.cache_data.clear()
             self.addCleanup(st.cache_data.clear)
@@ -176,7 +197,9 @@ class SavedSymbolForecastTests(unittest.TestCase):
             self.assertEqual(history_tables[0]["Actual Close"].tolist(), [99.75])
             record["data_fingerprint"]["hash"] = "revised"
             cache.write_text(json.dumps(record))
+            assert_current_tile(app)
             app.button(key="symbol_run").click().run(timeout=60)
+            assert_current_tile(app)
             self.assertIn("BTC-USD · Saved 30-session forecast", [h.value for h in app.subheader])
             self.assertFalse(any("Walk-forward test completed" in cap.value for cap in app.caption))
             fit.assert_not_called()

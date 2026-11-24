@@ -6,7 +6,9 @@ import numpy as np
 import pandas as pd
 from plotly.colors import sample_colorscale, unlabel_rgb
 
-from market_agent.heatmaps import build_return_heatmap, format_signed_return, heatmap_returns, return_color_axis
+from market_agent.heatmaps import (
+    build_return_heatmap, format_heatmap_price, format_signed_return, heatmap_returns, return_color_axis,
+)
 
 
 class HeatmapTests(unittest.TestCase):
@@ -59,6 +61,38 @@ class HeatmapTests(unittest.TestCase):
         self.assertNotIn("Market cap", fig.data[0].hovertemplate)
         data["Percent Change"] = np.nan
         self.assertFalse(build_return_heatmap(data, 7)[0].data)
+
+    def test_price_above_return_and_hover_time_follow_visible_symbols(self) -> None:
+        data = pd.DataFrame({
+            "Ticker": ["A", "B", "C"], "Label": ["A", "B", "C"],
+            "Price (USD)": [12345.67, 101.0, 0.000012345],
+            "Percent Change": [2, 0, -1], "Market Cap": [200, np.nan, 100],
+            "Price as of": ["2026-11-23 15:02 UTC", "2026-11-23 close", "2026-11-23 15:01 UTC"],
+        })
+        trace = build_return_heatmap(data, 1)[0].data[0]
+        self.assertEqual(tuple(trace.ids), ("A", "C"))
+        self.assertEqual(trace.customdata.tolist(), [
+            ["$12,345.67", "2026-11-23 15:02 UTC"],
+            ["$0.00001234", "2026-11-23 15:01 UTC"],
+        ])
+        self.assertEqual(trace.texttemplate, "<b>%{label}</b><br>%{customdata[0]}<br>%{text}")
+        self.assertIn("As of %{customdata[1]}", trace.hovertemplate)
+        self.assertEqual(tuple(trace.text), ("+2.00%", "-1.00%"))
+        for invalid in (None, np.nan, np.inf, pd.NA, False, 0, -2, "bad"):
+            self.assertEqual(format_heatmap_price(invalid), "Unavailable")
+
+    def test_missing_comparison_preserves_today_price_and_missing_quote_is_never_filled(self) -> None:
+        dates = pd.to_datetime(["2026-11-20", "2026-11-23"])
+        quotes = pd.DataFrame({
+            "LATEST": [None, 15.25], "OLDER": [90, None], "ZERO": [10, 0], "INF": [10, np.inf],
+        }, index=dates)
+        symbols = ("INF", "LATEST", "MISSING", "OLDER", "ZERO")
+        for horizon in (1, 30):
+            observations = heatmap_returns(quotes, symbols, horizon, crypto=False).set_index("Ticker")
+            self.assertEqual(observations.loc["LATEST", "Price (USD)"], 15.25)
+            self.assertTrue(observations.drop("LATEST")["Price (USD)"].isna().all())
+            self.assertTrue(observations["Percent Change"].isna().all())
+        self.assertTrue(heatmap_returns(pd.DataFrame(), symbols, 1, crypto=True)["Price (USD)"].isna().all())
 
     def test_calendar_horizon_weekends_and_no_filled_or_shortened_returns(self) -> None:
         days = pd.to_datetime(["2026-11-13", "2026-11-20", "2026-11-22", "2026-11-23"])

@@ -547,6 +547,13 @@ async function assertProjectFallback(page, label, projects = projectStories) {
     await page.reload();
     await page.waitForFunction(() => document.documentElement.classList.contains('js'));
     assert.equal(await visibleCards(), 6);
+    const emailAddress = 'contact@amirexirpe.com';
+    const contactEmail = page.locator('#contact a').first();
+    assert.equal(await contactEmail.innerText(), emailAddress);
+    assert.equal(await contactEmail.getAttribute('href'), 'mailto:' + emailAddress);
+    const emailBox = await contactEmail.boundingBox();
+    assert.ok(emailBox && emailBox.width > 0 && emailBox.x >= 0 && emailBox.x + emailBox.width <= width,
+      `Primary email should be visible within the contact section at ${viewportLabel}`);
     if (width === 1440 && height === 900) {
       await waitForPaint(heroScene);
       assert.equal(await page.locator('html').getAttribute('data-motion'), 'reduced');

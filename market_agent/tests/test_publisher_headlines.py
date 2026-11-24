@@ -105,6 +105,7 @@ class PublisherHeadlinesTests(unittest.TestCase):
             patch("agent.data.get_ohlcv", return_value=pd.DataFrame()),
             patch("agent.earnings.load_earnings_payload_file", return_value=Mock(available=False, error_code="fixture")),
             patch("yfinance.download", return_value=pd.DataFrame()),
+            patch("yfinance.Ticker.get_history_metadata", return_value={}),
         ):
             script = Path(directory, source.name)
             script.write_text(source.read_text())

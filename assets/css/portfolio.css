@@ -264,6 +264,19 @@ html:not(.js) .carousel-slide { scroll-snap-align: start; }
 #contact .section-kicker { color: #c1d2ae; }
 #contact h2 { margin-bottom: 26px; }
 #contact h2 em { color: #c1d2ae; }
+.contact-email {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 18px;
+  color: inherit;
+  font-size: clamp(1.15rem, 2.35vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.45;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  overflow-wrap: anywhere;
+}
 .contact-card > p:not(.section-kicker) { max-width: 570px; color: #c4d3cb; font-size: .85rem; }
 .contact-actions { margin-top: 26px; }
 .contact-actions .btn { font-size: .73rem; padding: 11px 15px; }
