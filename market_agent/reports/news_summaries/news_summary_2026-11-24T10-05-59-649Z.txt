@@ -1,0 +1,26 @@
+Market brief — Nov 24, 2026, 4:05 AM CST
+
+What matters:
+1. NVIDIA (NVDA) said its board has reinstated Jensen Huang as president, CEO and board director, effective immediately. That is the key new corporate decision in this set and matters because it resets leadership at a top AI chip company after a highly visible disruption; BBC separately reports President Trump said he “convinced” Nvidia to bring Huang back, adding political controversy around the move rather than changing the fact of the reinstatement.
+Source: NVIDIA Newsroom — Nov 23, 2026, 7:55 AM CST
+https://nvidianews.nvidia.com/news/nvidia-board-reinstates-jensen-huang-as-president-ceo-and-board-director
+Source: BBC Business — Nov 24, 2026, 3:42 AM CST
+https://www.bbc.co.uk/news/articles/cq5y1k8ez407o?at_medium=RSS&at_campaign=rss
+
+2. Hewlett Packard Enterprise (HPE) posted what MarketWatch described as its strongest growth ever and raised its financial forecast, citing strong AI demand. That matters because upbeat guidance from a major enterprise hardware supplier can shape sentiment on AI infrastructure spending, though the same report says the stock was “sinking,” signaling investors may be questioning sustainability or valuation despite the stronger outlook.
+Source: MarketWatch — Nov 23, 2026, 7:01 PM CST
+https://www.marketwatch.com/story/hpe-just-posted-its-strongest-growth-ever-and-its-stock-is-tacking-on-more-big-gains-4421cebb?mod=mw_rss_topstories
+
+3. Gap Inc. reported third-quarter 2026 results with double-digit growth at the Gap brand offset by declines at Athleta and Banana Republic, while also pushing a “fashiontainment” marketing strategy. The mixed operating picture matters because it suggests brand-level divergence inside the portfolio even as management invests in growth initiatives that may take time to prove out.
+Source: Digiday — Nov 22, 2026, 11:01 PM CST
+http://digiday.com/marketing/gap-inc-is-betting-on-fashiontainment-to-fuel-growth/
+
+4. Oil prices slipped slightly as markets watched Middle East shipping and refinery attacks, with CNA reporting persistent disruptions were still offering support to crude. That matters for energy markets because soft prices alongside ongoing regional risk suggests supply-flow headlines remain a live swing factor rather than a resolved issue.
+Source: CNA — Nov 22, 2026, 11:09 PM CST
+https://www.channelnewsasia.com/business/oil-slips-mideast-flows-in-focus-6573726
+
+What to watch:
+- NVDA — mixed; watch for board commentary, any governance follow-up, and whether customers or partners signal disruption. Clear stabilization in management messaging would be more constructive.
+- HPE — mixed to bullish if the higher forecast holds; watch whether future updates confirm AI demand is broad-based rather than concentrated in a narrow set of orders.
+- GPS — mixed; watch whether Gap brand strength starts to outweigh weakness at Athleta and Banana Republic in subsequent results.
+- Oil/energy — mixed; confirmed escalation affecting physical Middle East flows would be more supportive for crude, while uninterrupted exports would weaken that case.
