@@ -5,7 +5,7 @@ import json
 import sys
 import tempfile
 import unittest
-from unittest.mock import Mock, PropertyMock, patch
+from unittest.mock import Mock, patch
 
 import pandas as pd
 import streamlit as st
@@ -138,12 +138,18 @@ class SavedSymbolForecastTests(unittest.TestCase):
 
         def current_heatmap(tickers, days, *, crypto, **readers):
             history = pd.DataFrame({"NVDA": [100., 86.]}, index=pd.to_datetime(["2026-11-19", "2026-11-20"]))
-            quote = pd.DataFrame({"Price": [107.5], "Observed": [pd.Timestamp("2026-11-23T15:02Z")]}, index=["NVDA"])
+            quote = pd.DataFrame({"Price": [107.5, 75.], "Observed": pd.Timestamp("2026-11-23T15:02Z")},
+                                 index=["NVDA", "SNDK"])
             return fetch_heatmap_prices(
                 tickers, days, crypto=crypto, now=pd.Timestamp("2026-11-23T15:04Z"),
                 read_daily=lambda *_: history, read_quotes=lambda *_: quote,
+                read_equity_close=lambda symbols, _: pd.Series({"SNDK": 80.}).reindex(symbols),
                 read_crypto_close=lambda symbols, _: pd.Series(float("nan"), index=symbols),
             )
+
+        def market_caps(symbols: tuple[str, ...]) -> dict[str, tuple[float, str]]:
+            caps = {"SNDK": (2., "Nasdaq screener"), "NVDA": (998., "Yahoo Finance")}
+            return {symbol: caps[symbol] for symbol in symbols if symbol in caps}
 
         def assert_current_tile(app):
             tab = next(tab for tab in app.tabs if tab.label == "Heatmaps")
@@ -152,6 +158,11 @@ class SavedSymbolForecastTests(unittest.TestCase):
             self.assertEqual(trace["text"][pos], "+25.00%")
             self.assertEqual(trace["customdata"][pos], ["$107.50", "2026-11-23 15:02:00 UTC"])
             self.assertEqual(trace["marker"]["colors"][pos], 25.0)
+            self.assertEqual(dict(zip(trace["ids"], trace["values"])), {"NVDA": 998., "SNDK": 2.})
+            self.assertEqual(trace["text"][trace["ids"].index("SNDK")], "-6.25%")
+            table = next(t.value.set_index("Ticker") for t in tab.dataframe if "SNDK" in t.value["Ticker"].values)
+            self.assertEqual(table.loc["SNDK", "Market Cap (USD)"], 2.)
+            self.assertEqual(table.loc["SNDK", "Cap source"], "Nasdaq screener")
 
         with (
             tempfile.TemporaryDirectory() as temporary,
@@ -162,7 +173,7 @@ class SavedSymbolForecastTests(unittest.TestCase):
             patch("requests.get", return_value=Mock(status_code=404)),
             patch("yfinance.download", return_value=pd.DataFrame()),
             patch("market_agent.heatmap_data.fetch_heatmap_prices", side_effect=current_heatmap),
-            patch("yfinance.Ticker.fast_info", new_callable=PropertyMock, return_value={"market_cap": 100.}),
+            patch("market_agent.heatmap_market_caps.download_market_caps", new=market_caps),
         ):
             st.cache_data.clear()
             self.addCleanup(st.cache_data.clear)

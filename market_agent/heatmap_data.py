@@ -5,11 +5,13 @@ from __future__ import annotations
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date, datetime, time, timedelta, timezone
+from urllib.parse import quote
 from zoneinfo import ZoneInfo
 import logging
 
 import numpy as np
 import pandas as pd
+import requests
 import yfinance as yf
 
 from curl_cffi.requests.exceptions import RequestException
@@ -17,6 +19,7 @@ from yfinance.exceptions import YFException
 
 from market_agent.agent.earnings import us_equity_trading_sessions
 from market_agent.heatmaps import heatmap_returns
+from market_agent.nasdaq_data import get_nasdaq_data
 
 EASTERN = ZoneInfo("America/New_York")
 MAX_INTRADAY_AGE = timedelta(minutes=20)
@@ -70,6 +73,36 @@ def _download_closes(tickers: tuple[str, ...], **options: object) -> pd.DataFram
 def download_daily_closes(tickers: tuple[str, ...], start: date, end: date) -> pd.DataFrame:
     """Read split-adjusted, dividend-unadjusted Yahoo daily closing prices; end is exclusive."""
     return _download_closes(tickers, interval="1d", start=start.isoformat(), end=end.isoformat(), ignore_tz=True)
+
+
+def download_equity_prior_closes(tickers: tuple[str, ...], baseline: date) -> pd.Series:
+    """Read Nasdaq's dated USD Close/Last for gaps in one-session equity returns."""
+    date_label = baseline.strftime("%m/%d/%Y")
+
+    def fetch(symbol: str) -> float:
+        try:
+            data = get_nasdaq_data(
+                f"quote/{quote(symbol, safe='')}/historical",
+                {"assetclass": "stocks", "fromdate": baseline.isoformat(),
+                 "todate": (baseline + timedelta(days=1)).isoformat(), "limit": 2},
+            )
+            if data["symbol"] != symbol:
+                raise ValueError("mismatched Nasdaq symbol")
+            rows = data["tradesTable"]["rows"]
+            matching = [row["close"] for row in rows if row["date"] == date_label]
+            if len(matching) != 1 or not isinstance(matching[0], str) or not matching[0].startswith("$"):
+                raise ValueError("missing dated USD close")
+            close = float(matching[0][1:].replace(",", ""))
+            if not np.isfinite(close) or close <= 0:
+                raise ValueError("invalid Nasdaq close")
+            return close
+        except (requests.RequestException, KeyError, TypeError, ValueError) as error:
+            logging.getLogger(__name__).warning("Nasdaq close unavailable for %s on %s (%s)", symbol, baseline,
+                                                type(error).__name__)
+        return np.nan
+
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        return pd.Series(list(pool.map(fetch, tickers)), index=list(tickers), dtype=float)
 
 
 def download_crypto_day_close(tickers: tuple[str, ...], session: date) -> pd.Series:
@@ -131,13 +164,16 @@ def fetch_heatmap_prices(
     read_daily: Callable[[tuple[str, ...], date, date], pd.DataFrame] = download_daily_closes,
     read_quotes: Callable[[tuple[str, ...]], pd.DataFrame] = download_regular_quotes,
     read_crypto_close: Callable[[tuple[str, ...], date], pd.Series] = download_crypto_day_close,
+    read_equity_close: Callable[[tuple[str, ...], date], pd.Series] | None = None,
 ) -> pd.DataFrame:
     """Compare current observations with the closing price at the selected calendar horizon.
 
     During stock trading (and all day for crypto), require a timestamped quote no
     older than 20 minutes. Outside the regular session, use the expected daily
     close or, while that is pending, its timestamped regular-market closing
-    quote. A missing endpoint cannot shift the comparison to a prior session. Inject the readers to cache provider calls or replay data.
+    quote. For one-session equity returns a missing comparison close can come
+    from the exact dated Nasdaq USD Close/Last. Inject readers to cache provider
+    calls or replay observations available at the time.
     """
     if not tickers or len(set(tickers)) != len(tickers):
         raise ValueError("Heatmap prices require at least one symbol and no duplicates.")
@@ -194,9 +230,25 @@ def fetch_heatmap_prices(
                 stamps[symbol] = stamp.tz_convert("UTC").strftime("%Y-%m-%d %H:%M:%S UTC")
 
     data = heatmap_returns(prices, tickers, lookback_days, crypto=crypto)
+    # Historical replays can inject a point-in-time reader. Only live runs use
+    # the current Nasdaq split-adjusted history automatically.
+    if read_equity_close is None and now is None:
+        read_equity_close = download_equity_prior_closes
+    recovered = ()
+    if not crypto and lookback_days == 1 and read_equity_close is not None:
+        missing = tuple(data.loc[data["Price (USD)"].notna() & data["Percent Change"].isna(), "Ticker"])
+        if missing:
+            baseline = date.fromisoformat(data.attrs["start"])
+            alternate = pd.to_numeric(read_equity_close(missing, baseline).reindex(missing), errors="coerce")
+            alternate = alternate[np.isfinite(alternate) & (alternate > 0)]
+            if not alternate.empty:
+                recovered = tuple(alternate.index)
+                prices.loc[pd.Timestamp(baseline), list(recovered)] = alternate.to_numpy()
+                data = heatmap_returns(prices, tickers, lookback_days, crypto=crypto)
     data["Price as of"] = data["Ticker"].map(stamps)
     data.attrs.update(
         intraday=intraday, crypto=crypto, checked_at=checked.isoformat(),
+        nasdaq_close_symbols=recovered,
         missing_price_count=int((stamps == "").sum()),
         quote_count=int(stamps.str.endswith(" UTC").sum()),
     )

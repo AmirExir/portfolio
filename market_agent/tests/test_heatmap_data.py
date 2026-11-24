@@ -1,12 +1,15 @@
 """Point-in-time heatmap regressions covering regular sessions, closed markets and crypto."""
 
 import unittest
+from datetime import date
 from unittest.mock import Mock, patch
 
 import numpy as np
 import pandas as pd
 
-from market_agent.heatmap_data import download_crypto_day_close, download_regular_quotes, fetch_heatmap_prices
+from market_agent.heatmap_data import (
+    download_crypto_day_close, download_equity_prior_closes, download_regular_quotes, fetch_heatmap_prices,
+)
 
 
 def prices(checked: str, daily: dict, quotes: dict, *, crypto: bool = False, days: int = 1) -> pd.DataFrame:
@@ -22,6 +25,48 @@ def prices(checked: str, daily: dict, quotes: dict, *, crypto: bool = False, day
 
 
 class LiveHeatmapTests(unittest.TestCase):
+    def test_only_recover_a_dated_prior_close_for_symbols_with_valid_current_prices(self) -> None:
+        now = pd.Timestamp("2026-11-24T16:30Z")
+        targets = ("SNDK", "GOOD", "NO_QUOTE")
+        history = pd.DataFrame({"SNDK": [80., np.nan], "GOOD": [100., 100.], "NO_QUOTE": [70., np.nan]},
+                               index=pd.to_datetime(["2026-11-20", "2026-11-23"]))
+        quotes = pd.DataFrame({"Price": [78.939, 90., np.nan], "Observed": [now, now, pd.NaT]}, index=targets)
+        recover = Mock(return_value=pd.Series({"SNDK": 87.71}))
+        data = fetch_heatmap_prices(targets, now=now, read_daily=lambda *_: history, read_quotes=lambda *_: quotes,
+                                    read_equity_close=recover).set_index("Ticker")
+        recover.assert_called_once_with(("SNDK",), date(2026, 11, 23))
+        self.assertEqual(data.attrs["nasdaq_close_symbols"], ("SNDK",))
+        self.assertAlmostEqual(data.loc["SNDK", "Percent Change"], -10)
+        self.assertEqual(data.loc["GOOD", "Percent Change"], -10)
+        self.assertTrue(np.isnan(data.loc["NO_QUOTE", "Percent Change"]))
+        recover.reset_mock()
+        fetch_heatmap_prices(targets, 7, now=now, read_daily=lambda *_: history, read_quotes=lambda *_: quotes,
+                             read_equity_close=recover)
+        recover.assert_not_called()
+
+    def test_nasdaq_fallback_requires_the_matching_symbol_date_and_positive_usd_close(self) -> None:
+        baseline = date(2026, 11, 23)
+        correct = {"date": "11/23/2026", "close": "$1,234.50"}
+        other_day = {"date": "11/20/2026", "close": "$90.00"}
+        for ticker, rows, expected in (
+            ("SNDK", [other_day, correct], 1234.5),
+            ("WDC", [correct], None),
+            ("SNDK", [other_day], None),
+            ("SNDK", [correct, correct], None),
+            ("SNDK", [{**correct, "close": "€100"}], None),
+            ("SNDK", [{**correct, "close": "$-1"}], None),
+        ):
+            with self.subTest(ticker=ticker, rows=rows):
+                response = {"symbol": ticker, "tradesTable": {"rows": rows}}
+                with patch("market_agent.heatmap_data.get_nasdaq_data", return_value=response) as get:
+                    value = download_equity_prior_closes(("SNDK",), baseline)["SNDK"]
+                self.assertEqual(get.call_args.args[1]["fromdate"], "2026-11-23")
+                self.assertEqual(get.call_args.args[1]["todate"], "2026-11-24")
+                if expected is None:
+                    self.assertTrue(np.isnan(value))
+                else:
+                    self.assertEqual(value, expected)
+
     def test_monday_move_uses_friday_close_even_when_the_last_daily_return_was_negative(self) -> None:
         falling = {"2026-11-19": 100, "2026-11-20": 86}
         symbols = ("CURRENT", "STALE", "MISSING", "FUTURE", "PREMARKET")

@@ -79,8 +79,9 @@ try:
     )
     from market_agent.heatmap_data import (
         MAX_INTRADAY_AGE, close_price_frame as _close_price_frame, download_daily_closes,
-        download_crypto_day_close, download_regular_quotes, fetch_heatmap_prices,
+        download_crypto_day_close, download_equity_prior_closes, download_regular_quotes, fetch_heatmap_prices,
     )
+    from market_agent.heatmap_market_caps import download_market_caps
     from market_agent.patterns import scan_patterns, summarize_patterns
     from market_agent.breaking_analysis_view import analyze_refreshed_headlines, render_breaking_analysis
     from market_agent.publisher_headlines import HEADLINE_WINDOW, check_publisher_headlines
@@ -1557,22 +1558,6 @@ def _yf_download(tickers, **kwargs) -> pd.DataFrame:
         return pd.DataFrame()
 
 
-@st.cache_data(ttl=86400, max_entries=256, show_spinner=False)
-def _yf_market_cap(ticker: str) -> float:
-    try:
-        ticker_obj = yf.Ticker(ticker)
-        with _quiet_yfinance_output():
-            fast_info = getattr(ticker_obj, "fast_info", {}) or {}
-            market_cap = fast_info.get("market_cap") if hasattr(fast_info, "get") else None
-            if not market_cap:
-                market_cap = (ticker_obj.info or {}).get("marketCap")
-        market_cap = float(market_cap or np.nan)
-        return market_cap if np.isfinite(market_cap) and market_cap > 0 else np.nan
-    except Exception as exc:
-        logging.debug("Market cap unavailable for %s: %s", ticker, exc)
-        return np.nan
-
-
 @st.cache_data(ttl=900, show_spinner=False)
 def load_ohlcv(symbol: str, history_days: int) -> pd.DataFrame:
     return get_ohlcv(symbol, history_days)
@@ -1760,7 +1745,9 @@ def load_market_context(history_days: int) -> pd.DataFrame:
 # Quotes have their own cache, independent of model history and dated report selection.
 cached_heatmap_history = st.cache_data(ttl=300, max_entries=90, show_spinner=False)(download_daily_closes)
 cached_crypto_day_close = st.cache_data(ttl=300, max_entries=30, show_spinner=False)(download_crypto_day_close)
+cached_heatmap_equity_close = st.cache_data(ttl=300, max_entries=30, show_spinner=False)(download_equity_prior_closes)
 cached_heatmap_quotes = st.cache_data(ttl=60, max_entries=30, show_spinner=False)(download_regular_quotes)
+cached_heatmap_caps = st.cache_data(ttl=900, max_entries=30, show_spinner=False)(download_market_caps)
 
 
 def load_heatmap_data(tickers: tuple[str, ...], lookback_days: int, *, crypto: bool, size_by_cap: bool) -> pd.DataFrame:
@@ -1768,12 +1755,12 @@ def load_heatmap_data(tickers: tuple[str, ...], lookback_days: int, *, crypto: b
     data = fetch_heatmap_prices(
         tickers, lookback_days, crypto=crypto,
         read_daily=cached_heatmap_history, read_quotes=cached_heatmap_quotes, read_crypto_close=cached_crypto_day_close,
+        read_equity_close=cached_heatmap_equity_close,
     )
     if size_by_cap:
-        data["Market Cap"] = [
-            _yf_market_cap(ticker) if pd.notna(change) else np.nan
-            for ticker, change in zip(data["Ticker"], data["Percent Change"])
-        ]
+        caps = cached_heatmap_caps(tickers) if data["Percent Change"].notna().any() else {}
+        data["Market Cap"] = data["Ticker"].map({symbol: value for symbol, (value, _) in caps.items()})
+        data["Cap source"] = data["Ticker"].map({symbol: source for symbol, (_, source) in caps.items()})
     return data
 
 
@@ -1781,6 +1768,9 @@ def render_return_heatmap(data: pd.DataFrame, lookback_days: int, *, title: str,
     """Show a signed-return chart and its sortable, full-size values."""
     figure, sizing = build_return_heatmap(data, lookback_days)
     reference = f"Compared with the {data.attrs['start']} close."
+    nasdaq_closes = data.attrs.get("nasdaq_close_symbols", ())
+    if nasdaq_closes:
+        reference += f" Nasdaq supplied the comparison close for {', '.join(nasdaq_closes)}."
     if data.attrs["intraday"]:
         window = "UTC day" if data.attrs["crypto"] else "U.S. regular session"
         current = f"{window} on {data.attrs['end']}. Yahoo Finance regular-market quotes"
@@ -1812,10 +1802,13 @@ def render_return_heatmap(data: pd.DataFrame, lookback_days: int, *, title: str,
         columns = ["Ticker", "Price (USD)", "Percent Change"]
         if "Price as of" in data:
             columns.append("Price as of")
-        table = data[columns]
+        formats = {"Price (USD)": format_heatmap_price, "Percent Change": format_signed_return}
+        if "Market Cap" in data:
+            columns.extend(["Market Cap", "Cap source"])
+            formats["Market Cap (USD)"] = "${:,.0f}"
+        table = data[columns].rename(columns={"Market Cap": "Market Cap (USD)"})
         st.dataframe(
-            table.style.format({"Price (USD)": format_heatmap_price, "Percent Change": format_signed_return},
-                               na_rep="Unavailable"),
+            table.style.format(formats, na_rep="Unavailable"),
             hide_index=True, use_container_width=True,
         )
 
@@ -3707,6 +3700,8 @@ with heatmap_tab:
         cached_heatmap_history.clear()
         cached_heatmap_quotes.clear()
         cached_crypto_day_close.clear()
+        cached_heatmap_equity_close.clear()
+        cached_heatmap_caps.clear()
 
     # Timeframe selector
     sp_tf = st.selectbox(

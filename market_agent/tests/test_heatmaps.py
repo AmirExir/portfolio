@@ -51,8 +51,9 @@ class HeatmapTests(unittest.TestCase):
         fig, sizing = build_return_heatmap(data, 7)
         trace = fig.data[0]
         self.assertEqual((tuple(trace.ids), tuple(trace.values), tuple(trace.text)), (("Z", "A"), (30, 90), ("-2.00%", "+3.50%")))
-        self.assertIn("1 without market cap", sizing)
+        self.assertIn("Market cap unavailable for C", sizing)
         self.assertIn("Change unavailable for 1", sizing)
+        self.assertIn("(E)", sizing)
         self.assertEqual(len(data), 4)  # table retains every requested symbol
         data["Market Cap"] = np.nan
         fig, sizing = build_return_heatmap(data, 7)
@@ -75,11 +76,22 @@ class HeatmapTests(unittest.TestCase):
             ["$12,345.67", "2026-11-23 15:02 UTC"],
             ["$0.00001234", "2026-11-23 15:01 UTC"],
         ])
-        self.assertEqual(trace.texttemplate, "<b>%{label}</b><br>%{customdata[0]}<br>%{text}")
+        self.assertEqual(tuple(trace.texttemplate), ("<b>%{label}</b><br>%{customdata[0]}<br>%{text}",) * 2)
         self.assertIn("As of %{customdata[1]}", trace.hovertemplate)
         self.assertEqual(tuple(trace.text), ("+2.00%", "-1.00%"))
         for invalid in (None, np.nan, np.inf, pd.NA, False, 0, -2, "bad"):
             self.assertEqual(format_heatmap_price(invalid), "Unavailable")
+
+    def test_small_cap_keeps_a_ticker_label_and_its_proportional_area(self) -> None:
+        data = pd.DataFrame({
+            "Ticker": ["BIG", "SNDK"], "Label": ["BIG", "SNDK"], "Price (USD)": [50.0, 75.0],
+            "Percent Change": [1.0, -3.0], "Market Cap": [998.0, 2.0],
+        })
+        trace = build_return_heatmap(data, 1)[0].data[0]
+        self.assertEqual(tuple(trace.values), (998.0, 2.0))
+        self.assertEqual(trace.texttemplate[1], "<b>%{label}</b>")
+        self.assertEqual(trace.customdata[1][0], "$75.00")
+        self.assertEqual(trace.text[1], "-3.00%")
 
     def test_missing_comparison_preserves_today_price_and_missing_quote_is_never_filled(self) -> None:
         dates = pd.to_datetime(["2026-11-20", "2026-11-23"])

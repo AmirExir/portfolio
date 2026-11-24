@@ -333,16 +333,26 @@ change what another ticker's color means. The one-day scale reaches its
 darkest shades at −15% and +15%. Moves beyond those limits retain their full
 signed percentages on hover and in the accompanying table.
 
-Each tile shows the observed USD price above its percentage. For equities and
-ETFs, 1D compares the current regular-session price (or the latest expected
-session close) with the previous trading session's close. Crypto uses the
+Stock and crypto tile areas are proportional to reported USD market capitalization.
+The by-symbol table gives the cap and its source. Yahoo Finance supplies caps,
+with Nasdaq screener values available for missing stock caps. Cap observations
+may come from an earlier time than the price shown. Symbols without a cap
+appear in the table. If the entire group lacks caps, the chart uses equal
+areas and says so in its caption. The separate ETF and commodity watchlist
+also uses equal areas. Small weighted tiles show the ticker.
+Hovering reveals the observed price and return. Larger tiles also show those
+values directly. For equities and ETFs, 1D compares the current regular-session
+price (or the latest expected session close) with the previous trading session's close. Crypto uses the
 current UTC day and its previous UTC daily close. The table and hover show
 the price observation time. During trading, the dashboard accepts quotes up
 to 20 minutes old. If an equity daily close is pending, the regular-market
 quote must be stamped at the scheduled close or within 15 minutes afterward.
 The session calendar includes weekends, exchange holidays and scheduled
-early closes. For a missing previous UTC daily close on the crypto 1D view,
-the last minute of that UTC day can supply the comparison price. Missing
+early closes. If Yahoo omits a U.S. equity's comparison close on the 1D view,
+the dashboard checks Nasdaq historical prices for that trading date and names
+the recovered symbols below the chart heading. For a missing previous UTC
+daily close on the crypto 1D view, the last minute of that UTC day can supply
+the comparison price. Missing
 endpoints leave the percentage unavailable. Running a symbol forecast uses
 separate data and caches. **Refresh heatmap prices** checks the prices again.
 [NYSE trading hours](https://www.nyse.com/trade/hours-calendars)

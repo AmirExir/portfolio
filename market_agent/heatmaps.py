@@ -135,14 +135,16 @@ def build_return_heatmap(data: pd.DataFrame, lookback_days: int) -> tuple[go.Fig
         if has_cap.any():
             tiles = measured.loc[has_cap]
             sizes = tiles["Market Cap"].to_list()
-            sizing = "Tile area shows market capitalization."
+            sizing = "Tile area is proportional to reported market capitalization in USD."
             cap_hover = "<br>Market cap $%{value:,.0f}"
             if not has_cap.all():
-                sizing += f" {len(measured) - len(tiles)} without market cap appear only in the table."
+                missing_caps = ", ".join(measured.loc[~has_cap, "Ticker"])
+                sizing += f" Market cap unavailable for {missing_caps}. See the by-symbol table."
         else:
             sizing = "Tiles have equal area because market cap is unavailable."
     if len(measured) < len(data):
-        sizing += f" Change unavailable for {len(data) - len(measured)} of {len(data)} symbols."
+        missing = ", ".join(data.loc[~np.isfinite(data["Percent Change"]), "Ticker"])
+        sizing += f" Change unavailable for {len(data) - len(measured)} of {len(data)} symbols ({missing})."
     axis = return_color_axis(lookback_days)
     values = tiles["Percent Change"].to_numpy(dtype=float)
     positions = 0.5 + 0.5 * np.clip(values / axis["cmax"], -1, 1)
@@ -158,14 +160,20 @@ def build_return_heatmap(data: pd.DataFrame, lookback_days: int) -> tuple[go.Fig
         if "Price as of" in tiles:
             quote_details["Price as of"] = tiles["Price as of"].replace("", "Unavailable").fillna("Unavailable")
             quote_hover += "<br>As of %{customdata[1]}"
+    full_label = "<b>%{label}</b>" + price_line + "<br>%{text}"
+    text_template = full_label
+    if cap_hover:
+        # Reserve the space in small tiles for the ticker. Hover retains the full quote.
+        one_percent = sum(sizes) * 0.01
+        text_template = ["<b>%{label}</b>" if size < one_percent else full_label for size in sizes]
     figure = go.Figure(go.Treemap(
         ids=tiles["Ticker"].tolist(), labels=tiles["Label"].tolist(), parents=[""] * len(tiles),
         values=sizes, marker=dict(colors=values.tolist(), coloraxis="coloraxis", line=dict(width=1, color="white")),
         text=[format_signed_return(value) for value in values],
-        customdata=quote_details, texttemplate="<b>%{label}</b>" + price_line + "<br>%{text}",
+        customdata=quote_details, texttemplate=text_template,
         textfont=dict(size=15, color=label_colors),
         hovertemplate="%{label}" + quote_hover + "<br>Change %{text}" + cap_hover + "<extra></extra>",
         tiling=dict(pad=2), pathbar=dict(visible=False), root=dict(color="#ffffff"),
     ))
-    figure.update_layout(coloraxis=axis, uniformtext=dict(minsize=12, mode="hide"))
+    figure.update_layout(coloraxis=axis, uniformtext=None if cap_hover else dict(minsize=12, mode="hide"))
     return figure, sizing
