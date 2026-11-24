@@ -1,0 +1,30 @@
+Market brief — Nov 24, 2026, 5:05 PM CST
+
+What matters:
+1) Nvidia (NVDA) remains the biggest governance story after the company’s board reinstated CEO Jensen Huang, but the newer development is scrutiny over a possible investigation. BBC reports the U.S. attorney general dodged questions about an Nvidia investigation, while an earlier BBC report said President Trump claimed he “convinced” Nvidia to bring Huang back. The reports describe political and legal pressure, not proof of wrongdoing, and the allegations around Huang are still allegations.
+Source: BBC Business — Nov 24, 2026, 3:19 PM CST
+https://www.bbc.co.uk/news/articles/crpdw1qx7jgxo?at_medium=RSS&at_campaign=rss
+Source: BBC Business — Nov 24, 2026, 4:53 AM CST
+https://www.bbc.co.uk/news/articles/cq5y1k8ez407o?at_medium=RSS&at_campaign=rss
+
+2) A related semiconductor-policy escalation may matter for Nvidia’s customer exposure and broader AI-chip trade flows. CBS News reports the U.S. added Singapore-based Megaspeed to a trade blacklist, while Politico had earlier reported the Commerce Department was preparing that step; both tie the move to the wider Nvidia scandal. That is a concrete regulatory action, though the full revenue impact on Nvidia or peers is not established in these reports.
+Source: CBS News — Nov 23, 2026, 3:55 PM CST
+https://www.cbsnews.com/news/megaspeed-trade-blacklist-nvidia-jensen-huang/
+Source: Politico — Nov 23, 2026, 4:16 PM CST
+https://www.politico.com/news/2026/11/23/us-prepares-to-blacklist-megaspeed-as-huang-returns-to-nvidia-01180920
+
+3) Hewlett Packard Enterprise (HPE) reported very strong growth and raised its financial forecast, according to MarketWatch, citing strong AI demand. That is a notable positive read-through for enterprise AI spending, even though the same report says the stock was sinking, suggesting investors may be questioning durability, valuation, or expectations beyond the headline beat.
+Source: MarketWatch — Nov 24, 2026, 3:45 PM CST
+https://www.marketwatch.com/story/hpe-just-posted-its-strongest-growth-ever-and-its-stock-is-tacking-on-more-big-gains-4421cebb?mod=mw_rss_topstories
+
+4) Micron (MU) faces a more cautious setup on two fronts: governance optics and industry-cycle risk. MarketWatch reports a filing showed a 2,000% increase in CEO Sanjay Mehrotra’s security budget, and separately says a BNP Paribas analyst warned the risk of a future memory-chip supply glut is mounting, which could pressure pricing power. The filing is a reported fact from company disclosure; the glut call is analyst opinion, not company guidance.
+Source: MarketWatch — Nov 24, 2026, 4:43 PM CST
+https://www.marketwatch.com/story/micron-boosted-ceo-sanjay-mehrotras-security-budget-by-2-000-new-filing-shows-d6202acc?mod=mw_rss_topstories
+Source: MarketWatch — Nov 24, 2026, 3:22 PM CST
+https://www.marketwatch.com/story/microns-stock-falls-as-an-analyst-warns-about-a-future-supply-glut-f7fbeefb?mod=mw_rss_topstories
+
+What to watch:
+- NVDA — mixed; watch for any confirmed DOJ or congressional action. A formal investigation, board statement, or customer fallout would increase downside risk; official clearance would improve the setup.
+- AI chip supply chain — bearish if Megaspeed restrictions spread to more intermediaries. New export-control names or disclosed customer disruptions would matter most.
+- HPE — mixed-to-bullish if raised guidance is backed by sustained orders and margins. Evidence of backlog quality or repeat guidance increases would strengthen the case.
+- MU — bearish if oversupply concerns start appearing in company commentary or peer results. Tighter supply discipline or stable pricing data would challenge that view.
