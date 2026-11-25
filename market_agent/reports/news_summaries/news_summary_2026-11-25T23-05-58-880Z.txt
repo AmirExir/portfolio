@@ -1,0 +1,22 @@
+Market brief — Nov 25, 2026, 5:05 PM CST
+
+What matters:
+1) Nvidia (NVDA) remains at the center of a material governance and political controversy after the U.S. attorney general declined to answer questions about whether CEO Jensen Huang was investigated, while lawmakers are reportedly seeking answers about President Donald Trump’s role in Huang’s reinstatement. This matters because the story is now extending beyond company leadership into possible federal scrutiny and political risk; the available reports do not establish wrongdoing, and the attorney general did not confirm an investigation.
+Source: BBC Business, Nov 24, 2026, 9:44 PM CST, https://www.bbc.co.uk/news/articles/crpdw1qx7jgxo
+Source: Al Jazeera English, Nov 24, 2026, 4:01 PM CST, https://www.aljazeera.com/news/2026/11/24/todd-blanche-declines-to-confirm-if-nvidias-jensen-huang-was-investigated
+Source: New York Post, Nov 24, 2026, 4:56 PM CST, https://nypost.com/2026/11/24/us-news/trump-leaves-door-open-to-jensen-huang-pardon-and-urges-him-not-to-plead-5th-to-congress-next-week/
+
+2) The Federal Reserve said inflation “hasn’t gotten any better” ahead of its December vote, according to MarketWatch. That keeps rates pressure front and center for equities and other risk assets, especially growth and tech, because higher-for-longer expectations can weigh on valuations.
+Source: MarketWatch, Nov 25, 2026, 1:39 PM CST, https://www.marketwatch.com/story/the-fed-says-inflation-hasnt-gotten-any-better-ahead-of-its-key-december-vote-to-raise-rates-65024d33?mod=mw_rss_topstories
+
+3) Trump is targeting China, the European Union and 12 other jurisdictions in a new round of tariffs, BBC Business reports. Fresh tariff risk matters for multinationals, supply chains and inflation expectations, though the article snippet does not detail timing or final implementation terms.
+Source: BBC Business, Nov 25, 2026, 1:38 PM CST, https://www.bbc.co.uk/news/videos/c3x29v11ed1xo?at_medium=RSS&at_campaign=rss
+
+4) HP (HPQ) was reported as a standout gainer in a broader tech selloff after an earnings beat. Even a beat characterized by MarketWatch as “low-quality” was enough to support the shares, suggesting investors are still rewarding companies that clear expectations amid sector pressure.
+Source: MarketWatch, Nov 25, 2026, 3:36 PM CST, https://www.marketwatch.com/story/hps-stock-is-a-standout-gainer-in-the-tech-rout-as-an-earnings-beat-still-matters-8f6c76ad?mod=mw_rss_topstories
+
+What to watch:
+- NVDA — mixed; watch for any board response, congressional testimony, or confirmed federal action. Bearish implications would increase if an investigation is formally confirmed; reduced risk would require clear official closure or company-backed clarification.
+- U.S. equities/tech — bearish if December rate-hike expectations firm further after the Fed’s inflation message. A softer inflation read or more dovish Fed communication would change that setup.
+- Trade-exposed sectors — bearish if tariff details broaden or implementation dates are confirmed, because that would raise cost and demand uncertainty. Any delays, exemptions or narrower scope would ease pressure.
+- HPQ — mixed to bullish if management’s earnings beat is followed by firmer demand or guidance support. The case weakens if later disclosures show the beat was not durable.
