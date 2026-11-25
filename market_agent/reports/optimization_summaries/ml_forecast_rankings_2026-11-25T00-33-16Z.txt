@@ -1,0 +1,64 @@
+Market Outlook & Trade Watchlist
+Generated: Nov 24, 2026 at 6:24 PM CST (UTC-06:00)
+As of: Nov 24, 2026
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+COMPLETED-SESSION PRICE WATCH
+Usable closing history for 83 of 83 symbols (Nov 24, 2026).
+SPY benchmark (Nov 24, 2026) -0.49% in one session, closing at 718.78. Watch for a close below its latest 20-session closing low of 689.81. Its closing high over that window is 772.31.
+
+Exit / avoid watch (5 of 6 shown)
+If held, review an exit on a break of the 20-session closing low. For a new entry, watch the recovery or breakout level shown.
+SHIB-USD (Nov 24, 2026) closed at 0.000003590 (-10.25%). Loss reached the 8.94% alert threshold. Already below 0.000004000. Recovery needs a close back above that level.
+SLV (Nov 24, 2026) closed at 36.84 (-5.32%). Already below 36.97. Recovery needs a close back above that level.
+ZEC-USD (Nov 24, 2026) closed at 732.13 (-5.51%). Already below 756.75. Recovery needs a close back above that level.
+ONDO-USD (Nov 24, 2026) closed at 0.2800 (-3.03%). Already below 0.2815. Recovery needs a close back above that level.
+ENA-USD (Nov 24, 2026) closed at 0.09800 (-3.10%). Already below 0.09841. Recovery needs a close back above that level.
+
+Entry watch (5)
+WMT (Nov 24, 2026) closed at 132.31. Already above the prior 20-session closing high of 129.58. Watch the next close for follow-through. A close back below 129.58 invalidates the breakout.
+PG (Nov 24, 2026) closed at 172.47. Watch for an entry on a close above 173.02, the latest 20-session closing high. A close below 158.26 invalidates the setup.
+HD (Nov 24, 2026) closed at 353.69. Watch for an entry on a close above 355.44, the latest 20-session closing high. A close below 317.56 invalidates the setup.
+TLT (Nov 24, 2026) closed at 81.49. Watch for an entry on a close above 81.96, the latest 20-session closing high. A close below 79.38 invalidates the setup.
+AAPL (Nov 24, 2026) closed at 354.07. Watch for an entry on a close above 356.27, the latest 20-session closing high. A close below 331.90 invalidates the setup.
+
+TECHNICAL READINGS
+No new confirmed double top or double bottom in the available closes.
+RSI(14) across 83 symbols | 39 oversold (below 35) | 0 overbought (above 70)
+Support and resistance use the nearest confirmed swing closes from up to 60 sessions.
+SPY (Nov 24, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 36.0 (neutral)
+  Support 689.81 | Resistance 759.81
+SHIB-USD (Nov 24, 2026) | Downtrend (SMA 20/50/200) | RSI(14) 0.0 (oversold)
+  Support unconfirmed below | Resistance unconfirmed above
+SLV (Nov 24, 2026) | Downtrend (SMA 20/50/200) | RSI(14) 20.6 (oversold)
+  Support unconfirmed below | Resistance 47.16
+ZEC-USD (Nov 24, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 24.4 (oversold)
+  Support unconfirmed below | Resistance 795.69
+ONDO-USD (Nov 24, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 18.8 (oversold)
+  Support unconfirmed below | Resistance 0.3118
+ENA-USD (Nov 24, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 15.9 (oversold)
+  Support unconfirmed below | Resistance 0.18065
+WMT (Nov 24, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 60.2 (neutral) | Near 60-Day High
+  Support 126.04 | Resistance unconfirmed above
+PG (Nov 24, 2026) | Uptrend (SMA 20/50/200) | RSI(14) 62.1 (neutral) | Near 60-Day High
+  Support 167.85 | Resistance 173.02
+HD (Nov 24, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 48.5 (neutral) | Near 60-Day High
+  Support 343.47 | Resistance 355.44
+TLT (Nov 24, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 47.5 (neutral) | Rebound From 60-Day Low
+  Support 81.11 | Resistance 81.74
+AAPL (Nov 24, 2026) | Uptrend (SMA 20/50/200) | RSI(14) 54.6 (neutral) | Near 60-Day High
+  Support 343.83 | Resistance 356.27
+SLB (Nov 24, 2026) | Downtrend (SMA 20/50/200) | RSI(14) 30.8 (oversold) | Bearish MA Crossover
+  Support 45.89 | Resistance 50.28
+
+No downside forecast qualified for the 30-session horizon.
+
+UPSIDE WATCHLIST
+
+1. SLB: forecast +17.55% by Jan 8, 2027
+  Reliability: high; model-estimated chance of a rise: 88%; estimated error: 11.4 percentage points.
+
+Returns are estimates for the target date; prices may move against the forecast before then.
+
+Model forecasts, not trade instructions. Not financial advice.
