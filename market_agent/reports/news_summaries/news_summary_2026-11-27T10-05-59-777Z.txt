@@ -1,0 +1,22 @@
+Market brief — Nov 27, 2026, 4:05 AM CST
+
+What matters:
+1) Nvidia remained the dominant market story, with fresh reports tying the company to tighter AI-chip trade controls and renewed leadership focus. BBC reported Asian stocks were whipsawed after Jensen Huang’s “shock return” as Nvidia CEO, while separate reports said Nvidia halted AI server shipments to Malaysia, Singapore, Thailand and Indonesia after tighter US export curbs; that shipment halt was reported by the Financial Times via The Punch and was not confirmed here by Nvidia.  
+Source: BBC Business, Nov 26, 2026, 5:08 PM CST, https://www.bbc.co.uk/news/articles/cqevr4lnd1nxo?at_medium=RSS&at_campaign=rss  
+Source: The Punch, Nov 26, 2026, 3:51 AM CST, https://punchng.com/nvidia-halts-ai-server-shipments-to-four-southeast-asian-countries-report/  
+Source: CBC News, Nov 26, 2026, 3:40 AM CST, https://www.cbc.ca/news/world/nvidia-singapore-9.7436761
+
+2) Norse Atlantic suspended all flights and faces potential collapse, according to BBC Business. The report says the carrier needs urgent funding and could file for bankruptcy without a financial lifeline, making this a material disruption risk for creditors, customers and travel-linked counterparties.  
+Source: BBC Business, Nov 26, 2026, 8:28 AM CST, https://www.bbc.co.uk/news/articles/c9kgmd0ldy0lo?at_medium=RSS&at_campaign=rss
+
+3) CleanSpark (CLSK) said it is considering selling more Bitcoin than it mines each quarter as it tries to de-risk its treasury after a reported $987 million annual loss. That matters because it signals pressure on crypto miners’ balance-sheet strategy and could increase market sensitivity to any further Bitcoin weakness.  
+Source: ValueWalk, Nov 26, 2026, 3:08 AM CST, https://www.valuewalk.com/cleanspark-weighs-selling-more-bitcoin-than-it-mines-as-losses-mount/
+
+4) Energy markets stayed on edge after reported attacks and shipping disruptions around key oil routes. CNA said crude eased after a prior spike, but supply concerns persisted after the Houthis said they hit Saudi Arabia’s largest refinery and Iran said mines struck ships in the Strait of Hormuz; those are claims reported by the source, not independently verified here.  
+Source: CNA, Nov 26, 2026, 3:30 AM CST, https://www.channelnewsasia.com/business/oil-prices-fall-supply-concerns-linger-after-iran-claims-mine-strikes-ships-6583906
+
+What to watch:
+- NVDA — watch for any direct Nvidia statement on Southeast Asia shipment restrictions; confirmed halts would be bearish for regional demand visibility, while clarification that limits are narrow or temporary would soften that risk.
+- Norse Atlantic — watch for emergency financing or a bankruptcy filing; fresh funding would be less bearish than a formal insolvency process.
+- CLSK / Bitcoin miners — watch whether treasury sales exceed mined output in coming quarters; that would be bearish for balance-sheet stress signals unless losses narrow materially.
+- Oil — watch for verified damage, shipping interruptions, or official military/port statements tied to Hormuz and Saudi refining assets; confirmed disruption would be bullish for crude, while de-escalation would ease supply-premium risk.
