@@ -1,0 +1,24 @@
+Market brief — Nov 27, 2026, 5:05 PM CST
+
+What matters:
+1) Nvidia remains the dominant market driver after Jensen Huang’s return as CEO, with fresh reports tying the move to sharp swings across AI-linked equities and Asian markets. MarketWatch said Nvidia stock soared during the week even though it remained deeply down for November and 2026, while BBC described a regional “rollercoaster ride,” underscoring how governance uncertainty at Nvidia is still shaping broader semiconductor sentiment.
+Source: MarketWatch, Nov 27, 2026, 2:16 PM CST, https://www.marketwatch.com/story/these-stocks-soared-the-most-during-a-wild-week-highlighted-by-huangs-return-to-nvidia-578b3f9a?mod=mw_rss_topstories
+Source: BBC Business, Nov 26, 2026, 5:08 PM CST, https://www.bbc.co.uk/news/articles/cqevr4lnd1nxo?at_medium=RSS&at_campaign=rss
+
+2) Nvidia also faces new export-control and compliance pressure. The New York Post, citing the Financial Times, reported Nvidia told partners to halt server shipments containing its chips to Malaysia, Singapore, Thailand and Indonesia; separately, SiliconANGLE reported an investigation requested by CBS News examined alleged China links involving some Nvidia partners and companies accused of export-control breaches. These reports describe scrutiny and compliance risk, not proof of wrongdoing by Nvidia.
+Source: New York Post, Nov 26, 2026, 2:30 PM CST, https://nypost.com/2026/11/26/business/nvidia-halts-server-shipments-to-4-southeast-asian-countries-report/
+Source: SiliconANGLE News, Nov 26, 2026, 3:13 PM CST, https://siliconangle.com/2026/11/26/report-sheds-light-on-china-ties-of-some-us-based-nvidia-partners/
+
+3) Semiconductor policy risk broadened beyond Nvidia. Digitimes reported the USTR’s Section 301 “structural overcapacity” report recommended tariffs on 14 economies, after Trump called for a 200% semiconductor tariff, while Taiwan said the cap is 15%; in a separate report, Digitimes said the Netherlands is resisting US pressure for tighter China export controls to protect ASML’s China business. That combination points to rising uncertainty for chip supply chains, pricing and capital spending.
+Source: Digitimes, Nov 26, 2026, 4:41 PM CST, https://www.digitimes.com/news/a20261126PD234/taiwan-investigation-overcapacity-2026-investment.html
+Source: Digitimes, Nov 26, 2026, 4:40 PM CST, https://www.digitimes.com/news/a20261126PD231/netherlands-asml-business-dutch-equipment.html
+
+4) Energy and transport disruption risks intensified. Reuters reported oil prices climbed after Yemen’s Houthis said they hit Saudi Arabia’s largest oil refinery and Iran said mines struck ships in the Strait of Hormuz, reviving supply concerns; separately, BBC reported Norse Atlantic suspended all flights and needs urgent funding or it will file for bankruptcy. The oil story matters for inflation-sensitive sectors, while Norse highlights acute stress in travel.
+Source: Yahoo Entertainment, Nov 26, 2026, 1:12 PM CST, https://finance.yahoo.com/energy/articles/oil-rises-supply-concerns-iran-030849858.html
+Source: BBC Business, Nov 26, 2026, 8:28 AM CST, https://www.bbc.co.uk/news/articles/c9kgmd0ldy0lo?at_medium=RSS&at_campaign=rss
+
+What to watch:
+- NVDA — watch for any direct company statement on shipment pauses or partner compliance; confirmed duration or wider geographic restrictions would be bearish for near-term AI server demand.
+- TSM/ASML and chip supply chains — watch whether tariff proposals or export-control disputes become formal policy; enacted measures would be bearish for cross-border semiconductor volumes, while dilution of proposals would ease risk.
+- Oil-sensitive markets and airlines — watch for confirmation of actual Strait of Hormuz supply disruption; sustained disruption would be bullish for crude but bearish for fuel-intensive sectors.
+- Norse Atlantic — watch for emergency financing or a bankruptcy filing; funding would reduce immediate collapse risk, while filing would confirm deeper pressure across weaker carriers.
