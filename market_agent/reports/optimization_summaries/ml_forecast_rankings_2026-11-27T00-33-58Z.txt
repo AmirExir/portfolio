@@ -1,0 +1,57 @@
+Market Outlook & Trade Watchlist
+Generated: Nov 26, 2026 at 6:25 PM CST (UTC-06:00)
+As of: Nov 25, 2026 to Nov 26, 2026
+Horizon: 30 sessions per asset
+Stocks count trading days; crypto counts calendar days.
+
+COMPLETED-SESSION PRICE WATCH
+Usable closing history for 83 of 83 symbols (Nov 25, 2026 to Nov 26, 2026).
+SPY benchmark (Nov 25, 2026) -0.29% in one session, closing at 716.70. Watch for a close below its latest 20-session closing low of 689.81. Its closing high over that window is 769.36.
+
+Exit / avoid watch (3)
+If held, review an exit on a break of the 20-session closing low. For a new entry, watch the recovery or breakout level shown.
+SHIB-USD (Nov 26, 2026) closed at 0.000003640 (-9.00%). Loss reached the 8.94% alert threshold. Already below 0.000004000. Recovery needs a close back above that level.
+ZEC-USD (Nov 26, 2026) closed at 729.12 (-5.42%). Already below 738.27. Recovery needs a close back above that level.
+SNDK (Nov 25, 2026) closed at 73.61 (-5.57%). Already below 77.95. Recovery needs a close back above that level.
+
+Entry watch (5 of 6 shown)
+PG (Nov 25, 2026) closed at 173.23. Already above the prior 20-session closing high of 173.02. Watch the next close for follow-through. A close back below 173.02 invalidates the breakout.
+TLT (Nov 25, 2026) closed at 82.24. Already above the prior 20-session closing high of 81.96. Watch the next close for follow-through. A close back below 81.96 invalidates the breakout.
+HD (Nov 25, 2026) closed at 361.26. Already above the prior 20-session closing high of 355.44. Watch the next close for follow-through. A close back below 355.44 invalidates the breakout.
+AAPL (Nov 25, 2026) closed at 355.58. Watch for an entry on a close above 356.27, the latest 20-session closing high. A close below 331.90 invalidates the setup.
+WMT (Nov 25, 2026) closed at 131.94. Watch for an entry on a close above 132.31, the latest 20-session closing high. A close below 121.25 invalidates the setup.
+
+TECHNICAL READINGS
+RSI(14) across 83 symbols | 25 oversold (below 35) | 0 overbought (above 70)
+Support and resistance use the nearest confirmed swing closes from up to 60 sessions.
+SPY (Nov 25, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 44.2 (neutral)
+  Support 689.81 | Resistance 722.29
+SHIB-USD (Nov 26, 2026) | Downtrend (SMA 20/50/200) | RSI(14) 0.0 (oversold)
+  Support unconfirmed below | Resistance unconfirmed above
+ZEC-USD (Nov 26, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 31.0 (oversold)
+  Support unconfirmed below | Resistance 795.69
+SNDK (Nov 25, 2026) | Downtrend (SMA 20/50/200) | RSI(14) 9.7 (oversold)
+  Support unconfirmed below | Resistance 886.51
+PG (Nov 25, 2026) | Uptrend (SMA 20/50/200) | RSI(14) 64.0 (neutral) | Near 60-Day High, Confirmed Double Bottom (closed above neckline 173.02)
+  Support 167.85 | Resistance unconfirmed above
+TLT (Nov 25, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 52.6 (neutral) | Near 60-Day High, Rebound From 60-Day Low
+  Support 81.11 | Resistance unconfirmed above
+HD (Nov 25, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 59.6 (neutral) | Near 60-Day High
+  Support 343.47 | Resistance unconfirmed above
+AAPL (Nov 25, 2026) | Uptrend (SMA 20/50/200) | RSI(14) 61.9 (neutral) | Near 60-Day High
+  Support 343.83 | Resistance 356.27
+WMT (Nov 25, 2026) | Mixed trend (SMA 20/50/200) | RSI(14) 64.7 (neutral) | Near 60-Day High
+  Support 126.04 | Resistance unconfirmed above
+SLB (Nov 25, 2026) | Downtrend (SMA 20/50/200) | RSI(14) 45.1 (neutral) | Bearish MA Crossover, Rebound From 60-Day Low
+  Support 48.37 | Resistance 50.28
+
+No downside forecast qualified for the 30-session horizon.
+
+UPSIDE WATCHLIST
+
+1. SLB: forecast +19.31% by Jan 11, 2027
+  Reliability: high; model-estimated chance of a rise: 91%; estimated error: 11.3 percentage points.
+
+Returns are estimates for the target date; prices may move against the forecast before then.
+
+Model forecasts, not trade instructions. Not financial advice.
