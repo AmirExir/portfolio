@@ -1,0 +1,28 @@
+Market brief — Nov 28, 2026, 4:05 AM CST
+
+What matters:
+1. Nvidia (NVDA) remained the dominant market story after reports of a sharp rebound tied to CEO Jensen Huang’s return, while a separate report said President Donald Trump now considers Huang “no security threat.” That matters because leadership stability and any easing of political or security pressure could affect sentiment around one of the market’s most important AI names, though the reporting here does not independently verify the underlying security concerns or any formal government action.
+Source: The Punch — Nov 27, 2026, 1:55 AM CST
+https://punchng.com/trump-insists-nvidia-ceo-poses-no-security-threat/
+Source: MarketWatch — Nov 27, 2026, 2:16 PM CST
+https://www.marketwatch.com/story/these-stocks-soared-the-most-during-a-wild-week-highlighted-by-huangs-return-to-nvidia-578b3f9a?mod=mw_rss_topstories
+Source: Free Malaysia Today — Nov 27, 2026, 3:41 AM CST
+https://www.freemalaysiatoday.com/category/business/2026/11/27/global-stocks-rally-on-ai-rebound-after-bruising-month-while-treasuries-dip
+
+2. A separate Nvidia-related report said the company forecast $130 billion in revenue and announced a $150 billion stock buyback despite export hurdles. If accurate, that would signal unusually strong management confidence and could help offset worries about geopolitical restrictions, but this item comes from a secondary report rather than an issuer release in the articles provided.
+Source: Crypto Briefing — Nov 27, 2026, 4:05 AM CST
+https://cryptobriefing.com/nvidia-forecasts-130b-revenue-announces-150b-stock-buyback-amid-export-hurdles/
+
+3. Oil markets were reported firmer as attacks on tankers in the Strait of Hormuz and Saudi energy infrastructure raised supply fears, with Brent on track to snap a three-week losing streak. This matters because any sustained disruption in the Gulf would have direct implications for energy prices, inflation expectations, and transport-sensitive sectors.
+Source: CNA — Nov 27, 2026, 3:56 AM CST
+https://www.channelnewsasia.com/business/oil-track-snap-three-week-losing-streak-over-supply-fears-6586546
+
+4. U.S. macro data integrity became a political flashpoint after Trump accused his own government of falsifying economic data following a Bureau of Economic Analysis revision that raised third-quarter annualized growth to 4.3% from 3.4%. The growth revision itself is market-relevant; the falsification claim is an allegation reported by Time, not proof of misconduct.
+Source: Time — Nov 27, 2026, 2:00 AM CST
+https://time.com/article/2026/11/27/trump-thanksgiving-truth-social-economic-data-growth-estimate-revision-election/
+
+What to watch:
+- NVDA — watch for any direct company filing or statement confirming the reported revenue target and buyback; confirmed details would be bullish because they would clarify whether confidence is supported by formal guidance.
+- NVDA — watch whether any official U.S. action follows Trump’s comments on Jensen Huang; a closed security overhang would be bullish, while renewed scrutiny would be bearish.
+- Oil/energy markets — watch for confirmation of further tanker or infrastructure disruption in the Gulf; escalating attacks would be bearish for fuel-sensitive industries and supportive for crude.
+- U.S. macro/rates — watch whether markets trade more on the BEA’s higher GDP revision or on political attacks over data credibility; stronger accepted growth data would be mixed, supporting cyclicals but potentially pressuring bonds.
